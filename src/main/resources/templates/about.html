@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/images/auction-fevicon.png">
+    <title>About Us</title>
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link rel="stylesheet" href="/css/all.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/swiper.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/responsive.css" type="text/css">
+
+</head>
+
+<body>
+    <!-- Preloader Start -->
+    <div class="preloader bg-light" id="preloader">
+        <span class="preloader-inner"></span>
+    </div>
+    <!-- Preloader End -->
+    <!-- Back-to-top Start -->
+    <a href="javascript:void(0)" class="back-to-top"><i class="fa-solid fa-up-long"></i></a>
+    <!-- Back-to-top End -->
+    <!-- Header Start !-->
+    <div class="navbar-top border-bottom py-3 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <div class="d-flex gap-2">
+                        <div class="country">
+                            <select name="country" class="form-control" id="country">
+                                <option value="UK">
+                                    EN
+                                </option>
+                                <option value="US">
+                                    ES
+                                </option>
+                                <option value="RS">
+                                    RS
+                                </option>
+                            </select>
+                        </div>
+                        <div class="currency">
+                            <select name="currency" class="form-control" id="currency">
+                                <option value="USD">
+                                    USD
+                                </option>
+                                <option value="EUR">
+                                    EUR
+                                </option>
+                                <option value="INR">
+                                    INR
+                                </option>
+                            </select>
+                        </div>
+                        <div class="d-none align-items-center gap-1 nav-top-left">
+                            <i class="fa-solid fa-envelope text-dark"></i>
+                            <p class="fs-14 text-dark text-truncate">support@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="toggle-theme">
+                        <input type="checkbox" class="changeTheme" id="changeTheme1">
+                        <label for="changeTheme1" class="m-auto"></label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
+                        <a href="browse-bid" class="bg-transparent text-dark border-0 px-1">
+                            <i class="fa-solid fa-search"></i>
+                        </a>
+                        <a href="login" class="bg-transparent text-dark border-0 px-1">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <button class="bg-transparent text-dark border-0"><i class="fa-solid fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="bg-white">
+        <nav class="navbar navbar-expand-lg py-3">
+            <div class="container">
+                <a class="navbar-brand p-0" href="index">
+                    <img src="/images/logo.svg" id="headerLogo" class="themeLogo img-fluid w-100" alt="logo">
+                </a>
+                <div class="nav-right justify-content-center" id="navbar">
+                    <ul class="navbar-nav position-relative d-none d-lg-flex">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark active" href="index">Home</a>
+                        </li>
+                        <li class="nav-item dropdown-tgl">
+                            <a class="nav-link text-dark" href="javascript:void(0)">Auction</a>
+                            <ul class="sub-menu">
+                                <li><a href="browse-bid">browse bid</a></li>
+                                <li><a href="bid-detail">bid details</a></li>
+                                <li><a href="bid-history">bid history</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown-tgl">
+                            <a class="nav-link text-dark" href="javascript:void(0)">Pages</a>
+                            <ul class="sub-menu">
+                                <li><a href="about">about</a></li>
+                                <li><a href="dashboard">dashboard</a></li>
+                                <li><a href="winner">winner</a></li>
+                                <li><a href="checkout">checkout</a></li>
+                                <li><a href="payment">payment</a></li>
+                                <li><a href="thankyou">Thank You</a></li>
+                                <li><a href="faq">faq</a></li>
+                                <li><a href="privacy">Privacy Policy</a></li>
+                                <li><a href="404">Error</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown-tgl">
+                            <a class="promotion-link nav-link text-dark new-toggle" href="javascript:void(0)">Blog</a>
+                            <ul class="sub-menu">
+                                <li><a href="blog">Blog</a></li>
+                                <li><a href="blog-detail">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="contact">Contact</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-block d-lg-none">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark active" href="index">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
+                                aria-expanded="false">Auction</a>
+                            <ul class="sub-menu dropdown-menu">
+                                <li><a href="browse-bid">browse bid</a></li>
+                                <li><a href="bid-detail">bid details</a></li>
+                                <li><a href="bid-history">bid history</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
+                                aria-expanded="false">Pages</a>
+                            <ul class="sub-menu dropdown-menu">
+                                <li><a href="about">about</a></li>
+                                <li><a href="dashboard">dashboard</a></li>
+                                <li><a href="winner">winner</a></li>
+                                <li><a href="checkout">checkout</a></li>
+                                <li><a href="payment">payment</a></li>
+                                <li><a href="thankyou">Thank You</a></li>
+                                <li><a href="faq">faq</a></li>
+                                <li><a href="privacy">Privacy Policy</a></li>
+                                <li><a href="404">Error</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
+                                aria-expanded="false">Blog</a>
+                            <ul class="sub-menu dropdown-menu">
+                                <li><a href="blog">Blog</a></li>
+
+                                <li><a href="blog-detail">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="contact">Contact</a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li class="nav-item">
+                            <div class="d-flex justify-content-center gap-2">
+                                <div class="select">
+                                    <button class="selectBtn" data-type="country">country</button>
+                                    <div class="selectDropdown">
+                                        <div class="option" data-type="UK">EN</div>
+                                        <div class="option" data-type="US">ES</div>
+                                        <div class="option" data-type="RS">RS</div>
+                                    </div>
+                                </div>
+                                <div class="select">
+                                    <button class="selectBtn" data-type="currency">currency</button>
+                                    <div class="selectDropdown">
+                                        <div class="option" data-type="USD">USD</div>
+                                        <div class="option" data-type="EUR">EUR</div>
+                                        <div class="option" data-type="INR">INR</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li class="nav-item">
+                            <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-center">
+                                <button class="bg-transparent text-dark border-0">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
+                                <a href="login" class="bg-transparent text-dark border-0 px-1">
+                                    <i class="fa-solid fa-user"></i>
+                                </a>
+                                <button class="bg-transparent text-dark border-0"><i
+                                        class="fa-solid fa-heart"></i></button>
+                            </div>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li class="nav-item">
+                            <div class="toggle-theme">
+                                <input type="checkbox" class="changeTheme" id="changeTheme">
+                                <label for="changeTheme" class="me-auto"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex gap-1 nav-btn-group align-items-center">
+                    <a href="signup" class="primary-btn">
+                        get start
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="nav-right" data-bs-target="#navbar"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="toggle-menu-icon"><span></span><span></span><span></span><span></span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Header End !-->
+    <!-- Main Content Start !-->
+    <main id="main-content" class="position-relative">
+        <div class="breadcrumb-main">
+            <div class="container">
+                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="index">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">About</li>
+                    </ol>
+                    <h1 class="breadcrumb-title">About Page</h1>
+                </div>
+            </div>
+        </div>
+        <section class="outer-gap">
+            <div class="container">
+                <div class="row gy-4 align-items-center justify-content-between">
+                    <div class="col-lg-6">
+                        <h2 class="mb-3 fw-bold">We’re here to fulfill your dream list.</h2>
+                        <p class="mb-3 mb-md-4">Sed id semper risus in hendrerit. Dui sapien eget mi proin sed. Arcu
+                            bibendum at
+                            varius vel pharetra vel turpis nunc eget. Magnis dis parturient montes nascetur ridiculus
+                            mus mauris Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua. Eget aliquet nibh praesent tristique magna sit
+                            amet.</p>
+                        <button class="primary-btn">bid now</button>
+                    </div>
+                    <div class="col-lg-5 text-lg-center">
+                        <img src="/images/about-banner.png" class="img-fluid w-100" alt="about-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="outer-gap">
+            <div class="container">
+                <div class="row gy-4 justify-content-between">
+                    <div class="col-lg-6">
+                        <h2 class="mb-3 fw-bold">Explore the features we are offering.</h2>
+                        <p class="mb-3">Voluptate aut blanditiis accusantium officiis expedita dolorem inventore odio
+                            reiciendis obcaecati quod nisi quae Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua. Eget aliquet nibh praesent tristique magna sit
+                            amet.</p>
+                        <img src="/images/feature-img.png" class="img-fluid" alt="about-img">
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="features-card">
+                            <div class="feature-img">
+                                <img src="/images/auction-icon.png" alt="auction-img">
+                            </div>
+                            <div>
+                                <h5>Real-Time Auction</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                        <div class="features-card">
+                            <div class="feature-img">
+                                <img src="/images/currency-icon.png" alt="Currency-img">
+                            </div>
+                            <div>
+                                <h5>Supports Multiple Currency</h5>
+                                <p>Enim facilisis gravida neque convallis a. Lorem ipsum dolor sit amet. Convallis id
+                                    interdum velit laoreet id donec ultrices.</p>
+                            </div>
+                        </div>
+                        <div class="features-card">
+                            <div class="feature-img">
+                                <img src="/images/winner-icon.png" alt="winner-img">
+                            </div>
+                            <div>
+                                <h5>Winner Announcement</h5>
+                                <p>Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Cursus metus aliquam
+                                    eleifend mi in nulla posuere.</p>
+                            </div>
+                        </div>
+                        <div class="features-card">
+                            <div class="feature-img">
+                                <img src="/images/supports-icon.png" alt="supports-img">
+                            </div>
+                            <div>
+                                <h5>Supports 24x7</h5>
+                                <p>Eu feugiat pretium nibh ipsum consequat nisl vel. Eget magna fermentum iaculis eu non
+                                    diam phasellus vestibulum.</p>
+                            </div>
+                        </div>
+                        <div class="features-card">
+                            <div class="feature-img">
+                                <img src="/images/history-icon.png" alt="history-img">
+                            </div>
+                            <div>
+                                <h5>Show All Bidders History</h5>
+                                <p>Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum. Aliquam
+                                    vestibulum morbi blandit cursus risus.</p>
+                            </div>
+                        </div>
+                        <div class="features-card">
+                            <div class="feature-img">
+                                <img src="/images/watchlist-icon.png" alt="watchlist-img">
+                            </div>
+                            <div>
+                                <h5>Add To Watchlist</h5>
+                                <p>Facilisis volutpat est velit egestas dui id. Ut morbi tincidunt augue interdum.
+                                    Faucibus nisl tincidunt eget nullam non.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="outer-gap">
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pawning-card">
+                            <img src="/images/pawning-img.png" alt="pawning-img">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pawning-card">
+                            <img src="/images/pawning-img-2.png" class="h-auto" alt="pawning-img">
+                            <div class="pawning-content">
+                                <h3>Demystifying Pawning</h3>
+                                <p>Tellus molestie nunc non blandit. Porta lorem mollis aliquam ut. Gravida rutrum
+                                    quisque non tellus orci ac auctor augue. Cursus sit amet dictum sit.</p>
+                                <button class="primary-btn">see details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pawning-card">
+                            <img src="/images/pawning-img-3.png" alt="pawning-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="outer-gap">
+            <div class="container">
+                <div class="inner-gap position-relative testimonial-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="158" height="130" viewBox="0 0 158 130" fill="none">
+                        <path
+                            d="M0 70.6629L32.9924 0H64.7538L43.8257 65H64.7538V130H0V70.6629ZM92.822 70.6629L125.814 0H157.576L136.648 65H157.576V130H92.5757V70.6629H92.822Z"
+                            fill="#FF5336" />
+                    </svg>
+                    <div class="row align-items-center gy-4">
+                        <div class="col-xl-3">
+                            <h3 class="mb-2">Client Testimonials</h3>
+                            <p>Explore on the world's best & largest Bidding marketplace with our beautiful Bidding
+                                products. We want to be a part of your smile, success and future growth.</p>
+                        </div>
+                        <div class="col-xl-9">
+                            <div class="swiper testimonialSwiper">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="testimonial-card">
+                                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                                do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget
+                                                aliquet nibh praesent tristique magna.</p>
+                                            <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="/images/testimonial-avatar.png"
+                                                        class="testimonial-avatar" alt="avatar">
+                                                    <div>
+                                                        <h6>Rommy Ahuja</h6>
+                                                        <span>Manager</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="d-flex gap-1 rating-star">
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-light"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="testimonial-card">
+                                            <p class="mb-3">Tristique senectus et netus et. Ultrices eros in cursus
+                                                turpis massa tincidunt dui ut. Faucibus turpis in eu mi bibendum neque
+                                                egestas. Vulputate sapien nec sagittis aliquam.</p>
+                                            <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="/images/testimonial-avatar.png"
+                                                        class="testimonial-avatar" alt="avatar">
+                                                    <div>
+                                                        <h6>Rommy Ahuja</h6>
+                                                        <span>Manager</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="d-flex gap-1 rating-star">
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-light"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="testimonial-card">
+                                            <p class="mb-3">duis ultricies lacus. Sit amet mattis vulputate enim nulla.
+                                                Ac turpis egestas sed tempus. Integer malesuada nunc vel risus commodo
+                                                viverra maecenas Integer malesuada.</p>
+                                            <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="/images/testimonial-avatar.png"
+                                                        class="testimonial-avatar" alt="avatar">
+                                                    <div>
+                                                        <h6>Rommy Ahuja</h6>
+                                                        <span>Manager</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="d-flex gap-1 rating-star">
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-light"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="testimonial-card">
+                                            <p class="mb-3">Sapien pellentesque habitant morbi tristique senectus et
+                                                netus et. Eu ultrices vitae auctor eu augue ut. Justo eget magna
+                                                fermentum iaculis eu non diam.</p>
+                                            <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="/images/testimonial-avatar.png"
+                                                        class="testimonial-avatar" alt="avatar">
+                                                    <div>
+                                                        <h6>Rommy Ahuja</h6>
+                                                        <span>Manager</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="d-flex gap-1 rating-star">
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-orange"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-solid fa-star text-light"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Main Content End !-->
+    <!-- Footer Start !-->
+    <footer>
+        <div class="footer-top bg-dark inner-gap">
+            <div class="container">
+                <div class="row gy-4 gy-lg-3">
+                    <div class="col-md-12 col-lg-4">
+                        <div class="footer-disc">
+                            <a href="index" class="footer-logo">
+                                <img src="/images/logo-white.svg" id="footerLogo" class="fThemeLogo img-fluid"
+                                    alt="logo">
+                            </a>
+                            <p>Unlock treasures through exhilarating auctions. Your gateway to rare finds and
+                                captivating experiences awaits.</p>
+                            <a href="mailto:info@bidzone.com" class="h4 fw-normal text-white">info@bidzone.com</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col-lg-2">
+                        <div class="footer-widget">
+                            <h5 class="widget-title">Sitemap</h5>
+                            <ul class="ps-3 widget-links">
+                                <li>
+                                    <a href="javascript:void(0)">Support</a>
+                                </li>
+                                <li>
+                                    <a href="faq">FAQS</a>
+                                </li>
+                                <li>
+                                    <a href="about">About</a>
+                                </li>
+                                <li>
+                                    <a href="contact">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col-lg-2">
+                        <div class="footer-widget">
+                            <h5 class="widget-title">Categories</h5>
+                            <ul class="ps-3 widget-links">
+                                <li>
+                                    <a href="browse-bid">Music</a>
+                                </li>
+                                <li>
+                                    <a href="browse-bid">jewellery</a>
+                                </li>
+                                <li>
+                                    <a href="browse-bid">Real Estate</a>
+                                </li>
+                                <li>
+                                    <a href="browse-bid">vehicle</a>
+                                </li>
+                                <li>
+                                    <a href="browse-bid">Clothes</a>
+                                </li>
+                                <li>
+                                    <a href="browse-bid">sports</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col-lg-2">
+                        <div class="footer-widget">
+                            <h5 class="widget-title">Navigation</h5>
+                            <ul class="ps-3 widget-links">
+                                <li>
+                                    <a href="blog">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="signup">my account</a>
+                                </li>
+                                <li>
+                                    <a href="bid-history">Bid History</a>
+                                </li>
+                                <li>
+                                    <a href="checkout">checkout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col-lg-2">
+                        <div class="footer-widget">
+                            <h5 class="widget-title">Legal</h5>
+                            <ul class="ps-3 widget-links">
+                                <li>
+                                    <a href="privacy">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="cookies-policy">Cookies Policy</a>
+                                </li>
+                                <li>
+                                    <a href="term-condition">Terms Of Service</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4 my-lg-5 border-white">
+                <div
+                    class="d-flex flex-wrap gap-4 justify-content-center justify-content-xl-between align-items-center">
+                    <ul class="footer-social-links">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa-brands fa-pinterest-p"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="bid-number">
+                        <h2><span>1,50,000</span> Bids</h2>
+                        <h2><span>10,376</span> Members</h2>
+                        <h2><span>8942</span> Feedbacks</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom py-2 py-md-4 bg-light">
+            <p class="text-dark text-center">©
+                <script>document.write(new Date().getFullYear());</script> BidZone - All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+    <!-- Footer End !-->
+
+    <!-- JavaScript Libraries -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/swiper.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script>
+        var swiper = new Swiper(".testimonialSwiper", {
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+            },
+            breakpoints: {
+                992: {
+                    slidesPerView: 2,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+
+        });
+    </script>
+</body>
+
+</html>
