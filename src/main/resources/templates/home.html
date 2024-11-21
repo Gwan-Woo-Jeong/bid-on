@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 
 <head>
-    <th:block th:insert="~{inc/head.html :: head}"></th:block>
-    <link rel="stylesheet" href="/css/index.css" type="text/css">
+    <th:block th:insert="~{inc/head.html :: head(title='BidON - Online auction and bidding')}"></th:block>
     <link rel="stylesheet" href="/css/home.css" type="text/css">
 </head>
 
 <body>
+
 <th:block th:insert="~{inc/header.html :: header}"></th:block>
 
 <main id="main-content" class="position-relative">
@@ -579,8 +578,8 @@
 </main>
 
 <th:block th:insert="~{inc/footer.html :: footer}"></th:block>
-<th:block th:insert="~{inc/scripts.html :: scripts}"></th:block>
-<script src="/js/index.js"></script>
+<th:block th:insert="~{inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/js/home.js"></script>
 </body>
 
 </html>

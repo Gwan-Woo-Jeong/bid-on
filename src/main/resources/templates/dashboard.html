@@ -1,546 +1,331 @@
 <!DOCTYPE html>
-<html lang="en" id="theme" class="light">
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="/images/auction-fevicon.png">
-    <title>Dashboard</title>
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link rel="stylesheet" href="/css/common/all.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/common/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/common/style.css" type="text/css">
-    <link rel="stylesheet" href="/css/common/responsive.css" type="text/css">
+    <th:block th:insert="~{inc/head.html :: head(title='Dashboard')}"></th:block>
 </head>
 
+
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader bg-light" id="preloader">
-        <span class="preloader-inner"></span>
-    </div>
+<th:block th:insert="~{inc/header.html :: header}"></th:block>
 
-    <!-- Preloader End -->
-    <!-- Back-to-top Start -->
-    <a href="javascript:void(0)" class="back-to-top"><i class="fa-solid fa-up-long"></i></a>
-    <!-- Back-to-top End -->
-    <!-- Header Start !-->
-    <div class="navbar-top border-bottom py-3 d-none d-lg-block">
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-4">
-                    <div class="d-flex gap-2">
-                        <div class="country">
-                            <select name="country" class="form-control" id="country">
-                                <option value="UK">
-                                    EN
-                                </option>
-                                <option value="US">
-                                    ES
-                                </option>
-                                <option value="RS">
-                                    RS
-                                </option>
-                            </select>
-                        </div>
-                        <div class="currency">
-                            <select name="currency" class="form-control" id="currency">
-                                <option value="USD">
-                                    USD
-                                </option>
-                                <option value="EUR">
-                                    EUR
-                                </option>
-                                <option value="INR">
-                                    INR
-                                </option>
-                            </select>
-                        </div>
-                        <div class="d-none align-items-center gap-1 nav-top-left">
-                            <i class="fa-solid fa-envelope text-dark"></i>
-                            <p class="fs-14 text-dark text-truncate">support@example.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="toggle-theme">
-                        <input type="checkbox" class="changeTheme" id="changeTheme1">
-                        <label for="changeTheme1" class="m-auto"></label>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
-                        <a href="browse-bid" class="bg-transparent text-dark border-0 px-1">
-                            <i class="fa-solid fa-search"></i>
-                        </a>
-                        <a href="login" class="bg-transparent text-dark border-0 px-1">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                        <button class="bg-transparent text-dark border-0"><i class="fa-solid fa-heart"></i></button>
-                    </div>
-                </div>
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                </ol>
+                <h1 class="breadcrumb-title">Personal Dashboard</h1>
             </div>
         </div>
     </div>
-    <header class="bg-white">
-        <nav class="navbar navbar-expand-lg py-3">
-            <div class="container">
-                <a class="navbar-brand p-0" href="index">
-                    <img src="/images/logo.svg" id="headerLogo" class="themeLogo img-fluid w-100" alt="logo">
-                </a>
-                <div class="nav-right justify-content-center" id="navbar">
-                    <ul class="navbar-nav position-relative d-none d-lg-flex">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark active" href="index">Home</a>
-                        </li>
-                        <li class="nav-item dropdown-tgl">
-                            <a class="nav-link text-dark" href="javascript:void(0)">Auction</a>
-                            <ul class="sub-menu">
-                                <li><a href="browse-bid">browse bid</a></li>
-                                <li><a href="bid-detail">bid details</a></li>
-                                <li><a href="bid-history">bid history</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown-tgl">
-                            <a class="nav-link text-dark" href="javascript:void(0)">Pages</a>
-                            <ul class="sub-menu">
-                                <li><a href="about">about</a></li>
-                                <li><a href="dashboard">dashboard</a></li>
-                                <li><a href="winner">winner</a></li>
-                                <li><a href="checkout">checkout</a></li>
-                                <li><a href="payment">payment</a></li>
-                                <li><a href="thankyou">Thank You</a></li>
-                                <li><a href="faq">faq</a></li>
-                                <li><a href="privacy">Privacy Policy</a></li>
-                                <li><a href="404">Error</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown-tgl">
-                            <a class="promotion-link nav-link text-dark new-toggle" href="javascript:void(0)">Blog</a>
-                            <ul class="sub-menu">
-                                <li><a href="blog">Blog</a></li>
-                                <li><a href="blog-detail">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="contact">Contact</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav d-block d-lg-none">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark active" href="index">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
-                                aria-expanded="false">Auction</a>
-                            <ul class="sub-menu dropdown-menu">
-                                <li><a href="browse-bid">browse bid</a></li>
-                                <li><a href="bid-detail">bid details</a></li>
-                                <li><a href="bid-history">bid history</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
-                                aria-expanded="false">Pages</a>
-                            <ul class="sub-menu dropdown-menu">
-                                <li><a href="about">about</a></li>
-                                <li><a href="dashboard">dashboard</a></li>
-                                <li><a href="winner">winner</a></li>
-                                <li><a href="checkout">checkout</a></li>
-                                <li><a href="payment">payment</a></li>
-                                <li><a href="thankyou">Thank You</a></li>
-                                <li><a href="faq">faq</a></li>
-                                <li><a href="privacy">Privacy Policy</a></li>
-                                <li><a href="404">Error</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
-                                aria-expanded="false">Blog</a>
-                            <ul class="sub-menu dropdown-menu">
-                                <li><a href="blog">Blog</a></li>
-
-                                <li><a href="blog-detail">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="contact">Contact</a>
-                        </li>
-                        <li>
-                            <hr>
-                        </li>
-                        <li class="nav-item">
-                            <div class="d-flex justify-content-center gap-2">
-                                <div class="select">
-                                    <button class="selectBtn" data-type="country">country</button>
-                                    <div class="selectDropdown">
-                                        <div class="option" data-type="UK">EN</div>
-                                        <div class="option" data-type="US">ES</div>
-                                        <div class="option" data-type="RS">RS</div>
-                                    </div>
-                                </div>
-                                <div class="select">
-                                    <button class="selectBtn" data-type="currency">currency</button>
-                                    <div class="selectDropdown">
-                                        <div class="option" data-type="USD">USD</div>
-                                        <div class="option" data-type="EUR">EUR</div>
-                                        <div class="option" data-type="INR">INR</div>
-                                    </div>
-                                </div>
+    <div class="inner-gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 pe-lg-0 position-relative">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3 mt-3 mb-4">
+                            <img src="/images/avatar-5.png" class="dashboard-avatar" alt="avatar">
+                            <div>
+                                <h5>Rozzy Nomad</h5>
+                                <p>system@mail.com</p>
                             </div>
-                        </li>
-                        <li>
-                            <hr>
-                        </li>
-                        <li class="nav-item">
-                            <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-center">
-                                <button class="bg-transparent text-dark border-0">
-                                    <i class="fa-solid fa-search"></i>
-                                </button>
-                                <a href="login" class="bg-transparent text-dark border-0 px-1">
-                                    <i class="fa-solid fa-user"></i>
-                                </a>
-                                <button class="bg-transparent text-dark border-0"><i
-                                        class="fa-solid fa-heart"></i></button>
-                            </div>
-                        </li>
-                        <li>
-                            <hr>
-                        </li>
-                        <li class="nav-item">
-                            <div class="toggle-theme">
-                                <input type="checkbox" class="changeTheme" id="changeTheme">
-                                <label for="changeTheme" class="me-auto"></label>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-flex gap-1 nav-btn-group align-items-center">
-                    <a href="signup" class="primary-btn">
-                        get start
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="nav-right" data-bs-target="#navbar"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="toggle-menu-icon"><span></span><span></span><span></span><span></span></span>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <!-- Header End !-->
-    <!-- Main Content Start !-->
-    <main id="main-content" class="position-relative">
-        <div class="breadcrumb-main">
-            <div class="container">
-                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="index">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                    </ol>
-                    <h1 class="breadcrumb-title">Personal Dashboard</h1>
-                </div>
-            </div>
-        </div>
-        <div class="inner-gap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 pe-lg-0 position-relative">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center gap-3 mt-3 mb-4">
-                                <img src="/images/avatar-5.png" class="dashboard-avatar" alt="avatar">
-                                <div>
-                                    <h5>Rozzy Nomad</h5>
-                                    <p>system@mail.com</p>
-                                </div>
-                            </div>
-
-                            <button class="primary-btn dashboard-toggler d-block d-lg-none" id="sidebarMenuOpen">
-                                <i class="fa-solid fa-bars"></i>
-                            </button>
                         </div>
-                        <div class="dashboard-sidebar">
-                            <div class="sidebar-menu">
-                                <ul>
-                                    <li class="active">
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-house"></i> <span>Dashboard</span>
-                                        </a>
+
+                        <button class="primary-btn dashboard-toggler d-block d-lg-none" id="sidebarMenuOpen">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="dashboard-sidebar">
+                        <div class="sidebar-menu">
+                            <ul>
+                                <li class="active">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-house"></i> <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-user"></i> <span>Personal Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-gavel"></i> <span>My Bids</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-trophy"></i> <span>Winning Bids</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-bell"></i> <span>My Alerts</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa-solid fa-star"></i> <span>My Favorite</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 ps-md-0">
+                    <div class="dashboard-data">
+                        <div class="row g-3 mb-3 mb-md-5">
+                            <div class="col-md-4">
+                                <div class="card-wrapper">
+                                    <div class="d-flex gap-4">
+                                        <i class="fa-solid fa-gavel text-orange"></i>
+                                        <div>
+                                            <h3 class="fw-bold">80</h3>
+                                            <p>Active Bids</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card-wrapper">
+                                    <div class="d-flex gap-4">
+                                        <i class="fa-solid fa-trophy text-orange"></i>
+                                        <div>
+                                            <h3 class="fw-bold">15</h3>
+                                            <p>Item Won</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card-wrapper">
+                                    <div class="d-flex gap-4">
+                                        <i class="fa-solid fa-star text-orange"></i>
+                                        <div>
+                                            <h3 class="fw-bold">124</h3>
+                                            <p>Favorite</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="bidding-detail-wrapper">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="description-tab" data-bs-toggle="tab"
+                                                data-bs-target="#description" type="button" role="tab"
+                                                aria-controls="description" aria-selected="true">Description
+                                        </button>
                                     </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-user"></i> <span>Personal Profile</span>
-                                        </a>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="bidHistory-tab" data-bs-toggle="tab"
+                                                data-bs-target="#bidHistory" type="button" role="tab"
+                                                aria-controls="bidHistory" aria-selected="false">Bid history
+                                        </button>
                                     </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-gavel"></i> <span>My Bids</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-trophy"></i> <span>Winning Bids</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-bell"></i> <span>My Alerts</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-solid fa-star"></i> <span>My Favorite</span>
-                                        </a>
+                                    <li class="nav-item">
+                                        <button class="nav-link active" id="sellerInfo-tab" data-bs-toggle="tab"
+                                                data-bs-target="#sellerInfo" type="button" role="tab"
+                                                aria-controls="sellerInfo" aria-selected="false">Seller Info
+                                        </button>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 ps-md-0">
-                        <div class="dashboard-data">
-                            <div class="row g-3 mb-3 mb-md-5">
-                                <div class="col-md-4">
-                                    <div class="card-wrapper">
-                                        <div class="d-flex gap-4">
-                                            <i class="fa-solid fa-gavel text-orange"></i>
-                                            <div>
-                                                <h3 class="fw-bold">80</h3>
-                                                <p>Active Bids</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card-wrapper">
-                                        <div class="d-flex gap-4">
-                                            <i class="fa-solid fa-trophy text-orange"></i>
-                                            <div>
-                                                <h3 class="fw-bold">15</h3>
-                                                <p>Item Won</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card-wrapper">
-                                        <div class="d-flex gap-4">
-                                            <i class="fa-solid fa-star text-orange"></i>
-                                            <div>
-                                                <h3 class="fw-bold">124</h3>
-                                                <p>Favorite</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bidding-detail-wrapper">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item">
-                                            <button class="nav-link" id="description-tab" data-bs-toggle="tab"
-                                                data-bs-target="#description" type="button" role="tab"
-                                                aria-controls="description" aria-selected="true">Description</button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <button class="nav-link" id="bidHistory-tab" data-bs-toggle="tab"
-                                                data-bs-target="#bidHistory" type="button" role="tab"
-                                                aria-controls="bidHistory" aria-selected="false">Bid history</button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <button class="nav-link active" id="sellerInfo-tab" data-bs-toggle="tab"
-                                                data-bs-target="#sellerInfo" type="button" role="tab"
-                                                aria-controls="sellerInfo" aria-selected="false">Seller Info</button>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content dashboard-bidding" id="productDetailTab">
-                                        <div class="tab-pane fade" id="description" role="tabpanel"
-                                            aria-labelledby="description-tab">
-                                            <div class="bidding-history">
-                                                <div class="table-responsive">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Item List</th>
-                                                                    <th>Last Bid</th>
-                                                                    <th>Opening Bid</th>
-                                                                    <th>Left Time</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        2015 Premium Watch
-                                                                    </td>
-                                                                    <td>$589.21</td>
-                                                                    <td>$159.87</td>
-                                                                    <td>
-                                                                        <div class="timer-inner"></div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        2015 Premium Watch
-                                                                    </td>
-                                                                    <td>$589.21</td>
-                                                                    <td>$159.87</td>
-                                                                    <td>
-                                                                        <div class="timer-inner"></div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        2015 Premium Watch
-                                                                    </td>
-                                                                    <td>$589.21</td>
-                                                                    <td>$159.87</td>
-                                                                    <td>
-                                                                        <div class="timer text-danger">0d : 0h : 00m :
-                                                                            00s
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        2015 Premium Watch
-                                                                    </td>
-                                                                    <td>$589.21</td>
-                                                                    <td>$159.87</td>
-                                                                    <td>
-                                                                        <div class="timer text-danger">0d : 0h : 00m :
-                                                                            00s
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="bidHistory" role="tabpanel"
-                                            aria-labelledby="bidHistory-tab">
-                                            <div class="bidding-history">
+                                <div class="tab-content dashboard-bidding" id="productDetailTab">
+                                    <div class="tab-pane fade" id="description" role="tabpanel"
+                                         aria-labelledby="description-tab">
+                                        <div class="bidding-history">
+                                            <div class="table-responsive">
                                                 <div class="table-responsive">
                                                     <table class="table">
                                                         <thead>
-                                                            <tr>
-                                                                <th>Item List</th>
-                                                                <th>Last Bid</th>
-                                                                <th>Opening Bid</th>
-                                                                <th>Left Time</th>
-                                                            </tr>
+                                                        <tr>
+                                                            <th>Item List</th>
+                                                            <th>Last Bid</th>
+                                                            <th>Opening Bid</th>
+                                                            <th>Left Time</th>
+                                                        </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer-inner"></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer-inner"></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td>
+                                                                2015 Premium Watch
+                                                            </td>
+                                                            <td>$589.21</td>
+                                                            <td>$159.87</td>
+                                                            <td>
+                                                                <div class="timer-inner"></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                2015 Premium Watch
+                                                            </td>
+                                                            <td>$589.21</td>
+                                                            <td>$159.87</td>
+                                                            <td>
+                                                                <div class="timer-inner"></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                2015 Premium Watch
+                                                            </td>
+                                                            <td>$589.21</td>
+                                                            <td>$159.87</td>
+                                                            <td>
+                                                                <div class="timer text-danger">0d : 0h : 00m :
+                                                                    00s
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                2015 Premium Watch
+                                                            </td>
+                                                            <td>$589.21</td>
+                                                            <td>$159.87</td>
+                                                            <td>
+                                                                <div class="timer text-danger">0d : 0h : 00m :
+                                                                    00s
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade show active" id="sellerInfo" role="tabpanel"
-                                            aria-labelledby="sellerInfo-tab">
-                                            <div class="bidding-history">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Item List</th>
-                                                                <th>Last Bid</th>
-                                                                <th>Opening Bid</th>
-                                                                <th>Left Time</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer-inner"></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer-inner"></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    2015 Premium Watch
-                                                                </td>
-                                                                <td>$589.21</td>
-                                                                <td>$159.87</td>
-                                                                <td>
-                                                                    <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="bidHistory" role="tabpanel"
+                                         aria-labelledby="bidHistory-tab">
+                                        <div class="bidding-history">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Item List</th>
+                                                        <th>Last Bid</th>
+                                                        <th>Opening Bid</th>
+                                                        <th>Left Time</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer-inner"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer-inner"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="tab-pane fade show active" id="sellerInfo" role="tabpanel"
+                                         aria-labelledby="sellerInfo-tab">
+                                        <div class="bidding-history">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Item List</th>
+                                                        <th>Last Bid</th>
+                                                        <th>Opening Bid</th>
+                                                        <th>Left Time</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer-inner"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer-inner"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            2015 Premium Watch
+                                                        </td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -548,149 +333,11 @@
                 </div>
             </div>
         </div>
-    </main>
-    <!-- Main Content End !-->
-    <!-- Footer Start !-->
-    <footer>
-        <div class="footer-top bg-dark inner-gap">
-            <div class="container">
-                <div class="row gy-4 gy-lg-3">
-                    <div class="col-md-12 col-lg-4">
-                        <div class="footer-disc">
-                            <a href="index" class="footer-logo">
-                                <img src="/images/logo-white.svg" id="footerLogo" class="fThemeLogo img-fluid"
-                                    alt="logo">
-                            </a>
-                            <p>Unlock treasures through exhilarating auctions. Your gateway to rare finds and
-                                captivating experiences awaits.</p>
-                            <a href="mailto:info@bidzone.com" class="h4 fw-normal text-white">info@bidzone.com</a>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-2">
-                        <div class="footer-widget">
-                            <h5 class="widget-title">Sitemap</h5>
-                            <ul class="ps-3 widget-links">
-                                <li>
-                                    <a href="javascript:void(0)">Support</a>
-                                </li>
-                                <li>
-                                    <a href="faq">FAQS</a>
-                                </li>
-                                <li>
-                                    <a href="about">About</a>
-                                </li>
-                                <li>
-                                    <a href="contact">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-2">
-                        <div class="footer-widget">
-                            <h5 class="widget-title">Categories</h5>
-                            <ul class="ps-3 widget-links">
-                                <li>
-                                    <a href="browse-bid">Music</a>
-                                </li>
-                                <li>
-                                    <a href="browse-bid">jewellery</a>
-                                </li>
-                                <li>
-                                    <a href="browse-bid">Real Estate</a>
-                                </li>
-                                <li>
-                                    <a href="browse-bid">vehicle</a>
-                                </li>
-                                <li>
-                                    <a href="browse-bid">Clothes</a>
-                                </li>
-                                <li>
-                                    <a href="browse-bid">sports</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-2">
-                        <div class="footer-widget">
-                            <h5 class="widget-title">Navigation</h5>
-                            <ul class="ps-3 widget-links">
-                                <li>
-                                    <a href="blog">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="signup">my account</a>
-                                </li>
-                                <li>
-                                    <a href="bid-history">Bid History</a>
-                                </li>
-                                <li>
-                                    <a href="checkout">checkout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-2">
-                        <div class="footer-widget">
-                            <h5 class="widget-title">Legal</h5>
-                            <ul class="ps-3 widget-links">
-                                <li>
-                                    <a href="privacy">Privacy Policy</a>
-                                </li>
-                                <li>
-                                    <a href="cookies-policy">Cookies Policy</a>
-                                </li>
-                                <li>
-                                    <a href="term-condition">Terms Of Service</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <hr class="my-4 my-lg-5 border-white">
-                <div
-                    class="d-flex flex-wrap gap-4 justify-content-center justify-content-xl-between align-items-center">
-                    <ul class="footer-social-links">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa-brands fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa-brands fa-pinterest-p"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="bid-number">
-                        <h2><span>1,50,000</span> Bids</h2>
-                        <h2><span>10,376</span> Members</h2>
-                        <h2><span>8942</span> Feedbacks</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom py-2 py-md-4 bg-light">
-            <p class="text-dark text-center">©
-                <script>document.write(new Date().getFullYear());</script> BidZone - All Rights Reserved.
-            </p>
-        </div>
-    </footer>
-    <!-- Footer End !-->
+    </div>
+</main>
 
-    <!-- JavaScript Libraries -->
-    <script src="/js/common/jquery.min.js"></script>
-    <script src="/js/common/bootstrap.bundle.min.js"></script>
-    <script src="/js/common/custom.js"></script>
+<th:block th:insert="~{inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
 </body>
 
 </html>

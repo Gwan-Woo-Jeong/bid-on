@@ -37,7 +37,6 @@ $(document).ready(function () {
     })
 
 
-
     // Password Show&Hide
     $(".password-show-hide").on('click', function (event) {
         event.preventDefault();
@@ -67,6 +66,7 @@ function up(max) {
         document.getElementById("myNumber").value = max;
     }
 }
+
 function down(min) {
     document.getElementById("myNumber").value = parseInt(document.getElementById("myNumber").value) - 1;
     if (document.getElementById("myNumber").value <= parseInt(min)) {
@@ -106,14 +106,14 @@ $(document).ready(function () {
     console.log('local stored value : ', localStorage.storedValue);
     $(document).ready(function () {
         console.log('local stored value : ', localStorage.storedValue);
+
         if (localStorage.storedValue == 'dark') {
             $('#changeTheme').prop('checked', true);
             $('#changeTheme1').prop('checked', true);
             document.getElementById("theme").className = "dark";
             document.getElementById('headerLogo').src = 'images/logo-white.svg';
-            document.getElementById('footerLogo').src = 'images/logo.svg';            
-        }
-        else {
+            document.getElementById('footerLogo').src = 'images/logo.svg';
+        } else {
             $('#changeTheme').prop('checked', false);
             $('#changeTheme1').prop('checked', false);
             document.getElementById("theme").className = "light";
@@ -181,10 +181,10 @@ on('click', '.option', item => {
 $(function () {
     $(".selectBtn").on("click", function (a) {
         let elem = $(this).parent().children('div');
-        if(elem.hasClass('toggle')){
+        if (elem.hasClass('toggle')) {
             $('.selectDropdown').removeClass('toggle');
             elem.removeClass('toggle');
-        }else{
+        } else {
             $('.selectDropdown').removeClass('toggle');
             elem.addClass('toggle');
         }

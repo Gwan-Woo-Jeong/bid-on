@@ -1,43 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" id="theme" class="light">
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="/images/auction-fevicon.png">
-    <title>Page Not Found</title>
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link rel="stylesheet" href="/css/common/all.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/common/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/common/style.css" type="text/css">
-    <link rel="stylesheet" href="/css/common/responsive.css" type="text/css">
-
+    <th:block th:insert="~{inc/head.html :: head(title='Page Not Found')}"></th:block>
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader bg-light" id="preloader">
-        <span class="preloader-inner"></span>
-    </div>
-    <!-- Preloader End -->
-    <div class="toggle-theme d-none">
-        <input type="checkbox" class="changeTheme" id="changeTheme">
-        <label for="changeTheme" class="m-auto"></label>
-    </div>
-    <div class="vh-100 d-flex justify-content-center align-items-center text-center">
-        <div class="error-wrapper-content">
-            <img src="/images/404.svg" alt="error-img">
-            <h3>Page not found</h3>
-            <span class="d-block mb-4">Let's redirect you to our homepage and start the bidding adventure anew.</span>
-            <a href="index" class="primary-btn light-btn d-inline-block border-dark">Back to HOME</a>
-        </div>
-    </div>
-    
-    <!-- JavaScript Libraries -->
-    <script src="/js/common/jquery.min.js"></script>
-    <script src="/js/common/custom.js"></script>
+<th:block th:insert="~{inc/preloader.html :: preloader}"></th:block>
 
+<div class="toggle-theme d-none">
+    <input type="checkbox" class="changeTheme" id="changeTheme">
+    <label for="changeTheme" class="m-auto"></label>
+</div>
+
+<div class="vh-100 d-flex justify-content-center align-items-center text-center">
+    <div class="error-wrapper-content">
+        <img src="/images/404.svg" alt="error-img">
+        <h3>Page not found</h3>
+        <span class="d-block mb-4">Let's redirect you to our homepage and start the bidding adventure anew.</span>
+        <a href="home" class="primary-btn light-btn d-inline-block border-dark">Back to HOME</a>
+    </div>
+</div>
+
+<th:block th:insert="~{inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
 </body>
 
 </html>
