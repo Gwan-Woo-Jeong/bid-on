@@ -151,8 +151,9 @@ var x = setInterval(function () {
 
     // If the count down is over, write some text 
     if (distance < 0) {
+        const timerInner = document.querySelector(".timer-inner");
         clearInterval(x);
-        document.querySelector(".timer-inner").innerHTML = "EXPIRED";
+        if (timerInner) timerInner.innerHTML = "EXPIRED";
     }
 }, 1000);
 // Auction Timer End
