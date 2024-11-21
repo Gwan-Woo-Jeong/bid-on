@@ -10,13 +10,13 @@ public class TestController {
 	@GetMapping("/")
 	public String redirect(Model model) {
 
-		return "redirect:/index";
+		return "redirect:/home";
 	}
 
-	@GetMapping("/index")
+	@GetMapping("/home")
 	public String index(Model model) {
 
-		return "index";
+		return "home";
 	}
 
 	@GetMapping("/404")
