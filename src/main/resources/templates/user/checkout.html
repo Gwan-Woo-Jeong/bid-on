@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Checkout')}"></th:block>
+</head>
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">checkout</li>
+                </ol>
+                <h1 class="breadcrumb-title">Product Details & more</h1>
+            </div>
+        </div>
+    </div>
+    <div class="inner-gap">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-8">
+                    <div class="checkout-form-wrapper">
+                        <div class="d-flex flex-wrap justify-content-between mb-3 mb-md-4 gap-2 gap-sm-0">
+                            <h4 class="form-title">Contact Information</h4>
+                            <a href="bid-detail" class="text-black ms-auto"><i
+                                    class="fa-solid fa-chevron-left me-2"></i>Return to bid</a>
+                        </div>
+                        <form>
+                            <div class="form-wrapper">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name*</label>
+                                            <input type="text" class="form-control" placeholder="Rozzy">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name*</label>
+                                            <input type="text" class="form-control" placeholder="Nomad">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Email*</label>
+                                            <input type="text" class="form-control" placeholder="name@mail.com ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone*</label>
+                                            <input type="number" class="form-control" placeholder="+1234567890">
+                                        </div>
+                                    </div>
+                                    <h4 class="form-title mb-4">Shipping address</h4>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Address - 1*</label>
+                                            <input type="text" class="form-control"
+                                                   placeholder="Floor, Street, Suite, etc.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <label>Address - 2*</label>
+                                            <input type="text" class="form-control"
+                                                   placeholder="Floor, Street, Suite, etc.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Pin Code*</label>
+                                            <input type="number" class="form-control" placeholder="Pin Code">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>City*</label>
+                                            <select name="city" class="form-control">
+                                                <option selected="selected">Van Nuys</option>
+                                                <option value="los-angeles">Los Angeles</option>
+                                                <option value="chicago">Chicago</option>
+                                                <option value="houston">Houston</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>State*</label>
+                                            <select name="city" class="form-control">
+                                                <option selected="selected">California</option>
+                                                <option value="Alaska">Alaska</option>
+                                                <option value="alabama">Alabama</option>
+                                                <option value="florida">Florida</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Country / Region*</label>
+                                            <select name="Country" class="form-control">
+                                                <option selected="selected">USA</option>
+                                                <option value="uk">UK</option>
+                                                <option value="aus">AUS</option>
+                                                <option value="nz">NZ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <h4 class="form-title mb-4">Delivery Method</h4>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <div class="form-radio">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="deliveryMethod"
+                                                       id="deliveryMethod1" value="Ship" checked>
+                                                <label class="form-check-label" for="deliveryMethod1">
+                                                    Ship
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-radio">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="deliveryMethod"
+                                                       id="deliveryMethod2" value="Aircraft">
+                                                <label class="form-check-label" for="deliveryMethod2">
+                                                    Aircraft
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-radio">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="deliveryMethod"
+                                                       id="deliveryMethod3" value="DeliveryVans">
+                                                <label class="form-check-label" for="deliveryMethod3">
+                                                    Delivery Vans
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row gy-4">
+                        <div class="col-lg-12">
+                            <div class="product-card-wrapper checkout-product-wrapper">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="/user/images/sample/product-img.png" alt="product-img">
+                                    <h5 class="fw-bold line-clamp line-clamp-2">Collectible Pearl Jewelry: Timeless
+                                        Elegance Unveiled</h5>
+                                </div>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">Opening
+                                            Bid</span> <span class="fw-semibold">$12.59</span></h6>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">Bid
+                                            Amount</span> <span class="fw-semibold">$12.59</span></h6>
+                                <h6 class="d-flex justify-content-between py-2"><span
+                                        class="fw-normal">Quantity</span> <span class="fw-semibold">1</span>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="product-card-wrapper">
+                                <h5 class="mb-3">Seller Info</h5>
+                                <table class="table card-seller-info">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <h6>Name</h6>
+                                        </td>
+                                        <td>
+                                            <p>Rozzy Nomad</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Country</h6>
+                                        </td>
+                                        <td>
+                                            <p>United Kingdom</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Joining Date</h6>
+                                        </td>
+                                        <td>
+                                            <p>13 Mar, 2023 06:58 UTC</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Email</h6>
+                                        </td>
+                                        <td>
+                                            <p>system@mail.com</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Phone Number</h6>
+                                        </td>
+                                        <td>
+                                            <p>+447471666814</p>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <a href="payment" type="submit" class="payment-btn">Continue To Payment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+</body>
+
+</html>

@@ -9,135 +9,112 @@ public class TestController {
 
 	@GetMapping("/")
 	public String redirect(Model model) {
-
 		return "redirect:/home";
 	}
 
 	@GetMapping("/home")
 	public String index(Model model) {
-
-		return "home";
+		return "user/home";
 	}
 
 	@GetMapping("/404")
 	public String notFound(Model model) {
-
-		return "404";
+		return "user/404";
 	}
 
 	@GetMapping("/about")
 	public String about(Model model) {
-
-		return "about";
+		return "user/about";
 	}
 
 	@GetMapping("/bid-detail")
 	public String bidDetail(Model model) {
-
-		return "bid-detail";
+		return "user/bid-detail";
 	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {
-
-		return "bid-history";
+		return "user/bid-history";
 	}
 
 	@GetMapping("/blog")
 	public String blog(Model model) {
-
-		return "blog";
+		return "user/blog";
 	}
 
 	@GetMapping("/blog-detail")
 	public String blogDetail(Model model) {
-
-		return "blog-detail";
+		return "user/blog-detail";
 	}
 
 	@GetMapping("/browse-bid")
 	public String browseBid(Model model) {
-
-		return "browse-bid";
+		return "user/browse-bid";
 	}
 
 	@GetMapping("/checkout")
 	public String checkout(Model model) {
-
-		return "checkout";
+		return "user/checkout";
 	}
 
 	@GetMapping("/contact")
 	public String contact(Model model) {
-
-		return "contact";
+		return "user/contact";
 	}
 
 	@GetMapping("/cookies-policy")
 	public String cookiesPolicy(Model model) {
-
-		return "cookies-policy";
+		return "user/cookies-policy";
 	}
 
 	@GetMapping("/dashboard")
 	public String dashboard(Model model) {
-
-		return "dashboard";
+		return "user/dashboard";
 	}
 
 	@GetMapping("/faq")
 	public String faq(Model model) {
-
-		return "faq";
+		return "user/faq";
 	}
 
 	@GetMapping("/login")
 	public String login(Model model) {
-
-		return "login";
+		return "user/login";
 	}
 
 	@GetMapping("/payment")
 	public String payment(Model model) {
-
-		return "payment";
+		return "user/payment";
 	}
 
 	@GetMapping("/privacy")
 	public String privacy(Model model) {
-
-		return "privacy";
+		return "user/privacy";
 	}
 
 	@GetMapping("/signup")
 	public String signup(Model model) {
-
-		return "signup";
+		return "user/signup";
 	}
 
 	@GetMapping("/term-condition")
 	public String termCondition(Model model) {
-
-		return "term-condition";
+		return "user/term-condition";
 	}
 
 	@GetMapping("/thankyou")
 	public String thankyou(Model model) {
-
-		return "thankyou";
+		return "user/thankyou";
 	}
 
 	@GetMapping("/winner")
 	public String winner(Model model) {
-
-		return "winner";
+		return "user/winner";
 	}
 
 	@GetMapping("/bid-live")
 	public String bidLive(Model model) {
-
-		return "bid-live";
+		return "user/bid-live";
 	}
 
 }
-

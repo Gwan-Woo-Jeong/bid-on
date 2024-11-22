@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Contact')}"></th:block>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+</head>
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact us</li>
+                </ol>
+                <h1 class="breadcrumb-title">Reach Out to us</h1>
+            </div>
+        </div>
+    </div>
+    <div class="inner-gap">
+        <div class="container">
+            <div class="row gy-4 gy-sm-4">
+                <div class="col-lg-8">
+                    <div class="contact-wrapper bg-wrapper">
+                        <h4 class="fw-bold mb-3 text-capitalize">Get in touch</h4>
+                        <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Aliquet enim tortor at auctor urna.
+                        </p>
+                        <form id="send-mail">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name*</label>
+                                        <input type="text" class="form-control" name="name" id="name"
+                                               placeholder="Rozzy Nomad">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email*</label>
+                                        <input type="email" class="form-control" name="email" id="email"
+                                               placeholder="name@mail.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Message*</label>
+                                        <textarea class="form-control" name="message" id="message"
+                                                  placeholder="Write Here Your Message"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="primary-btn btn-light" type="button" id="submit">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="contact-wrapper bg-orange text-white">
+                        <h4 class="fw-bold mb-4">Contact Details</h4>
+                        <h5 class="d-flex gap-2 gap-sm-3 pb-2">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Address
+                        </h5>
+                        <h6 class="fw-light">Moonshine St. 14/05 Light City, London, United Kingdom</h6>
+                        <hr class="my-2 my-md-3">
+                        <h5 class="d-flex gap-2 gap-sm-3 pb-2">
+                            <i class="fa-solid fa-phone"></i>
+                            Phone Number
+                        </h5>
+                        <h6 class="fw-light">+0477 8556 552</h6>
+                        <hr class="my-2 my-md-3">
+                        <h5 class="d-flex gap-2 gap-sm-3 pb-2">
+                            <i class="fa-solid fa-envelope"></i>
+                            Email Address
+                        </h5>
+                        <h6 class="fw-light">info@mail.com</h6>
+                    </div>
+                    <div class="mt-4">
+                        <ul class="footer-social-links">
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa-brands fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa-brands fa-pinterest-p"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="alert-box">
+    <span class="alert-text" id="alert-msg">This Field Required</span>
+</div>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<script src="/js/contact.js"></script>
+</body>
+
+</html>
