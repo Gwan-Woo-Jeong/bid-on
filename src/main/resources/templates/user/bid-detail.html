@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Bid Detail')}"></th:block>
+</head>
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">bid detail</li>
+                </ol>
+                <h1 class="breadcrumb-title">bid Details & more</h1>
+            </div>
+        </div>
+    </div>
+    <section class="single-bid-product outer-gap">
+        <div class="container">
+            <div class="row gy-4 gy-md-5">
+                <div class="col-lg-8">
+                    <div class="card-image">
+                        <img src="/user/images/sample/auction-card-1.png" alt="auction-card-img">
+                        <div class="timer-wrapper">
+                            <div class="timer-inner"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="product-bid-widget h-100">
+                        <h3 class="title">
+                            Enchanting Decorative Ensembles: Adorn Your Space with Elegance
+                        </h3>
+                        <ul>
+                            <li><span>Country</span><span>UK</span></li>
+                            <li><span>Start Bid</span><span>$67.00</span></li>
+                            <li><span>Latest Bid</span><span>$986.50</span></li>
+                            <li><span>Total Bids</span><span>21</span></li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-between gap-2">
+                            <div class="item-quantity">
+                                    <span class="input-group-tex decrement">
+                                        <button id="minus" onclick="down('0')">-</button>
+                                    </span>
+                                <input type="number" id="myNumber" value="1" class="">
+                                <span class="input-group-tex uncrement">
+                                        <button id="plus" onclick="up('')">+</button>
+                                    </span>
+                            </div>
+                            <a href="checkout" class="primary-btn d-flex align-items-center">bid now</a>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                            <p class="p-0">Add to wishlist</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="product-detail-wrapper">
+                        <ul class="nav nav-tabs d-none d-md-flex" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane" type="button" role="tab"
+                                        aria-controls="home-tab-pane" aria-selected="true">Home
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                        aria-controls="profile-tab-pane" aria-selected="false">Profile
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                        aria-controls="contact-tab-pane" aria-selected="false">Contact
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="return-policy-tab" data-bs-toggle="tab"
+                                        data-bs-target="#return-policy-tab-pane" type="button" role="tab"
+                                        aria-controls="return-policy-tab-pane" aria-selected="false">Return
+                                    Policy
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content accordion" id="myTabContent">
+                            <div class="tab-pane fade show active accordion-item" id="home-tab-pane" role="tabpanel"
+                                 aria-labelledby="home-tab" tabindex="0">
+
+                                <h2 class="accordion-header d-md-none" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">Home
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show  d-md-block"
+                                     aria-labelledby="headingOne" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <div class="d-flex flex-wrap product-disc-stats">
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">Quantity</h5>
+                                                <p>1 item</p>
+                                            </div>
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">View</h5>
+                                                <p>54</p>
+                                            </div>
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">Brand</h5>
+                                                <p>ERTL</p>
+                                            </div>
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">Publish Date</h5>
+                                                <p>13 Mar, 2023 06:58 UTC</p>
+                                            </div>
+                                        </div>
+                                        <h4 class="mb-3">Enchanting Decorative Ensembles: Adorn Your Space with
+                                            Elegance
+                                        </h4>
+                                        <p class="mb-2">Id diam maecenas ultricies mi eget mauris pharetra. Tellus
+                                            id
+                                            interdum velit laoreet id donec ultrices. Neque laoreet suspendisse
+                                            interdum
+                                            consectetur libero id. Sagittis id consectetur purus ut faucibus
+                                            pulvinar.
+                                            Aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh.
+                                            Lorem ipsum
+                                            dolor sit amet consectetur adipiscing. Elit sed vulputate mi sit. In
+                                            aliquam sem
+                                            fringilla ut. Ac tortor dignissim convallis aenean et tortor at risus.
+                                            Vel eros
+                                            donec ac odio tempor.</p>
+                                        <p>Purus gravida quis blandit turpis cursus in hac. Amet commodo nulla
+                                            facilisi
+                                            nullam vehicula ipsum a arcu cursus. Mattis nunc sed blandit libero
+                                            volutpat.
+                                            Vitae suscipit tellus mauris a diam maecenas. Rhoncus mattis rhoncus
+                                            urna neque
+                                            viverra justo nec. Magna ac placerat vestibulum lectus mauris ultrices
+                                            eros.
+                                            Tempus imperdiet nulla malesuada pellentesque elit. Viverra adipiscing
+                                            at in
+                                            tellus integer feugiat. Turpis egestas sed tempus urna et pharetra. Nam
+                                            aliquam
+                                            sem et tortor. Tempus quam pellentesque nec nam.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade accordion-item" id="profile-tab-pane" role="tabpanel"
+                                 aria-labelledby="profile-tab" tabindex="0">
+                                <h2 class="accordion-header d-md-none" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                        Profile
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse d-md-block"
+                                     aria-labelledby="headingTwo" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <div class="table-responsive">
+                                            <table class="table bid-history m-0">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Personal Info</th>
+                                                    <th scope="col">Country</th>
+                                                    <th scope="col">Place Bid</th>
+                                                    <th scope="col">Time</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p>Rozzy Nomad</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>Canada</td>
+                                                    <td>$225</td>
+                                                    <td>10 Minute Ago</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p>Rozzy Nomad</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>Canada</td>
+                                                    <td>$225</td>
+                                                    <td>10 Minute Ago</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p>Rozzy Nomad</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>Canada</td>
+                                                    <td>$225</td>
+                                                    <td>10 Minute Ago</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade accordion-item" id="contact-tab-pane" role="tabpanel"
+                                 aria-labelledby="contact-tab" tabindex="0">
+                                <h2 class="accordion-header d-md-none" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                        Contact
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse d-md-block"
+                                     aria-labelledby="headingThree" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <table class="table seller-info">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h6>Name</h6>
+                                                    <p>Rozzy Nomad</p>
+                                                </td>
+                                                <td>
+                                                    <h6>Product Sell</h6>
+                                                    <p>60</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6>Joining Date</h6>
+                                                    <p>13 Mar, 2023 06:58 UTC</p>
+                                                </td>
+                                                <td>
+                                                    <h6>Country</h6>
+                                                    <p>United Kingdom</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6>Email</h6>
+                                                    <p>System@mail.com</p>
+                                                </td>
+                                                <td>
+                                                    <h6>Phone Number</h6>
+                                                    <p>+447471666814</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade accordion-item" id="return-policy-tab-pane" role="tabpanel"
+                                 aria-labelledby="contact-tab" tabindex="0">
+                                <h2 class="accordion-header d-md-none" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                            aria-expanded="false" aria-controls="collapseFour">
+                                        Return Policy
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse d-md-block"
+                                     aria-labelledby="headingFour" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <h4 class="mb-3">Hassle-free and easy return</h4>
+                                        <p class="mb-2">Id diam maecenas ultricies mi eget mauris pharetra. Tellus
+                                            id interdum velit laoreet id donec ultrices. Neque laoreet suspendisse
+                                            interdum consectetur libero id. Sagittis id consectetur purus ut
+                                            faucibus pulvinar. Aliquam nulla facilisi cras fermentum odio eu feugiat
+                                            pretium nibh. Lorem ipsum dolor sit amet consectetur adipiscing. Elit
+                                            sed vulputate mi sit. In aliquam sem fringilla ut. Ac tortor dignissim
+                                            convallis aenean et tortor at risus. Vel eros donec ac odio tempor.</p>
+                                        <p>Purus gravida quis blandit turpis cursus in hac. Amet commodo nulla
+                                            facilisi nullam vehicula ipsum a arcu cursus. Mattis nunc sed blandit
+                                            libero volutpat. Vitae suscipit tellus mauris a diam maecenas. Rhoncus
+                                            mattis rhoncus urna neque viverra justo nec. Magna ac placerat
+                                            vestibulum lectus mauris ultrices eros. Tempus imperdiet nulla malesuada
+                                            pellentesque elit. Viverra adipiscing at in tellus integer feugiat.
+                                            Turpis egestas sed tempus urna et pharetra. Nam aliquam sem et tortor.
+                                            Tempus quam pellentesque nec nam.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap auction-card-small">
+        <div class="container">
+            <h2 class="section-title">Related products</h2>
+            <div class="swiper product-swiper px-0">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-1.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Mendinib top violin from best
+                                    artist</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-2.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">An antique vintage landline
+                                    telephone</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-3.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Old baseball bat with ball and
+                                    weathered glove</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-4.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Heritage french style home</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-5.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Arabic old style patterned teapot</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-6.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Vintage wall clock</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/js/bid-detail.js"></script>
+</body>
+
+</html>

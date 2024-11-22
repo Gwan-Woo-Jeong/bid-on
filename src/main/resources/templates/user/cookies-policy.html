@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Cookies Policy')}"></th:block>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+</head>
+
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Cookies Policy</li>
+                </ol>
+                <h1 class="breadcrumb-title">A Cookies Policy of BidZone</h1>
+            </div>
+        </div>
+    </div>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="row">
+                <div class="d-none d-lg-block col-lg-3">
+                    <ul class="privacy-list">
+                        <li>
+                            <a href="#Introduction">Information</a>
+                        </li>
+                        <li>
+                            <a href="#Notification">Notification</a>
+                        </li>
+                        <li>
+                            <a href="#CookiesTechnologies">Affiliate Companies</a>
+                        </li>
+                        <li>
+                            <a href="#YourRights">Occasionally</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-9">
+                    <div class="privacy-content">
+                        <h5 id="Introduction">Introduction</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do quis nostrud exercitation
+                            ullamco
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h5 id="Notification">Notification</h5>
+                        <p>Dictum vestibulum nulla justo sed, ligula rutrum sollicitudin, vivamus non. Nunc donec
+                            tincidunt,
+                            vivamus repellat habitanaccumsan faucibus ante in mauris. Lorem purus leo eleifend
+                            semper sit,
+                            donec duis vel orci lorem consectetuer, lacus lorem praesent elit odio ut, tortor Nisi
+                            lacus sed
+                            viverra tellus in. Cras sed felis eget velit aliquet sagittis id. id metus fermentum mi
+                            ipsum,
+                            quisque proin. Aptent aliquet facilisis</p>
+                        <ul>
+                            <li>Nunc lobortis mattis aliquam faucibus. Praesent tristique magna sit amet. Nibh sit
+                                amet
+                                commodo nulla. Tortor at auctor urna nunc id cursus. Ut pharetra sit amet aliquam id
+                                diam
+                                maecenas. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor.
+                            </li>
+                            <li>At tellus at urna condimentum mattis. Nunc lobortis mattis aliquam faucibus purus
+                                in.
+                                Elementum eu facilisis sed odio. Nulla aliquet enim tortor at auctor urna nunc. Nunc
+                                id
+                                cursus metus aliquam eleifend mi in nulla. Vulputate sapien nec sagittis aliquam
+                                malesuada
+                                bibendum.
+                            </li>
+                            <li>Feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi. Turpis
+                                tincidunt id aliquet risus. Ac placerat vestibulum lectus mauris ultrices eros in
+                                cursus
+                                turpis. Et netus et malesuada fames ac. Non curabitur gravida arcu ac tortor.
+                            </li>
+                        </ul>
+                        <h5 id="CookiesTechnologies">Cookies and Similar Technologies</h5>
+                        <p>Dui nunc mattis enim ut tellus elementum. Bibendum est ultricies integer quis auctor elit
+                            sed
+                            vulputate mi. Risus viverra adipiscing at in tellus integer feugiat. Lacus luctus
+                            accumsan
+                            tortor posuere ac. Pretium quam vulputate dignissim suspendisse in.</p>
+                        <p>Cursus sit amet dictum sit amet justo donec enim diam. Proin sed libero enim sed faucibus
+                            turpis
+                            in. Risus ultricies tristique nulla aliquet enim. At tempor commodo ullamcorper a. Eu
+                            augue ut
+                            lectus arcu bibendum at varius vel pharetra.</p>
+                        <ul>
+                            <li>Amet est placerat in egestas. Elit pellentesque habitant morbi tristique senectus.
+                                Pellentesque sit amet porttitor eget dolor morbi non. Justo nec ultrices dui sapien
+                                eget.
+                                Aliquam sem et tortor consequat id porta nibh. Gravida in fermentum et sollicitudin.
+                            </li>
+                            <li>Quis blandit turpis cursus in hac habitasse. Nulla malesuada pellentesque elit eget.
+                                Placerat in egestas erat imperdiet sed euismod. Ut tristique et egestas quis ipsum.
+                                Nunc vel
+                                risus commodo viverra maecenas. Volutpat odio facilisis mauris sit amet massa vitae.
+                            </li>
+                        </ul>
+                        <h5 id="YourRights">Your Rights</h5>
+                        <p>Enim facilisis gravida neque convallis a. Lorem ipsum dolor sit amet. Convallis tellus id
+                            interdum velit laoreet id donec ultrices. Vel orci porta non pulvinar neque laoreet
+                            suspendisse.
+                            Lectus sit amet est placerat in egestas. Ut venenatis tellus in metus vulputate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+</body>
+
+</html>

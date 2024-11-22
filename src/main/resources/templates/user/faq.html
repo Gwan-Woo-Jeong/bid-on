@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='FAQ')}"></th:block>
+</head>
+
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">FAQ</li>
+                </ol>
+                <h1 class="breadcrumb-title">frequently asked questions</h1>
+            </div>
+        </div>
+    </div>
+    <div class="inner-gap">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    <div class="contact-wrapper bg-wrapper">
+                        <h4 class="mb-3">Ask any question?</h4>
+                        <p class="mb-4">Your email address will not be published. Required fields are marked *</p>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Name*</label>
+                                        <input type="text" class="form-control" placeholder="Rozzy Nomad" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Email*</label>
+                                        <input type="email" class="form-control" placeholder="name@mail.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Subject *</label>
+                                        <input type="text" class="form-control" placeholder="Subject" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Message*</label>
+                                        <textarea class="form-control" placeholder="Write Here Your Message"
+                                                  required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="primary-btn btn-light" type="submit">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <h3 class="mb-3">General FAQ’s</h3>
+                    <div class="faq-accordion">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                        How can I participate in an auction on your website?
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        Participating in our auctions is simple. First, create an account or log in.
+                                        Then, browse our listings, place your bids, and keep an eye on the live
+                                        bidding. If you have the highest bid when the auction ends, you win the
+                                        item!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                        What happens if I win an auction?
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse"
+                                     aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        Congratulations! If you're the highest bidder when the auction closes,
+                                        you'll receive a notification. You'll then be directed to complete the
+                                        payment process. Once your payment is confirmed, the item will be prepared
+                                        for shipping or collection, depending on the auction details.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                        Can I place bids manually or set up automatic bidding?
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">Absolutely! You have the option to place manual bids
+                                        in real time during the auction. Alternatively, you can set up an automatic
+                                        bid, which will increase your bid incrementally up to your specified maximum
+                                        amount. This way, you can stay competitive without actively monitoring the
+                                        auction.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                            aria-expanded="false" aria-controls="collapseFour">
+                                        Are there any additional fees besides the winning bid amount?
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse"
+                                     aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">There may be a buyer's premium, a small percentage
+                                        added to the final bid amount. This helps cover administrative costs and
+                                        ensures the sustainability of our platform. The auction listing will also
+                                        clearly outline any applicable taxes or shipping fees.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFive"
+                                            aria-expanded="false" aria-controls="collapseFive">
+                                        What if I change my mind after winning an auction?
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse"
+                                     aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">We encourage all bidders to carefully consider their
+                                        bids before placing them. Winning an auction is a commitment to purchase the
+                                        item. If you change your mind after winning, it can negatively affect the
+                                        integrity of the auction process. However, if you encounter exceptional
+                                        circumstances, please contact our customer support team to discuss possible
+                                        solutions.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+</body>
+
+</html>
