@@ -1,3 +1,0 @@
-DB_URL=jdbc:oracle:thin:@13.125.87.57:1521/xe
-DB_USERNAME=bidon
-DB_PASSWORD=bid1234
