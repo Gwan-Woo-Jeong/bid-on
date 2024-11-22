@@ -512,7 +512,7 @@ header .navbar-nav li.dropdown-tgl:after {
     font-size: 13px;
     font-weight: 600;
     transition: all .3s ease-in-out;
-    top: 9px;
+    top: 7px;
 }
 
 header .navbar-nav li:hover.dropdown-tgl:after {
