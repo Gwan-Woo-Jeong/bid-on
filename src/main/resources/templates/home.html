@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{inc/head.html :: head(title='BidON - Online auction and bidding')}"></th:block>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+</head>
+
+<body>
+
+<th:block th:insert="~{inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <section class="banner overflow-hidden" id="current-image" style="background-image: url();">
+        <div class="container position-relative">
+            <div class="row align-items-center justify-content-center gy-4">
+                <div class="col-xl-7">
+                    <div class="banner-left">
+                        <h1 class="banner-title">Join exclusive auction & Get the
+                            finest.</h1>
+                        <div class="input-group banner-search-box">
+                            <div class="select">
+                                <button class="selectBtn" data-type="Category">Category</button>
+                                <div class="selectDropdown">
+                                    <div class="option" data-type="firstOption">Category</div>
+                                    <div class="option" data-type="secondOption">Mobile</div>
+                                    <div class="option" data-type="thirdOption">Jewellery</div>
+                                    <div class="option" data-type="forthOption">real estate</div>
+                                    <div class="option" data-type="fifthOption">Sports</div>
+                                    <div class="option" data-type="sixthOption">vehicle</div>
+                                </div>
+                            </div>
+                            <input type="search" class="form-control" placeholder="I’m Looking for...">
+                            <button class="primary-btn">search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11 col-md-8 col-xl-5">
+                    <div class="swiper banner-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="banner-card position-relative">
+                                    <img src="/images/auction-product-1.png" alt="banner-bid">
+                                    <div class="banner-card-disc">
+                                        <a href="bid-detail">vintage luxurious house</a>
+                                        <p>$350.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-card position-relative">
+                                    <img src="/images/auction-product-2.png" alt="banner-bid">
+                                    <div class="banner-card-disc">
+                                        <a href="bid-detail">Final match 2022 Shuttlecock and racket</a>
+                                        <p>$350.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-card position-relative">
+                                    <img src="/images/auction-product-3.png" alt="banner-bid">
+                                    <div class="banner-card-disc">
+                                        <a href="bid-detail">16th-century culverin cannon</a>
+                                        <p>$350.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-card position-relative">
+                                    <img src="/images/auction-product-4.png" alt="banner-bid">
+                                    <div class="banner-card-disc">
+                                        <a href="bid-detail">Vintage Hand Carved Wood Camel Stand </a>
+                                        <p>$350.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-card position-relative">
+                                    <img src="/images/auction-product-13.png" alt="banner-bid">
+                                    <div class="banner-card-disc">
+                                        <a href="bid-detail">Most famous Skirt piece of celebrities</a>
+                                        <p>$350.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="swiper categorySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="browse-bid">
+                            <div class="category-card">
+                                <img src="/images/jewelary-img.png" alt="category-img">
+                                <h5>JEWELLERY</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="browse-bid">
+                            <div class="category-card">
+                                <img src="/images/real-estate-img.png" alt="category-img">
+                                <h5>REAL ESTATE</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="browse-bid">
+                            <div class="category-card">
+                                <img src="/images/sports-img.png" alt="category-img">
+                                <h5>SPORTS</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="browse-bid">
+                            <div class="category-card">
+                                <img src="/images/vehicles-img.png" alt="category-img">
+                                <h5>VEHICLES</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="browse-bid">
+                            <div class="category-card">
+                                <img src="/images/music-img.png" alt="category-img">
+                                <h5>MUSIC</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="browse-bid">
+                            <div class="category-card">
+                                <img src="/images/clothes-img.png" alt="category-img">
+                                <h5>CLOTHES</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <h2 class="section-title">Live Auction</h2>
+            <div class="row gy-4">
+                <div class="col-lg-6">
+                    <div class="auction-card">
+                        <div class="card-image left-card-image">
+                            <img src="/images/live-auction.png" class="h-100 w-100" alt="auction-card-img">
+                            <div class="timer-wrapper">
+                                <div class="timer-inner">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                        <div class="card-content">
+                            <h4>Champagne Diamond & 29.47ct Smokey Topaz 14k Rose Gold Ring</h4>
+                            <p>Current bid <span>589.00$</span></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="bid-detail" class="primary-btn">Bid Now</a>
+                                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="auction-card-small">
+                        <div class="row gy-3">
+                            <div class="col-md-6">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/images/live-auction-1.png" class="img-fluid"
+                                             alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner">
+                                                    <span class="days">
+                                                        <span class="">0</span>
+                                                        <span class="">D</span>
+                                                    </span>:
+                                                <span class="hours">
+                                                        <span class="">1</span>
+                                                        <span class="">H</span>
+                                                    </span>:
+                                                <span class="minutes">
+                                                        <span class="">60</span>
+                                                        <span class="">M</span>
+                                                    </span>:
+                                                <span class="seconds">
+                                                        <span class="">40</span>
+                                                        <span class="">S</span>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Most famous Skirt piece of celebrities</h4>
+                                        <p>Current bid <span>589.00$</span></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/images/live-auction-2.png" class="img-fluid"
+                                             alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner">
+                                                    <span class="days">
+                                                        <span class="">0</span>
+                                                        <span class="">D</span>
+                                                    </span>:
+                                                <span class="hours">
+                                                        <span class="">1</span>
+                                                        <span class="">H</span>
+                                                    </span>:
+                                                <span class="minutes">
+                                                        <span class="">60</span>
+                                                        <span class="">M</span>
+                                                    </span>:
+                                                <span class="seconds">
+                                                        <span class="">40</span>
+                                                        <span class="">S</span>
+                                                    </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Old aged Small Wooden Trinket</h4>
+                                        <p>Current bid <span>589.00$</span></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/images/live-auction-3.png" class="img-fluid"
+                                             alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner">
+                                                    <span class="days">
+                                                        <span class="">0</span>
+                                                        <span class="">D</span>
+                                                    </span>:
+                                                <span class="hours">
+                                                        <span class="">1</span>
+                                                        <span class="">H</span>
+                                                    </span>:
+                                                <span class="minutes">
+                                                        <span class="">60</span>
+                                                        <span class="">M</span>
+                                                    </span>:
+                                                <span class="seconds">
+                                                        <span class="">40</span>
+                                                        <span class="">S</span>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>1987’s Mediterranean style home</h4>
+                                        <p>Current bid <span>589.00$</span></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/images/live-auction-4.png" class="img-fluid"
+                                             alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Café Racer: the vintage spirit</h4>
+                                        <p>Current bid <span>589.00$</span></p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="browse-bid" class="primary-btn dark-btn mt-3 mt-md-5">VIEW ALL BID</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap inner-gap bg-light">
+        <div class="container">
+            <h2 class="section-title">Upcoming Auctions</h2>
+            <div class="row gy-4">
+                <div class="col-lg-6">
+                    <div class="upcoming-auction position-relative bg-orange">
+                        <div class="row gy-4">
+                            <div class="col-md-6 text-white position-relative">
+                                <h3 class="upcoming-title line-clamp line-clamp-2">Final Match Football Studs</h3>
+                                <p class="line-clamp line-clamp-4">Experience the timeless charm of the vintage
+                                    coffee bean grinder, meticulously crafted to bring you the perfect grind for a
+                                    rich and flavorful cup of coffee.</p>
+                                <a href="bid-detail" class="primary-btn light-btn">Bid Now</a>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                                <div class="upcoming-img">
+                                    <img src="/images/thumb-auction-img-3.png"
+                                         class="w-100 h-100 object-contain" alt="Final Match Football Studs">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="upcoming-auction position-relative bg-blue">
+                        <div class="row gy-4">
+                            <div class="col-md-6 text-white position-relative">
+                                <h3 class="upcoming-title line-clamp line-clamp-2">Ancient Greek Goddess of Victory
+                                </h3>
+                                <p class="line-clamp line-clamp-4">Inspire greatness and achievement with our
+                                    stunning sculpture depicting the legendary goddess of victory, Nike.</p>
+                                <a href="bid-detail" class="primary-btn light-btn">Bid Now</a>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                                <div class="upcoming-img">
+                                    <img src="/images/thumb-auction-img-1.png"
+                                         class="w-100 h-100 object-contain" alt="Ancient Greek Goddess of Victory">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="recent-auction outer-gap">
+        <div class="container">
+            <h2 class="section-title">Recent Auctions</h2>
+            <div class="auction-card-small">
+                <div class="row gy-4 justify-content-center">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-1.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Mendinib top violin from best
+                                    artist</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-2.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">An antique vintage landline
+                                    telephone</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-3.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Old baseball bat with ball and
+                                    weathered glove</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-4.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Heritage french style home</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-5.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Arabic old style patterned teapot</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-6.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Vintage wall clock</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-7.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Premium updated Black and white
+                                    mountain bike</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/images/recent-auction-8.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Spinning vinyle from 1968</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <h2 class="section-title">Trusted By 500+ Businesses</h2>
+            <div class="row gy-4 text-center align-items-center">
+                <div class="col-6 col-md-4 col-xl-2">
+                    <div class="client-logo py-2">
+                        <img src="/images/client-logo-1.png" class="w-100" alt="client-logo">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xl-2">
+                    <div class="client-logo py-2">
+                        <img src="/images/client-logo-2.png" class="w-100" alt="client-logo">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xl-2">
+                    <div class="client-logo py-2">
+                        <img src="/images/client-logo-3.png" class="w-100" alt="client-logo">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xl-2">
+                    <div class="client-logo py-2">
+                        <img src="/images/client-logo-4.png" class="w-100" alt="client-logo">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xl-2">
+                    <div class="client-logo py-2">
+                        <img src="/images/client-logo-5.png" class="w-100" alt="client-logo">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-xl-2">
+                    <div class="client-logo py-2">
+                        <img src="/images/client-logo-6.png" class="w-100" alt="client-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="subscribe-wrapper position-relative">
+                <div class="row align-items-center justify-content-center position-relative">
+                    <div class="col-lg-6 text-white">
+                        <h3 class="display-6 fw-bold mb-2">Want to Join Us?</h3>
+                        <p class="mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Pulvinar etiam quam lacus
+                            suspendiss.</p>
+                        <form class="subscribe-form">
+                            <input type="search" class="form-control" placeholder="Email Search">
+                            <button type="submit" class="rounded-circle bg-dark">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="subscribe-img d-none d-lg-block">
+                            <img src="/images/join-us.png" class="w-100 rounded-5" alt="subscribe-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:insert="~{inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/js/home.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{inc/head.html :: head(title='Bid History')}"></th:block>
+</head>
+
+<body>
+
+<th:block th:insert="~{inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bid History</li>
+                </ol>
+                <h1 class="breadcrumb-title">Product Details & more</h1>
+            </div>
+        </div>
+    </div>
+    <div class="inner-gap">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-12">
+                    <div class="bidding-history">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Item List</th>
+                                    <th>Last Bid</th>
+                                    <th>Opening Bid</th>
+                                    <th>Left Time</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="/images/product-card-img.png"
+                                                 class="dashboard-avatar" alt="bider-avatar">
+                                            <div>
+                                                <h6>Lorem, ipsum</h6>
+                                                <span class="fs-14">Lorem ipsum dolor sit amet.</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>$589.21</td>
+                                    <td>$159.87</td>
+                                    <td>
+                                        <div class="timer-inner"></div>
+                                    </td>
+                                    <td>
+                                        <button class="primary-btn small-btn">View More</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="/images/product-card-img.png"
+                                                 class="dashboard-avatar" alt="bider-avatar">
+                                            <div>
+                                                <h6>Lorem, ipsum</h6>
+                                                <span class="fs-14">Lorem ipsum dolor sit amet.</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>$589.21</td>
+                                    <td>$159.87</td>
+                                    <td>
+                                        <div class="timer-inner"></div>
+                                    </td>
+                                    <td>
+                                        <button class="primary-btn small-btn">View More</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="/images/product-card-img.png"
+                                                 class="dashboard-avatar" alt="bider-avatar">
+                                            <div>
+                                                <h6>Lorem, ipsum</h6>
+                                                <span class="fs-14">Lorem ipsum dolor sit amet.</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>$589.21</td>
+                                    <td>$159.87</td>
+                                    <td>
+                                        <div class="timer text-danger">0d : 0h : 00m : 00s</div>
+                                    </td>
+                                    <td>
+                                        <button class="primary-btn small-btn bg-light text-black border-0">View
+                                            More
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="/images/product-card-img.png"
+                                                 class="dashboard-avatar" alt="bider-avatar">
+                                            <div>
+                                                <h6>Lorem, ipsum</h6>
+                                                <span class="fs-14">Lorem ipsum dolor sit amet.</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>$589.21</td>
+                                    <td>$159.87</td>
+                                    <td>
+                                        <div class="timer text-danger">0d : 0h : 00m : 00s</div>
+                                    </td>
+                                    <td>
+                                        <button class="primary-btn small-btn bg-light text-black border-0">View
+                                            More
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-4 mt-md-5">
+                            <button class="primary-btn">Load More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+
+</body>
+
+</html>

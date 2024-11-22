@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{inc/head.html :: head(title='Winner')}"></th:block>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+</head>
+
+<body>
+<th:block th:insert="~{inc/preloader.html :: preloader}"></th:block>
+
+<div class="toggle-theme d-none">
+    <input type="checkbox" class="changeTheme" id="changeTheme">
+    <label for="changeTheme" class="m-auto"></label>
+</div>
+<div class="win-wrapper text-center" id="win-wrapper"
+     style="background-image: url('/images/model-bg.svg')">
+    <div class="px-3">
+        <div class="winner-block">
+            <img src="/images/winner.svg" alt="winner">
+            <h2>Congratulations</h2>
+            <p>With a winning bid of $710.23, you've triumphed successfully.
+                Please make payment for the confirmation.</p>
+            <a href="payment" class="primary-btn d-inline-block mb-3">Process Payment</a>
+            <p class="text-danger">Please pay the amount in 72 hours to avoid losing the product.</p>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="~{inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
+
+<script src="/js/winner.js"></script>
+</body>
+
+</html>

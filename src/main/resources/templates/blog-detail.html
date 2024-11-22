@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{inc/head.html :: head(title='Blog Detail')}"></th:block>
+</head>
+
+<body>
+<th:block th:insert="~{inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">blogs details</li>
+                </ol>
+                <h1 class="breadcrumb-title">detailed blogs</h1>
+            </div>
+        </div>
+    </div>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-8">
+                    <div class="single-blog">
+                        <img class="blog-img" src="/images/auction-product-1.png" alt="blog-image">
+                        <div class="single-blog-content py-3 py-md-4">
+                            <h3>Lorem ipsum dolor sit amet.</h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nam
+                                est aspernatur! Repellendus velit consequatur a deleniti distinctio natus
+                                provident.Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nam
+                                est aspernatur! Repellendus velit consequatur a deleniti distinctio natus provident.
+                            </p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nam
+                                est aspernatur! Repellendus velit consequatur a deleniti distinctio natus
+                                provident.Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nam
+                                est aspernatur! Repellendus velit consequatur a deleniti distinctio natus provident.
+                            </p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos illo, ipsam beatae
+                                recusandae autem nihil odio ullam repudiandae natus aliquam totam non. Quo quos
+                                nesciunt vel incidunt, perferendis repellendus magni odio, suscipit saepe aliquid
+                                laudantium impedit asperiores placeat quae illum temporibus culpa cumque optio atque
+                                ipsum eaque dignissimos! Error ad sed assumenda. Saepe explicabo officia,
+                                consectetur magni at suscipit soluta rem ipsum ullam similique blanditiis veniam
+                                temporibus ipsam voluptatibus, eaque commodi neque possimus, distinctio corporis.
+                                Est minima, ipsam dicta tempore non eligendi sint deserunt maxime dolor autem odio
+                                exercitationem consequatur velit adipisci maiores vitae officia sequi veniam iusto
+                                dolore nesciunt.</p>
+                        </div>
+                    </div>
+                    <div class="card-wrapper">
+                        <h5 class="mb-4">Any Comment?</h5>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name*</label>
+                                        <input type="text" class="form-control" placeholder="Rozzy Nomad" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email*</label>
+                                        <input type="email" class="form-control" placeholder="name@mail.com " required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Message*</label>
+                                        <textarea class="form-control" placeholder="Write Here Your Message"
+                                                  required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="primary-btn btn-light" type="submit">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card-wrapper mb-3">
+                        <h5 class="mb-3">Share</h5>
+                        <ul class="d-flex flex-wrap gap-3">
+                            <li>
+                                <a href="javascript:void(0)" class="fs-18 text-dark">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="fs-18 text-dark">
+                                    <i class="fa-brands fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="fs-18 text-dark">
+                                    <i class="fa-brands fa-pinterest-p"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="fs-18 text-dark">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="fs-18 text-dark">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="fs-18 text-dark">
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-wrapper">
+                        <h5>June 5, 2023</h5>
+                        <hr>
+                        <h5 class="mb-3">Category</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge text-bg-primary">New!</span>
+                            <span class="badge text-bg-primary">New!</span>
+                            <span class="badge text-bg-primary">New!</span>
+                            <span class="badge text-bg-primary">New!</span>
+                            <span class="badge text-bg-primary">New!</span>
+                            <span class="badge text-bg-primary">New!</span>
+                        </div>
+                        <hr>
+                        <h5 class="mb-3">Tags</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="">#New!</span>
+                            <span class="">#New!</span>
+                            <span class="">#New!</span>
+                            <span class="">#New!</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<th:block th:insert="~{inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+</body>
+
+</html>

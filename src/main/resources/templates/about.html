@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{inc/head.html :: head(title='About Us')}"></th:block>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+</head>
+
+<body>
+<th:block th:insert="~{inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">About</li>
+                </ol>
+                <h1 class="breadcrumb-title">About Page</h1>
+            </div>
+        </div>
+    </div>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="row gy-4 align-items-center justify-content-between">
+                <div class="col-lg-6">
+                    <h2 class="mb-3 fw-bold">We’re here to fulfill your dream list.</h2>
+                    <p class="mb-3 mb-md-4">Sed id semper risus in hendrerit. Dui sapien eget mi proin sed. Arcu
+                        bibendum at
+                        varius vel pharetra vel turpis nunc eget. Magnis dis parturient montes nascetur ridiculus
+                        mus mauris Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Eget aliquet nibh praesent tristique magna sit
+                        amet.</p>
+                    <button class="primary-btn">bid now</button>
+                </div>
+                <div class="col-lg-5 text-lg-center">
+                    <img src="/images/about-banner.png" class="img-fluid w-100" alt="about-img">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="row gy-4 justify-content-between">
+                <div class="col-lg-6">
+                    <h2 class="mb-3 fw-bold">Explore the features we are offering.</h2>
+                    <p class="mb-3">Voluptate aut blanditiis accusantium officiis expedita dolorem inventore odio
+                        reiciendis obcaecati quod nisi quae Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Eget aliquet nibh praesent tristique magna sit
+                        amet.</p>
+                    <img src="/images/feature-img.png" class="img-fluid" alt="about-img">
+                </div>
+                <div class="col-lg-5">
+                    <div class="features-card">
+                        <div class="feature-img">
+                            <img src="/images/auction-icon.png" alt="auction-img">
+                        </div>
+                        <div>
+                            <h5>Real-Time Auction</h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna.</p>
+                        </div>
+                    </div>
+                    <div class="features-card">
+                        <div class="feature-img">
+                            <img src="/images/currency-icon.png" alt="Currency-img">
+                        </div>
+                        <div>
+                            <h5>Supports Multiple Currency</h5>
+                            <p>Enim facilisis gravida neque convallis a. Lorem ipsum dolor sit amet. Convallis id
+                                interdum velit laoreet id donec ultrices.</p>
+                        </div>
+                    </div>
+                    <div class="features-card">
+                        <div class="feature-img">
+                            <img src="/images/winner-icon.png" alt="winner-img">
+                        </div>
+                        <div>
+                            <h5>Winner Announcement</h5>
+                            <p>Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Cursus metus aliquam
+                                eleifend mi in nulla posuere.</p>
+                        </div>
+                    </div>
+                    <div class="features-card">
+                        <div class="feature-img">
+                            <img src="/images/supports-icon.png" alt="supports-img">
+                        </div>
+                        <div>
+                            <h5>Supports 24x7</h5>
+                            <p>Eu feugiat pretium nibh ipsum consequat nisl vel. Eget magna fermentum iaculis eu non
+                                diam phasellus vestibulum.</p>
+                        </div>
+                    </div>
+                    <div class="features-card">
+                        <div class="feature-img">
+                            <img src="/images/history-icon.png" alt="history-img">
+                        </div>
+                        <div>
+                            <h5>Show All Bidders History</h5>
+                            <p>Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum. Aliquam
+                                vestibulum morbi blandit cursus risus.</p>
+                        </div>
+                    </div>
+                    <div class="features-card">
+                        <div class="feature-img">
+                            <img src="/images/watchlist-icon.png" alt="watchlist-img">
+                        </div>
+                        <div>
+                            <h5>Add To Watchlist</h5>
+                            <p>Facilisis volutpat est velit egestas dui id. Ut morbi tincidunt augue interdum.
+                                Faucibus nisl tincidunt eget nullam non.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="pawning-card">
+                        <img src="/images/pawning-img.png" alt="pawning-img">
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="pawning-card">
+                        <img src="/images/pawning-img-2.png" class="h-auto" alt="pawning-img">
+                        <div class="pawning-content">
+                            <h3>Demystifying Pawning</h3>
+                            <p>Tellus molestie nunc non blandit. Porta lorem mollis aliquam ut. Gravida rutrum
+                                quisque non tellus orci ac auctor augue. Cursus sit amet dictum sit.</p>
+                            <button class="primary-btn">see details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="pawning-card">
+                        <img src="/images/pawning-img-3.png" alt="pawning-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="inner-gap position-relative testimonial-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="158" height="130" viewBox="0 0 158 130" fill="none">
+                    <path
+                            d="M0 70.6629L32.9924 0H64.7538L43.8257 65H64.7538V130H0V70.6629ZM92.822 70.6629L125.814 0H157.576L136.648 65H157.576V130H92.5757V70.6629H92.822Z"
+                            fill="#FF5336"/>
+                </svg>
+                <div class="row align-items-center gy-4">
+                    <div class="col-xl-3">
+                        <h3 class="mb-2">Client Testimonials</h3>
+                        <p>Explore on the world's best & largest Bidding marketplace with our beautiful Bidding
+                            products. We want to be a part of your smile, success and future growth.</p>
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="swiper testimonialSwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="testimonial-card">
+                                        <p class="mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget
+                                            aliquet nibh praesent tristique magna.</p>
+                                        <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/images/testimonial-avatar.png"
+                                                     class="testimonial-avatar" alt="avatar">
+                                                <div>
+                                                    <h6>Rommy Ahuja</h6>
+                                                    <span>Manager</span>
+                                                </div>
+                                            </div>
+                                            <ul class="d-flex gap-1 rating-star">
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-light"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-card">
+                                        <p class="mb-3">Tristique senectus et netus et. Ultrices eros in cursus
+                                            turpis massa tincidunt dui ut. Faucibus turpis in eu mi bibendum neque
+                                            egestas. Vulputate sapien nec sagittis aliquam.</p>
+                                        <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/images/testimonial-avatar.png"
+                                                     class="testimonial-avatar" alt="avatar">
+                                                <div>
+                                                    <h6>Rommy Ahuja</h6>
+                                                    <span>Manager</span>
+                                                </div>
+                                            </div>
+                                            <ul class="d-flex gap-1 rating-star">
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-light"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-card">
+                                        <p class="mb-3">duis ultricies lacus. Sit amet mattis vulputate enim nulla.
+                                            Ac turpis egestas sed tempus. Integer malesuada nunc vel risus commodo
+                                            viverra maecenas Integer malesuada.</p>
+                                        <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/images/testimonial-avatar.png"
+                                                     class="testimonial-avatar" alt="avatar">
+                                                <div>
+                                                    <h6>Rommy Ahuja</h6>
+                                                    <span>Manager</span>
+                                                </div>
+                                            </div>
+                                            <ul class="d-flex gap-1 rating-star">
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-light"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-card">
+                                        <p class="mb-3">Sapien pellentesque habitant morbi tristique senectus et
+                                            netus et. Eu ultrices vitae auctor eu augue ut. Justo eget magna
+                                            fermentum iaculis eu non diam.</p>
+                                        <div
+                                                class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-2">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="/images/testimonial-avatar.png"
+                                                     class="testimonial-avatar" alt="avatar">
+                                                <div>
+                                                    <h6>Rommy Ahuja</h6>
+                                                    <span>Manager</span>
+                                                </div>
+                                            </div>
+                                            <ul class="d-flex gap-1 rating-star">
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-orange"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-star text-light"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<th:block th:insert="~{inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/js/about.js"></script>
+</body>
+
+</html>

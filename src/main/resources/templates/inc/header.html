@@ -1,0 +1,209 @@
+<th:block th:fragment="header">
+    <th:block th:insert="~{inc/preloader.html :: preloader}"></th:block>
+
+    <a href="javascript:void(0)" class="back-to-top"><i class="fa-solid fa-up-long"></i></a>
+
+    <div class="navbar-top border-bottom py-3 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <div class="d-flex gap-2">
+                        <div class="country">
+                            <select name="country" class="form-control" id="country">
+                                <option value="UK">
+                                    EN
+                                </option>
+                                <option value="US">
+                                    ES
+                                </option>
+                                <option value="RS">
+                                    RS
+                                </option>
+                            </select>
+                        </div>
+                        <div class="currency">
+                            <select name="currency" class="form-control" id="currency">
+                                <option value="USD">
+                                    USD
+                                </option>
+                                <option value="EUR">
+                                    EUR
+                                </option>
+                                <option value="INR">
+                                    INR
+                                </option>
+                            </select>
+                        </div>
+                        <div class="d-none align-items-center gap-1 nav-top-left">
+                            <i class="fa-solid fa-envelope text-dark"></i>
+                            <p class="fs-14 text-dark text-truncate">support@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="toggle-theme">
+                        <input type="checkbox" id="changeTheme1" class="changeTheme" value="0">
+                        <label for="changeTheme1" class="m-auto"></label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
+                        <a href="browse-bid" class="bg-transparent text-dark border-0 px-1">
+                            <i class="fa-solid fa-search"></i>
+                        </a>
+                        <a href="login" class="bg-transparent text-dark border-0 px-1">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <button class="bg-transparent text-dark border-0"><i class="fa-solid fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="bg-white">
+        <nav class="navbar navbar-expand-lg py-3">
+            <div class="container">
+                <a class="navbar-brand p-0" href="home">
+                    <img src="/images/logo.svg" id="headerLogo" class="themeLogo img-fluid w-100" alt="logo">
+                </a>
+                <div class="nav-right justify-content-center" id="navbar">
+                    <ul class="navbar-nav position-relative d-none d-lg-flex">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark active" href="home">Home</a>
+                        </li>
+                        <li class="nav-item dropdown-tgl">
+                            <a class="nav-link text-dark" href="javascript:void(0)">Auction</a>
+                            <ul class="sub-menu">
+                                <li><a href="browse-bid">browse bid</a></li>
+                                <li><a href="bid-detail">bid details</a></li>
+                                <li><a href="bid-history">bid history</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown-tgl">
+                            <a class="nav-link text-dark" href="javascript:void(0)">Pages</a>
+                            <ul class="sub-menu">
+                                <li><a href="about">about</a></li>
+                                <li><a href="dashboard">dashboard</a></li>
+                                <li><a href="winner">winner</a></li>
+                                <li><a href="checkout">checkout</a></li>
+                                <li><a href="payment">payment</a></li>
+                                <li><a href="thankyou">Thank You</a></li>
+                                <li><a href="faq">faq</a></li>
+                                <li><a href="privacy">Privacy Policy</a></li>
+                                <li><a href="404">Error</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown-tgl">
+                            <a class="promotion-link nav-link text-dark new-toggle" href="javascript:void(0)">Blog</a>
+                            <ul class="sub-menu">
+                                <li><a href="blog">Blog</a></li>
+                                <li><a href="blog-detail">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="contact">Contact</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-block d-lg-none">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark active" href="home">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
+                               aria-expanded="false">Auction</a>
+                            <ul class="sub-menu dropdown-menu">
+                                <li><a href="browse-bid">browse bid</a></li>
+                                <li><a href="bid-detail">bid details</a></li>
+                                <li><a href="bid-history">bid history</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
+                               aria-expanded="false">Pages</a>
+                            <ul class="sub-menu dropdown-menu">
+                                <li><a href="about">about</a></li>
+                                <li><a href="dashboard">dashboard</a></li>
+                                <li><a href="winner">winner</a></li>
+                                <li><a href="checkout">checkout</a></li>
+                                <li><a href="payment">payment</a></li>
+                                <li><a href="thankyou">Thank You</a></li>
+                                <li><a href="faq">faq</a></li>
+                                <li><a href="privacy">Privacy Policy</a></li>
+                                <li><a href="404">Error</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark" href="javascript:void(0)" data-bs-toggle="dropdown"
+                               aria-expanded="false">Blog</a>
+                            <ul class="sub-menu dropdown-menu">
+                                <li><a href="blog">Blog</a></li>
+
+                                <li><a href="blog-detail">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="contact">Contact</a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li class="nav-item">
+                            <div class="d-flex justify-content-center gap-2">
+                                <div class="select">
+                                    <button class="selectBtn" data-type="country">country</button>
+                                    <div class="selectDropdown">
+                                        <div class="option" data-type="UK">EN</div>
+                                        <div class="option" data-type="US">ES</div>
+                                        <div class="option" data-type="RS">RS</div>
+                                    </div>
+                                </div>
+                                <div class="select">
+                                    <button class="selectBtn" data-type="currency">currency</button>
+                                    <div class="selectDropdown">
+                                        <div class="option" data-type="USD">USD</div>
+                                        <div class="option" data-type="EUR">EUR</div>
+                                        <div class="option" data-type="INR">INR</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li class="nav-item">
+                            <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-center">
+                                <button class="bg-transparent text-dark border-0">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
+                                <a href="login" class="bg-transparent text-dark border-0 px-1">
+                                    <i class="fa-solid fa-user"></i>
+                                </a>
+                                <button class="bg-transparent text-dark border-0"><i
+                                        class="fa-solid fa-heart"></i></button>
+                            </div>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li class="nav-item">
+                            <div class="toggle-theme">
+                                <input type="checkbox" class="changeTheme" id="changeTheme" value="0">
+                                <label for="changeTheme" class="me-auto"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex gap-1 nav-btn-group align-items-center">
+                    <a href="signup" class="primary-btn">
+                        get start
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="nav-right" data-bs-target="#navbar"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="toggle-menu-icon"><span></span><span></span><span></span><span></span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+</th:block>
