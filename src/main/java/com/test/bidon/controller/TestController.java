@@ -133,5 +133,11 @@ public class TestController {
 		return "winner";
 	}
 
+	@GetMapping("/bid-live")
+	public String bidLive(Model model) {
+
+		return "bid-live";
+	}
+
 }
 
