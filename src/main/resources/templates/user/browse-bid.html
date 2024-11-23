@@ -17,9 +17,9 @@
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">BROWSE BID</li>
+                    <li class="breadcrumb-item active" aria-current="page">일반 경매</li>
                 </ol>
-                <h1 class="breadcrumb-title">Available items & bids</h1>
+                <h1 class="breadcrumb-title">진행 중인 일반 경매 물품을 확인할 수 있습니다.</h1>
             </div>
         </div>
     </div>
@@ -45,15 +45,15 @@
                             <div class="col-sm-6 col-xl-12">
                                 <div class="auction-wrapper p-3">
                                     <select name="shorting" class="form-control bg-transparent border-0">
-                                        <option value="">Default Shorting</option>
-                                        <option value="">Price Low to Heigh</option>
-                                        <option value="">Price Heigh to Low</option>
+                                        <option value="">종료 임박 경매 순</option>
+                                        <option value="">낮은 경매가 순</option>
+                                        <option value="">높은 경매가 순</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="auction-wrapper">
-                                    <h4 class="mb-2">Products</h4>
+                                    <h4 class="mb-2">이런 물품은 어떠세요?</h4>
                                     <div class="d-flex flex-column flex-lg-row flex-xl-column  gap-3">
                                         <div class="product-card">
                                             <img src="/user/images/sample/product-card-img.png" alt="product-card-img">
@@ -84,46 +84,46 @@
                                     <h4 class="mb-3">Products</h4>
                                     <ul class="product-list">
                                         <li>
-                                            <a href=""><span>Jewellery</span> <span>(18)</span> </a>
+                                            <a href=""><span>세부 카테고리1</span> <span>(1333)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>Clothes</span> <span>(18)</span> </a>
+                                            <a href=""><span>세부 카테고리2</span> <span>(1557)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>Vehicle</span> <span>(18)</span> </a>
+                                            <a href=""><span>세부 카테고리3</span> <span>(18)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>Real Estate</span> <span>(18)</span> </a>
+                                            <a href=""><span>세부 카테고리4</span> <span>(18)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>Music</span> <span>(18)</span> </a>
+                                            <a href=""><span>세부 카테고리5</span> <span>(18)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>Sports</span> <span>(18)</span> </a>
+                                            <a href=""><span>세부 카테고리6</span> <span>(18)</span> </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xl-12">
                                 <div class="auction-wrapper">
-                                    <h4 class="mb-3">Filter by price</h4>
+                                    <h4 class="mb-3">경매가 필터</h4>
                                     <div class="filter-price">
                                         <div class="price-field">
-                                            <input type="range" min="100" max="500" value="100" id="lower">
-                                            <input type="range" min="100" max="500" value="500" id="upper">
+                                            <input type="range" min="10000" max="1000000" value="10000" id="lower">
+                                            <input type="range" min="10000" max="1000000" value="10000" id="upper">
                                         </div>
                                         <div class="price-wrap">
                                             <div class="price-wrap-1">
                                                 <input id="one">
-                                                <label for="one">$</label>
+                                                <label for="one">￦</label>
                                             </div>
                                             <div class="price-wrap-2">
                                                 <input id="two">
-                                                <label for="two">$</label>
+                                                <label for="two">￦</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="primary-btn small-btn">Filter</button>
+                                    <button class="primary-btn small-btn">적용</button>
                                 </div>
                             </div>
                         </div>
