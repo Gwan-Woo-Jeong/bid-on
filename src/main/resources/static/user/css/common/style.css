@@ -1980,9 +1980,9 @@ textarea {
 
 .price-field input[type=range]::-moz-range-thumb {
     position: relative;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
     margin: 0;
     border: 0;
     outline: 0;
@@ -1999,9 +1999,9 @@ textarea {
 
 .price-field input[type=range]::-ms-thumb {
     position: relative;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
     margin: 0;
     border: 0;
     outline: 0;
@@ -2054,18 +2054,31 @@ textarea {
     display: flex;
 }
 
-.price-wrap #one,
-.price-wrap #two {
-    width: 30px;
-    text-align: right;
+.price-wrap #one {
+    width: 85px;
+    text-align: left;
     margin: 0;
     padding: 0;
-    margin-right: 2px;
+    margin-right: 1px;
     background: 0;
     border: 0;
     outline: 0;
     color: var(--bs-dark);
     font-weight: 500;
+}
+
+.price-wrap #two{
+	width: 100px;
+	text-align: right;
+	    margin: 0;
+	    padding: 0;
+	    margin-right: 1px;
+	    background: 0;
+	    border: 0;
+	    outline: 0;
+	    color: var(--bs-dark);
+	    font-weight: 500;
+	
 }
 
 .price-wrap label {
@@ -2279,6 +2292,12 @@ img.card-img-top {
 
 .alert-show .alert-box {
     right: 0px;
+}
+
+
+
+.form-control{
+	appearance: auto;	
 }
 
 /* alert */

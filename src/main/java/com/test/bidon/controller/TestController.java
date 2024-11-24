@@ -51,6 +51,11 @@ public class TestController {
 	public String browseBid(Model model) {
 		return "user/browse-bid";
 	}
+	
+	@GetMapping("/browse-live-bid")
+	public String browseLiveBid(Model model) {
+		return "user/browse-live-bid";
+	}
 
 	@GetMapping("/checkout")
 	public String checkout(Model model) {
