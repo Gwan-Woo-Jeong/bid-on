@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Browse-Live-Bid')}"></th:block>	
+</head>
+
+<body>
+
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">실시간 경매</li>
+                </ol>
+                <h1 class="breadcrumb-title">실시간 경매 물품을 확인할 수 있습니다.</h1>
+            </div>
+        </div>
+    </div>
+    <section class="outer-gap">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-xl-3">
+                    <button class="primary-btn d-xl-none mb-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#auction-filter-collapse" aria-expanded="false"
+                            aria-controls="auction-filter-collapse">
+                        filter product
+                    </button>
+                    <div class="collapse d-xl-block" id="auction-filter-collapse">
+                        <div class="row gy-4">
+                            <div class="col-sm-6 col-xl-12">
+                                <div class="auction-wrapper p-3">
+                                    <div class="auction-search">
+                                        <input type="search" class="form-control" placeholder="Search">
+                                        <button class=""><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xl-12">
+                                <div class="auction-wrapper p-3">
+                                    <select name="shorting" class="form-control bg-transparent border-0">
+                                        <option value="">시작 임박 경매 상품</option>
+                                        <option value="">가격 낮은 순</option>
+                                        <option value="">가격 높은 순</option>
+                                    </select>
+                                </div>
+                            </div>
+                           
+                           
+                            <div class="col-sm-6 col-xl-12">
+                                <div class="auction-wrapper">
+                                    <h4 class="mb-3">경매가 필터</h4>
+                                    <div class="filter-price">
+                                        <div class="price-field">
+                                            <input type="range" min="10000" max="1000000" value="10000" step="10000" id="lower">
+                                            <input type="range" min="10000" max="1000000" value="1000000" step="10000" id="upper">
+                                        </div>
+                                        <div class="price-wrap">
+                                            <div class="price-wrap-1">
+                                                <input id="one">
+                                                <label for="one" readonly></label>
+                                            </div>
+                                            <div class="price-wrap-2">
+                                                <input id="two">
+                                                <label for="two" readonly></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="primary-btn small-btn">적용</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9">
+                    <div class="auction-card-small">
+                        <div class="row gy-4 justify-content-center">
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-20.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Gegreg</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-17.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">1985’s cricket ball</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-18.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Heritage royal palace from
+                                            1896</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-16.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Old fashion premium women
+                                            dresses</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-14.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Vintage Champagne cognac
+                                            diamond 1.25cttw and 14kt rose gold ring.</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-6.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Premium vase with gold and
+                                            black designs</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-12.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Black sling bag</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/recent-auction-5.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Arabic old style patterned
+                                            teapot</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="auction-card">
+                                    <div class="card-image">
+                                        <img src="/user/images/sample/auction-product-13.png" alt="auction-card-img">
+                                        <div class="timer-wrapper">
+                                            <div class="timer-inner"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a href="bid-detail" class="card-title">Victorian Noir-Gold Decor</a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap auction-card-small">
+        <div class="container">
+            <h2 class="section-title">Latest Auctions</h2>
+            <div class="swiper product-swiper px-0">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-1.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Mendinib top violin from best
+                                    artist</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-2.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">An antique vintage landline
+                                    telephone</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-3.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Old baseball bat with ball and
+                                    weathered glove</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-4.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Heritage french style home</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-5.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Arabic old style patterned teapot</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-6.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Vintage wall clock</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/user/js/browse-live-bid.js"></script>
+
+
+</body>
+
+</html>
