@@ -46,26 +46,17 @@
                         <label for="changeTheme1" class="m-auto"></label>
                     </div>
                 </div>
-                <div class="col-4"> <!-- 이쪽만 건듦 -->
-                    <div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
-						<th:block sec:authorize="isAnonymous()">
-						<li><a href="login" style="color: black;">Login</a></li> 
-                        <a href="browse-bid" class="bg-transparent text-dark border-0 px-1">
-                            <i class="fa-solid fa-search"></i>
-                        </a>
-						</th:block>
-						<th:block sec:authorize="isAuthenticated()">
-						<li><a href="logout" style="color: black;">Logout</a></li>
-						<a href="browse-bid" class="bg-transparent text-dark border-0 px-1">
-						                            <i class="fa-solid fa-search"></i>
-						</a>
-                        <a href="dashboard" class="bg-transparent text-dark border-0 px-1">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                        <button class="bg-transparent text-dark border-0"><i class="fa-solid fa-heart"></i></button>
-						</th:block>
-                    </div>
-                </div>
+				<div class="col-4">	<!-- 이쪽만 건듦, 원상태로 복귀 -->
+					<div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
+				   		<a href="browse-bid.html" class="bg-transparent text-dark border-0 px-1">
+				        	<i class="fa-solid fa-search"></i>
+				       	</a>
+				      	<a href="login.html" class="bg-transparent text-dark border-0 px-1">
+				 			<i class="fa-solid fa-user"></i>
+				  		</a>
+						<button class="bg-transparent text-dark border-0"><i class="fa-solid fa-heart"></i></button>
+				 	</div>
+				</div>
             </div>
         </div>
     </div>
