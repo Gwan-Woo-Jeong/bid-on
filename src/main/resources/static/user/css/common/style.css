@@ -2301,3 +2301,16 @@ img.card-img-top {
 }
 
 /* alert */
+
+/* 사진 크기 고정 */
+.product-card-wrapper {
+    width: 100%;
+    overflow: hidden; /* 자식 요소가 벗어나지 않도록 */
+}
+
+.product-img {
+    width: 100%; /* 부모 크기에 맞게 너비 조정 */
+    height: 100%; /* 부모 크기에 맞게 높이 조정 */
+    object-fit: cover; /* 이미지를 박스에 맞게 크기 조정하면서 비율 유지 */
+    border-radius: 8px; /* 이미지에 둥근 모서리 적용 */
+}
