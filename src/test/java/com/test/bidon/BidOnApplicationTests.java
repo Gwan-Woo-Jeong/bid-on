@@ -6,8 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BidOnApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	public String test() {
+		
+		return null;
+	}
 
 }

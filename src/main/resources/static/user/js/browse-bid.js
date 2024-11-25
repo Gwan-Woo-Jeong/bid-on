@@ -15,37 +15,52 @@ var swiper = new Swiper(".product-swiper", {
 });
 
 // price Range
-var lowerSlider = document.querySelector('#lower');
-var upperSlider = document.querySelector('#upper');
+	const lowerSlider = document.querySelector('#lower');
+	const upperSlider = document.querySelector('#upper');
+	const lowerValueInput = document.querySelector('#one');
+	const upperValueInput = document.querySelector('#two');
 
-document.querySelector('#two').value = upperSlider.value;
-document.querySelector('#one').value = lowerSlider.value;
+	// 최소 간격
+	const minGap = 10000;
+	const sliderMin = parseInt(lowerSlider.min);
+	const sliderMax = parseInt(upperSlider.max);
 
-var lowerVal = parseInt(lowerSlider.value);
-var upperVal = parseInt(upperSlider.value);
+	// 초기 값
+	lowerValueInput.value = formatCurrency(lowerSlider.value);
+	upperValueInput.value = formatCurrency(upperSlider.value);
 
-upperSlider.oninput = function () {
-    lowerVal = parseInt(lowerSlider.value);
-    upperVal = parseInt(upperSlider.value);
 
-    if (upperVal < lowerVal + 4) {
-        lowerSlider.value = upperVal - 4;
-        if (lowerVal == lowerSlider.min) {
-            upperSlider.value = 4;
-        }
-    }
-    document.querySelector('#two').value = this.value
-};
+	upperSlider.oninput = function () {
+	    let lowerVal = parseInt(lowerSlider.value);
+	    let upperVal = parseInt(upperSlider.value);
 
-lowerSlider.oninput = function () {
-    lowerVal = parseInt(lowerSlider.value);
-    upperVal = parseInt(upperSlider.value);
-    if (lowerVal > upperVal - 4) {
-        upperSlider.value = lowerVal + 4;
-        if (upperVal == upperSlider.max) {
-            lowerSlider.value = parseInt(upperSlider.max) - 4;
-        }
-    }
-    document.querySelector('#one').value = this.value
-};
+	    // 최소 간격 유지
+	    if (upperVal < lowerVal + minGap) {
+	        upperSlider.value = lowerVal + minGap;
+	        upperVal = parseInt(upperSlider.value); // 업데이트된 값
+	    }
+
+
+	    upperValueInput.value = formatCurrency(upperVal);
+	};
+
+
+	lowerSlider.oninput = function () {
+	    let lowerVal = parseInt(lowerSlider.value);
+	    let upperVal = parseInt(upperSlider.value);
+
+	    // 최소 간격 유지
+	    if (lowerVal > upperVal - minGap) {
+	        lowerSlider.value = upperVal - minGap;
+	        lowerVal = parseInt(lowerSlider.value); // 업데이트된 값
+	    }
+
+
+	    lowerValueInput.value = formatCurrency(lowerVal);
+	};
+
+	// 숫자를 원화 형식으로 포맷
+	function formatCurrency(value) {
+	    return `￦${parseInt(value).toLocaleString('ko-KR')}`;
+	}
 

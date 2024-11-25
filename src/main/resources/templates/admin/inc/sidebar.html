@@ -1,0 +1,47 @@
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <!-- 사이드 바 -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- 목록 > 관리 테이블 -->
+          <li class="nav-item nav-category">Management</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-chart-line"></i>
+              <span class="menu-title">Management</span>
+              <i class="menu-arrow"></i> 
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/admin/auction">Auction</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/admin/user">User</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/admin/community">Community</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <!-- 관리자 설정 페이지 -->
+          <li class="nav-item nav-category">pages</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+              <span class="menu-title">User Pages</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/admin/login"> Login </a></li>
+              </ul>
+            </div>
+          </li>
+          
+        </ul>
+      </nav>
+ 

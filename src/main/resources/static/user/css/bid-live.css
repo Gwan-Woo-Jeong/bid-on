@@ -1,6 +1,11 @@
+:root {
+    --input-area-height: 140px;
+    --participants-title-height: 60px;
+    --chat-title-height: 120px;
+}
+
 body {
-    margin-top: 20px;
-    background: #eee;
+    background: #fff;
 }
 
 .row.row-broken {
@@ -12,7 +17,7 @@ body {
 }
 
 .chat {
-    height: calc(100vh - 180px);
+    height: 100vh;
 }
 
 .decor-default {
@@ -26,21 +31,22 @@ body {
 
 .chat-users .user {
     position: relative;
-    padding: 0 0 0 50px;
-    display: block;
+    display: flex;
     cursor: pointer;
     margin: 0 0 20px;
 }
 
-.chat-users .user .avatar {
-    top: 0;
-    left: 0;
+.avatar {
+    width: 40px;
+    height: 40px;
 }
 
 .chat .avatar {
-    width: 40px;
-    height: 40px;
     position: absolute;
+}
+
+.chat .participants .avatar {
+    position: relative;
 }
 
 .chat .avatar img {
@@ -106,11 +112,44 @@ body {
     float: left;
 }
 
+.chat-body .answer.center {
+    padding: 0 0 0 58px;
+    text-align: left;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+
+.chat-body .answer.center .text {
+    background: #182b6e;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.chat-body .answer.center .text:before {
+    left: -13px;
+    top: 0;
+    border-top-color: #182b6e;
+    border-top-width: 16px;
+}
+
 .chat-body .answer {
     position: relative;
     max-width: 600px;
     overflow: hidden;
     clear: both;
+}
+
+.chat-body .notification {
+    position: relative;
+    max-width: 600px;
+    overflow: hidden;
+    clear: both;
+}
+
+.chat-body .answer.center .avatar {
+    top: 0;
+    left: 0;
 }
 
 .chat-body .answer.left .avatar {
@@ -202,14 +241,14 @@ body {
 }
 
 .chat-body .answer.right .text {
-    background: #7266ba;
-    color: #ffffff;
+    background: #ffda22;
+    color: #000000;
     border-radius: 8px 8px 0 8px;
 }
 
 .chat-body .answer.right .text:before {
     right: -30px;
-    border-left-color: #7266ba;
+    border-left-color: #ffda22;
     border-left-width: 12px;
 }
 
@@ -219,23 +258,69 @@ body {
 }
 
 /**************ADD FORM ***************/
-.chat-body .answer-add {
+.answer-add {
     clear: both;
     position: relative;
-    margin: 20px -20px -20px;
-    padding: 20px;
-    background: #46be8a;
+    padding: 0 60px 10px 10px;
+    border-bottom: 1px solid #2c2c2c;
 }
 
-.chat-body .answer-add input {
+.answer-add input {
     border: none;
     background: none;
     display: block;
     width: 100%;
-    font-size: 16px;
-    line-height: 20px;
+    line-height: 26px;
     padding: 0;
-    color: #ffffff;
+    color: #2c2c2c;
+}
+
+.answer-add button {
+    position: absolute;
+    background-color: cornflowerblue;
+    border: none;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+    margin-right: 10px;
+}
+
+.answer-add button i {
+    color: #fff;
+    font-size: 18px;
+    transform: rotate(43deg) translate(-2px, 1px);
+}
+
+.answer-add input:focus {
+    outline: none;
+    border: none;
+}
+
+.answer-add input::placeholder {
+    color: #969696;
+}
+
+.chat input::-webkit-input-placeholder {
+    color: #969696;
+}
+
+.chat input:-moz-placeholder { /* Firefox 18- */
+    color: #969696;
+}
+
+.chat input::-moz-placeholder { /* Firefox 19+ */
+    color: #969696;
+}
+
+.chat input:-ms-input-placeholder {
+    color: #969696;
 }
 
 .chat input {
@@ -243,14 +328,8 @@ body {
     border-radius: 0;
 }
 
-.chat-body .answer-add .answer-btn-1 {
-    background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-40.png") 50% 50% no-repeat;
-    right: 56px;
-}
-
-.chat-body .answer-add .answer-btn {
+.answer-add .answer-btn {
     display: block;
-    cursor: pointer;
     width: 36px;
     height: 36px;
     position: absolute;
@@ -258,28 +337,137 @@ body {
     margin-top: -18px;
 }
 
-.chat-body .answer-add .answer-btn-2 {
-    background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-41.png") 50% 50% no-repeat;
-    right: 20px;
-}
 
-.chat input::-webkit-input-placeholder {
-    color: #fff;
-}
-
-.chat input:-moz-placeholder { /* Firefox 18- */
-    color: #fff;
-}
-
-.chat input::-moz-placeholder { /* Firefox 19+ */
-    color: #fff;
-}
-
-.chat input:-ms-input-placeholder {
-    color: #fff;
-}
 
 .chat input {
     -webkit-appearance: none;
     border-radius: 0;
+}
+
+/* CUSTOM */
+
+.text-wrap {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-base {
+    flex-basis: calc(100% - (var(--input-area-height) + var(--chat-title-height)));
+}
+
+.scroll-area {
+    overflow: scroll;
+    outline: none;
+    background-color: #fff;
+}
+
+.input-wrap {
+    height: var(--input-area-height);
+    padding: 10px;
+}
+
+.participants-height {
+    height: calc(100% - var(--participants-title-height));
+}
+
+.participants-title {
+    flex-basis: var(--participants-title-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.participants {
+    flex-basis: calc(100% - var(--participants-title-height));
+}
+
+.user-info {
+    margin-left: 10px;
+}
+
+.chat-title {
+    flex-basis: var(--chat-title-height);
+    display: flex;
+    /*justify-content: center;*/
+}
+
+.chat-title .item-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin: auto 0;
+}
+
+.item-info {
+    margin: auto 0 auto 20px;
+    max-width: 900px;
+}
+
+.item-info h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.item-info p {
+    font-size: 14px;
+    margin-bottom: 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.item-info h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+.button-add {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.button-wrap {
+    display: flex;
+    gap: 8px;
+}
+
+.button-wrap button {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 8px;
+    text-wrap: nowrap;
+    padding: 10px 20px;
+    border: none;
+    font-weight: 500;
+}
+
+.button-wrap .bid-button {
+    background-color: #46be8a;
+    color: #fff;
+}
+
+.button-wrap .quit-button {
+    background-color: #d74b4b;
+    color: #fff;
+}
+
+.bid-time-text {
+    font-weight: 500;
+    color: #333333;
+}
+
+.bid-time {
+    font-size: 24px;
+    margin-left: 10px;
 }
