@@ -92,10 +92,10 @@ public class TestController {
 		return "user/privacy";
 	}
 
-	@GetMapping("/signup")
-	public String signup(Model model) {
-		return "user/signup";
-	}
+//	@GetMapping("/signup")
+//	public String signup(Model model) {
+//		return "user/signup";
+//	}
 
 	@GetMapping("/term-condition")
 	public String termCondition(Model model) {
