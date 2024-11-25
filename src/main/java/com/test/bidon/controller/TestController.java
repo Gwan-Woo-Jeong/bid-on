@@ -79,6 +79,7 @@ public class TestController {
 
 	@GetMapping("/faq")
 	public String faq(Model model) {
+		
 		return "user/faq";
 	}
 
