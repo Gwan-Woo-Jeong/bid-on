@@ -156,5 +156,5 @@ $(document).ready(function() {
 	    // 폼 제출 이벤트 방지
 /*	    $("#signupForm").submit(function(e) {
 	        e.preventDefault();
-	    });
-*/	});
+	    });*/
+	});
