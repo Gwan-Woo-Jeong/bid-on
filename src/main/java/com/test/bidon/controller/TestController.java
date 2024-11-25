@@ -31,6 +31,11 @@ public class TestController {
 	public String bidDetail(Model model) {
 		return "user/bid-detail";
 	}
+	
+	@GetMapping("/bid-detail-live")
+	public String bidDetailLive(Model model) {
+		return "user/bid-detail-live";
+	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {
@@ -98,10 +103,10 @@ public class TestController {
 		return "user/privacy";
 	}
 
-	@GetMapping("/signup")
-	public String signup(Model model) {
-		return "user/signup";
-	}
+//	@GetMapping("/signup")
+//	public String signup(Model model) {
+//		return "user/signup";
+//	}
 
 	@GetMapping("/term-condition")
 	public String termCondition(Model model) {
