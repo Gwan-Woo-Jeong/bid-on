@@ -31,6 +31,11 @@ public class TestController {
 	public String bidDetail(Model model) {
 		return "user/bid-detail";
 	}
+	
+	@GetMapping("/bid-detail-live")
+	public String bidDetailLive(Model model) {
+		return "user/bid-detail-live";
+	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {
