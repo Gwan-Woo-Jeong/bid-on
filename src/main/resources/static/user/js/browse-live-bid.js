@@ -13,7 +13,7 @@ var swiper = new Swiper(".product-swiper", {
         },
     }
 });
-
+// price Range
 	const lowerSlider = document.querySelector('#lower');
 	const upperSlider = document.querySelector('#upper');
 	const lowerValueInput = document.querySelector('#one');
@@ -33,7 +33,7 @@ var swiper = new Swiper(".product-swiper", {
 	    let lowerVal = parseInt(lowerSlider.value);
 	    let upperVal = parseInt(upperSlider.value);
 
-	    // 최소 간격
+	    // 최소 간격 유지
 	    if (upperVal < lowerVal + minGap) {
 	        upperSlider.value = lowerVal + minGap;
 	        upperVal = parseInt(upperSlider.value); // 업데이트된 값
@@ -48,7 +48,7 @@ var swiper = new Swiper(".product-swiper", {
 	    let lowerVal = parseInt(lowerSlider.value);
 	    let upperVal = parseInt(upperSlider.value);
 
-	    // 최소 간격
+	    // 최소 간격 유지
 	    if (lowerVal > upperVal - minGap) {
 	        lowerSlider.value = upperVal - minGap;
 	        lowerVal = parseInt(lowerSlider.value); // 업데이트된 값
