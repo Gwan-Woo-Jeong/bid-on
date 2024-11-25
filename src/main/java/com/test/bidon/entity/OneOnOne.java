@@ -1,14 +1,7 @@
 package com.test.bidon.entity;
 
 import java.time.LocalDate;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -16,33 +9,28 @@ import lombok.Data;
 @Data
 public class OneOnOne {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqoneonone")
-	@SequenceGenerator(name = "seqoneonone", sequenceName = "seqOneOnOne", allocationSize = 1)
-	private Integer id;
-	
-	@Column(name = "userInfoId", nullable = false)
-	private Integer userInfoId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqoneonone")
+    @SequenceGenerator(name = "seqoneonone", sequenceName = "seqOneOnOne", allocationSize = 1)
+    private Integer id;
 
-	@Column(nullable = false, length = 100)
-	private String title;
-	
-	@Column(nullable = false, length = 100)
-	private String contents;
-	
-	 // LocalDate로 변경
+    @ManyToOne
+    @JoinColumn(name = "USERINFOID", nullable = false) // 테이블의 실제 컬럼 이름
+    private UserEntity userEntityInfo;
+
+    @Column(nullable = false, length = 100)
+    private String title;
+
+    @Column(nullable = false, length = 300)
+    private String contents;
+
     @Column(nullable = false)
     private LocalDate regdate;
 
-    // regdate Setter
-    public void setRegdate(String regdate) {
-        this.regdate = LocalDate.parse(regdate); // String 값을 LocalDate로 변환
+    @PrePersist
+    public void prePersist() {
+        if (this.regdate == null) {
+            this.regdate = LocalDate.now();
+        }
     }
-
-    // regdate Getter
-    public LocalDate getRegdate() {
-        return regdate;
-    }
-	
-	
 }
