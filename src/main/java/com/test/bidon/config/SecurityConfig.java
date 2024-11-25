@@ -44,7 +44,7 @@ public class SecurityConfig {
 
 		
 		  //소셜 로그인 설정 
-		http.oauth2Login(auth -> auth .loginPage("/login").userInfoEndpoint(config -> config.userService(customOAuth2UserService)) );
+		http.oauth2Login(auth -> auth.loginPage("/login").userInfoEndpoint(config -> config.userService(customOAuth2UserService)) );
 		 
 		 
 
