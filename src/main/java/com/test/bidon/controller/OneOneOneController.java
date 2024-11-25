@@ -35,7 +35,7 @@ public class OneOneOneController {
         question.setUserInfoId(userInfo);
         question.setTitle(title);
         question.setContents(contents);
-        question.setRegdate(regdate); // regdate 설정
+        
 
         // 데이터 저장
         oneOnOneRepository.save(question);
