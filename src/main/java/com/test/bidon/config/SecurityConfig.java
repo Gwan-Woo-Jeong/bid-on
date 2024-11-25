@@ -31,7 +31,7 @@ public class SecurityConfig {
        // 허가 URL
        http.authorizeHttpRequests(auth -> auth
                .requestMatchers("/", "/login/**", "/oauth2/**", "/join", "/joinok", "/signup", "/signok").permitAll()
-               .requestMatchers("/mypage").hasAnyRole("MEMBER", "ADMIN")
+               .requestMatchers("/mypage").hasAnyRole("USER", "ADMIN")
                .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()  // 정적 리소스 추가
                .anyRequest().permitAll()
                //.anyRequest().authenticated()  // 나머지 경로 > 인증 사용자만, 나중에 변경해야할 것
