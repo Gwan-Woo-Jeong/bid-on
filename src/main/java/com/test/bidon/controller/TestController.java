@@ -31,6 +31,11 @@ public class TestController {
 	public String bidDetail(Model model) {
 		return "user/bid-detail";
 	}
+	
+	@GetMapping("/bid-detail-live")
+	public String bidDetailLive(Model model) {
+		return "user/bid-detail-live";
+	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {
@@ -79,6 +84,7 @@ public class TestController {
 
 	@GetMapping("/faq")
 	public String faq(Model model) {
+		
 		return "user/faq";
 	}
 
