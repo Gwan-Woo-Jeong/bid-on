@@ -239,6 +239,7 @@ textarea {
     line-height: normal;
     padding-bottom: 40px;
     text-transform: capitalize;
+    padding-top: 20px;
 }
 
 /* Select Dropdown CSS Start */
@@ -786,9 +787,9 @@ header .navbar-nav li .sub-menu > li a:hover {
     color: var(--bs-white);
 }
 
-.category-card:hover img {
+/* .category-card:hover img {
     filter: brightness(0) invert(1);
-}
+} */
 
 .swiper,
 .swiper-container {
