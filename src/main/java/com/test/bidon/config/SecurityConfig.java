@@ -45,11 +45,10 @@ public class SecurityConfig {
       					.loginProcessingUrl("/loginok").permitAll()
       	);
         
-        //소셜 로그인 설정
-        http.oauth2Login(auth -> auth
-      					.loginPage("/login")
-      					.userInfoEndpoint(config -> config.userService(customOAuth2UserService))
-        );
+		/*
+		 * //소셜 로그인 설정 http.oauth2Login(auth -> auth .loginPage("/login")
+		 * .userInfoEndpoint(config -> config.userService(customOAuth2UserService)) );
+		 */
     
         
         //로그아웃 설정을 여기로 통합
