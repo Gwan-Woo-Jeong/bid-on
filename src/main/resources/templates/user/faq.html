@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
-      xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='FAQ')}"></th:block>
 </head>
-
 
 <body>
 <th:block th:insert="~{user/inc/header.html :: header}"></th:block>
@@ -26,44 +24,44 @@
     <div class="inner-gap">
         <div class="container">
             <div class="row gy-4">
+                <!-- 왼쪽 폼 -->
                 <div class="col-lg-4">
                     <div class="contact-wrapper bg-wrapper">
                         <h4 class="mb-3"><b>궁금하신 점은 무엇인가요?</b></h4>
                         <p class="mb-4">귀하의 이메일 주소는 공개되지 않습니다. 필수 입력 항목은 *로 표시됩니다.</p>
-                        <form action="#">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>이름*</label>
-                                        <input type="text" class="form-control" placeholder="Rozzy Nomad" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Email*</label>
-                                        <input type="email" class="form-control" placeholder="name@mail.com" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>제목 *</label>
-                                        <input type="text" class="form-control" placeholder="Subject" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>내용*</label>
-                                        <textarea class="form-control" placeholder="Write Here Your Message"
-                                                  required></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="primary-btn btn-light" type="submit">제출하기</button>
-                                </div>
-                            </div>
-                        </form>
+                        <form action="/submitQuestion" method="post">
+						    <div class="row">
+						        <!-- 이메일 -->
+						        <div class="col-12">
+						            <div class="form-group">
+						                <label>이메일*</label>
+						                <input type="email" class="form-control" name="email" placeholder="name@mail.com" required>
+						            </div>
+						        </div>
+						        <!-- 제목 -->
+						        <div class="col-12">
+						            <div class="form-group">
+						                <label>제목 *</label>
+						                <input type="text" class="form-control" name="title" placeholder="Subject" required>
+						            </div>
+						        </div>
+						        <!-- 내용 -->
+						        <div class="col-12">
+						            <div class="form-group">
+						                <label>내용*</label>
+						                <textarea class="form-control" name="contents" placeholder="Write Here Your Message" required></textarea>
+						            </div>
+						        </div>
+						        <!-- 제출 버튼 -->
+						        <div class="col-12">
+						            <button class="primary-btn btn-light" type="submit">제출하기</button>
+						        </div>
+						    </div>
+						</form>
                     </div>
                 </div>
+                
+                <!-- 오른쪽 FAQ 목록 -->
                 <div class="col-lg-8">
                     <h3 class="mb-3"><b>자주묻는 질문 목록</b></h3>
                     <div class="faq-accordion">
@@ -159,5 +157,4 @@
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
 </body>
-
 </html>
