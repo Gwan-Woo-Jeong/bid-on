@@ -1,6 +1,5 @@
 package com.test.bidon.service;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,31 +18,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // 기존 메서드 유지
-    public void signup(UserInfoDTO dto) {
-        //이메일 중복검사
-        if(isEmailExists(dto.getEmail())) {
-            System.out.println("이미 사용중인 이메일입니다.");
-            return;
-        }
-
-        //DTO > (변환) > Entity
-        UserEntity user = UserEntity.builder()
-                .email(dto.getEmail())
-                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-                .build();
-
-        userRepository.save(user);
-    }
-
-    // 이메일 존재 여부 확인 메서드 추출
+    //이메일 존재 여부 확인 메서드 추출
     public boolean isEmailExists(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    // 회원 등록 메서드 (새로운 버전)
+    //회원가입에서 입력한 정보 저장하는 메서드
     public UserEntity registerUser(UserInfoDTO dto) {
-        UserEntity user = UserEntity.builder()
+        if(isEmailExists(dto.getEmail())) {
+            throw new RuntimeException("이미 사용중인 이메일입니다.");
+        }
+
+        UserEntity entity = UserEntity.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
@@ -51,12 +37,35 @@ public class UserService {
                 .birth(dto.getBirth())
                 .national(dto.getNational())
                 .createDate(java.time.LocalDate.now())
-                .status(0)  // 활성 상태
-                .userRole("ROLE_MEMBER")  // 기본 권한
-                .provider("local")  // 일반 회원가입
+                .status(0)
+                .userRole("ROLE_USER")
+                .provider("local")
                 .build();
+                
+        // 저장 전에 모든 필드값 출력 (디버깅용)
+        System.out.println("=== 저장할 엔티티 정보 ===");
+        System.out.println("email: " + entity.getEmail());
+        System.out.println("password: " + entity.getPassword());
+        System.out.println("name: " + entity.getName());
+        System.out.println("national: " + entity.getNational());
+        System.out.println("birth: " + entity.getBirth());
+        System.out.println("tel: " + entity.getTel());
+        System.out.println("profile: " + entity.getProfile());
+        System.out.println("createDate: " + entity.getCreateDate());
+        System.out.println("status: " + entity.getStatus());
+        System.out.println("userRole: " + entity.getUserRole());
+        System.out.println("provider: " + entity.getProvider());
+        System.out.println("=========================");
 
-        return userRepository.save(user);
+        try {
+            UserEntity savedEntity = userRepository.save(entity);
+            System.out.println("새로운 사용자 저장 성공: " + entity.getEmail());
+            return savedEntity;
+        } catch (Exception e) {
+            System.out.println("사용자 저장 실패: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("사용자 저장 중 오류 발생", e);
+        }
     }
 
     // 사용자 조회 메서드 (필요시 사용)
