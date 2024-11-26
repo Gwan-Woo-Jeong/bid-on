@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:oracle:thin:@34.22.84.58:1521:xe
+    username: bidon
+    password: bid1234
 
   thymeleaf:
     cache: false
