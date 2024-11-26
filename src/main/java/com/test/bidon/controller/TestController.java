@@ -43,9 +43,9 @@ public class TestController {
 	}
 
 	
-	@GetMapping("/blog") 
-	public String blog(Model model) 
-	{ return "user/blog"; }
+//	@GetMapping("/blog") 
+//	public String blog(Model model) 
+//	{ return "user/blog"; }
 
 	@GetMapping("/blog-detail")
 	public String blogDetail(Model model) {

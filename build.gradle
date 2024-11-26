@@ -49,8 +49,7 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-<<<<<<< Updated upstream
-=======
+
 }
 
 // Querydsl 설정부
@@ -69,5 +68,5 @@ sourceSets {
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
     delete file(generated)
->>>>>>> Stashed changes
+
 }
