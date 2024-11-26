@@ -5,6 +5,7 @@
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Sign Up')}"></th:block>
+	<link rel="stylesheet" href="/user/css/user.css">
 </head>
 
 <body>
@@ -14,7 +15,7 @@
     <input type="checkbox" class="changeTheme" id="changeTheme">
     <label for="changeTheme" class="m-auto"></label>
 </div>
-<div class="login-wrapper" id="login-wrapper" style="background-image: url('/images/login-bg.svg')">
+<div class="login-wrapper" id="login-wrapper" style="background-image: url('user/images/sample/login-bg.svg')">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-lg-6 col-xl-5">
@@ -22,55 +23,90 @@
                     <a class="d-inline-block mb-2" href="home">
                         <img src="/user/images/sample/auction-fevicon.png" class="themeLogo img-fluid" alt="logo">
                     </a>
-                    <h2 class="display-6 fw-bold mb-3">Sign Up</h2>
-                    <p class="mb-4">Fill in required details to create a BidZone account</p>
-                    <form action="#">
+                    <h2 class="display-6 fw-bold mb-3">회원가입</h2>
+                    <p class="mb-4">BidOn 계정 생성을 위해 회원 정보를 입력해주세요.</p>
+                    <form id="signupForm" method="POST" action="/signok">
                         <div class="row">
+							<div class="col-12">
+									<img id="profilePreview" class="defaultprofile" src="user/images/default-profile.svg" alt="기본프로필">
+							    <div class="form-group">
+							        <label>프로필</label>
+									<input type="file" id="profileImage" name="profileImage" accept="image/*" class="form-control mt-2">
+							    </div>
+							</div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Email*</label>
-                                    <input type="email" class="form-control" placeholder="name@mail.com" required>
+                                    <label>이메일*</label>
+                                    <input type="email" id="userEmail" name="email" class="form-control" placeholder="name@mail.com" required>
+									<div class="invalid-feedback">올바른 이메일 주소를 입력해주세요.</div>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group formPassword">
-                                    <label>Password*</label>
-                                    <input type="password" class="form-control" placeholder="****" required>
+                                    <label>비밀번호*</label>
+                                    <input type="password" id="userPassword" name="password" class="form-control" placeholder="****" required>
                                     <span class="input-checker password-show-hide"><i
                                             class="fa-regular fa-eye-slash"></i></span>
+									<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group formPassword">
-                                    <label>Confirm Password*</label>
-                                    <input type="password" class="form-control" placeholder="****" required>
+                                    <label>비밀번호 확인*</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="****" required>
                                     <span class="input-checker"><i class="fa-regular fa-eye-slash"></i></span>
+									<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>이름*</label>
+                                    <input type="text" id="userName" name="name" class="form-control" required>
+									<div class="invalid-feedback">이름을 입력해주세요.</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>전화번호</label>
+                                    <input type="text" id="usertel" name="tel" class="form-control">
+                                </div>
+                            </div>
+							<div class="col-12">
+							   <div class="form-group">
+							   	    <label for="countrySelect">국가</label>
+							    	<select class="form-select form-control" id="countrySelect" name="country">
+							        	<option value="">국가 선택</option>
+							        </select>
+							   </div>
+							</div>
+							<!-- role을 hidden으로 추가 -->
+							<input type="hidden" name="userRole" value="ROLE_MEMBER">
                             <div class="col-12">
                                 <div class="form-check text-start">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
                                            required>
                                     <label class="form-check-label" for="flexCheckDefault">
-                                        I accept the <b>terms</b> and <b>privacy policy</b>
+                                        나는 <b>이용 약관</b>과 <b>개인정보 처리 방침</b>을 전부 숙지했습니다.
                                     </label>
+									<div class="invalid-feedback">약관에 동의해주세요.</div>
                                 </div>
                             </div>
                             <div class="col-12 mb-4">
-                                <button class="primary-btn w-100" type="submit">Submit</button>
+                                <button class="primary-btn w-100" type="submit" id="signupBtn">가입하기</button>
                             </div>
+							<!-- 
                             <div class="col-12">
                                 <p class="border-bottom border-dark mb-4" style="height: 1px;">
                                         <span class="position-relative px-2 text-dark"
                                               style="top: -13px; background: var(--bg-wrapper)">OR</span>
                                 </p>
                             </div>
-                            <div class="col-12 mb-3">
+                           <div class="col-12 mb-3">
                                 <button class="primary-btn bg-light text-black border-dark w-100 text-capitalize">
-                                    <i class="fa-brands fa-google"></i><span class="ms-2">Continue with google</span>
+                                    <i class="fa-brands fa-google"></i><span class="ms-2">구글 계정으로 계속하기</span>
                                 </button>
-                            </div>
-                            <p>Already have an account? <a href="login">Log In</a></p>
+                            </div>-->
+                            <p>이미 계정이 있으신가요? <a href="login">지금 로그인 하러 가세요!</a></p>
                         </div>
                     </form>
                 </div>
@@ -80,7 +116,7 @@
 </div>
 
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
-<script src="/js/signup.js"></script>
+<script src="/user/js/signup.js"></script>
 </body>
 
 </html>

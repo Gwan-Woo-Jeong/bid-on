@@ -109,17 +109,17 @@
                                     <h4 class="mb-3">경매가 필터</h4>
                                     <div class="filter-price">
                                         <div class="price-field">
-                                            <input type="range" min="10000" max="1000000" value="10000" id="lower">
-                                            <input type="range" min="10000" max="1000000" value="10000" id="upper">
+                                            <input type="range" min="10000" max="1000000" value="10000" step="10000" id="lower">
+                                            <input type="range" min="10000" max="1000000" value="1000000" step="10000" id="upper">
                                         </div>
                                         <div class="price-wrap">
                                             <div class="price-wrap-1">
                                                 <input id="one">
-                                                <label for="one">￦</label>
+                                                <label for="one"></label>
                                             </div>
                                             <div class="price-wrap-2">
                                                 <input id="two">
-                                                <label for="two">￦</label>
+                                                <label for="two"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -435,7 +435,9 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
-<script src="/js/browse-bid.js"></script>
+<script src="/user/js/browse-bid.js"></script>
+
+
 </body>
 
 </html>

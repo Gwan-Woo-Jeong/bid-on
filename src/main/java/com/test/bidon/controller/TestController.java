@@ -31,6 +31,11 @@ public class TestController {
 	public String bidDetail(Model model) {
 		return "user/bid-detail";
 	}
+	
+	@GetMapping("/bid-detail-live")
+	public String bidDetailLive(Model model) {
+		return "user/bid-detail-live";
+	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {
@@ -50,6 +55,11 @@ public class TestController {
 	@GetMapping("/browse-bid")
 	public String browseBid(Model model) {
 		return "user/browse-bid";
+	}
+	
+	@GetMapping("/browse-live-bid")
+	public String browseLiveBid(Model model) {
+		return "user/browse-live-bid";
 	}
 
 	@GetMapping("/checkout")
@@ -74,13 +84,14 @@ public class TestController {
 
 	@GetMapping("/faq")
 	public String faq(Model model) {
+		
 		return "user/faq";
 	}
 
-	@GetMapping("/login")
-	public String login(Model model) {
-		return "user/login";
-	}
+//	@GetMapping("/login")
+//	public String login(Model model) {
+//		return "user/login";
+//	}
 
 	@GetMapping("/payment")
 	public String payment(Model model) {
@@ -92,10 +103,10 @@ public class TestController {
 		return "user/privacy";
 	}
 
-	@GetMapping("/signup")
-	public String signup(Model model) {
-		return "user/signup";
-	}
+//	@GetMapping("/signup")
+//	public String signup(Model model) {
+//		return "user/signup";
+//	}
 
 	@GetMapping("/term-condition")
 	public String termCondition(Model model) {
