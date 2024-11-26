@@ -8847,19 +8847,25 @@ sup {
   top: -.5em;
 }
 
+
 a {
-  color: #0d6efd;
-  text-decoration: underline;
+  color: #010101;
 }
 
 a:hover {
   color: #0a58ca;
 }
 
+.card-title a {
+    text-decoration: none !important; /* 링크의 밑줄 제거 */
+}
+
+/*
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
   color: inherit;
   text-decoration: none;
 }
+*/
 
 pre,
 code,
@@ -10540,7 +10546,23 @@ progress {
 
 .table-responsive {
   overflow-x: auto;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  max-height: 300px; 
+}
+
+.table-responsive::-webkit-scrollbar {
+  width: 12px; /* 스크롤바의 너비 */
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: #F5F5F5; /*스크롤바 색상*/
+  border-radius: 10px; /* 스크롤바의 둥근 모서리 */
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #ffffff; /* 스크롤바 배경 색상 */
+  border-radius: 10px; /* 스크롤바 배경의 둥근 모서리 */
 }
 
 @media (max-width: 575.98px) {
