@@ -42,10 +42,10 @@ public class TestController {
 		return "user/bid-history";
 	}
 
-	@GetMapping("/blog")
-	public String blog(Model model) {
-		return "user/blog";
-	}
+	
+//	@GetMapping("/blog") 
+//	public String blog(Model model) 
+//	{ return "user/blog"; }
 
 	@GetMapping("/blog-detail")
 	public String blogDetail(Model model) {
@@ -126,6 +126,11 @@ public class TestController {
 	@GetMapping("/bid-live")
 	public String bidLive(Model model) {
 		return "user/bid-live";
+	}
+	
+	@GetMapping("/bid-registration")
+	public String bidRegistration(Model model) {
+		return "user/bid-registration";
 	}
 
 }

@@ -5,6 +5,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
 	<th:block th:insert="~{admin/inc/head.html :: head}"></th:block>
+<style>
+	.table-responsive {
+    
+    overflow-y: auto; /* 세로 스크롤 허용 */
+    
+}
+</style>
 </head>
 <body>
   <div class="container-scroller"> 
@@ -90,49 +97,30 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                      <code>.OneOnOne</code>
                   </p>
                   <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>문의자</th>
-                          <th>제목</th>
-                          <th>문의일</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-						<tr>
-                          <td>관리자</td>
-                          <td>문의 1</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-danger">대기</label></td>
-                        </tr>   
-						<tr>
-                          <td>관리자</td>
-                          <td>문의 2</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-danger">대기</label></td>
-                        </tr>   
-						<tr>
-                          <td>하하</td>
-                          <td>문의 3</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-danger">대기</label></td>
-                        </tr>   
-						<tr>
-                          <td>구구구</td>
-                          <td>문의 4</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-success">완료</label></td>
-                        </tr>   
-						<tr>
-                          <td>기니리</td>
-                          <td>문의 5</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-success">완료</label></td>
-                        </tr>   
-                      </tbody>
-                    </table>
-                  </div>
+				    <table class="table table-hover">
+				        <thead>
+				            <tr>
+				                <th>문의자</th>
+				                <th>제목</th>
+				                <th>문의일</th>
+				                <th>액션</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            <tr th:each="question : ${questions}">
+				                <td th:text="${question.userEntityInfo.name}">문의자</td>
+				                <td th:text="${question.title}">제목</td>
+				                <td th:text="${question.regdate}">문의일</td>
+				                <td>
+				                    <!-- 답장 버튼 -->
+				                    <a th:href="@{/reply/{id}(id=${question.id})}" class="btn btn-primary btn-sm">
+				                        답장
+				                    </a>
+				                </td>
+				            </tr>
+				        </tbody>
+				    </table>
+				</div>
                 </div>
               </div>
             </div>
