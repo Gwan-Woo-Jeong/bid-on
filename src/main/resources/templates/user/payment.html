@@ -16,9 +16,9 @@
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                    <li class="breadcrumb-item active" aria-current="page">결제하기</li>
                 </ol>
-                <h1 class="breadcrumb-title">Product Details & more</h1>
+                <h1 class="breadcrumb-title">상품 상세 & 더보기</h1>
             </div>
         </div>
     </div>
@@ -33,16 +33,15 @@
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapseWallet" aria-expanded="true"
                                             aria-controls="collapseWallet">
-                                        <span>Wallet</span>
-                                        <span class="acc-para">Safe payment online. Credit card needed. Paypal
-                                                account is not necessary.
+                                        <span>지갑</span>
+                                        <span class="acc-para">안전한 온라인 결제. 신용카드가 필요합니다. 페이팔은 필요하지 않습니다. 
                                             </span>
                                     </button>
                                 </h2>
                                 <div id="collapseWallet" class="accordion-collapse collapse"
                                      aria-labelledby="wallet" data-bs-parent="#paymentAccordion">
                                     <div class="accordion-body">
-                                        <p>Safe payment online. Credit card needed. Paypal account is not necessary.
+                                        <p>지갑에 요금을 충전하고 거래하세요. 암호화로 보호받습니다!
                                         </p>
                                     </div>
                                 </div>
@@ -52,10 +51,8 @@
                                     <button class="accordion-button collapsed" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapseCC" aria-expanded="false"
                                             aria-controls="collapseCC">
-                                        <span>Credit Card</span>
-                                        <span class="acc-para">Safe money transfer using your bank account. Visa,
-                                                maestro, discover,
-                                                american express.</span>
+                                        <span>신용카드</span>
+                                        <span class="acc-para">안전한 온라인 결제. 신용카드가 필요합니다. 페이팔은 필요하지 않습니다. 신용카드 및 은행계좌를 이용해 안전하게 송금하세요. <p>(비자, 마에스트로, 아메리칸 익스프레스)</p></span>
                                     </button>
                                 </h2>
                                 <div id="collapseCC" class="accordion-collapse collapse show"
@@ -71,16 +68,16 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label>Credit Card Number</label>
-                                                        <input type="number" class="form-control"
-                                                               placeholder="66655 8844 3322 9977">
+                                                        <label>신용카드 번호</label>
+                                                        <input type="text"  id="cardNumber" class="form-control"
+                                                               placeholder="0000 0000 0000 0000">
                                                         <span class="input-checker"><i
                                                                 class="fa-regular fa-circle-check"></i></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>CVV Code</label>
+                                                        <label>CVV</label>
                                                         <input type="text" class="form-control">
                                                         <span class="input-checker"><i
                                                                 class="fa-regular fa-credit-card"></i></span>
@@ -88,13 +85,13 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Expiry Date</label>
+                                                        <label>만료일자</label>
                                                         <input type="date" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group mb-0">
-                                                        <label>Name On Card</label>
+                                                        <label>카드 소유주</label>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -108,16 +105,15 @@
                                     <button class="accordion-button collapsed" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapseNetBanking"
                                             aria-expanded="false" aria-controls="collapseNetBanking">
-                                        <span>Net banking</span>
-                                        <span class="acc-para">Safe payment online. Credit card needed. Paypal
-                                                account is not necessary.
+                                        <span>인터넷 뱅킹</span>
+                                        <span class="acc-para">안전한 온라인 결제. 신용카드가 필요합니다. 페이팔은 필요하지 않습니다.
                                             </span>
                                     </button>
                                 </h2>
                                 <div id="collapseNetBanking" class="accordion-collapse collapse"
                                      aria-labelledby="netBanking" data-bs-parent="#paymentAccordion">
                                     <div class="accordion-body">
-                                        <p>Safe payment online. Credit card needed. Paypal account is not necessary.
+                                        <p>안전한 온라인 결제. 인터넷 뱅킹을 통해 안전하게 송금하고 물건을 받아보세요!
                                         </p>
                                     </div>
                                 </div>
@@ -129,29 +125,28 @@
                     <div class="row gy-4">
                         <div class="col-lg-12">
                             <div class="product-card-wrapper">
+                                    <h5 class="fw-bold line-clamp line-clamp-2">고프로 8 HREO</h5>
+                                    <br>
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="/user/images/sample/product-img.png" alt="product-img">
-                                    <h5 class="fw-bold line-clamp line-clamp-2">Collectible Pearl Jewelry: Timeless
-                                        Elegance Unveiled</h5>
+                                    <img src="/user/images/auctionImages/GoPro.png" alt="GoPro-img" class="product-img">
                                 </div>
                                 <h6 class="d-flex justify-content-between py-2"><span
-                                        class="fw-normal">Quantity</span> <span class="fw-semibold">59</span>
+                                        class="fw-normal">수량</span> <span class="fw-semibold">1</span>
                                 </h6>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">Bid
-                                            Amount</span> <span class="fw-semibold">$710.00</span></h6>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">Shipping
-                                            Charge</span> <span class="fw-semibold">$20.00</span></h6>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">tax</span>
-                                    <span class="fw-semibold">$5.00</span>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">결제 금액</span> <span class="fw-semibold">100,000원</span></h6>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">배송요금
+                                            </span> <span class="fw-semibold">5,000원</span></h6>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">수수료</span>
+                                    <span class="fw-semibold">1,000원</span>
                                 </h6>
                                 <h5 class="d-flex justify-content-between pt-2 pt-md-3 fw-bold border-top"><span
-                                        class="">Total</span>
-                                    <span class="">$735.00</span>
+                                        class="">총계</span>
+                                    <span class="">106,000원</span>
                                 </h5>
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <a href="thankyou" class="payment-btn">Payment Now</a>
+                            <a href="thankyou" class="payment-btn">지금 결제하기</a>
                         </div>
                     </div>
                 </div>
@@ -162,6 +157,7 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<script src="/js/payment-card.js"></script>
 </body>
 
 </html>

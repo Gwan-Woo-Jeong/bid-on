@@ -1,16 +1,17 @@
 $(document).ready(function() {
-    //테마 설정
-    if (localStorage.storedValue == 'dark') {
+    
+	//테마 설정
+    /*if (localStorage.storedValue == 'dark') { 이건 잘 모르겠음;;
         $('#changeTheme').prop('checked', true);
         $('#changeTheme1').prop('checked', true);
         document.getElementById("theme").className = "dark";
-        document.getElementById('login-wrapper').style.backgroundImage = "url('/images/login-bg-dark.svg')";
+        document.getElementById('login-wrapper').style.backgroundImage = "url('/user/images/login-bg-dark.svg')";
     } else {
         $('#changeTheme').prop('checked', false);
         $('#changeTheme1').prop('checked', false);
         document.getElementById("theme").className = "light";
-        document.getElementById('login-wrapper').style.backgroundImage = "url('/images/login-bg.svg')";
-    }
+        document.getElementById('login-wrapper').style.backgroundImage = "url('/user/images/login-bg.svg')";
+    }*/
 	
 	//프로필 이미지 미리보기 & 기본프로필에 사진첨부한 이미지 넣기
 	$("#profileImage").change(function() {
@@ -136,7 +137,7 @@ $(document).ready(function() {
 			
 	        // AJAX로 폼 데이터 전송
 	        $.ajax({
-	            url: '/api/signup',
+	            url: '/signok',
 	            type: 'POST',
 	            data: formData,
 	            processData: false,
