@@ -49,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		UserInfoDTO userDTO = new UserInfoDTO();
 		userDTO.setEmail(email);
 		userDTO.setName(name);
-		userDTO.setUserRole("ROLE_MEMBER");	//권한 설정
+		userDTO.setUserRole("ROLE_USER");	//권한 설정
 		
 		//DB에서 이메일로 사용자 조회
 		UserEntity user = userRepository.findByEmail(email);
@@ -66,7 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		            .profile(null)
 		            .createDate(java.time.LocalDate.now())
 		            .status(0)
-		            .userRole("ROLE_MEMBER")
+		            .userRole("ROLE_USER")
 		            .provider("google")
 		            .build();
 

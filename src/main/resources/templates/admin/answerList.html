@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='OneOnOne Management')}"></th:block>
+</head>
+
+<body>
+    <th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+    <main id="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- 질문 리스트 -->
+                <div class="col-md-6">
+                    <h4>질문 리스트</h4>
+                    <form action="/admin/answer/filter" method="post">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>질문 ID</th>
+                                        <th>제목</th>
+                                        <th>선택</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="question : ${questions}">
+                                        <td th:text="${question.id}"></td>
+                                        <td th:text="${question.title}"></td>
+                                        <td>
+                                            <button type="submit" name="questionId" 
+                                                    th:value="${question.id}" class="btn btn-primary">
+                                                선택
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 답변 작성 및 답변 리스트 -->
+                <div class="col-md-6">
+                    <h4>답변 작성</h4>
+                    <form action="/admin/answer/submit" method="post">
+                        <input type="hidden" name="questionId" th:value="${selectedQuestionId}" />
+                        <div class="mb-3">
+                            <label for="answer" class="form-label">답변 내용</label>
+                            <textarea class="form-control" name="answer" id="answer" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">답변 등록</button>
+                    </form>
+
+                    <h4 class="mt-5">답변 리스트</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>답변 ID</th>
+                                    <th>답변 내용</th>
+                                    <th>작성일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="answer : ${answers}">
+                                    <td th:text="${answer.id}"></td>
+                                    <td th:text="${answer.answer}"></td>
+                                    <td th:text="${answer.regdate}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+</body>
+
+</html>

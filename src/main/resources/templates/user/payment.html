@@ -69,7 +69,7 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label>신용카드 번호</label>
-                                                        <input type="number" class="form-control"
+                                                        <input type="text"  id="cardNumber" class="form-control"
                                                                placeholder="0000 0000 0000 0000">
                                                         <span class="input-checker"><i
                                                                 class="fa-regular fa-circle-check"></i></span>
@@ -157,6 +157,7 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<script src="/js/payment-card.js"></script>
 </body>
 
 </html>
