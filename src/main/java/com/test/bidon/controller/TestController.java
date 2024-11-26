@@ -133,4 +133,9 @@ public class TestController {
 		return "user/bid-registration";
 	}
 
+	@GetMapping("/bid-success")
+	public String bidSuccess(Model model) {
+		return "user/bid-success";
+	}
+
 }
