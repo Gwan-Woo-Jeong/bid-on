@@ -43,7 +43,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                     <code>.자주 묻는 질문</code>
                   </p>
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-hover">
                       <thead>
                         <tr>
                           <th>작성자</th>
@@ -103,7 +103,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				                <th>문의자</th>
 				                <th>제목</th>
 				                <th>문의일</th>
-				                <th>액션</th>
+				                <th></th>
 				            </tr>
 				        </thead>
 				        <tbody>
@@ -111,11 +111,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				                <td th:text="${question.userEntityInfo.name}">문의자</td>
 				                <td th:text="${question.title}">제목</td>
 				                <td th:text="${question.regdate}">문의일</td>
+								<!--
+									<label class="badge badge-danger"> 답장 전 <빨강>
+										<label class="badge badge-success"> 답장 후 <초록>
+								-->
 				                <td>
 				                    <!-- 답장 버튼 -->
-				                    <a th:href="@{/reply/{id}(id=${question.id})}" class="btn btn-primary btn-sm">
-				                        답장
-				                    </a>
+									<a th:href="@{/reply/{id}(id=${question.id})}" class="badge badge-danger custom-link">
+									    문의 답변
+									</a>
 				                </td>
 				            </tr>
 				        </tbody>

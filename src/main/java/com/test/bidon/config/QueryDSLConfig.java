@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+/*<<<<<<< Updated upstream
 package com.test.bidon.config;
 
 import java.util.Random;
@@ -31,7 +31,7 @@ public class QueryDSLConfig {
 }
 =======
 //package com.test.bidon.config;
-//
+*///
 //import com.querydsl.jpa.impl.JPAQueryFactory;
 //import jakarta.persistence.EntityManager;
 //import lombok.RequiredArgsConstructor;
@@ -58,4 +58,4 @@ public class QueryDSLConfig {
 //        return new Random();
 //    }
 //}
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
