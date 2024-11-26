@@ -239,6 +239,7 @@ textarea {
     line-height: normal;
     padding-bottom: 40px;
     text-transform: capitalize;
+    padding-top: 20px;
 }
 
 /* Select Dropdown CSS Start */
@@ -786,9 +787,9 @@ header .navbar-nav li .sub-menu > li a:hover {
     color: var(--bs-white);
 }
 
-.category-card:hover img {
+/* .category-card:hover img {
     filter: brightness(0) invert(1);
-}
+} */
 
 .swiper,
 .swiper-container {
@@ -1980,9 +1981,9 @@ textarea {
 
 .price-field input[type=range]::-moz-range-thumb {
     position: relative;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
     margin: 0;
     border: 0;
     outline: 0;
@@ -1999,9 +2000,9 @@ textarea {
 
 .price-field input[type=range]::-ms-thumb {
     position: relative;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
     margin: 0;
     border: 0;
     outline: 0;
@@ -2054,18 +2055,31 @@ textarea {
     display: flex;
 }
 
-.price-wrap #one,
-.price-wrap #two {
-    width: 30px;
-    text-align: right;
+.price-wrap #one {
+    width: 85px;
+    text-align: left;
     margin: 0;
     padding: 0;
-    margin-right: 2px;
+    margin-right: 1px;
     background: 0;
     border: 0;
     outline: 0;
     color: var(--bs-dark);
     font-weight: 500;
+}
+
+.price-wrap #two{
+	width: 100px;
+	text-align: right;
+	    margin: 0;
+	    padding: 0;
+	    margin-right: 1px;
+	    background: 0;
+	    border: 0;
+	    outline: 0;
+	    color: var(--bs-dark);
+	    font-weight: 500;
+	
 }
 
 .price-wrap label {
@@ -2281,4 +2295,23 @@ img.card-img-top {
     right: 0px;
 }
 
+
+
+.form-control{
+	appearance: auto;	
+}
+
 /* alert */
+
+/* 사진 크기 고정 */
+.product-card-wrapper {
+    width: 100%;
+    overflow: hidden; /* 자식 요소가 벗어나지 않도록 */
+}
+
+.product-img {
+    width: 100%; /* 부모 크기에 맞게 너비 조정 */
+    height: 100%; /* 부모 크기에 맞게 높이 조정 */
+    object-fit: cover; /* 이미지를 박스에 맞게 크기 조정하면서 비율 유지 */
+    border-radius: 8px; /* 이미지에 둥근 모서리 적용 */
+}

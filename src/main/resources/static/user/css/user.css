@@ -1,0 +1,14 @@
+.defaultprofile {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;     /* 블록 레벨 요소로 변경 */
+    margin: 0 auto;     /* 좌우 마진을 auto로 설정하여 중앙 정렬 */
+    margin-bottom: 1rem;/* 아래쪽 여백 추가 */
+}
+
+.was-validated .form-control:valid,
+.was-validated .form-control:invalid {
+    background-image: none !important;
+}

@@ -6,6 +6,14 @@
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='BidON - Online auction and bidding')}"></th:block>
     <link rel="stylesheet" href="/user/css/home.css" type="text/css">
+    
+    <style>
+    	.category-card img{
+    		width: 124px;
+    		height: 124px;
+    	}
+    </style>
+    
 </head>
 
 <body>
@@ -18,22 +26,22 @@
             <div class="row align-items-center justify-content-center gy-4">
                 <div class="col-xl-7">
                     <div class="banner-left">
-                        <h1 class="banner-title">Join exclusive auction & Get the
-                            finest.</h1>
+                        <h1 class="banner-title">"입찰의 짜릿함, 승리의 기쁨을 느껴보세요!"</h1>
                         <div class="input-group banner-search-box">
                             <div class="select">
-                                <button class="selectBtn" data-type="Category">Category</button>
+                                <button class="selectBtn" data-type="Category">카테고리</button>
                                 <div class="selectDropdown">
-                                    <div class="option" data-type="firstOption">Category</div>
-                                    <div class="option" data-type="secondOption">Mobile</div>
-                                    <div class="option" data-type="thirdOption">Jewellery</div>
-                                    <div class="option" data-type="forthOption">real estate</div>
-                                    <div class="option" data-type="fifthOption">Sports</div>
-                                    <div class="option" data-type="sixthOption">vehicle</div>
+                                    <div class="option" data-type="firstOption">카테고리</div>
+                                    <div class="option" data-type="secondOption">전자제품</div>
+                                    <div class="option" data-type="thirdOption">스포츠</div>
+                                    <div class="option" data-type="forthOption">패션</div>
+                                    <div class="option" data-type="fifthOption">예술</div>
+                                    <div class="option" data-type="sixthOption">자동차</div>
+                                    <div class="option" data-type="sixthOption">미용</div>
                                 </div>
                             </div>
-                            <input type="search" class="form-control" placeholder="I’m Looking for...">
-                            <button class="primary-btn">search</button>
+                            <input type="search" class="form-control" placeholder="찾고 싶은 상품을 입력하세요 !">
+                            <button class="primary-btn">검색</button>
                         </div>
                     </div>
                 </div>
@@ -98,48 +106,48 @@
                     <div class="swiper-slide">
                         <a href="browse-bid">
                             <div class="category-card">
-                                <img src="/user/images/sample/jewelary-img.png" alt="category-img">
-                                <h5>JEWELLERY</h5>
+                                <img src="/user/images/sample/electronics.gif" alt="category-img">
+                                <h5>전자제품</h5>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="browse-bid">
                             <div class="category-card">
-                                <img src="/user/images/sample/real-estate-img.png" alt="category-img">
-                                <h5>REAL ESTATE</h5>
+                                <img src="/user/images/sample/sports.gif" alt="category-img">
+                                <h5>스포츠</h5>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="browse-bid">
                             <div class="category-card">
-                                <img src="/user/images/sample/sports-img.png" alt="category-img">
-                                <h5>SPORTS</h5>
+                                <img src="/user/images/sample/fashion.gif" alt="category-img">
+                                <h5>패션</h5>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="browse-bid">
                             <div class="category-card">
-                                <img src="/user/images/sample/vehicles-img.png" alt="category-img">
-                                <h5>VEHICLES</h5>
+                                <img src="/user/images/sample/art.gif" alt="category-img">
+                                <h5>예술</h5>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="browse-bid">
                             <div class="category-card">
-                                <img src="/user/images/sample/music-img.png" alt="category-img">
-                                <h5>MUSIC</h5>
+                                <img src="/user/images/sample/car.gif" alt="category-img">
+                                <h5>자동차</h5>
                             </div>
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="browse-bid">
                             <div class="category-card">
-                                <img src="/user/images/sample/clothes-img.png" alt="category-img">
-                                <h5>CLOTHES</h5>
+                                <img src="/user/images/sample/beauty.gif" alt="category-img">
+                                <h5>미용</h5>
                             </div>
                         </a>
                     </div>
@@ -151,7 +159,7 @@
     </section>
     <section class="outer-gap">
         <div class="container">
-            <h2 class="section-title">Live Auction</h2>
+            <h2 class="section-title">실시간 경매</h2>
             <div class="row gy-4">
                 <div class="col-lg-6">
                     <div class="auction-card">
@@ -167,8 +175,7 @@
                             <h4>Champagne Diamond & 29.47ct Smokey Topaz 14k Rose Gold Ring</h4>
                             <p>Current bid <span>589.00$</span></p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="bid-detail" class="primary-btn">Bid Now</a>
-                                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                <a href="bid-detail-live" class="primary-btn">자세히</a>
                             </div>
                         </div>
                     </div>
@@ -206,8 +213,7 @@
                                         <h4>Most famous Skirt piece of celebrities</h4>
                                         <p>Current bid <span>589.00$</span></p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
                                         </div>
                                     </div>
                                 </div>
@@ -243,8 +249,7 @@
                                         <h4>Old aged Small Wooden Trinket</h4>
                                         <p>Current bid <span>589.00$</span></p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
                                         </div>
                                     </div>
                                 </div>
@@ -279,8 +284,7 @@
                                         <h4>1987’s Mediterranean style home</h4>
                                         <p>Current bid <span>589.00$</span></p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
                                         </div>
                                     </div>
                                 </div>
@@ -300,8 +304,7 @@
                                         <h4>Café Racer: the vintage spirit</h4>
                                         <p>Current bid <span>589.00$</span></p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail" class="primary-btn">Bid Now</a>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
                                         </div>
                                     </div>
                                 </div>
@@ -310,14 +313,14 @@
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <a href="browse-bid" class="primary-btn dark-btn mt-3 mt-md-5">VIEW ALL BID</a>
+                    <a href="browse-live-bid" class="primary-btn dark-btn mt-3 mt-md-5">모든 실시간 경매 상품 보기</a>
                 </div>
             </div>
         </div>
     </section>
     <section class="outer-gap inner-gap bg-light">
         <div class="container">
-            <h2 class="section-title">Upcoming Auctions</h2>
+            <h2 class="section-title">새로운 경매 상품</h2>
             <div class="row gy-4">
                 <div class="col-lg-6">
                     <div class="upcoming-auction position-relative bg-orange">
@@ -327,7 +330,7 @@
                                 <p class="line-clamp line-clamp-4">Experience the timeless charm of the vintage
                                     coffee bean grinder, meticulously crafted to bring you the perfect grind for a
                                     rich and flavorful cup of coffee.</p>
-                                <a href="bid-detail" class="primary-btn light-btn">Bid Now</a>
+                                <a href="bid-detail" class="primary-btn light-btn">자세히</a>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <div class="upcoming-img">
@@ -346,7 +349,7 @@
                                 </h3>
                                 <p class="line-clamp line-clamp-4">Inspire greatness and achievement with our
                                     stunning sculpture depicting the legendary goddess of victory, Nike.</p>
-                                <a href="bid-detail" class="primary-btn light-btn">Bid Now</a>
+                                <a href="bid-detail" class="primary-btn light-btn">자세히</a>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <div class="upcoming-img">
@@ -362,7 +365,7 @@
     </section>
     <section class="recent-auction outer-gap">
         <div class="container">
-            <h2 class="section-title">Recent Auctions</h2>
+            <h2 class="section-title">현재 인기있는 상품</h2>
             <div class="auction-card-small">
                 <div class="row gy-4 justify-content-center">
                     <div class="col-md-6 col-lg-4 col-xl-3">
@@ -505,52 +508,55 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
                                     <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                </div>
+                                </div>  
                             </div>
                         </div>
                     </div>
+                       <div class="col-12 text-center">
+                    <a href="browse-bid" class="primary-btn dark-btn mt-3 mt-md-5">모든 일반 경매 상품 보기</a>
+                </div>
                 </div>
             </div>
         </div>
     </section>
     <section class="outer-gap">
         <div class="container">
-            <h2 class="section-title">Trusted By 500+ Businesses</h2>
+            <h2 class="section-title">수많은 브랜드에서 신뢰 받는 플랫폼</h2>
             <div class="row gy-4 text-center align-items-center">
                 <div class="col-6 col-md-4 col-xl-2">
                     <div class="client-logo py-2">
-                        <img src="/user/images/sample/client-logo-1.png" class="w-100" alt="client-logo">
+                        <img src="/user/images/sample/samsung.png" class="w-100" alt="client-logo">
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
                     <div class="client-logo py-2">
-                        <img src="/user/images/sample/client-logo-2.png" class="w-100" alt="client-logo">
+                        <img src="/user/images/sample/xbox.png" class="w-100" alt="client-logo">
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
                     <div class="client-logo py-2">
-                        <img src="/user/images/sample/client-logo-3.png" class="w-100" alt="client-logo">
+                        <img src="/user/images/sample/asus.png" class="w-100" alt="client-logo">
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
                     <div class="client-logo py-2">
-                        <img src="/user/images/sample/client-logo-4.png" class="w-100" alt="client-logo">
+                        <img src="/user/images/sample/nintendo.png" class="w-100" alt="client-logo">
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
                     <div class="client-logo py-2">
-                        <img src="/user/images/sample/client-logo-5.png" class="w-100" alt="client-logo">
+                        <img src="/user/images/sample/sony.png" class="w-100" alt="client-logo">
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
                     <div class="client-logo py-2">
-                        <img src="/user/images/sample/client-logo-6.png" class="w-100" alt="client-logo">
+                        <img src="/user/images/sample/dell.png" class="w-100" alt="client-logo">
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="outer-gap">
+   <!--  <section class="outer-gap">
         <div class="container">
             <div class="subscribe-wrapper position-relative">
                 <div class="row align-items-center justify-content-center position-relative">
@@ -574,7 +580,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </main>
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
