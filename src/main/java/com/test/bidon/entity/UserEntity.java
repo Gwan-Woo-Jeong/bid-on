@@ -2,6 +2,7 @@ package com.test.bidon.entity;
 
 import java.time.LocalDate;
 
+import com.test.bidon.dto.UserInfoDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -66,6 +67,23 @@ public class UserEntity {
 	@Column(nullable = false)
 	private String userRole = "ROLE_USER";  	//사용자 역할(예: ROLE_USER, ROLE_ADMIN)
 
+	public UserInfoDTO toDTO() {
+
+		return UserInfoDTO.builder()
+				.id(this.getId())
+				.email(this.getEmail())
+				.password(this.getPassword())
+				.name(this.getName())
+				.national(this.getNational())
+				.birth(this.getBirth())
+				.tel(this.getTel())
+				.profile(this.getProfile())
+				.createDate(this.getCreateDate())
+				.provider(this.getProvider())
+				.status(this.getStatus())
+				.userRole(this.getUserRole())
+				.build();
+	}
 	
 }
 

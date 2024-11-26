@@ -32,11 +32,11 @@ public class TestAdminController {
 		return "admin/user";
 	}
 	
-	@GetMapping("/admin/community")
-	public String community(Model model) {
-		
-		return "admin/community";
-	}
+//	@GetMapping("/admin/community")
+//	public String community(Model model) {
+//		
+//		return "admin/community";
+//	}
 	
 	@GetMapping("/admin/login")
 	public String login(Model model) {
