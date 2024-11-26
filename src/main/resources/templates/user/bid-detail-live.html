@@ -222,42 +222,19 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
+                                                <tr th:each="bidCustomer : ${cutomer}">
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <img src="/user/images/sample/avatar-5.png"
                                                                  class="dashboard-avatar" alt="avatar">
-                                                            <p>관우</p>
+                                                            <p th:text="${bidCustomer.customerName}"></p>
                                                         </div>
                                                     </td>
-                                                    <td>Korea</td>
-                                                    <td>33,000원</td>
-                                                    <td>5분전</td>
+                                                    <td th:text="${bidCustomer.customerNational}"></td>
+                                                    <td th:text="${bidCustomer.bidPrice}"></td>
+                                                    <td th:text="${bidCustomer.bidTime}"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>우진</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Korea</td>
-                                                    <td>23,000원</td>
-                                                    <td>10분전</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>길동</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Korea</td>
-                                                    <td>13,000원</td>
-                                                    <td>15분전</td>
-                                                </tr>
+                                                
                                                 </tbody>
                                             </table>
                                         </div>

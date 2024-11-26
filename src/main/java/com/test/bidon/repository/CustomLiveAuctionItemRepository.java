@@ -156,19 +156,24 @@ public class CustomLiveAuctionItemRepository {
 	}
 	
 	
-//	public List<LiveAuctionDetailCustomerDTO> bidCustomer(Long liveAuctionItemId){
-//		
-//		return jpaQueryFactory
-//				.select(Projections.fields(LiveAuctionDetailCustomerDTO.class,
-//						liveBidCost.id,
-//						liveBidCost.bidPrice,
-//						liveBidCost.bi
-//						userEntity.name.as("customerName"),
-//						userEntity.national.as("customerNational"),
-//						
-//						))
-//		
-//	}
+	public List<LiveAuctionDetailCustomerDTO> bidCustomer(Long liveAuctionItemId){
+		
+		return jpaQueryFactory
+				.select(Projections.fields(LiveAuctionDetailCustomerDTO.class,
+						liveBidCost.id,
+						liveBidCost.bidPrice,
+						liveBidCost.bidTime,
+						userEntity.name.as("customerName"),
+						userEntity.national.as("customerNational")
+						))
+				.from(liveBidCost)
+				.join(liveAuctionPart).on(liveBidCost.liveAuctionPartId.eq(liveAuctionPart.id))
+				.join(userEntity).on(liveAuctionPart.userInfoId.eq(userEntity.id))
+				.where(liveBidCost.liveAuctionItemId.eq(liveAuctionItemId))
+				.orderBy(liveBidCost.bidTime.desc())
+				.fetch();
+		
+	}
 	
 	
 	
