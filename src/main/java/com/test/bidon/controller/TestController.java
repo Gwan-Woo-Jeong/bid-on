@@ -127,5 +127,10 @@ public class TestController {
 	public String bidLive(Model model) {
 		return "user/bid-live";
 	}
+	
+	@GetMapping("/bid-registration")
+	public String bidRegistration(Model model) {
+		return "user/bid-registration";
+	}
 
 }
