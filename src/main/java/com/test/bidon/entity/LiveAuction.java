@@ -23,9 +23,8 @@ public class LiveAuction {
     @Column(nullable = false, insertable = false, updatable = false)
     private Long liveAuctionItemId;
 
-    @Column(nullable = false)
     @OneToOne
-    @JoinColumn(name = "liveAuctionItemId")
+    @PrimaryKeyJoinColumn(name = "liveAuctionItemId", referencedColumnName = "id")
     private LiveAuctionItem liveAuctionItem;
 
     public LiveAuctionDTO toDTO() {
