@@ -88,10 +88,10 @@ public class TestController {
 		return "user/faq";
 	}
 
-	@GetMapping("/login")
-	public String login(Model model) {
-		return "user/login";
-	}
+//	@GetMapping("/login")
+//	public String login(Model model) {
+//		return "user/login";
+//	}
 
 	@GetMapping("/payment")
 	public String payment(Model model) {

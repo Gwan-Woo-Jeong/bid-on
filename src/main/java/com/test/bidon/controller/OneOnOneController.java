@@ -48,6 +48,6 @@ public class OneOnOneController {
         // 데이터 저장
         oneOnOneRepository.save(question);
 
-        return "redirect:/admin/OneOnOne"; // 성공적으로 저장 후 리다이렉트
+        return "redirect:/admin/answerList"; // 성공적으로 저장 후 리다이렉트
     }
 }
