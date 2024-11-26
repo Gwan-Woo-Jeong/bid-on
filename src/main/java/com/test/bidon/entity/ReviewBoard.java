@@ -35,7 +35,7 @@ public class ReviewBoard {
 
     @Column(nullable = false)
     private LocalDate regdate; // 작성 날짜
-
+    
     @PrePersist
     public void prePersist() {
         if (this.regdate == null) {

@@ -1,11 +1,17 @@
 package com.test.bidon.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
 import com.test.bidon.entity.ReviewBoard;
 
+@Repository
 public interface ReviewBoardRepository extends JpaRepository<ReviewBoard, Integer> {
-    // 페이징 처리를 위한 메서드
-    Page<ReviewBoard> findAll(Pageable pageable);
+
+    // Fetch Join으로 연관된 UserEntity를 한 번에 로드
+    @Query("SELECT rb FROM ReviewBoard rb JOIN FETCH rb.userEntityInfo")
+    List<ReviewBoard> findAllWithUserEntity();
 }

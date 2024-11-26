@@ -133,224 +133,26 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                   </p>
                   <div class="table-responsive pt-3">
                     <table class="table table-bordered">
-                      <thead>
-                        <tr class="table-warning">
-                          <th>
-                            #
-                          </th>
-                          <th>
-                            작성자
-                          </th>
-                          <th>
-                            제목
-                          </th>
-                          <th class="text-info">
-                            # 해시태그
-                          </th>
-                          <th>
-                            게시일
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            1
-                          </td>
-                          <td>
-                            홍동길
-                          </td>
-                          <td>
-							제가 샀습니다.
-                          </td>
-                          <td>
-                            #후기 #경매
-                          </td>
-                          <td>
-                            2024-11-25
-                          </td>
-                        </tr>
-						<tr>
-						  <td>
-						    2
-						  </td>
-						  <td>
-						    김김김
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    #비드온 #짱
-						  </td>
-						  <td>
-						    2024-11-23
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    3
-						  </td>
-						  <td>
-						    해바라기
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    #좋아요
-						  </td>
-						  <td>
-						    2024-11-23
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    4
-						  </td>
-						  <td>
-						    이장미
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    
-						  </td>
-						  <td>
-						    2024-11-23
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    5
-						  </td>
-						  <td>
-						    도봉순
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    #샀어용
-						  </td>
-						  <td>
-						    2024-11-23
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    6
-						  </td>
-						  <td>
-						    김복주
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    
-						  </td>
-						  <td>
-						    2024-11-22
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    7
-						  </td>
-						  <td>
-						    하나둘
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    
-						  </td>
-						  <td>
-						    2024-11-22
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    8
-						  </td>
-						  <td>
-						    세나나
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    #짱짱
-						  </td>
-						  <td>
-						    2024-11-21
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    9
-						  </td>
-						  <td>
-						    아자핑
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    #경매 #티비
-						  </td>
-						  <td>
-						    2024-11-20
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    10
-						  </td>
-						  <td>
-						    해핑
-						  </td>
-						  <td>
-						제가 샀습니다.
-						  </td>
-						  <td>
-						    #핸드폰
-						  </td>
-						  <td>
-						    2024-11-20
-						  </td>
-						</tr>
-
-						<tr>
-						  <td>
-						    11
-						  </td>
-						  <td>
-						    홍유비
-						  </td>
-						  <td>
-						경매품 겟!!
-						  </td>
-						  <td>
-						    #후기 #상품 #중고
-						  </td>
-						  <td>
-						    2024-11-18
-						  </td>
-						</tr>
-                      </tbody>
-                    </table>
+					    <thead>
+					        <tr class="table-warning">
+					            <th>#</th>
+					            <th>작성자</th>
+					            <th>제목</th>
+					            <th class="text-info"># 해시태그</th>
+					            <th>게시일</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <!-- reviews 리스트를 반복 -->
+					        <tr th:each="review, stat : ${reviews}">
+					            <td th:text="${stat.index + 1}">1</td> <!-- 인덱스 -->
+					            <td th:text="${review.userEntityInfo.name}">홍동길</td> <!-- 작성자 -->
+					            <td th:text="${review.title}">제가 샀습니다.</td> <!-- 제목 -->
+					            <td th:text="${review.hashtags != null ? review.hashtags : ''}">#후기 #경매</td> <!-- 해시태그 -->
+					            <td th:text="${#dates.format(review.regdate, 'yyyy-MM-dd')}">2024-11-25</td> <!-- 게시일 -->
+					        </tr>
+					    </tbody>
+					</table>
                   </div>
                 </div>
               </div>
