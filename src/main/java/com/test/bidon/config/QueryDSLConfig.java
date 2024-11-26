@@ -1,12 +1,14 @@
 package com.test.bidon.config;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import java.util.Random;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Random;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 
 // root-context.xml 같은 설정 파일 역할을 하는 클래스 파일. Query DSL을 사용할 수 있게 함
 @Configuration
