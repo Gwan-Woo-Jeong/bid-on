@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminDashboardRepository {
 
-	private final JPAQueryFactory jpaQueryFactory;
-
-
+	// private final JPAQueryFactory jpaQueryFactory;
 
 }
