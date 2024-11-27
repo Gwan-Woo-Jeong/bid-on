@@ -43,24 +43,24 @@ public class TestController {
 	}
 
 	
-	@GetMapping("/blog") 
-	public String blog(Model model) 
-	{ return "user/blog"; }
+//	@GetMapping("/blog") 
+//	public String blog(Model model) 
+//	{ return "user/blog"; }
 
-	@GetMapping("/blog-detail")
-	public String blogDetail(Model model) {
-		return "user/blog-detail";
-	}
+//	@GetMapping("/blog-detail")
+//	public String blogDetail(Model model) {
+//		return "user/blog-detail";
+//	}
 
 	@GetMapping("/browse-bid")
 	public String browseBid(Model model) {
 		return "user/browse-bid";
 	}
 	
-	@GetMapping("/browse-live-bid")
-	public String browseLiveBid(Model model) {
-		return "user/browse-live-bid";
-	}
+//	@GetMapping("/browse-live-bid")
+//	public String browseLiveBid(Model model) {
+//		return "user/browse-live-bid";
+//	}
 
 	@GetMapping("/checkout")
 	public String checkout(Model model) {
@@ -82,11 +82,11 @@ public class TestController {
 		return "user/dashboard";
 	}
 
-	@GetMapping("/faq")
-	public String faq(Model model) {
-		
-		return "user/faq";
-	}
+//	@GetMapping("/faq")
+//	public String faq(Model model) {
+//		
+//		return "user/faq";
+//	}
 
 //	@GetMapping("/login")
 //	public String login(Model model) {
@@ -131,6 +131,11 @@ public class TestController {
 	@GetMapping("/bid-registration")
 	public String bidRegistration(Model model) {
 		return "user/bid-registration";
+	}
+
+	@GetMapping("/bid-success")
+	public String bidSuccess(Model model) {
+		return "user/bid-success";
 	}
 
 }

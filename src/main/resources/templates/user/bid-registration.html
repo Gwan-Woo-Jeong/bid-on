@@ -84,6 +84,8 @@
 	width: 400px;
 }
 
+#bidtype { width: 400px; }
+
 #description{
 	width: 800px;
 }
@@ -147,9 +149,9 @@
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">경매 상품 등록</li>
+                    <li class="breadcrumb-item active" aria-current="page">경매 물품 등록</li>
                 </ol>
-                <h1 class="breadcrumb-title">경매 상품 등록</h1>
+                <h1 class="breadcrumb-title">당신의 물품을 경매에 올려보세요.</h1>
             </div>
         </div>
     </div>
@@ -161,6 +163,16 @@
                 <div class="mb-3">
                     <label for="productName" class="form-label">상품명</label>
                     <input type="text" class="form-control" id="productName" name="productName" required>
+                </div>
+
+                <!-- 경매 방식 선택 -->
+                <div class="mb-3">
+                    <label for="bidtype" class="form-label">경매 타입</label>
+                    <select class="form-select" id="bidtype" name="bidtype" required>
+                        <option value="" disabled selected>경매 타입을 선택하세요</option>
+                        <option value="normal">일반 경매</option>
+                        <option value="live">실시간 경매</option>
+                    </select>
                 </div>
 
                 <!-- 카테고리 선택 -->

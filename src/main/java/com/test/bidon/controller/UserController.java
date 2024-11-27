@@ -1,66 +1,130 @@
 package com.test.bidon.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.test.bidon.dto.UserInfoDTO;
 import com.test.bidon.entity.UserEntity;
 import com.test.bidon.service.UserService;
 
-import org.springframework.validation.annotation.Validated;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-	
-	private final UserService userService;
 
-	@GetMapping("/signup")
+    private final UserService userService;
+    private final String uploadPath = "C:/temp/uploads"; // 실제 파일이 저장될 경로
+
+    @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("userInfoDTO", new UserInfoDTO());
         return "user/signup";
     }
 
-	@PostMapping("/signok")
-    public String signupok(@Validated UserInfoDTO dto, 
-                          BindingResult bindingResult, 
-                          Model model) {
-        // 유효성 검사 실패 시
-        if (bindingResult.hasErrors()) {
-            return "user/signup";
-        }
-
-        // 이메일 중복 체크
-        if (userService.isEmailExists(dto.getEmail())) {
-            model.addAttribute("errorMessage", "이미 사용중인 이메일입니다.");
-            return "user/signup";
-        }
-
+    @PostMapping("/signok")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> signupok(
+            @RequestPart(name = "userInfoDTO") UserInfoDTO userInfoDTO,
+            @RequestPart(name = "profileFile", required = false) MultipartFile profileFile) {
         try {
-            userService.registerUser(dto);
-            model.addAttribute("successMessage", "회원가입이 완료되었습니다.");
-            return "redirect:/login";
+            log.info("회원가입 요청 데이터: {}", userInfoDTO);
+
+            userInfoDTO.setDefaultValues();
+
+            if (userService.isEmailExists(userInfoDTO.getEmail())) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("message", "이미 사용 중인 이메일입니다."));
+            }
+
+            if (profileFile != null && !profileFile.isEmpty()) {
+                try {
+                    String savedFileName = saveProfileFile(profileFile);
+                    userInfoDTO.setProfile(savedFileName);
+                } catch (IOException e) {
+                    log.error("프로필 이미지 저장 중 오류: ", e);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("message", "프로필 이미지 저장 중 오류가 발생했습니다."));
+                }
+            } else {
+                userInfoDTO.setProfile("default.jpg");
+            }
+
+            UserEntity savedUser = userService.registerUser(userInfoDTO);
+
+            return ResponseEntity.ok(Map.of("message", "회원가입이 완료되었습니다."));
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "회원가입 중 오류가 발생했습니다: " + e.getMessage());
-            return "user/signup";
+            log.error("회원가입 처리 중 오류: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "회원가입 중 오류가 발생했습니다: " + e.getMessage()));
         }
     }
-	
-	@GetMapping("/login")
-	public String login(Model model) {
-		return "user/login";
+
+    private String saveProfileFile(MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            return "default.jpg";
+        }
+
+        // uploads 디렉토리 생성
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        String originalFilename = file.getOriginalFilename();
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String savedFileName = UUID.randomUUID().toString() + fileExtension;
+
+        File destFile = new File(uploadPath + File.separator + savedFileName);
+        file.transferTo(destFile);
+
+        return savedFileName;
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "user/login";
+    }
+    
+    @GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication != null) {
+			new SecurityContextLogoutHandler().logout(request, response, authentication);	//로그아웃
+		}
+		
+		return "redirect:/";
 	}
 
-	 @GetMapping("/mypage")
-	 @PreAuthorize("isAuthenticated()")  // 로그인한 사용자만 접근 가능
-	 public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
-	        model.addAttribute("user", user);
-	        return "user/mypage";
-	    }
+    
+
+    @GetMapping("/mypage")
+    @PreAuthorize("isAuthenticated()")
+    public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
+        model.addAttribute("user", user);
+        return "user/mypage";
+    }
 }

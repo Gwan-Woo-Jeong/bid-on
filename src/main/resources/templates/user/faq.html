@@ -29,38 +29,38 @@
                     <div class="contact-wrapper bg-wrapper">
                         <h4 class="mb-3"><b>궁금하신 점은 무엇인가요?</b></h4>
                         <p class="mb-4">귀하의 이메일 주소는 공개되지 않습니다. 필수 입력 항목은 *로 표시됩니다.</p>
-                        <form action="/admin/community" method="post">
-					    <div class="row">
-					        <!-- 이메일 -->
-					        <div class="col-12">
-					            <div class="form-group">
-					                <label>이메일*</label>
-					                <input type="email" class="form-control" name="email" placeholder="name@mail.com" required>
-					            </div>
-					        </div>
-					        <!-- 제목 -->
-					        <div class="col-12">
-					            <div class="form-group">
-					                <label>제목 *</label>
-					                <input type="text" class="form-control" name="title" placeholder="Subject" required>
-					            </div>
-					        </div>
-					        <!-- 내용 -->
-					        <div class="col-12">
-					            <div class="form-group">
-					                <label>내용*</label>
-					                <textarea class="form-control" name="contents" placeholder="Write Here Your Message" required></textarea>
-					            </div>
-					        </div>
-					        <!-- 제출 버튼 -->
-					        <div class="col-12">
-					            <button class="primary-btn btn-light" type="submit">제출하기</button>
-					        </div>
-					    	</div>
-						</form>
+                        <form id="questionForm" onsubmit="event.preventDefault(); submitQuestion();">
+                            <div class="row">
+                                <!-- 이메일 -->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>이메일*</label>
+                                        <input type="email" id="email" class="form-control" name="email" placeholder="name@mail.com" required>
+                                    </div>
+                                </div>
+                                <!-- 제목 -->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>제목 *</label>
+                                        <input type="text" id="title" class="form-control" name="title" placeholder="Subject" required>
+                                    </div>
+                                </div>
+                                <!-- 내용 -->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>내용*</label>
+                                        <textarea id="contents" class="form-control" name="contents" placeholder="Write Here Your Message" required></textarea>
+                                    </div>
+                                </div>
+                                <!-- 제출 버튼 -->
+                                <div class="col-12">
+                                    <button class="primary-btn btn-light" type="submit">제출하기</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                
+
                 <!-- 오른쪽 FAQ 목록 -->
                 <div class="col-lg-8">
                     <h3 class="mb-3"><b>자주묻는 질문 목록</b></h3>
@@ -152,9 +152,48 @@
             </div>
         </div>
     </div>
+    
+    
+ 
+     
+    
+    
 </main>
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+
+<script>
+    function submitQuestion() {
+	    const formData = {
+	        email: document.getElementById("email").value,
+	        title: document.getElementById("title").value,
+	        contents: document.getElementById("contents").value
+	    };
+	
+	    fetch("/user/submit", {
+	        method: "POST",
+	        headers: {
+	            "Content-Type": "application/x-www-form-urlencoded"
+	        },
+	        body: new URLSearchParams(formData)
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+	        if (data.success) {
+	            alert(data.message); // 성공 메시지를 기본 alert로 표시
+	            document.getElementById("questionForm").reset(); // 폼 초기화
+	        } else {
+	            alert("오류 발생: " + data.message); // 오류 메시지를 기본 alert로 표시
+	        }
+	    })
+	    .catch(error => {
+	        alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+	        console.error("Error:", error);
+	    });
+	}
+
+    
+</script>
 </body>
 </html>

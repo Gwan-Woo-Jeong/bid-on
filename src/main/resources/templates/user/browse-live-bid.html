@@ -81,160 +81,32 @@
                 <div class="col-xl-9">
                     <div class="auction-card-small">
                         <div class="row gy-4 justify-content-center">
-                            <div class="col-sm-6 col-lg-4">
+                            <div class="col-sm-6 col-lg-4" th:each="LiveItem : ${liveItemList}">
                                 <div class="auction-card">
                                     <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-20.png" alt="auction-card-img">
+                                        <img th:src="${LiveItem.path}" alt="auction-card-img">
                                         <div class="timer-wrapper">
                                             <div class="timer-inner"></div>
                                         </div>
                                     </div>
                                     <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Gegreg</a>
+                                        <a href="bid-detail-live" class="card-title" th:text="${LiveItem.name}"></a>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <p class="p-0">Current bid <span class="price" 
+                                    th:attr="data-price=${LiveItem.startPrice}"><span th:text="${LiveItem.startPrice}"></span></span></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-17.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">1985’s cricket ball</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-18.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Heritage royal palace from
-                                            1896</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-16.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Old fashion premium women
-                                            dresses</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-14.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Vintage Champagne cognac
-                                            diamond 1.25cttw and 14kt rose gold ring.</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-6.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Premium vase with gold and
-                                            black designs</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-12.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Black sling bag</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/recent-auction-5.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Arabic old style patterned
-                                            teapot</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-13.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title">Victorian Noir-Gold Decor</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
+                            
+                            
+                            
                             <div class="col-12">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item disabled">
-                                            <a class="bid-detail-live" href="#" aria-label="Previous">
+                                            <a class="page-link" href="#" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
@@ -370,6 +242,28 @@
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
 <script src="/user/js/browse-live-bid.js"></script>
+
+<script>
+	function formatPrice(price) {
+    	return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	
+	document.addEventListener("DOMContentLoaded", function () {
+    const prices = document.querySelectorAll(".price");
+
+    prices.forEach(priceElement => {
+        const rawPrice = priceElement.getAttribute("data-price");
+        if (rawPrice) {
+            const formattedPrice = formatPrice(rawPrice);
+            priceElement.textContent = formattedPrice + " 원"; // 한국식 금액 표기
+        }
+    });
+});
+	
+	
+	
+</script>
 
 
 </body>

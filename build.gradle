@@ -4,6 +4,11 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
+//매개변수 보존 때문에 저장
+compileJava {
+    options.compilerArgs += ['-parameters']
+}
+
 group = 'com.test'
 version = '0.0.1-SNAPSHOT'
 
@@ -49,7 +54,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60a049f9494f1cfda82dd635e8921d0bc1895afd
 }
 
 // Querydsl 설정부
