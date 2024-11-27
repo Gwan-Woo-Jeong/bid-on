@@ -2,18 +2,19 @@ package com.test.bidon.dto;
 
 import java.time.LocalDate;
 
+import com.test.bidon.entity.UserEntity;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 @Getter
 @Setter
+@Builder
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserInfoDTO {
     
 	private Long id;
@@ -45,6 +46,23 @@ public class UserInfoDTO {
         this.provider = "local";
         this.status = 0;
         this.userRole = "ROLE_USER";
+    }
+
+    private UserEntity toEntity() {
+        return UserEntity.builder()
+                .id(this.getId())
+                .email(this.getEmail())
+                .password(this.getPassword())
+                .name(this.getName())
+                .national(this.getNational())
+                .birth(this.getBirth())
+                .tel(this.getTel())
+                .profile(this.getProfile())
+                .createDate(this.getCreateDate())
+                .provider(this.getProvider())
+                .status(this.getStatus())
+                .userRole(this.getUserRole())
+                .build();
     }
 
 }

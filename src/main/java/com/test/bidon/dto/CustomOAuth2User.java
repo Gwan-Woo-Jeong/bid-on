@@ -14,7 +14,6 @@ public class CustomOAuth2User implements OAuth2User {
 	private final UserInfoDTO userDTO;
 	
 	public CustomOAuth2User(UserInfoDTO userDTO) {
-		
 		this.userDTO = userDTO;
 	}
 	
@@ -22,9 +21,19 @@ public class CustomOAuth2User implements OAuth2User {
     public Map<String, Object> getAttributes() {
         //필요한 속성들을 Map에 담아서 반환
         Map<String, Object> attributes = new HashMap<>();
+
+        attributes.put("id", userDTO.getId().toString());
+        attributes.put("provider", userDTO.getProvider());
+        attributes.put("status", userDTO.getStatus());
+        attributes.put("createDate", userDTO.getCreateDate());
+        attributes.put("tel", userDTO.getTel());
+        attributes.put("profile", userDTO.getProfile());
+        attributes.put("birth", userDTO.getBirth());
+        attributes.put("national", userDTO.getNational());
+        attributes.put("userRole", userDTO.getUserRole());
         attributes.put("email", userDTO.getEmail());
         attributes.put("name", userDTO.getName());
-        attributes.put("role", userDTO.getUserRole());
+
         return attributes;
     }
 
