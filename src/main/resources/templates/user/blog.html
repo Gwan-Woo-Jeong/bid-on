@@ -3,7 +3,10 @@
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Blog')}"></th:block>
-	</style>
+	
+	<style>
+		
+	</style> 
 </head>
 
 
@@ -20,6 +23,11 @@
                 </ol>
                 <h1 class="breadcrumb-title">최신 후기</h1>
             </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="d-flex justify-content-end">
+            <button onclick="location.href='/add-review'" class="btn btn-primary mt-3">New</button>
         </div>
     </div>
     <section class="outer-gap blog-section">

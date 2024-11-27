@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.repository.ReviewBoardRepository;
@@ -71,40 +72,32 @@ public class ReviewBoardController {
         model.addAttribute("totalPages", reviews.getTotalPages());
         return "user/blog";
     }
-
-
-
-
-
-    /**
-     * 블로그 상세 페이지
-     */
-//    @GetMapping("/blog-detail")
-//    public String getBlogDetail(@RequestParam(name = "id") Integer id, Model model) {
-//        ReviewBoard review = reviewBoardRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid review ID: " + id));
-//
-//        // 조회수 증가
-//        review.incrementViews();
-//        reviewBoardRepository.save(review);
-//
-//        model.addAttribute("review", review); // 상세 정보
-//        return "user/blog-detail"; // 상세 페이지 템플릿 경로
-//    }
     
+    @GetMapping("/add-review")
+    public String showAddReviewPage() {
+    	
+    	
+    	return "user/add-review";
+    }
     
-    
- //Community에서 상세보기로 넘어가는 페이지 Admin 사용예정 -민지
-//    @GetMapping("/blog-detail/{id}")
-//    public String reviewDetail(@PathVariable("id") Integer id, Model model) {
-//        Optional<ReviewBoard> review = reviewBoardRepository.findById(id);
+//    @PostMapping("/submit-review")
+//    public String submitReview(
+//            @RequestParam("title") String title,
+//            @RequestParam("author") String author,
+//            @RequestParam("content") String content,
+//            @RequestParam(value = "image", required = false) MultipartFile image) {
 //        
-//        if (review.isPresent()) {
-//            model.addAttribute("review", review.get());
-//            return "blog-detail";  
-//        } else {
-//            return "redirect:/admin/community"; 
+//        // 제출된 데이터 처리 로직 (DB 저장, 파일 저장 등)
+//        System.out.println("Title: " + title);
+//        System.out.println("Author: " + author);
+//        System.out.println("Content: " + content);
+//        if (image != null && !image.isEmpty()) {
+//            System.out.println("Image: " + image.getOriginalFilename());
 //        }
+//
+//        // 작성 후 블로그 목록으로 리다이렉트
+//        return "redirect:/blog";
 //    }
+
 
 }
