@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Register Auction Item')}"></th:block>
+    
+    <style>
+    	/* 미리보기 스타일 */
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .preview-item .representative {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .preview-item.active .representative {
+            display: block;
+        }
+        
+.form-control {
+    font-size: 16px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+    text-align: left;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 버튼 스타일 */
+.btn {
+    margin: 4px 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #565FEB;
+    background-color: #565FEB;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: white;
+    border: 1px solid red;
+}
+
+/* Label 스타일 */
+.form-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+#category{
+	width: 400px;
+}
+
+#bidtype { width: 400px; }
+
+#description{
+	width: 800px;
+}
+
+#productName{
+	width: 400px;
+}
+
+#mainimg{
+	padding-top: 30px;
+}
+
+/* 삭제 버튼 스타일 */
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #353FE8;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 20px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+}
+
+#addbid:hover{
+	background-color: #EFF1F4;
+	color: black;
+	border: 1px solid #EFF1F4;
+	
+}
+
+#addbid{
+	
+	margin: 0 auto;
+}
+
+
+
+        
+    </style>
+    
+</head>
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">경매 물품 등록</li>
+                </ol>
+                <h1 class="breadcrumb-title">당신의 물품을 경매에 올려보세요.</h1>
+            </div>
+        </div>
+    </div>
+
+    <section class="register-auction outer-gap">
+        <div class="container">
+            <form action="/auction/register" method="POST" enctype="multipart/form-data" class="form-wrapper">
+                <!-- 상품 이름 -->
+                <div class="mb-3">
+                    <label for="productName" class="form-label">상품명</label>
+                    <input type="text" class="form-control" id="productName" name="productName" required>
+                </div>
+
+                <!-- 경매 방식 선택 -->
+                <div class="mb-3">
+                    <label for="bidtype" class="form-label">경매 타입</label>
+                    <select class="form-select" id="bidtype" name="bidtype" required>
+                        <option value="" disabled selected>경매 타입을 선택하세요</option>
+                        <option value="normal">일반 경매</option>
+                        <option value="live">실시간 경매</option>
+                    </select>
+                </div>
+
+                <!-- 카테고리 선택 -->
+                <div class="mb-3">
+                    <label for="category" class="form-label">카테고리</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="" disabled selected>카테고리를 선택하세요</option>
+                        <option value="electronics">전자제품</option>
+                        <option value="sports">스포츠</option>
+                        <option value="fashion">패션</option>
+                        <option value="art">예술</option>
+                        <option value="car">자동차</option>
+                        <option value="beauty">미용</option>
+                    </select>
+                </div>
+
+                <!-- 시작 경매가 -->
+                <div>
+				    <label for="startingPrice" class="form-label">시작 경매가</label>
+				    <div style="display: flex; align-items: center;">
+				        <!-- 숫자 입력 필드 -->
+				        <input
+				            type="number"
+				            class="form-control"
+				            id="startingPrice"
+				            name="startingPrice"
+				            min="10000"
+				            step="10000"
+				            value="10000"
+				            readonly
+				        >
+				        (원)
+				        <!-- 금액 버튼들 -->
+				        <div style="margin-left: 16px;">
+				            <button type="button" class="btn" onclick="updatePrice(10000)">+10,000원</button>
+				            <button type="button" class="btn" onclick="updatePrice(100000)">+100,000원</button>
+				            <button type="button" class="btn" onclick="updatePrice(1000000)">+1,000,000원</button>
+				            <button type="button" class="btn" onclick="updatePrice(10000000)">+10,000,000원</button>
+				        </div>
+				    </div>
+				</div>
+
+
+                <!-- 상품 설명 -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">상품 설명</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                </div>
+
+               <!-- 상품 이미지 업로드 -->
+				    <div class="mb-3">
+				        <label for="productImages">상품 이미지 추가:</label>
+				        <input type="file" id="productImages" name="productImages" accept="image/*" multiple onchange="addImages(event)">
+				    </div>
+				
+				    <!-- 미리보기 컨테이너 -->
+				    <div id="previewContainer" class="preview-container"></div>
+				
+				    <!-- 대표 사진 정보 -->
+				    <input type="hidden" id="mainImageInput" name="mainImage">
+				    <div>
+				        <p id="mainimg">선택된 대표 사진: <span id="selectedMainImage">없음</span></p>
+				    </div>
+				
+				    <!-- 제출 버튼 -->
+				    <div class="d-flex justify-content-end">
+				        <button type="submit" class="btn btn-primary" id="addbid">경매 등록</button>
+				    </div>
+            </form>
+            
+        </div>
+    </section>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/user/js/register-auction.js"></script>
+<script>
+
+
+
+		function formatNumber(number) {
+        return new Intl.NumberFormat().format(number); // 쉼표 추가 포맷팅
+    }
+    
+     // 값을 업데이트하는 함수
+    function updatePrice(amount) {
+        const input = document.getElementById("startingPrice");
+        let currentValue = parseInt(input.value, 10) || 0;
+
+        // 현재 값에 추가 금액을 더함
+        const newValue = currentValue + amount;
+
+        // 입력 필드에 새로운 값 반영
+        input.value = newValue;
+    }
+
+
+
+
+		//업로드 된 기존 사진을 저장하는 배열
+	 let fileList = [];
+
+    function addImages(event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById("previewContainer");
+        const selectedMainImage = document.getElementById("selectedMainImage");
+        const mainImageInput = document.getElementById("mainImageInput");
+
+	
+	console.log("addimages 실행");
+	console.log(files);
+	
+	
+
+
+
+		//새로운 파일을 기존 리스트에 추가
+        fileList = [...fileList, ...Array.from(files)];
+
+
+		//기존 미리보기를 초기화 후 다시 렌더링
+        previewContainer.innerHTML = "";
+        fileList.forEach((file, index) => {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+            	
+            	//미리보기 아이템을 생성
+                const previewItem = document.createElement("div");
+                previewItem.className = "preview-item";
+				
+				//이미지 요소
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.alt = file.name;
+				
+				//대표 사진 라벨 붙여줌
+                const representativeLabel = document.createElement("div");
+                representativeLabel.className = "representative";
+                representativeLabel.textContent = "대표 사진";
+                
+                
+                // 삭제 버튼
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "X";
+            deleteBtn.className = "delete-btn";
+            deleteBtn.onclick = function (e) {
+                e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 방지
+
+                // 파일 리스트에서 제거
+                fileList = fileList.filter(f => f !== file);
+
+                // 미리보기에서 제거
+                previewContainer.removeChild(previewItem);
+
+                // 삭제한 이미지가 대표 사진일 경우 초기화
+                if (mainImageInput.value === file.name) {
+                    mainImageInput.value = "";
+                    selectedMainImage.textContent = "없음";
+
+                    // 남아 있는 이미지가 있으면 첫 번째 이미지를 대표 사진으로 설정
+                    if (fileList.length > 0) {
+                        document.querySelector(".preview-item").click();
+                    }
+                }
+            };
+                
+				
+				// 클릭이벤트로 대표사진 설정
+                previewItem.onclick = function () {
+                
+                	//모든 미리보기에서 active 제거
+                    document.querySelectorAll(".preview-item").forEach(item => item.classList.remove("active"));
+                    
+                    //선택된 아이템에 active 추가
+                    previewItem.classList.add("active");
+                    
+                    //대표 사진 정보 업데이트
+                    selectedMainImage.textContent = file.name;
+                    
+                    
+                    mainImageInput.value = file.name; // 대표 사진 정보를 hidden input에 저장
+                };
+				
+				//미리보기 아이템 구성
+                previewItem.appendChild(img);
+                previewItem.appendChild(representativeLabel);
+                previewContainer.appendChild(previewItem);
+                previewItem.appendChild(deleteBtn);
+				
+				// 첫번째 이미지를 기본 대표 사진으로 설정
+                if (index === 0 && selectedMainImage.textContent === "없음") {
+                    previewItem.click();
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+    
+    
+    
+    
+
+    console.log(file.name);
+    
+    
+</script>
+</body>
+
+</html>

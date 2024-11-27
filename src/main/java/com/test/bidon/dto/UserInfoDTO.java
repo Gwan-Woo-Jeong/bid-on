@@ -46,5 +46,5 @@ public class UserInfoDTO {
         this.status = 0;
         this.userRole = "ROLE_USER";
     }
-    
+
 }

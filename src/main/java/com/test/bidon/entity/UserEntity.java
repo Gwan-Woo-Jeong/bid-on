@@ -66,7 +66,6 @@ public class UserEntity {
 	@Column(nullable = false)
 	@Builder.Default
 	private String userRole = "ROLE_USER";  	//사용자 역할(예: ROLE_USER, ROLE_ADMIN)	
-
 	
 }
 

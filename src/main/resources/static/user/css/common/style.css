@@ -1,6 +1,8 @@
 @charset "UTF-8";
 @import "font.css";
 
+
+
 :root {
     --bs-blue: #353FE8;
     --bs-dark: #0D1426;
@@ -2171,6 +2173,7 @@ img.card-img-top {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    height:30px;
 }
 
 .page-link {

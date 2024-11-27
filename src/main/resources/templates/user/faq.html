@@ -29,34 +29,34 @@
                     <div class="contact-wrapper bg-wrapper">
                         <h4 class="mb-3"><b>궁금하신 점은 무엇인가요?</b></h4>
                         <p class="mb-4">귀하의 이메일 주소는 공개되지 않습니다. 필수 입력 항목은 *로 표시됩니다.</p>
-                        <form action="/submitQuestion" method="post">
-						    <div class="row">
-						        <!-- 이메일 -->
-						        <div class="col-12">
-						            <div class="form-group">
-						                <label>이메일*</label>
-						                <input type="email" class="form-control" name="email" placeholder="name@mail.com" required>
-						            </div>
-						        </div>
-						        <!-- 제목 -->
-						        <div class="col-12">
-						            <div class="form-group">
-						                <label>제목 *</label>
-						                <input type="text" class="form-control" name="title" placeholder="Subject" required>
-						            </div>
-						        </div>
-						        <!-- 내용 -->
-						        <div class="col-12">
-						            <div class="form-group">
-						                <label>내용*</label>
-						                <textarea class="form-control" name="contents" placeholder="Write Here Your Message" required></textarea>
-						            </div>
-						        </div>
-						        <!-- 제출 버튼 -->
-						        <div class="col-12">
-						            <button class="primary-btn btn-light" type="submit">제출하기</button>
-						        </div>
-						    </div>
+                        <form action="/admin/community" method="post">
+					    <div class="row">
+					        <!-- 이메일 -->
+					        <div class="col-12">
+					            <div class="form-group">
+					                <label>이메일*</label>
+					                <input type="email" class="form-control" name="email" placeholder="name@mail.com" required>
+					            </div>
+					        </div>
+					        <!-- 제목 -->
+					        <div class="col-12">
+					            <div class="form-group">
+					                <label>제목 *</label>
+					                <input type="text" class="form-control" name="title" placeholder="Subject" required>
+					            </div>
+					        </div>
+					        <!-- 내용 -->
+					        <div class="col-12">
+					            <div class="form-group">
+					                <label>내용*</label>
+					                <textarea class="form-control" name="contents" placeholder="Write Here Your Message" required></textarea>
+					            </div>
+					        </div>
+					        <!-- 제출 버튼 -->
+					        <div class="col-12">
+					            <button class="primary-btn btn-light" type="submit">제출하기</button>
+					        </div>
+					    	</div>
 						</form>
                     </div>
                 </div>
@@ -153,6 +153,8 @@
         </div>
     </div>
 </main>
+
+
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
