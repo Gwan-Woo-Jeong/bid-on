@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.test.bidon.dto.LiveAuctionItemListDTO;
 import com.test.bidon.entity.LiveAuctionItemImageList;
-import com.test.bidon.repository.LiveAuctionItemRepository;
+import com.test.bidon.repository.CustomLiveAuctionItemRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class LiveAuctionItemController {
+public class LiveAuctionListController {
 	
-	private final LiveAuctionItemRepository liveAuctionItemRepository;
+	private final CustomLiveAuctionItemRepository liveAuctionItemRepository;
 	
 	
 	@GetMapping("/browse-live-bid")
@@ -28,5 +28,6 @@ public class LiveAuctionItemController {
 		
 		return "user/browse-live-bid";
 	}
+	
 
 }

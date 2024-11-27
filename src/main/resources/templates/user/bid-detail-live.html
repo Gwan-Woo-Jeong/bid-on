@@ -28,7 +28,7 @@
             <div class="row gy-4 gy-md-5">
                 <div class="col-lg-8">
                     <div class="card-image">
-                        <img src="/user/images/sample/auction-card-1.png" alt="auction-card-img">
+                        <!-- <img th:src="" alt="auction-card-img"> -->
                         <div class="timer-wrapper">
                             <div class="timer-inner"></div>
                         </div>
@@ -36,12 +36,12 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="product-bid-widget h-100">
-                        <h3 class="title">
-                            Enchanting Decorative Ensembles: Adorn Your Space with Elegance
+                        <h3 class="title" th:text="${detail.name}">
+                            
                         </h3>
                         <ul>
-                            <li><span>국가</span><span>KR</span></li>
-                            <li><span>시작 경매가</span><span>20,000원</span></li>
+                            <li><span>국가</span><span th:text="${detail.national}"></span></li>
+                            <li><span>시작 경매가</span><span th:text="${detail.startPrice}"></span></li>
                             <li><span>최신 경매가</span><span>40,000원</span></li>
                             <li><span>입찰 횟수</span><span>21</span></li>
                             <li><span>최소 입찰 단위</span><span>10,000원</span></li>

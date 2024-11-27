@@ -1,4 +1,4 @@
-/*<<<<<<< Updated upstream
+
 package com.test.bidon.config;
 
 import java.util.Random;
@@ -11,51 +11,22 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
-// root-context.xml 같은 설정 파일 역할을 하는 클래스 파일. Query DSL을 사용할 수 있게 함
+//1. @Configuration 어노테이션 추가
 @Configuration
-@RequiredArgsConstructor
-public class QueryDSLConfig {
+@RequiredArgsConstructor // 3. @RequiredArgsConstructor 어노테이션 추가 
+public class QueryDSLConfig { // = root-context.xml 같은 설정 파일 역할
+	
+	//2. <bean>추가하기 위한 객체 생성
+	private final EntityManager em;   //JPA에서 SQL을 실행하는 객체 > Statement 객체, SqlSessionTemplate 객체 역할
 
-    // JPA에서 SQL을 실행하는 객체.
-    private final EntityManager em;
+	
+	//4. <bean class="JPAQueryFactory">
+	@Bean
+	public JPAQueryFactory jpaQueryFactory() {
+		return new JPAQueryFactory(em);
+	}
 
-    @Bean
-    public JPAQueryFactory jpaQueryFactory() {
-        return new JPAQueryFactory(em);
-    }
 
-    @Bean
-    public Random random() {
-        return new Random();
-    }
+	
+	
 }
-=======
-//package com.test.bidon.config;
-*///
-//import com.querydsl.jpa.impl.JPAQueryFactory;
-//import jakarta.persistence.EntityManager;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//
-//import java.util.Random;
-//
-//// root-context.xml 같은 설정 파일 역할을 하는 클래스 파일. Query DSL을 사용할 수 있게 함
-//@Configuration
-//@RequiredArgsConstructor
-//public class QueryDSLConfig {
-//
-//    // JPA에서 SQL을 실행하는 객체.
-//    private final EntityManager em;
-//
-//    @Bean
-//    public JPAQueryFactory jpaQueryFactory() {
-//        return new JPAQueryFactory(em);
-//    }
-//
-//    @Bean
-//    public Random random() {
-//        return new Random();
-//    }
-//}
-//>>>>>>> Stashed changes
