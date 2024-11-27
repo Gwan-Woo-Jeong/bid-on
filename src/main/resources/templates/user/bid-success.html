@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Bid Success')}"></th:block>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+</head>
+
+<body>
+<th:block th:insert="~{user/inc/preloader.html :: preloader}"></th:block>
+
+<div class="toggle-theme d-none">
+    <input type="checkbox" class="changeTheme" id="changeTheme">
+    <label for="changeTheme" class="m-auto"></label>
+</div>
+<div class="success-wrapper text-center" id="success-wrapper"
+     style="background-image: url('/images/model-bg.svg')">
+    <div class="px-3">
+        <div class="success-block">
+            <img src="/user/images/sample/bid-success.svg" alt="bid-success">
+            <h2>입찰 성공!</h2>
+            <p>물품 입찰에 성공하셨습니다!</p>
+            <a href="home" class="primary-btn d-inline-block mb-3">홈페이지로 돌아가기</a>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
+
+<script src="/js/bid-success.js"></script>
+</body>
+
+</html>

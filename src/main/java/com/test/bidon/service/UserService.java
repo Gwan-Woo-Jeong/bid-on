@@ -9,10 +9,12 @@ import com.test.bidon.entity.UserEntity;
 import com.test.bidon.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Transactional  // 추가
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -25,17 +27,22 @@ public class UserService {
 
     //회원가입에서 입력한 정보 저장하는 메서드
     public UserEntity registerUser(UserInfoDTO dto) {
+    	
+    	log.info("회원가입 서비스 시작: {}", dto);
+    	
         if(isEmailExists(dto.getEmail())) {
             throw new RuntimeException("이미 사용중인 이메일입니다.");
         }
 
         UserEntity entity = UserEntity.builder()
+        		.profile(dto.getProfile())
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
                 .tel(dto.getTel())
                 .birth(dto.getBirth())
                 .national(dto.getNational())
+                .profile(dto.getProfile())
                 .createDate(java.time.LocalDate.now())
                 .status(0)
                 .userRole("ROLE_USER")
@@ -43,19 +50,7 @@ public class UserService {
                 .build();
                 
         // 저장 전에 모든 필드값 출력 (디버깅용)
-        System.out.println("=== 저장할 엔티티 정보 ===");
-        System.out.println("email: " + entity.getEmail());
-        System.out.println("password: " + entity.getPassword());
-        System.out.println("name: " + entity.getName());
-        System.out.println("national: " + entity.getNational());
-        System.out.println("birth: " + entity.getBirth());
-        System.out.println("tel: " + entity.getTel());
-        System.out.println("profile: " + entity.getProfile());
-        System.out.println("createDate: " + entity.getCreateDate());
-        System.out.println("status: " + entity.getStatus());
-        System.out.println("userRole: " + entity.getUserRole());
-        System.out.println("provider: " + entity.getProvider());
-        System.out.println("=========================");
+        logUserEntityDetails(entity);
 
         try {
             UserEntity savedEntity = userRepository.save(entity);
@@ -73,4 +68,23 @@ public class UserService {
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+    
+
+    private void logUserEntityDetails(UserEntity userEntity) {
+        log.debug("=== 저장할 엔티티 정보 ===");
+        log.debug("email: {}", userEntity.getEmail());
+        log.debug("password: {}", userEntity.getPassword());
+        log.debug("name: {}", userEntity.getName());
+        log.debug("national: {}", userEntity.getNational());
+        log.debug("birth: {}", userEntity.getBirth());
+        log.debug("tel: {}", userEntity.getTel());
+        log.debug("profile: {}", userEntity.getProfile());
+        log.debug("createDate: {}", userEntity.getCreateDate());
+        log.debug("status: {}", userEntity.getStatus());
+        log.debug("userRole: {}", userEntity.getUserRole());
+        log.debug("provider: {}", userEntity.getProvider());
+        log.debug("=========================");
+    }
+    
+    
 }

@@ -66,7 +66,7 @@ $(document).ready(function() {
                 );
             });
 
-            // 한국 선택
+            // 국적 기본값 선택가능한 코드
             countrySelect.val('');
 
             console.log('Countries loaded successfully');
@@ -101,61 +101,97 @@ $(document).ready(function() {
         }
     });
 
-	 // 가입하기 버튼 클릭 이벤트
-	    $("#signupBtn").click(function(e) {
-	        e.preventDefault();
-	        
-	        const form = $("#signupForm")[0];
-	        if (!form.checkValidity()) {
-	            form.classList.add('was-validated');
-	            return;
-	        }
+	$("#signupForm").submit(function(e) {
+	    e.preventDefault();
 
-	        // 비밀번호 일치 확인
-	        const password = $("#userPassword").val();
-	        const confirmPassword = $("#confirmPassword").val();
-	        
-	        if (password !== confirmPassword) {
-	            $("#confirmPassword").addClass('is-invalid');
-	            return;
-	        }
+	    const form = this;
+	    const formData = new FormData(form);
 
-	        // 약관 동의 확인
-	        if (!$("#flexCheckDefault").prop('checked')) {
-	            $("#flexCheckDefault").addClass('is-invalid');
-	            return;
-	        }
+	    // 데이터 확인
+	    console.log("=== 전송 데이터 확인 ===");
+	    for (let pair of formData.entries()) {
+	        console.log(pair[0] + ': ' + pair[1]);
+	    }
 
-	        // FormData 객체 생성
-	        const formData = new FormData(form);
-	        
-			// 프로필 이미지가 선택되지 않은 경우 기본 이미지 경로 추가
-			const profileImage = $("#profileImage")[0].files[0];
-			if (!profileImage) {
-			    formData.set('profileImage', '/user/images/default-profile.svg');
-			}
-			
-	        // AJAX로 폼 데이터 전송
-	        $.ajax({
-	            url: '/signok',
-	            type: 'POST',
-	            data: formData,
-	            processData: false,
-	            contentType: false,
-	            success: function(response) {
+	    // 비밀번호 검증
+	    const password = $("#userPassword").val();
+	    const confirmPassword = $("#confirmPassword").val();
+	    if (password !== confirmPassword) {
+	        alert("비밀번호가 일치하지 않습니다.");
+	        return;
+	    }
+
+	    // 약관 동의 확인
+	    if (!$("#flexCheckDefault").prop('checked')) {
+	        alert("약관에 동의해주세요.");
+	        return;
+	    }
+
+	    // 폼 데이터에서 confirmPassword 제거 (서버로 전송 불필요)
+	    formData.delete('confirmPassword');
+
+	    const userInfoDTO = {
+	        email: formData.get('email'),
+	        password: formData.get('password'),
+	        name: formData.get('name'),
+	        national: formData.get('national'),
+	        birth: formData.get('birth'),
+	        tel: formData.get('tel')
+	    };
+
+	    // 새로운 FormData 생성
+	    const sendFormData = new FormData();
+	    
+	    // userInfoDTO를 Blob으로 변환하여 추가
+	    const userInfoBlob = new Blob([JSON.stringify(userInfoDTO)], {
+	        type: 'application/json'
+	    });
+	    sendFormData.append('userInfoDTO', userInfoBlob);
+
+	    // 프로필 파일 추가
+	    const fileInput = $('#profileImage')[0]; // 프로필 이미지 input의 id를 확인해주세요
+	    if (fileInput && fileInput.files[0]) {
+	        sendFormData.append('profileFile', fileInput.files[0]);
+	    }
+
+	    $.ajax({
+	        url: '/signok',
+	        type: 'POST',
+	        data: sendFormData,
+	        processData: false,
+	        contentType: false,
+	        cache: false,
+	        success: function(response) {
+	            console.log('Success Response:', response);
+	            if (response && response.message) {
+	                alert(response.message);
+	                window.location.href = '/login';
+	            } else {
 	                alert('회원가입이 완료되었습니다.');
 	                window.location.href = '/login';
-	            },
-	            error: function(xhr, status, error) {
-	                const errorMessage = xhr.responseJSON?.message || '회원가입 중 오류가 발생했습니다.';
-	                alert(errorMessage);
-	                console.error('Error:', error);
 	            }
-	        });
-	    });
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("=== 에러 정보 ===");
+	            console.error("Status:", status);
+	            console.error("Error:", error);
+	            console.error("XHR:", xhr);
 
-	    // 폼 제출 이벤트 방지
-/*	    $("#signupForm").submit(function(e) {
-	        e.preventDefault();
-	    });*/
+	            let errorMessage = '회원가입 중 오류가 발생했습니다.';
+
+	            if (xhr.responseText) {
+	                try {
+	                    const response = JSON.parse(xhr.responseText);
+	                    errorMessage = response.message || errorMessage;
+	                } catch (e) {
+	                    console.error("Response parsing error:", e);
+	                }
+	            }
+
+	            alert(errorMessage);
+	        }
+	    });
+	});
+	
+
 	});
