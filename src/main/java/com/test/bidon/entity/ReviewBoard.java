@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "ReviewBoard")
@@ -36,14 +37,19 @@ public class ReviewBoard {
     @Column(nullable = false)
     private LocalDate regdate; // 작성 날짜
 
+    @OneToMany(mappedBy = "reviewBoardId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewPhoto> reviewPhotos;
+
+    
     @PrePersist
     public void prePersist() {
+        // regdate가 null인 경우 현재 날짜를 설정
         if (this.regdate == null) {
-            this.regdate = LocalDate.now(); // 작성 날짜 자동 설정
+            this.regdate = LocalDate.now();
         }
     }
 
-    // 조회수 증가 메서드 추가
+    // 조회수 증가 메서드
     public void incrementViews() {
         this.views = (this.views == null ? 0 : this.views) + 1;
     }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='질문 작성')}"></th:block>
+    <title>질문 작성</title>
+</head>
+
+<body>
+    <th:block th:insert="~{user/inc/preloader.html :: preloader}"></th:block>
+
+    <div class="container">
+        <h1>질문 작성</h1>
+        <form id="questionForm" onsubmit="event.preventDefault(); submitQuestion();">
+            <label for="email">이메일:</label>
+            <input type="email" name="email" id="email" placeholder="이메일 입력" required>
+
+            <label for="title">제목:</label>
+            <input type="text" name="title" id="title" placeholder="제목 입력" required>
+
+            <label for="contents">내용:</label>
+            <textarea name="contents" id="contents" rows="5" placeholder="질문 내용을 입력하세요" required></textarea>
+
+            <button type="submit">질문하기</button>
+        </form>
+    </div>
+
+    <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+</body>
+
+</html>
