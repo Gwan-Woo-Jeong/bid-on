@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.test.bidon.config.security.CustomUserDetails;
 import com.test.bidon.dto.UserInfoDTO;
 import com.test.bidon.entity.UserEntity;
 import com.test.bidon.service.UserService;
@@ -123,7 +124,22 @@ public class UserController {
 
     @GetMapping("/mypage")
     @PreAuthorize("isAuthenticated()")
-	  public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
-	  model.addAttribute("user", user); return "user/mypage"; }
+	//public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
+    public String mypage(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+    	if (auth != null && auth.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
+            // CustomUserDetails에서 UserEntity 정보를 가져오는 방법에 따라:
+            // 예: customUserDetails.getUser() 또는 직접 정보 접근
+            model.addAttribute("name", customUserDetails.getName());
+            model.addAttribute("email", customUserDetails.getUsername());
+            log.info("User info found - Name: {}, Email: {}", customUserDetails.getName(), customUserDetails.getUsername());
+        } else {
+            log.warn("User information not found");
+        }
+	  
+    	return "user/mypage"; 
+	}
 	 
 }

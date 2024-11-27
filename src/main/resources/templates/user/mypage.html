@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Dashboard')}"></th:block>
@@ -17,10 +17,10 @@
         <div class="container">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="home">홈</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">마이 페이지</li>
                 </ol>
-                <h1 class="breadcrumb-title">Personal Dashboard</h1>
+                <h1 class="breadcrumb-title">여기가 선택값 이름 나오게 하기</h1>
             </div>
         </div>
     </div>
@@ -32,8 +32,8 @@
                         <div class="d-flex align-items-center gap-3 mt-3 mb-4">
                             <img src="/user/images/sample/avatar-5.png" class="dashboard-avatar" alt="avatar">
                             <div>
-                                <h5>Rozzy Nomad</h5>
-                                <p>system@mail.com</p>
+								<h5 th:text="${name}">사용자명</h5>
+								<p th:text="${email}">이메일</p>
                             </div>
                         </div>
 
@@ -46,32 +46,22 @@
                             <ul>
                                 <li class="active">
                                     <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-house"></i> <span>Dashboard</span>
+                                        <i class="fa-solid fa-house"></i> <span>나의 활동</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-user"></i> <span>Personal Profile</span>
+                                        <i class="fa-solid fa-user"></i> <span>개인 정보</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-gavel"></i> <span>My Bids</span>
+                                        <i class="fa-solid fa-gavel"></i> <span>관리자 문의</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-trophy"></i> <span>Winning Bids</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-bell"></i> <span>My Alerts</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-star"></i> <span>My Favorite</span>
+                                        <i class="fa-solid fa-bell"></i> <span>알림</span>
                                     </a>
                                 </li>
                             </ul>
@@ -87,7 +77,7 @@
                                         <i class="fa-solid fa-gavel text-orange"></i>
                                         <div>
                                             <h3 class="fw-bold">80</h3>
-                                            <p>Active Bids</p>
+                                            <p>경매 활동</p>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +88,7 @@
                                         <i class="fa-solid fa-trophy text-orange"></i>
                                         <div>
                                             <h3 class="fw-bold">15</h3>
-                                            <p>Item Won</p>
+                                            <p>낙찰 횟수</p>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +99,7 @@
                                         <i class="fa-solid fa-star text-orange"></i>
                                         <div>
                                             <h3 class="fw-bold">124</h3>
-                                            <p>Favorite</p>
+                                            <p>판매 활동</p>
                                         </div>
                                     </div>
                                 </div>
@@ -121,19 +111,19 @@
                                     <li class="nav-item">
                                         <button class="nav-link" id="description-tab" data-bs-toggle="tab"
                                                 data-bs-target="#description" type="button" role="tab"
-                                                aria-controls="description" aria-selected="true">Description
+                                                aria-controls="description" aria-selected="true">입찰한 경매
                                         </button>
                                     </li>
                                     <li class="nav-item">
                                         <button class="nav-link" id="bidHistory-tab" data-bs-toggle="tab"
                                                 data-bs-target="#bidHistory" type="button" role="tab"
-                                                aria-controls="bidHistory" aria-selected="false">Bid history
+                                                aria-controls="bidHistory" aria-selected="false">낙찰한 경매
                                         </button>
                                     </li>
                                     <li class="nav-item">
                                         <button class="nav-link active" id="sellerInfo-tab" data-bs-toggle="tab"
                                                 data-bs-target="#sellerInfo" type="button" role="tab"
-                                                aria-controls="sellerInfo" aria-selected="false">Seller Info
+                                                aria-controls="sellerInfo" aria-selected="false">판매된 경매 물품
                                         </button>
                                     </li>
                                 </ul>
@@ -146,10 +136,10 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th>Item List</th>
-                                                            <th>Last Bid</th>
-                                                            <th>Opening Bid</th>
-                                                            <th>Left Time</th>
+                                                            <th>물품 목록</th>
+                                                            <th>최종 입찰가</th>
+                                                            <th>기본 입찰가</th>
+                                                            <th>경매 종료까지 남은 시간</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -210,10 +200,10 @@
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th>Item List</th>
-                                                        <th>Last Bid</th>
-                                                        <th>Opening Bid</th>
-                                                        <th>Left Time</th>
+                                                        <th>물품 목록</th>
+                                                        <th>최종 입찰가</th>
+                                                        <th>기본 입찰가</th>
+                                                        <th>경매 종료까지 남은 시간</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -271,10 +261,10 @@
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th>Item List</th>
-                                                        <th>Last Bid</th>
-                                                        <th>Opening Bid</th>
-                                                        <th>Left Time</th>
+                                                        <th>물품 목록</th>
+                                                        <th>최종 입찰가</th>
+                                                        <th>기본 입찰가</th>
+                                                        <th>경매 종료까지 남은 시간</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
