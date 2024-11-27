@@ -22,7 +22,7 @@ public class CustomOAuth2User implements OAuth2User {
         //필요한 속성들을 Map에 담아서 반환
         Map<String, Object> attributes = new HashMap<>();
 
-        attributes.put("id", userDTO.getId().toString());
+        attributes.put("id", userDTO.getId());
         attributes.put("provider", userDTO.getProvider());
         attributes.put("status", userDTO.getStatus());
         attributes.put("createDate", userDTO.getCreateDate());
