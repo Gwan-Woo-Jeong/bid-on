@@ -82,11 +82,11 @@ public class TestController {
 		return "user/dashboard";
 	}
 
-	@GetMapping("/faq")
-	public String faq(Model model) {
-		
-		return "user/faq";
-	}
+//	@GetMapping("/faq")
+//	public String faq(Model model) {
+//		
+//		return "user/faq";
+//	}
 
 //	@GetMapping("/login")
 //	public String login(Model model) {

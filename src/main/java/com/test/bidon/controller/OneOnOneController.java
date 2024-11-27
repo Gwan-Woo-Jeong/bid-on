@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
+@RequestMapping("/oneonone")  // 기본 경로 변경	>  에러나서 이혜미가 추가함
 public class OneOnOneController {
 
     @Autowired

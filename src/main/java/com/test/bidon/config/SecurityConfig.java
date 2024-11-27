@@ -1,5 +1,6 @@
 package com.test.bidon.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,15 +19,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
    
-   private final CustomOAuth2UserService customOAuth2UserService;
-   private final CustomAuthenticationFailureHandler authenticationFailureHandler;
+	@Autowired
+	private final CustomOAuth2UserService customOAuth2UserService;
+	
+	@Autowired
+	private final CustomAuthenticationFailureHandler authenticationFailureHandler;
    
-   @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	   
        http.csrf(auth -> auth.disable());
-       
-       // Form Login > 사용 안함 > 소셜 인증
-       http.formLogin(auth -> auth.disable());
        
        // 기본 인증 > 사용 안함 즉, 로컬에서 하는 모든 인증을 비활성화한다는 의미
        http.httpBasic(auth -> auth.disable());
