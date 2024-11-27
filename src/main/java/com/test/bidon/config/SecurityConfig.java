@@ -42,6 +42,7 @@ public class SecurityConfig {
        http.authorizeHttpRequests(auth -> auth
                .requestMatchers("/").permitAll()
                .requestMatchers("/mypage").hasAnyRole("USER", "ADMIN")
+               .requestMatchers("/admin").hasRole("ADMIN")	//관리자페이지는 관리자만 접속 가능
                .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()  // 정적 리소스 추가
                .anyRequest().permitAll()
                //.anyRequest().authenticated()  // 나머지 경로 > 인증 사용자만, 나중에 변경해야할 것
@@ -69,7 +70,7 @@ public class SecurityConfig {
                .loginPage("/login")
                .defaultSuccessUrl("/")  // true 파라미터 제거
                .userInfoEndpoint(config -> config
-                   .userService(customOAuth2UserService)
+               .userService(customOAuth2UserService)
                )
            );
        

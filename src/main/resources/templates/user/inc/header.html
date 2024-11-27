@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- head 내용 -->
+</head>
+<body>
 <th:block th:fragment="header">
     <th:block th:insert="~{user/inc/preloader.html :: preloader}"></th:block>
 
@@ -46,7 +53,7 @@
                         <label for="changeTheme1" class="m-auto"></label>
                     </div>
                 </div>
-				<div class="col-4">	<!-- 이쪽만 건듦, 원상태로 복귀 -->
+				<div class="col-4">
 					<div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
 				   		<a href="browse-bid.html" class="bg-transparent text-dark border-0 px-1">
 				        	<i class="fa-solid fa-search"></i>
@@ -182,12 +189,8 @@
                     </ul>
                 </div>
                 <div class="d-flex gap-1 nav-btn-group align-items-center">
-                    <a href="login" class="primary-btn">
-                        로그인
-                    </a>
-                    <a href="logout" class="primary-btn">
-                        로그아웃
-                    </a>
+					<a sec:authorize="!isAuthenticated()" href="login" class="primary-btn">로그인</a>
+					<a sec:authorize="isAuthenticated()" href="logout" class="primary-btn">로그아웃</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="nav-right" data-bs-target="#navbar"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="toggle-menu-icon"><span></span><span></span><span></span><span></span></span>
@@ -197,3 +200,5 @@
         </nav>
     </header>
 </th:block>
+</body>
+</html>
