@@ -47,10 +47,10 @@ public class TestController {
 //	public String blog(Model model) 
 //	{ return "user/blog"; }
 
-	@GetMapping("/blog-detail")
-	public String blogDetail(Model model) {
-		return "user/blog-detail";
-	}
+//	@GetMapping("/blog-detail")
+//	public String blogDetail(Model model) {
+//		return "user/blog-detail";
+//	}
 
 	@GetMapping("/browse-bid")
 	public String browseBid(Model model) {
