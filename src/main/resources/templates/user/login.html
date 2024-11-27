@@ -4,7 +4,7 @@
 >
 
 <head>
-    <th:block th:insert="~{user/inc/head.html :: head(title='Log In')}"></th:block>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Log In')}"></th:block><title>Login</title>
 </head>
 
 
@@ -25,18 +25,21 @@
                     </a>
                     <h2 class="display-6 fw-bold mb-3">로그인</h2>
                     <p class="mb-4">로그인하시려면 아래에 정보를 입력해주세요.</p>
-                    <form action="#">
+					<div th:if="${param.error}" class="alert alert-danger">
+					        이메일 또는 비밀번호가 올바르지 않습니다.
+					</div>
+					<form id="loginForm" th:action="@{/loginok}" method="POST">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>이메일*</label>
-                                    <input type="email" class="form-control" placeholder="name@mail.com" required>
+                                    <input type="email" class="form-control" name="username" placeholder="name@mail.com" required>
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group formPassword">
                                     <label>비밀번호*</label>
-                                    <input type="password" class="form-control" placeholder="****" required>
+                                    <input type="password" class="form-control" name="password" placeholder="****" required>
                                     <span class="input-checker password-show-hide"><i
                                             class="fa-regular fa-eye-slash"></i></span>
                                     <a href="javascript:void(0)" class="position-absolute end-0">비밀번호를 잊어버렸나요?</a>
@@ -64,7 +67,7 @@
 </div>
 
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
-<script src="/js/login.js"></script>
+<script th:src="@{/user/js/login.js}"></script>
 </body>
 
 </html>

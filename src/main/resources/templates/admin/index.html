@@ -35,15 +35,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                     <li class="nav-item">
                       <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#audiences" role="tab" aria-selected="false">Audiences</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#demographics" role="tab" aria-selected="false">Demographics</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link border-0" id="more-tab" data-bs-toggle="tab" href="#more" role="tab" aria-selected="false">More</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                      <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#audiences" role="tab" aria-selected="false">Audiences</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                      <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#demographics" role="tab" aria-selected="false">Demographics</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                      <a class="nav-link border-0" id="more-tab" data-bs-toggle="tab" href="#more" role="tab" aria-selected="false">More</a>-->
+<!--                    </li>-->
                   </ul>
                   <div>
                     <div class="btn-wrapper">
@@ -60,33 +60,33 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         <div class="statistics-details d-flex align-items-center justify-content-between">
                           <div>
                             <p class="statistics-title">전체 회원 수</p>
-                            <h3 class="rate-percentage">32.53%</h3>
-                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.5%</span></p>
+                            <h3 class="rate-percentage">100</h3>
+                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>-0.5%</span></p>
                           </div>
                           <div>
                             <p class="statistics-title">신규 회원 수</p>
-                            <h3 class="rate-percentage">7,682</h3>
+                            <h3 class="rate-percentage">30</h3>
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p>
                           </div>
                           <div>
-                            <p class="statistics-title">총 경매 수</p>
-                            <h3 class="rate-percentage">68.8</h3>
-                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p>
+                            <p class="statistics-title">총 경매 물품 수</p>
+                            <h3 class="rate-percentage">40</h3>
+                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
                           </div>
                           <div class="d-none d-md-block">
-                            <p class="statistics-title">진행 중인 경매 수</p>
-                            <h3 class="rate-percentage">2m:35s</h3>
-                            <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
+                            <p class="statistics-title">진행 중인 경매 물품 수</p>
+                            <h3 class="rate-percentage">20</h3>
+                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.8%</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">총 낙찰 물품 수</p>
-                            <h3 class="rate-percentage">68.8</h3>
-                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p>
+                            <h3 class="rate-percentage">20</h3>
+                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
                           </div>
                           <div class="d-none d-md-block">
-                            <p class="statistics-title">총 수익 률</p>
-                            <h3 class="rate-percentage">2m:35s</h3>
-                            <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
+                            <p class="statistics-title">총 수익률</p>
+                            <h3 class="rate-percentage">1,000,000</h3>
+                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.8%</span></p>
                           </div>
                         </div>
                       </div>
@@ -99,8 +99,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                               <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                   <div>
-                                   <h4 class="card-title card-title-dash">Performance Line Chart</h4>
-                                   <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5>
+                                   <h4 class="card-title card-title-dash">월별 기존 회원 수 대비 신규 가입자 수 추이</h4>
+                                    <p class="card-subtitle card-subtitle-dash">해당 그래프는 매월 기존 회원 수와 신규 가입자 수의 변화 양상을 비교하여 보여줍니다.</p>
                                   </div>
                                   <div id="performance-line-legend"></div>
                                 </div>
@@ -117,10 +117,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                           <div class="col-md-6 col-lg-12 grid-margin stretch-card">
                             <div class="card bg-primary card-rounded">
                               <div class="card-body pb-0">
-                                <h4 class="card-title card-title-dash text-white mb-4">Status Summary</h4>
+                                <h4 class="card-title card-title-dash text-white mb-4">현재 경매 진행 상황</h4>
                                 <div class="row">
                                   <div class="col-sm-4">
-                                    <p class="status-summary-ight-white mb-1">Closed Value</p>
+                                    <p class="status-summary-ight-white mb-1">경매 참여자 수</p>
                                     <h2 class="text-info">357</h2>
                                   </div>
                                   <div class="col-sm-8">
@@ -142,8 +142,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                         <div id="totalVisitors" class="progressbar-js-circle pr-2"></div>
                                       </div>
                                       <div>
-                                        <p class="text-small mb-2">Total Visitors</p>
-                                        <h4 class="mb-0 fw-bold">26.80%</h4>
+                                        <p class="text-small mb-2">총 방문자 수</p>
+                                        <h4 class="mb-0 fw-bold">2,680</h4>
                                       </div>
                                     </div>
                                   </div>
@@ -153,8 +153,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                         <div id="visitperday" class="progressbar-js-circle pr-2"></div>
                                       </div>
                                       <div>
-                                        <p class="text-small mb-2">Visits per day</p>
-                                        <h4 class="mb-0 fw-bold">9065</h4>
+                                        <p class="text-small mb-2">오늘 방문자 수</p>
+                                        <h4 class="mb-0 fw-bold">100</h4>
                                       </div>
                                     </div>
                                   </div>
@@ -240,7 +240,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                       </div>
                                     </div>
                                     <div class="mt-3">
-                                      <canvas id="liveAuctionSuccessRate" width="300" height="150"></canvas>
+                                      <canvas id="leaveReport-dark" width="300" height="150"></canvas>
                                     </div>
                                   </div>
                                 </div>
@@ -261,7 +261,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                   <div>
                                     <h4 class="card-title card-title-dash">경매 성과 분석</h4>
-                                   <p class="card-subtitle card-subtitle-dash">평균 경매 시작 가격 대비 종료 가격    (아래금액은 평균 낙찰 가격)</p>
+                                   <p class="card-subtitle card-subtitle-dash">평균 경매 시작 가격 대비 종료 가격을 분석합니다. 아래 금액은 평균 낙찰 가격을 나타냅니다.</p>
                                   </div>
                                   <div>
                                     <div class="dropdown">
@@ -296,9 +296,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                   <div>
                                     <h4 class="card-title card-title-dash">경매 물품 분석</h4>
-                                    <h5 class="card-subtitle card-subtitle-dash">각 유형별 총 등록된 물품 수, 진행중인 경매 물품 수, 종료된 경매 물품 수</h5>
+                                    <p class="card-subtitle card-subtitle-dash">각 유형별 총 등록된 물품 수, 진행중인 경매 물품 수, 종료된 경매 물품 수를 그래프로 보여줍니다.</p>
                                   </div>
-<!--                                  <div id="performance-line-legend"></div>-->
+                                    <div id="auction-item-legend"></div>
                                 </div>
                                 <div class="chartjs-wrapper mt-5">
                                   <canvas id="auction-item-analysis-chart" width="850" height="150"></canvas>
@@ -315,7 +315,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                   <div>
                                     <h4 class="card-title card-title-dash">수익분석</h4>
-                                    <p class="card-subtitle card-subtitle-dash"></p>
+                                    <p class="card-subtitle card-subtitle-dash">아래 그래프는 모든 낙찰 물품의 10% 수수료를 계산하여 집계하고, 평균 경매 시간을 분석하여 보여줍니다.</p>
                                   </div>
                                   <div>
                                     <div class="dropdown">
@@ -333,7 +333,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                 </div>
                                 <div class="d-sm-flex align-items-center mt-1 justify-content-between">
                                   <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold">$36,2531.00</h2><h4 class="me-2">USD</h4><h4 class="text-success">(+1.37%)</h4></div>
-<!--                                  <div class="me-3"><div id="marketing-overview-legend"></div></div>-->
+                                  <div class="me-3"> <div id="revenue-legend" class="mt-5 text-center"></div></div>
                                 </div>
                                 <div class="chartjs-bar-wrapper mt-3">
                                   <canvas id="revenue-analysis-chart" width="850" height="150"></canvas>
@@ -344,9 +344,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         </div>
 
                         </div>
-
-
-
 
 
                     </div>
@@ -368,121 +365,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   <!-- container-scroller -->
 
 	<th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
-
-  <script>
-
-    let myCt = document.getElementById('liveAuctionSuccessRate');
-
-    let myChart = new Chart(myCt, {
-      type: 'bar',// line`, `doughnut` 등 다양한 형태가 존재
-      data: {
-        labels: ['2020', '2021', '2022', '2023'],// x축 데이터
-        datasets: [// 데이터의 속성
-          {
-            label: 'Dataset', // 축의 제목
-            fill: false, // line 형태일 때, 선 안쪽을 채우는지 여부
-            data: [10,20,30,40], // dataset 값
-            backgroundColor: '#52CDFF',// dataset 배경색
-            borderColor: 'white', // dataset 테두리 색상
-            borderWidth: 2, // dataset 테두리 두께
-            maxBarThickness: 30 // 최대 bar의 두께 설정
-          }
-        ]
-      },
-    });
-
-    // 첫 번째 차트: auction-item-analysis-chart
-    const aiacahrt = document.getElementById('auction-item-analysis-chart');
-
-    // 데이터셋을 위한 설정
-    const DATA_COUNT = 7;
-    const labels = ['구두', '스니커즈', '캔버스화', '워커', '운동화', '크록스', '샌들'];
-
-    // 데이터셋 생성
-    const data1 = {
-      labels: labels,
-      datasets: [
-        {
-          type: 'bar',
-          label: '작년 매출',
-          backgroundColor: 'rgba(31,59,179,0.5)', // 배경색
-          borderColor: 'rgb(31,59,179)', // 테두리 색상
-          borderWidth: 1,
-          data: [10, 19, 13, 15, 12, 13, 9], // 데이터 값
-        },
-        {
-          type: 'bar',
-          label: '내년 매출',
-          backgroundColor: 'rgba(54, 162, 235, 0.5)', // 배경색
-          borderColor: 'rgba(54, 162, 235, 1)', // 테두리 색상
-          borderWidth: 1,
-          data: [10, 19, 13, 15, 12, 13, 9], // 데이터 값
-        },
-        {
-          type: 'line',
-          label: '올해 매출',
-          backgroundColor: 'rgba(75, 192, 192, 0.5)', // 배경색
-          borderColor: 'rgba(75, 192, 192, 1)', // 테두리 색상
-          fill: false,
-          data: [9, 14, 10, 19, 22, 11, 16], // 데이터 값
-        }
-      ]
-    };
-
-    // 차트 생성
-    new Chart(aiacahrt, {
-      type: 'bar', // 기본 타입
-      data: data1,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-
-    // 두 번째 차트: revenue-analysis-chart
-    const revenueChart = document.getElementById('revenue-analysis-chart');
-
-    // 데이터셋을 위한 설정
-    const labels2 = ['1월', '2월', '3월', '4월', '5월', '6월', '7월'];
-    const data2 = {
-      labels: labels2,
-      datasets: [
-        {
-          label: 'Dataset 1',
-          data: [10, 20, 15, 25, 30, 20, 35], // 데이터 값
-          borderColor: 'rgba(255, 99, 132, 1)', // 테두리 색상
-          backgroundColor: 'rgba(255, 99, 132, 0.5)', // 배경색
-          fill: true,
-          tension: 0.5 // 곡선의 부드러움
-        },
-        {
-          label: 'Dataset 2',
-          data: [15, 25, 20, 30, 35, 25, 40], // 데이터 값
-          borderColor: 'rgba(54, 162, 235, 1)', // 테두리 색상
-          backgroundColor: 'rgba(54, 162, 235, 0.5)', // 배경색
-          fill: true,
-          tension: 0.5 // 곡선의 부드러움
-        }
-      ]
-    };
-
-    // 차트 생성
-    new Chart(revenueChart, {
-      type: 'line', // 차트 타입
-      data: data2,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  </script>
-
 
 </body>
 

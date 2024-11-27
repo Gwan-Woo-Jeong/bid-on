@@ -31,371 +31,116 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-					<div class="col-12 grid-margin">
-	                <div class="card">
-	                  <div class="card-body">
-	                    <h4 class="card-title">회원 조회</h4>
-	                    <form class="form-sample">
-	                      <p class="card-description">
-	                        회원 정보
-	                      </p>
-	                      <div class="row">
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">이름</label>
-	                            <div class="col-sm-9">
-	                              <input class="form-control" placeholder="홍길동"/>
-	                            </div>
-	                          </div>
-	                        </div>
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">가입일자</label>
-	                            <div class="col-sm-9">
-	                              <input class="form-control" placeholder="dd/mm/yyyy"/>
-	                            </div>
-	                          </div>
-	                        </div>
-	                      
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">성별</label>
-	                            <div class="col-sm-9">
-	                              <select class="form-control">
-	                                <option>남자</option>
-	                                <option>여자</option>
-	                              </select>
-	                            </div>
-	                          </div>
-	                        </div>
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">생년월일</label>
-	                            <div class="col-sm-9">
-	                              <input class="form-control" placeholder="dd/mm/yyyy"/>
-	                            </div>
-	                          </div>
-	                        </div>
-	                      
-	                      <!--<div class="row">
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">Category</label>
-	                            <div class="col-sm-9">
-	                              <select class="form-control">
-	                                <option>Category1</option>
-	                                <option>Category2</option>
-	                                <option>Category3</option>
-	                                <option>Category4</option>
-	                              </select>
-	                            </div>
-	                          </div>
-	                        </div>-->
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">계정 상태</label>
-	                            <div class="col-sm-4">
-	                              <div class="form-check">
-	                                <label class="form-check-label">
-	                                  <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked>
-	                                  활성화
-	                                </label>
-	                              </div>
-	                            </div>
-	                            <div class="col-sm-5">
-	                              <div class="form-check">
-	                                <label class="form-check-label">
-	                                  <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2">
-	                                  비활성화
-	                                </label>
-	                              </div>
-	                            </div>
-	                          </div>
-	                        </div>
-	                      </div>
-	                      <!--<p class="card-description">
-	                        주소
-	                      </p>-->
-	                      <!--<div class="row">
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label"></label>
-	                            <div class="col-sm-9">
-	                              <input type="text" class="form-control" />
-	                            </div>
-	                          </div>
-	                        </div>
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label"></label>
-	                            <div class="col-sm-9">
-	                              <input type="text" class="form-control" />
-	                            </div>
-	                          </div>
-	                        </div>
-	                      </div>
-	                      <div class="row">
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label"></label>
-	                            <div class="col-sm-9">
-	                              <input type="text" class="form-control" />
-	                            </div>
-	                          </div>
-	                        </div>
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label"></label>
-	                            <div class="col-sm-9">
-	                              <input type="text" class="form-control" />
-	                            </div>
-	                          </div>
-	                        </div>
-	                      </div>
-	                      <div class="row">
-	                        <div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label"></label>
-	                            <div class="col-sm-9">
-	                              <input type="text" class="form-control" />
-	                            </div>
-	                          </div>
-	                        </div>
-	                    -->    
-						<!--<div class="col-md-6">
-	                          <div class="form-group row">
-	                            <label class="col-sm-3 col-form-label">지역</label>
-	                            <div class="col-sm-9">
-	                              <select class="form-control">
-	                                <option>서울</option>
-	                                <option>인천</option>
-	                                <option>부산</option>
-	                                <option>대구</option>
-	                                <option>대전</option>
-	                                <option>울산</option>
-	                                <option>경기</option>
-	                                <option>강원</option>
-	                                <option>충청</option>
-	                                <option>전라</option>
-	                                <option>경상</option>
-	                                <option>제주</option>
-	                              </select>
-	                            </div>
-	                          </div>
-	                        </div>-->
-	                      </div>
-						  <button type="button" class="btn btn-primary btn-lg btn-block"><i class="ti-user">회원 조회</i></button>
-	                    </form>
-	                  </div>
-	                </div>
-                  <h4 class="card-title">회원 목록</h4><!--50명정도씩보이게-->
-                  <p class="card-description">
-                     <code>.user list</code>
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>
-                            사용자
-                          </th>
-                          <th>
-                           
-                          </th>
-                          <th>
-                            이메일
-                          </th>
-                          <th>
-                            연락처
-                          </th>
-                          <th>
-                            가입일
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face1.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용일
-                          </td>
-                          <td>
-                            user1@naver.com
-                          </td>
-                          <td>
-                            010-1234-1234
-                          </td>
-                          <td>
-                            2024-01-30
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face2.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용이
-                          </td>
-                          <td>
-                            user2@naver.com
-                          </td>
-                          <td>
-                            010-1234-8989
-                          </td>
-                          <td>
-                            2024-02-04
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face3.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용삼
-                          </td>
-                          <td>
-                            user3@naver.com
-                          </td>
-                          <td>
-                            010-1234-3333
-                          </td>
-                          <td>
-                            2024-02-05
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face4.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용사
-                          </td>
-                          <td>
-                            user4@naver.com
-                          </td>
-                          <td>
-                            010-1234-4444
-                          </td>
-                          <td>
-                            2024-02-07
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face5.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용오
-                          </td>
-                          <td>
-                            user5@naver.com
-                          </td>
-                          <td>
-                            010-5555-1234
-                          </td>
-                          <td>
-                            2024-02-10
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face6.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용육
-                          </td>
-                          <td>
-                            user6@naver.com
-                          </td>
-                          <td>
-                            010-6666-1234
-                          </td>
-                          <td>
-                            2024-02-13
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face1.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용칠
-                          </td>
-                          <td>
-                            user7@naver.com
-                          </td>
-                          <td>
-                            010-7777-1234
-                          </td>
-                          <td>
-                            2024-02-16
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face5.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용팔
-                          </td>
-                          <td>
-                            user8@naver.com
-                          </td>
-                          <td>
-                            010-1234-8888
-                          </td>
-                          <td>
-                            2024-02-20
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face2.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용구
-                          </td>
-                          <td>
-                            user9@naver.com
-                          </td>
-                          <td>
-                            010-1234-9999
-                          </td>
-                          <td>
-                            2024-02-27
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face6.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            사용십
-                          </td>
-                          <td>
-                            user10@naver.com
-                          </td>
-                          <td>
-                            010-1234-1010
-                          </td>
-                          <td>
-                            2024-03-30
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-					</div>
-	              </div>
+                 
+					 <div class="col-12 grid-margin">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">회원 조회</h4>
+                        <form class="form-sample" id="searchForm">
+                          <p class="card-description">회원 정보</p>
+						  
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">이름</label>
+                                <div class="col-sm-9">
+                                  <input class="form-control" name="name" placeholder="홍길동"/>
+                                </div>
+                              </div>
+                            </div>
+							
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">가입일자</label>
+                                <div class="col-sm-9">
+                                  <input class="form-control" type="date" name="createDate" placeholder="yyyy-mm-dd"/>
+                                </div>
+                              </div>
+                            </div>
+							
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">국적</label>
+                                <div class="col-sm-9">
+                                  <select class="form-control" name="national">
+                                    <option value="">선택 안함</option>
+                                    <option value="한국">한국</option>
+                                    <option value="타국">타국</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+							
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">생년월일</label>
+                                <div class="col-sm-9">
+                                  <input class="form-control" type="date" name="birth" placeholder="yyyy-mm-dd"/>
+                                </div>
+                              </div>
+                            </div>
+							
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">계정 상태</label>
+                                <div class="col-sm-4">
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input type="radio" class="form-check-input" name="status" value="0" checked>
+                                      활성화
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="col-sm-5">
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input type="radio" class="form-check-input" name="status" value="1">
+                                      비활성화
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+						  </div>
+                          <button type="button" class="btn btn-primary btn-lg btn-block" id="searchButton">
+                            <i class="ti-user"></i> 회원 조회</button>
+                        </form>
+                      </div>
+                    </div>
+					
+                    <h4 class="card-title">회원 목록</h4>
+                    <p class="card-description">
+                       <code>.user list</code>
+                    </p>
+                    <div class="table-responsive">
+                      <table class="table table-striped" id="userTable">
+                        <thead>
+                            <tr>
+                                <th>사용자</th>
+                                <th>이메일</th>
+                                <th>연락처</th>
+                                <th>생일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="dto : ${userList}">
+                                <td th:text="${dto.name}">이름</td>
+                                <td th:text="${dto.email}">이메일</td>
+                                <td th:text="${dto.tel}">연락처</td>
+                                <td th:text="${#temporals.format(dto.birth, 'yyyy-MM-dd')}">생일</td>
+                            </tr>
+                        </tbody>
+                      </table>
+					  </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- content-wrapper ends -->
+		<!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <th:block th:insert="~{admin/inc/footer.html :: footer}"></th:block>
         <!-- partial -->
@@ -405,9 +150,47 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-
-	<th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
   
-</body>
+  <th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
+  
 
+  <script>
+	  $(document).ready(function() {
+	    $('#searchButton').click(function() {
+	      
+	      var formData = $('#searchForm').serialize();
+	      
+	      // AJAX 요청
+	      $.ajax({
+	        url: "/search",
+	        type: "GET",
+	        data: formData, 
+	        success: function(response) {
+	          if (response && response.length > 0) {
+	            var tableBody = $('#userTable tbody');
+	            tableBody.empty();  
+	            
+	            
+	            response.forEach(function(user) {
+	              var row = `<tr>
+	                            <td>${user.name}</td>
+	                            <td>${user.email}</td>
+	                            <td>${user.tel}</td>
+	                            <td>${user.birth}</td>
+	                          </tr>`;
+	              tableBody.append(row); 
+	            });
+	          } else {
+	            console.log('No data found');
+				alert("해당 회원이 없습니다.")
+	          }
+	        },
+	        error: function(xhr, status, error) {
+	          console.error("AJAX error:", error);
+	        }
+	      });
+	    });
+	  });
+  </script>
+</body>
 </html>

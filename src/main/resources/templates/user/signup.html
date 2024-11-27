@@ -25,13 +25,13 @@
                     </a>
                     <h2 class="display-6 fw-bold mb-3">회원가입</h2>
                     <p class="mb-4">BidOn 계정 생성을 위해 회원 정보를 입력해주세요.</p>
-                    <form id="signupForm" method="POST" action="/signok">
+                    <form id="signupForm" method="POST" enctype="multipart/form-data">
                         <div class="row">
 							<div class="col-12">
 									<img id="profilePreview" class="defaultprofile" src="user/images/default-profile.svg" alt="기본프로필">
 							    <div class="form-group">
 							        <label>프로필</label>
-									<input type="file" id="profileImage" name="profileImage" accept="image/*" class="form-control mt-2">
+									<input type="file" id="profileImage" name="profile" accept="image/*" class="form-control mt-2">
 							    </div>
 							</div>
                             <div class="col-12">
@@ -67,6 +67,12 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
+                                    <label>생년월일</label>
+                                    <input type="date" id="birth" name="birth" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
                                     <label>전화번호</label>
                                     <input type="text" id="usertel" name="tel" class="form-control">
                                 </div>
@@ -74,13 +80,13 @@
 							<div class="col-12">
 							   <div class="form-group">
 							   	    <label for="countrySelect">국가</label>
-							    	<select class="form-select form-control" id="countrySelect" name="country">
+							    	<select class="form-select form-control" id="countrySelect" name="national">
 							        	<option value="">국가 선택</option>
 							        </select>
 							   </div>
 							</div>
 							<!-- role을 hidden으로 추가 -->
-							<input type="hidden" name="userRole" value="ROLE_MEMBER">
+							<input type="hidden" name="userRole" value="ROLE_USER">
                             <div class="col-12">
                                 <div class="form-check text-start">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
@@ -94,18 +100,6 @@
                             <div class="col-12 mb-4">
                                 <button class="primary-btn w-100" type="submit" id="signupBtn">가입하기</button>
                             </div>
-							<!-- 
-                            <div class="col-12">
-                                <p class="border-bottom border-dark mb-4" style="height: 1px;">
-                                        <span class="position-relative px-2 text-dark"
-                                              style="top: -13px; background: var(--bg-wrapper)">OR</span>
-                                </p>
-                            </div>
-                           <div class="col-12 mb-3">
-                                <button class="primary-btn bg-light text-black border-dark w-100 text-capitalize">
-                                    <i class="fa-brands fa-google"></i><span class="ms-2">구글 계정으로 계속하기</span>
-                                </button>
-                            </div>-->
                             <p>이미 계정이 있으신가요? <a href="login">지금 로그인 하러 가세요!</a></p>
                         </div>
                     </form>
@@ -116,7 +110,7 @@
 </div>
 
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
-<script src="/user/js/signup.js"></script>
+<script th:src="@{/user/js/signup.js}"></script>
 </body>
 
 </html>
