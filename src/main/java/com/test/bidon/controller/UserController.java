@@ -123,8 +123,7 @@ public class UserController {
 
     @GetMapping("/mypage")
     @PreAuthorize("isAuthenticated()")
-    public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
-        model.addAttribute("user", user);
-        return "user/mypage";
-    }
+	  public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
+	  model.addAttribute("user", user); return "user/mypage"; }
+	 
 }

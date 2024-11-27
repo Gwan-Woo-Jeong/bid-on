@@ -107,17 +107,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				            </tr>
 				        </thead>
 				        <tbody>
-				            <tr th:each="question : ${questions}">
-				                <td th:text="${question.userEntityInfo.name}">문의자</td>
-				                <td th:text="${question.title}">제목</td>
-				                <td th:text="${question.regdate}">문의일</td>
+				            <tr th:each=" dto : ${questionsList}">
+				                <td th:text="${dto.userEntityInfo.name}">문의자</td>
+				                <td th:text="${dto.title}">제목</td>
+				                <td th:text="${dto.regdate}">문의일</td>
 								<!--
 									<label class="badge badge-danger"> 답장 전 <빨강>
 										<label class="badge badge-success"> 답장 후 <초록>
 								-->
 				                <td>
 				                    <!-- 답장 버튼 -->
-									<a th:href="@{/reply/{id}(id=${question.id})}" class="badge badge-danger custom-link">
+									<a th:href="@{/reply/{id}(id=${dto.id})}" class="badge badge-danger custom-link">
 									    문의 답변
 									</a>
 				                </td>
@@ -147,11 +147,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <!-- reviewList를 반복하면서 출력 -->
 					    <tr th:each="dto : ${reviewList}">
 					      <td th:text="${dto.id}">ID</td>
 					      <td th:text="${dto.userEntityInfo.name}">작성자</td>
-					      <td th:text="${dto.title}">제목</td>
+						  <td>
+						      <a th:href="@{'/blog-detail/' + ${dto.id}}" th:text="${dto.title}">제목</a>
+						    </td>
 					      <td th:text="${#temporals.format(dto.regdate, 'yyyy-MM-dd')}">게시일</td>
 					    </tr>
 					  </tbody>
