@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.test.bidon.entity.OneOnOne;
+import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.entity.UserEntity;
+import com.test.bidon.repository.OneOnOneRepository;
+import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.repository.UserRepository;
 
 @Controller
@@ -28,6 +33,10 @@ public class TestAdminController {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private ReviewBoardRepository reviewBoardRepository;
+	@Autowired
+	private OneOnOneRepository oneOnOneRepository;
 	
 	@GetMapping("/admin")
 	public String index(Model model) {
@@ -47,6 +56,7 @@ public class TestAdminController {
 	model.addAttribute("userList", userList);
 	    return "admin/user";
 	}
+	
 	
 	@GetMapping("/search")
 	@ResponseBody
@@ -112,12 +122,27 @@ public class TestAdminController {
 	    return ResponseEntity.ok(userList);
 	}
 	
-			
+	
+	
+	@GetMapping("/admin/community")
+	public String communityPage(Model model) {
+	    List<ReviewBoard> reviewList = reviewBoardRepository.findAll(Sort.by(Sort.Order.desc("regdate")));
+
+	    model.addAttribute("reviewList", reviewList);  // reviewList 모델에 추가
+	    
+	    List<OneOnOne> questions = oneOnOneRepository.findAll();
+        model.addAttribute("questions", questions);
+	    
+	    return "admin/community";  // admin/community 페이지로 이동
+	}
+
 	
 	/*
-	 * @GetMapping("/admin/community") public String community(Model model) {
-	 * 
-	 * return "admin/community"; }
+	  @GetMapping("/admin/community") 
+	  public String community(Model model) {
+	  
+	  	return "admin/community"; 
+	  }
 	 */
 	
 	@GetMapping("/admin/login")

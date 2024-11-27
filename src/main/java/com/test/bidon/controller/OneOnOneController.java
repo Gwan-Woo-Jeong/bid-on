@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/community")
 public class OneOnOneController {
 
     @Autowired
@@ -31,16 +30,16 @@ public class OneOnOneController {
      * 질문 조회 페이지
      */
     @GetMapping
-    public String getAllQuestions(Model model) {
-        List<OneOnOne> questions = oneOnOneRepository.findAll();
-        model.addAttribute("questions", questions);
-        return "admin/community"; // admin/community.html로 이동
-    }
+//    public String getAllQuestions(Model model) {
+//        List<OneOnOne> questions = oneOnOneRepository.findAll();
+//        model.addAttribute("questions", questions);
+//        return "admin/community"; // admin/community.html로 이동
+//    }
 
     /**
      * 질문 등록 처리
      */
-    @PostMapping
+    @PostMapping("/answerList")
     public String submitQuestion(
             @RequestParam("email") String email,
             @RequestParam("title") String title,
