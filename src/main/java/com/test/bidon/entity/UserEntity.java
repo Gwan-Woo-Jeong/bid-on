@@ -65,10 +65,10 @@ public class UserEntity {
 	private Integer status;  	//상태(예: 0: 활성, 1: 비활성)
 
 	@Column(nullable = false)
+	@Builder.Default
 	private String userRole = "ROLE_USER";  	//사용자 역할(예: ROLE_USER, ROLE_ADMIN)
 
 	public UserInfoDTO toDTO() {
-
 		return UserInfoDTO.builder()
 				.id(this.getId())
 				.email(this.getEmail())
