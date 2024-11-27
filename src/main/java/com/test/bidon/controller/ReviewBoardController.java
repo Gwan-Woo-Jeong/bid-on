@@ -3,6 +3,7 @@ package com.test.bidon.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.repository.ReviewBoardRepository;
@@ -61,4 +63,20 @@ public class ReviewBoardController {
 //        model.addAttribute("review", review); // 상세 정보
 //        return "user/blog-detail"; // 상세 페이지 템플릿 경로
 //    }
+    
+    
+    
+ //Community에서 상세보기로 넘어가는 페이지 Admin 사용예정 -민지
+//    @GetMapping("/blog-detail/{id}")
+//    public String reviewDetail(@PathVariable("id") Integer id, Model model) {
+//        Optional<ReviewBoard> review = reviewBoardRepository.findById(id);
+//        
+//        if (review.isPresent()) {
+//            model.addAttribute("review", review.get());
+//            return "blog-detail";  
+//        } else {
+//            return "redirect:/admin/community"; 
+//        }
+//    }
+
 }
