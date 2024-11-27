@@ -2,9 +2,21 @@ spring:
   application:
     name: bid-on
 
+  mvc:
+    contentnegotiation:
+      media-types:
+        js: text/javascript    # 여기에 MIME 타입 설정 추가
+
+  servlet: #이미지 프로필 파일첨부 크기때문에 코드 추가
+    multipart:
+      enabled: true
+      location: C:/temp   # 임시 디렉토리 경로 지정
+      max-file-size: 50MB
+      max-request-size: 50MB
+      file-size-threshold: 5MB   # 메모리 임계값
+
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-
     url: jdbc:oracle:thin:@34.22.84.58:1521:xe
     username: bidon
     password: bid1234
@@ -28,30 +40,30 @@ spring:
 
   security:
     oauth2:
-     client:
-       registration:
-         #naver:
-           #client-name: naver
-           #client-id: EXIojetaaMN05UloVHt2
-           #client-secret: lvgOJjQ39t
-           #redirect-uri: http://localhost:8090/login/oauth2/code/naver
-           #authorization-grant-type: authorization_code
-           #scope: name, email
-         google:
-           client-name: google
-           client-id: 571432372202-tu75i2464nela4cuqo4frjdgo8gdqs26.apps.googleusercontent.com
-           client-secret: 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
-           redirect-uri: http://localhost:8090/login/oauth2/code/google
-           authorization-grant-type: authorization_code
-           scope: 
+      client:
+        registration:
+          #naver:
+            #client-name: naver
+            #client-id: EXIojetaaMN05UloVHt2
+            #client-secret: lvgOJjQ39t
+            #redirect-uri: http://localhost:8090/login/oauth2/code/naver
+            #authorization-grant-type: authorization_code
+            #scope: name, email
+          google:
+            client-name: google
+            client-id: 571432372202-tu75i2464nela4cuqo4frjdgo8gdqs26.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8090/login/oauth2/code/google
+            authorization-grant-type: authorization_code
+            scope: 
               - email
               - profile
-       #provider: 
-         #naver: #네이버 할지 말지 모르지만 일단 넣어둠
-           #authorization-uri: https://nid.naver.com/oauth2.0/authorize
-           #token-uri: https://nid.naver.com/oauth2.0/token
-           #user-info-uri: https://openapi.naver.com/v1/nid/me
-           #user-name-attribute: response
+        #provider: 
+          #naver: #네이버 할지 말지 모르지만 일단 넣어둠
+            #authorization-uri: https://nid.naver.com/oauth2.0/authorize
+            #token-uri: https://nid.naver.com/oauth2.0/token
+            #user-info-uri: https://openapi.naver.com/v1/nid/me
+            #user-name-attribute: response
 
 server:
   port: 8090

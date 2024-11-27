@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	/*
     $(document).ready(function () {
         if (localStorage.storedValue == 'dark') {
             $('#changeTheme').prop('checked', true);
@@ -12,5 +13,5 @@ $(document).ready(function () {
             document.getElementsByClassName('login-wrapper').style.backgroundImage = "url('user/images/login-bg.svg')";
         }
 
-    });
+    });*/
 });

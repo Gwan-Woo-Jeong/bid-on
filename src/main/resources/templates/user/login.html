@@ -64,7 +64,7 @@
 </div>
 
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
-<script src="/js/login.js"></script>
+<script th:src="@{/user/js/login.js}"></script>
 </body>
 
 </html>
