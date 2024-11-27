@@ -57,10 +57,10 @@ public class TestController {
 		return "user/browse-bid";
 	}
 	
-	@GetMapping("/browse-live-bid")
-	public String browseLiveBid(Model model) {
-		return "user/browse-live-bid";
-	}
+//	@GetMapping("/browse-live-bid")
+//	public String browseLiveBid(Model model) {
+//		return "user/browse-live-bid";
+//	}
 
 	@GetMapping("/checkout")
 	public String checkout(Model model) {
@@ -82,11 +82,11 @@ public class TestController {
 		return "user/dashboard";
 	}
 
-	@GetMapping("/faq")
-	public String faq(Model model) {
-		
-		return "user/faq";
-	}
+//	@GetMapping("/faq")
+//	public String faq(Model model) {
+//		
+//		return "user/faq";
+//	}
 
 //	@GetMapping("/login")
 //	public String login(Model model) {

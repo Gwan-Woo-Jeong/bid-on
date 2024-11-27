@@ -1,5 +1,6 @@
 package com.test.bidon.dto;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,15 +12,15 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class CustomOAuth2User implements OAuth2User {
 
-	private final UserInfoDTO userDTO;
-	
-	public CustomOAuth2User(UserInfoDTO userDTO) {
-		this.userDTO = userDTO;
-	}
-	
-	@Override
+    private final UserInfoDTO userDTO;
+
+    public CustomOAuth2User(UserInfoDTO userDTO) {
+        this.userDTO = userDTO;
+    }
+
+    @Override
     public Map<String, Object> getAttributes() {
-        //필요한 속성들을 Map에 담아서 반환
+        // 필요한 속성들을 Map에 담아서 반환
         Map<String, Object> attributes = new HashMap<>();
 
         attributes.put("id", userDTO.getId());
@@ -37,7 +38,7 @@ public class CustomOAuth2User implements OAuth2User {
         return attributes;
     }
 
-	@Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // SimpleGrantedAuthority 사용하여 권한 생성
         return Collections.singleton(new SimpleGrantedAuthority(userDTO.getUserRole()));
@@ -49,11 +50,49 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     // 추가 정보 메서드
+
+    public Long getId() {
+        return userDTO.getId();
+    }
+
     public String getEmail() {
         return userDTO.getEmail();
     }
-    
+
     public String getRole() {
         return userDTO.getUserRole();
     }
+
+    public String getProvider() {
+        return userDTO.getProvider();
+    }
+
+    public Integer getStatus() {
+        return userDTO.getStatus();
+    }
+
+    public LocalDate getCreateDate() {
+        return userDTO.getCreateDate();
+    }
+
+    public String getTel() {
+        return userDTO.getTel();
+    }
+
+    public String getProfile() {
+        return userDTO.getProfile();
+    }
+
+    public LocalDate getBirth() {
+        return userDTO.getBirth();
+    }
+
+    public String getNational() {
+        return userDTO.getNational();
+    }
+
+    public String getUserRole() {
+        return userDTO.getUserRole();
+    }
+
 }
