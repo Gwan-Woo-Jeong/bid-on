@@ -8,7 +8,10 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,8 @@ import com.test.bidon.dto.UserInfoDTO;
 import com.test.bidon.entity.UserEntity;
 import com.test.bidon.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,6 +106,20 @@ public class UserController {
     public String login(Model model) {
         return "user/login";
     }
+    
+    @GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication != null) {
+			new SecurityContextLogoutHandler().logout(request, response, authentication);	//로그아웃
+		}
+		
+		return "redirect:/";
+	}
+
+    
 
     @GetMapping("/mypage")
     @PreAuthorize("isAuthenticated()")
