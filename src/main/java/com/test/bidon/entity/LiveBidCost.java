@@ -26,6 +26,9 @@ public class LiveBidCost {
 
     @Column(nullable = false)
     private Integer bidPrice;
+    
+    @Column(nullable = false)
+    private Integer bidTime;
 
     @ManyToOne
     @JoinColumn(name = "liveAuctionPartId")
