@@ -29,5 +29,23 @@ public class Thumbnail {
 
     @Column(name = "file_path", nullable = false)
     private String filePath;
+
+	public void setFileName(String originalFilename) {
+
+		
+	}
+	
+	
+	private Integer reviewPhotoId; // 필드 추가
+
+	public Integer getReviewPhotoId() {
+        return reviewPhotoId;
+    }
+
+    public void setReviewPhotoId(Integer reviewPhotoId) {
+        this.reviewPhotoId = reviewPhotoId;
+    }
+	
+	
 }
 

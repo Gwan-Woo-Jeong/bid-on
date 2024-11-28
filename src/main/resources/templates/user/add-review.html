@@ -73,36 +73,47 @@
 
 	<main id="main-content" class="position-relative">
 		<h2>새 게시글 쓰기</h2>
+		<br>
 		<p>새로운 게시글을 작성하세요.</p>
-
-		<form action="/submit-review" method="post" enctype="multipart/form-data">
-			<!-- 제목 입력 -->
-			<div>
-				<label for="title">제목:</label>
-				<input type="text" id="title" name="title" required placeholder="제목을 입력하세요" maxlength="100">
+		<br>
+		<form action="/add-review" method="post" enctype="multipart/form-data">
+		    <!-- 이메일 입력 폼 추가 -->
+			<div class="container mt-3">
+			    <div class="d-flex flex-column">
+			        <label for="emailInput" class="form-label">이메일을 입력하세요:</label>
+			        <input type="email" id="emailInput" class="form-control" placeholder="이메일을 입력하세요" name="email">
+			        <button type="submit" id="emailSubmitBtn" class="btn btn-primary mt-3">이메일 확인</button>
+			    </div>
 			</div>
-
-			<!-- 내용 입력 -->
-			<div>
-				<label for="content">내용:</label>
-				<textarea id="content" name="content" rows="10" required placeholder="내용을 입력하세요" maxlength="2000"></textarea>
-			</div>
-
-			<!-- 이미지 업로드 -->
-			<div>
-				<label for="thumbnail">대표 이미지:</label>
-			    <input type="file" name="thumbnail" id="thumbnail" required>
-			    
-			    <label for="photos">추가 이미지:</label>
-			    <input type="file" name="photos" id="photos" multiple>
-			</div>
-
-			<!-- 버튼 -->
-			<div>
-				<button type="submit" class="btn btn-primary">게시글 작성</button>
-				<button type="button" onclick="location.href='/blog'" class="btn btn-secondary">취소</button>
-			</div>
+		
+		    <!-- 제목 입력 -->
+		    <div>
+		        <label for="title">제목:</label>
+		        <input type="text" id="title" name="title" required placeholder="제목을 입력하세요" maxlength="100">
+		    </div>
+		
+		    <!-- 내용 입력 -->
+		    <div>
+		        <label for="contents">내용:</label>
+		        <textarea id="contents" name="contents" rows="10" required placeholder="내용을 입력하세요" maxlength="2000"></textarea>
+		    </div>
+		
+		    <!-- 이미지 업로드 -->
+		    <div>
+		        <label for="thumbnail">대표 이미지:</label>
+		        <input type="file" name="thumbnail" id="thumbnail" required>
+		        
+		        <label for="photos">추가 이미지:</label>
+		        <input type="file" name="photos" id="photos" multiple>
+		    </div>
+		
+		    <!-- 버튼 -->
+		    <div>
+		        <button type="submit" class="btn btn-primary">게시글 작성</button>
+		        <button type="button" onclick="location.href='/blog'" class="btn btn-secondary">취소</button>
+		    </div>
 		</form>
+
 	</main>
 
 	<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
