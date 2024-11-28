@@ -4,6 +4,11 @@
       // 월별 기존 회원수 대비 신규 가입자 수 추이
       // "#performaneLine" 요소가 존재하는지 확인
       if ($("#performaneLine").length) {
+
+          // console.log(monthlyNewUserCounts);
+          // console.log(monthlyExistingUserCounts);
+          // console.log(monthlyUserCountList);
+
           // "performaneLine" 캔버리 요소의 2D 컨텍스트를 가져옴
           var graphGradient = document.getElementById("performaneLine").getContext('2d');
           var graphGradient2 = document.getElementById("performaneLine").getContext('2d'); // 동일한 컨텍스트를 다시 가져옴 (중복)
@@ -23,7 +28,7 @@
               labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"], // x축 레이블
               datasets: [{
                   label: '신규 가입자', // 데이터셋 레이블
-                  data: [50, 110, 60, 290, 200, 115, 130, 170, 90, 210, 240, 280], // 데이터 값
+                  data: monthlyNewUserCounts, // 신규 가입자 수 데이터
                   backgroundColor: saleGradientBg, // 배경색 (그래디언트)
                   borderColor: ['#1F3BB3'], // 테두리 색상
                   borderWidth: 1.5, // 테두리 두께
@@ -35,7 +40,7 @@
                   pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff'], // 포인트 테두리 색상
               },{
                   label: '기존 가입자', // 두 번째 데이터셋 레이블
-                  data: [30, 150, 190, 250, 120, 150, 130, 20, 30, 15, 40, 10], // 데이터 값
+                  data: monthlyExistingUserCounts, // 기존 가입자 수 데이터
                   backgroundColor: saleGradientBg2, // 배경색 (그래디언트)
                   borderColor: ['#52CDFF'], // 테두리 색상
                   borderWidth: 1.5, // 테두리 두께

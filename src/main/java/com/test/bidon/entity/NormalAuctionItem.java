@@ -31,7 +31,7 @@ public class NormalAuctionItem {
     public static NormalAuctionItemDTO toDTO(NormalAuctionItem item) {
 
         return NormalAuctionItemDTO.builder()
-                .seq(item.id)
+                .id(item.id)
                 .categorySubId(item.categorySubId)
                 .name(item.name)
                 .description(item.description)
@@ -46,7 +46,7 @@ public class NormalAuctionItem {
     public NormalAuctionItemDTO toDTO() {
 
         return NormalAuctionItemDTO.builder()
-                .seq(this.id)
+                .id(this.id)
                 .categorySubId(this.categorySubId)
                 .name(this.name)
                 .description(this.description)
