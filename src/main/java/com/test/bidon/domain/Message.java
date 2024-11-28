@@ -9,7 +9,8 @@ import lombok.ToString;
 @ToString
 public class Message {
 
-	private String code;
+	private String roomId;
+	private String type;
 	private String userId;
 	private String content;
 	private String regdate;

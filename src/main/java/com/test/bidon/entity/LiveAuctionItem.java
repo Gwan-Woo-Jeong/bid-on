@@ -38,8 +38,16 @@ public class LiveAuctionItem {
 
     private LocalDateTime endTime;
     
+
     @Transient  //Admin 페이지 실시간 경매 리스트 상태 표시 -민지
     private String status;
+
+    @Column(nullable = false)
+    private LocalDateTime createTime;
+    
+    @Column(nullable = true)
+    private String brand;
+
 
     @ManyToOne
     @JoinColumn(name = "userInfoId")
@@ -54,6 +62,7 @@ public class LiveAuctionItem {
                 .startPrice(this.getStartPrice())
                 .startTime(this.getStartTime())
                 .endTime(this.getEndTime())
+                .createTime(this.getCreateTime())
                 .userInfo(this.getUserInfo().toDTO())
                 .build();
     }

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,6 +31,9 @@ public class LiveAuctionPart {
 
     @Column(nullable = false, insertable = false, updatable = false)
     private Long liveAuctionId;
+    
+    @Column(nullable = false)
+    private LocalDateTime createTime;
 
     @ManyToOne
     @JoinColumn(name = "userInfoId")
@@ -44,6 +48,7 @@ public class LiveAuctionPart {
                 .id(this.getId())
                 .userInfoId(this.getUserInfoId())
                 .liveAuctionId(this.getLiveAuctionId())
+                .createTime(this.getCreateTime())
                 .userInfo(this.getUserInfo().toDTO())
                 .liveAuction(this.getLiveAuction().toDTO())
                 .build();

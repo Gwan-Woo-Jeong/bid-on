@@ -21,6 +21,9 @@ public class LiveAuctionItemDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String status;
+    private LocalDateTime createTime;
+    private String brand;
+
 
     private UserInfoDTO userInfo;
 
@@ -33,6 +36,8 @@ public class LiveAuctionItemDTO {
                 .startPrice(this.getStartPrice())
                 .startTime(this.getStartTime())
                 .endTime(this.getEndTime())
+                .createTime(this.getCreateTime())
+                .brand(this.getBrand())
                 .build();
     }
     
