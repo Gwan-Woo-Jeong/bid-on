@@ -32,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
         return userEntity.getPassword();
     }
     
-    //추가한 메서드
+    //추가한 메서드 > 마이페이지에서 사용
     public String getName() {
     	return userEntity.getName();
     }

@@ -205,14 +205,14 @@
                         <div id="profile" class="content-section d-none">
                             <div id="userEdittool">
                                 <h4 class="mb-4">개인 정보 수정</h4>
-								<form method="POST" id="userEditForm">
+								<form id="userEditForm" method="POST" enctype="multipart/form-data">
 								    <div class="form-grid">
 								        <div class="mb-3">
 								            <label class="form-label">이름</label>
 								            <input type="text" class="form-control" th:value="${name}">
 								        </div>
 								        <div class="mb-3">
-								            <label class="form-label">이메일</label>
+								            <label class="form-label" id="space">이메일</label>
 								            <input type="email" class="form-control" th:value="${email}" readonly>
 								        </div>
 								        <div class="mb-3">
@@ -220,7 +220,7 @@
 								            <input type="password" name="password" class="form-control">
 								        </div>
 										<div class="mb-3">
-											<label class="form-label">비밀번호 확인</label>
+											<label class="form-label" id="space">비밀번호 확인</label>
 											<input type="password" name="confirmPassword" class="form-control">
 											<span class="input-checker"></i></span>
 											<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
@@ -230,7 +230,7 @@
 								            <input type="date" class="form-control" name="birth" th:value="${birth}">
 								        </div>
 								        <div class="mb-3">
-								            <label class="form-label">국가</label>
+								            <label class="form-label" id="space">국가</label>
 											<select class="form-select form-control" id="countrySelect" name="national" th:value="${national}">
 											    <option value="">국가 선택</option>
 											</select>
@@ -240,15 +240,15 @@
 								            <input type="tel" class="form-control" name="tel" th:value="${tel}">
 								        </div>
 								        <div class="mb-3">
-								            <label class="form-label">계정 생성일</label>
+								            <label class="form-label" id="space">계정 생성일</label>
 								            <input type="text" class="form-control" th:value="${createDate}" readonly>
 								        </div>
 								        <div class="mb-3">
 								            <label class="form-label">프로필</label>
-								            <input type="text" class="form-control" th:value="${profile}" readonly>
+								            <input type="file" name="profile" class="form-control" th:value="${profile}">
 								        </div>
 								    </div>
-								    <button type="submit" class="primary-btn" id="editUser">정보 수정</button>
+								    <button type="submit" class="primary-btn" id="editUser">수정하기</button>
 								</form>
 
                             </div>
