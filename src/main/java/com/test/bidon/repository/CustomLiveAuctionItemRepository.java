@@ -34,7 +34,8 @@ public class CustomLiveAuctionItemRepository {
 		return jpaQueryFactory
 				.select(Projections.constructor(
 			            LiveAuctionItemListDTO.class,
-			            liveAuctionItem.name,
+						liveAuctionItem.id,
+						liveAuctionItem.name,
 			            liveAuctionItemImage.path,
 			            liveAuctionItem.startPrice
 			        ))
