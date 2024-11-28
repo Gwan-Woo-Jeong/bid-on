@@ -3,6 +3,9 @@ package com.test.bidon.repository;
 import static com.test.bidon.entity.QLiveAuctionItem.liveAuctionItem;
 import static com.test.bidon.entity.QLiveAuctionItemImage.liveAuctionItemImage;
 import static com.test.bidon.entity.QLiveAuctionItemImageList.liveAuctionItemImageList;
+import static com.test.bidon.entity.QLiveAuctionPart.liveAuctionPart;
+import static com.test.bidon.entity.QLiveBidCost.liveBidCost;
+import static com.test.bidon.entity.QUserEntity.userEntity;
 
 import java.util.List;
 
