@@ -1,10 +1,15 @@
 package com.test.bidon.repository;
 
+import static com.test.bidon.entity.QLiveBidCost.liveBidCost;
+import static com.test.bidon.entity.QLiveAuctionItem.liveAuctionItem;
+import static com.test.bidon.entity.QNormalAuctionItem.normalAuctionItem;
 import static com.test.bidon.entity.QUserEntity.userEntity; // Q타입 클래스의 경로
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.querydsl.core.Tuple;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
@@ -51,6 +56,41 @@ public class AdminDashboardRepository {
 
 	    return results; // MonthlyUserCountDTO 리스트 반환
 	}
-	
 
+
+	public long getOngoingNormalAuctionItemCount() {
+		return jpaQueryFactory
+				.selectFrom(normalAuctionItem)
+				.where(normalAuctionItem.status.eq("진행중"))
+				.fetchCount();
+	}
+
+	public long getOngoingLiveAuctionItemCount() {
+		return jpaQueryFactory
+				.selectFrom(liveAuctionItem)
+				.where(liveAuctionItem.startTime.goe(LocalDateTime.now())
+						.and(liveAuctionItem.endTime.isNull()))
+				.fetchCount();
+	}
+
+//	public long getTotalWinningBidCount() {
+//		return jpaQueryFactory
+//				.selectFrom(winningBid)
+//				.fetchCount();
+//	}
+
+
+//	public List<Tuple> getMonthlyLiveAuctionRevenue() {
+//		return jpaQueryFactory
+//				.select(liveBidCost.bidTime.month().as("month"),
+//						liveBidCost.bidprice.sum().as("monthly_revenue"))
+//				.from(winningBid)
+//				.fullJoin(liveBidCost).as(liveBidCost)
+//				.on(winningBid.liveBidId.eq(liveBidCost.id))
+//				.where(liveBidCost.bidTime.isNotNull())
+//				.groupBy(liveBidCost.bidTime.month())
+//				.orderBy(liveBidCost.bidTime.month().asc())
+//				.fetch();
+//	}
 }
+

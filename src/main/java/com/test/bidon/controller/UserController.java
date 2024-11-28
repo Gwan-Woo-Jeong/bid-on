@@ -2,6 +2,7 @@ package com.test.bidon.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,8 +15,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -124,7 +128,6 @@ public class UserController {
 
     @GetMapping("/mypage")
     @PreAuthorize("isAuthenticated()")
-	//public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
     public String mypage(Model model) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
@@ -134,12 +137,63 @@ public class UserController {
             // 예: customUserDetails.getUser() 또는 직접 정보 접근
             model.addAttribute("name", customUserDetails.getName());
             model.addAttribute("email", customUserDetails.getUsername());
-            log.info("User info found - Name: {}, Email: {}", customUserDetails.getName(), customUserDetails.getUsername());
+            model.addAttribute("national", customUserDetails.getNational());
+            model.addAttribute("birth", customUserDetails.getBirth());
+            model.addAttribute("tel", customUserDetails.getTel());
+            model.addAttribute("createDate", customUserDetails.getCreateDate());
+            model.addAttribute("profile", customUserDetails.getProfile());
+            log.info("User info found - Name: {}, Email: {}", customUserDetails.getName(), customUserDetails.getUsername(), customUserDetails.getNational());
         } else {
             log.warn("User information not found");
         }
 	  
     	return "user/mypage"; 
 	}
+    
+    @PostMapping("/api/user/update")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> updateUser(
+        @RequestParam(value = "name", required = false) String name,
+        @RequestParam(value = "password", required = false) String password,
+        @RequestParam(value = "birth", required = false) String birth,
+        @RequestParam(value = "national", required = false) String national,
+        @RequestParam(value = "tel", required = false) String tel,
+        @RequestParam(value = "profile", required = false) MultipartFile profile) {
+        
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+            
+            UserInfoDTO updateDto = new UserInfoDTO();
+            updateDto.setName(name);
+            updateDto.setPassword(password);
+            if (birth != null && !birth.isEmpty()) {
+                updateDto.setBirth(LocalDate.parse(birth));
+            }
+            updateDto.setNational(national);
+            updateDto.setTel(tel);
+            
+            // 파일이 있는 경우만 처리
+            if (profile != null && !profile.isEmpty()) {
+                String fileName = StringUtils.cleanPath(profile.getOriginalFilename());
+                updateDto.setProfile(fileName);
+            }
+            
+            UserEntity updatedUser = userService.updateUser(userDetails.getId(), updateDto);
+            
+            return ResponseEntity.ok()
+                .body(Map.of(
+                    "success", true,
+                    "message", "정보가 성공적으로 수정되었습니다."
+                ));
+                
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                .body(Map.of(
+                    "success", false,
+                    "message", e.getMessage()
+                ));
+        }
+    }
 	 
 }

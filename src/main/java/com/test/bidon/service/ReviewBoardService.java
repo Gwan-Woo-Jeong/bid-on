@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.repository.ReviewBoardRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.PersistenceContext;
+
 @Service
 public class ReviewBoardService {
 
@@ -21,4 +25,24 @@ public class ReviewBoardService {
 		
 		return null;
 	}
+	
+	@PersistenceContext
+    private EntityManager entityManager;
+
+    public void addReview(String title, String contents, String email, String thumbnailPath, String additionalPhotos) {
+        entityManager.createStoredProcedureQuery("AddReviewProcedure")
+            .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+            .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+            .registerStoredProcedureParameter(3, String.class, ParameterMode.IN)
+            .registerStoredProcedureParameter(4, String.class, ParameterMode.IN)
+            .registerStoredProcedureParameter(5, String.class, ParameterMode.IN)
+            .setParameter(1, title)
+            .setParameter(2, contents)
+            .setParameter(3, email)
+            .setParameter(4, thumbnailPath) // 대표사진 경로
+            .setParameter(5, additionalPhotos) // 추가사진 경로 (쉼표 구분)
+            .execute();
+    }
+	
+	
 }

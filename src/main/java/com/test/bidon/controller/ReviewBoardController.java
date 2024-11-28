@@ -1,11 +1,8 @@
 package com.test.bidon.controller;
 
-import java.util.Arrays;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +11,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.test.bidon.dto.ReviewBoardFormDTO;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.repository.ReviewBoardRepository;
+import com.test.bidon.service.FileService;
+import com.test.bidon.service.ReviewBoardService;
 
 @Controller
 public class ReviewBoardController {
@@ -26,6 +27,11 @@ public class ReviewBoardController {
     @Autowired
     private ReviewBoardRepository reviewBoardRepository;
 
+    @Autowired
+    private ReviewBoardService reviewBoardService;
+    
+    @Autowired
+    private FileService fileService;
     /**
      * 블로그 페이지 - 페이징 처리
      */
@@ -74,30 +80,42 @@ public class ReviewBoardController {
     }
     
     @GetMapping("/add-review")
-    public String showAddReviewPage() {
-    	
-    	
-    	return "user/add-review";
+    public String showAddReviewPage( Model model) {
+       
+        return "user/add-review"; // 폼 렌더링
+    }
+
+
+    @PostMapping("/add-review")
+    public String addReview(@ModelAttribute ReviewBoardFormDTO form) {
+        // 1. 대표 사진 저장
+        String thumbnailPath = fileService.saveFile(form.getThumbnail()); // 대표 이미지 저장
+
+        // 2. 추가 사진 저장
+        List<String> additionalPhotoPaths = form.getPhotos().stream()
+            .map(fileService::saveFile) // 추가 이미지 저장
+            .collect(Collectors.toList());
+
+        // 3. 서비스 호출
+        reviewBoardService.addReview(
+            form.getTitle(),
+            form.getContents(),
+            form.getEmail(),
+            thumbnailPath,
+            String.join(",", additionalPhotoPaths)
+        );
+        
+        
+
+        return "redirect:/blog"; // 작성 완료 후 블로그로 리다이렉트
     }
     
-//    @PostMapping("/submit-review")
-//    public String submitReview(
-//            @RequestParam("title") String title,
-//            @RequestParam("author") String author,
-//            @RequestParam("content") String content,
-//            @RequestParam(value = "image", required = false) MultipartFile image) {
-//        
-//        // 제출된 데이터 처리 로직 (DB 저장, 파일 저장 등)
-//        System.out.println("Title: " + title);
-//        System.out.println("Author: " + author);
-//        System.out.println("Content: " + content);
-//        if (image != null && !image.isEmpty()) {
-//            System.out.println("Image: " + image.getOriginalFilename());
-//        }
-//
-//        // 작성 후 블로그 목록으로 리다이렉트
-//        return "redirect:/blog";
-//    }
+    public void addReviewFromController() {
+        reviewBoardService.addReview("Title", "Content", "email@example.com", "/path/to/thumbnail", "/path/to/photos");
+    }
 
 
+    
+   
+    
 }

@@ -1,5 +1,6 @@
 package com.test.bidon.config.security;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,10 +31,33 @@ public class CustomUserDetails implements UserDetails {
     public String getPassword() {
         return userEntity.getPassword();
     }
-
+    
+    //추가한 메서드 > 마이페이지에서 사용
     public String getName() {
     	return userEntity.getName();
     }
+    
+    public String getNational() {
+    	return userEntity.getNational();
+    }
+    
+    public LocalDate getBirth() {
+		return userEntity.getBirth();
+	}
+    
+	public String getTel() {
+		return userEntity.getTel();
+	}
+	
+	public LocalDate getCreateDate() {
+		return userEntity.getCreateDate();
+	}
+
+	public String getProfile() {
+		return userEntity.getProfile();
+	}
+    
+    //추가한 메서드 끝
     
     @Override
     public String getUsername() {
@@ -59,4 +83,10 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return userEntity.getStatus() == 0;
     }
+
+	public Long getId() {
+		return userEntity.getId();
+	}
+
+
 }
