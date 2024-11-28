@@ -4,6 +4,7 @@ import com.test.bidon.dto.LiveAuctionItemDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -37,6 +38,12 @@ public class LiveAuctionItem {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
+    
+    @Column(nullable = false)
+    private LocalDateTime createTime;
+    
+    @Column(nullable = true)
+    private String brand;
 
     @ManyToOne
     @JoinColumn(name = "userInfoId")
@@ -51,6 +58,7 @@ public class LiveAuctionItem {
                 .startPrice(this.getStartPrice())
                 .startTime(this.getStartTime())
                 .endTime(this.getEndTime())
+                .createTime(this.getCreateTime())
                 .userInfo(this.getUserInfo().toDTO())
                 .build();
     }
