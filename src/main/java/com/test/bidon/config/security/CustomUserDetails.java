@@ -84,5 +84,9 @@ public class CustomUserDetails implements UserDetails {
         return userEntity.getStatus() == 0;
     }
 
+	public Long getId() {
+		return userEntity.getId();
+	}
+
 
 }

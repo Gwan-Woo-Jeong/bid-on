@@ -37,3 +37,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 });
+
+
+
+
+document.getElementById('userEditForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('/api/user/update', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            // ContentType은 FormData를 사용할 때는 설정하지 않습니다.
+            // multipart/form-data로 자동 설정됨
+            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]')?.content
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('정보가 성공적으로 수정되었습니다.');
+            window.location.reload();
+        } else {
+            alert(data.message || '정보 수정에 실패했습니다.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('정보 수정 중 오류가 발생했습니다.');
+    });
+});
+
+
+
+
+
