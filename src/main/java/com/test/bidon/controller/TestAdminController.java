@@ -1,6 +1,7 @@
 package com.test.bidon.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,17 +15,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.test.bidon.dto.LiveAuctionItemDTO;
+import com.test.bidon.dto.NormalAuctionItemDTO;
+import com.test.bidon.entity.LiveAuctionItem;
 import com.test.bidon.entity.NormalAuctionItem;
 import com.test.bidon.entity.OneOnOne;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.entity.UserEntity;
+import com.test.bidon.repository.LiveAuctionItemRepository;
 import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.repository.UserRepository;
 
 @Controller
-
 public class TestAdminController {
 
 	@Autowired
@@ -35,29 +39,55 @@ public class TestAdminController {
 	private OneOnOneRepository oneOnOneRepository;
 	@Autowired
 	private NormalAuctionItemRepository normalAuctionItemRepository;
+	@Autowired
+	private LiveAuctionItemRepository liveAuctionItemRepository;
 	
 
 	//경매 관리
 	@GetMapping("/admin/auction")
 	public String auctionPage(Model model) {
+		
+		LocalDateTime currentTime = LocalDateTime.now();
 	    
-	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll();
+	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+	    
+	    for (NormalAuctionItem item : normalList) {
+            item.calculateStatus(currentTime);  
+        }
+	    
+	    model.addAttribute("normalList", normalList);
+	    
+	    
+	    List<NormalAuctionItem> normalProgressList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
 
-	    // startTime을 기준으로 문자열을 사전식으로 정렬
-	    List<NormalAuctionItem> sortedList = normalList.stream()
-	        .sorted((item1, item2) -> item2.getStartTime().compareTo(item1.getStartTime()))
-	        .collect(Collectors.toList());
+	    List<NormalAuctionItem> filteredNormalProgressList = normalProgressList.stream()
+                .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
+                .collect(Collectors.toList());
 
-	    model.addAttribute("normalList", sortedList);
+        model.addAttribute("normalProgressList", filteredNormalProgressList);
 	    
-//	    List<LiveAuctionItem> liveList = liveAuctionItemRepository.findAll();
+
+	    List<LiveAuctionItem> liveList = liveAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
 	    
-	    // startTime을 기준으로 문자열을 사전식으로 정렬
-	    //List<NormalAuctionItem> sortedList = normalList.stream()
-	    //		.sorted((item1, item2) -> item2.getStartTime().compareTo(item1.getStartTime()))
-	    //		.collect(Collectors.toList());
+	    for (LiveAuctionItem item : liveList) {
+            item.calculateStatus(currentTime);  
+        }
+
+
+	    model.addAttribute("liveList", liveList);
 	    
-//	    model.addAttribute("normalList", sortedList);
+	    List<LiveAuctionItem> progressList = liveAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+
+	    List<LiveAuctionItem> filteredProgressList = progressList.stream()
+                .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
+                .collect(Collectors.toList());
+
+        model.addAttribute("progressList", filteredProgressList);
+	    
+//	    List<NormalAuctionItemDTO> wishList = normalAuctionItemRepository.findWishItem();
+//	    
+//	    model.addAttribute("wishList", wishList);
+	    
 	    
 	    return "admin/auction";
 	}
@@ -139,11 +169,9 @@ public class TestAdminController {
 	@GetMapping("/admin/community")
 	public String communityPage(Model model) {
 	    List<ReviewBoard> reviewList = reviewBoardRepository.findAll(Sort.by(Sort.Order.desc("regdate")));
-
 	    model.addAttribute("reviewList", reviewList); 
 	    
 	    List<OneOnOne> questionsList = oneOnOneRepository.findAll();
-	    
         model.addAttribute("questionsList", questionsList);
 	    
 	    return "admin/community";  // admin/community 페이지로 이동

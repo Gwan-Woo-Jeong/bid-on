@@ -59,16 +59,16 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			          </thead>
 			          <tbody>
 			            <!-- normalList를 반복하면서 출력 -->
-			            <tr th:each="item : ${normalList}">
-			              <td th:text="${item.name}">물품</td> <!-- 물품명 -->
-			              <td th:text="${item.startTime}">경매 시간</td> <!-- 시작 시간 (String) -->
-			              <td th:text="${item.startPrice}">시작가</td> <!-- 시작가 -->
-			              <td>
-			                <!-- 상태에 따라 배지 스타일 변경 -->
-							<span class="badge" th:text="${item.status == '대기중' ? '경매대기' : (item.status == '진행중' ? '경매진행' : '경매종료')}"
-							      th:classappend="${item.status == '대기중' ? 'badge-warning' : (item.status == '진행중' ? 'badge-success' : 'badge-danger')}">
-							</span>
-			              </td>
+			            <tr th:each="dto : ${normalList}">
+			              <td th:text="${dto.name}">물품</td> <!-- 물품명 -->
+			              <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}">경매 시간</td> <!-- 시작 시간 (String) -->
+			              <td th:text="${dto.startPrice}">시작가</td> <!-- 시작가 -->
+						  <td>
+  							<span class="badge"
+  			              th:text="${dto.statusNormal}"
+  			              th:classappend="${dto.statusNormal == '경매대기' ? 'badge-warning' : (dto.statusNormal == '경매진행' ? 'badge-success' : 'badge-danger')}">
+  						   </span>
+  					      </td>
 			            </tr>
 			          </tbody>
 			        </table>
@@ -79,40 +79,44 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">최근 체결 거래</h4>
+                  <h4 class="card-title">진행중인 경매</h4>
                   <p class="card-description">
                     <code>.normal</code>
                   </p>
-                  <div class="table-responsive">
-                    <table class="table table-hover">
+                  <div class="table-responsive mt-1">
+                    <table class="table select-table">
                       <thead>
                         <tr>
-							<!--가져올 정보 1. 물품 2. 일시 3. 가격 4. 결제 상태 -->
                           <th>판매자</th>
                           <th>물품</th>
-                          <th>금액</th>
-                          <th></th>
+                          <th>시작 시간</th>
+                          <th>종료 시간</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>이다연</td>
-                          <td>SAMSUNG 노트북</td>
-                          <td>500,000</td>
-                          <td><label class="badge badge-warning">배송중</label></td>
-                        </tr>
-                        <tr>
-                          <td>이유연</td>
-                          <td>SAMSUNG TV</td>
-                          <td>500,000</td>
-                          <td><label class="badge badge-danger">배송완료</label></td>
-                        </tr>
-                        <tr>
-                          <td>유라연</td>
-                          <td>LG 노트북</td>
-                          <td>280,000</td>
-                          <td><label class="badge badge-success">출고중</label></td>
-                        </tr>
+                        <tr th:each="dto : ${normalProgressList}">
+						 <td>
+		                    <h6 th:text="${dto.userInfo.name}"></h6>
+		                    <p th:text="${dto.userInfo.email}"></p>
+			              </td>
+			              <td>
+			                <h6 th:text="${dto.name}"></h6>
+			              </td>
+			              <td>
+			                <div>
+			                  <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+			                    <p class="text-danger" th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></p>
+			                  </div>
+			                </div>
+			              </td>
+						  <td>
+  			                <div>
+  			                  <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+  			                    <p class="text-danger" th:text="${#temporals.format(dto.endTime, 'yyyy-MM-dd HH:mm:ss')}"></p>
+  			                  </div>
+  			                </div>
+  			              </td>
+						</tr>
                       </tbody>
                     </table>
                   </div>
@@ -137,11 +141,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>홍동길</td>
-                          <td>에어팟 맥스</td>
-                          <td>2024-11-23</td>
-                          <td class="text-danger">2024-11-30</label></td>
+                        <tr th:each="dto : ${liveList}">
+                          <td th:text="${dto.name}"></td>
+                          <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                          <td th:text="${dto.startPrice}"></td>
+						  <td>
+							<span class="badge"
+				              th:text="${dto.status}"
+				              th:classappend="${dto.status == '경매대기' ? 'badge-warning' : (dto.status == '경매진행' ? 'badge-success' : 'badge-danger')}">
+							   </span>
+						     </td>
+						  </td>
                         </tr>
                       </tbody>
                     </table>
@@ -150,82 +160,46 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
               </div>
             </div>
 			<div class="col-lg-6 grid-margin stretch-card">
-          		<div class="card">
-            	<div class="card-body">
-                  <h4 class="card-title">진행중인 경매</h4>
-                  <p class="card-description">
-                    <code>.live</code></p>
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-						<div class="table-responsive  mt-1">
-                  <table class="table select-table">
-                    <thead>
-                      <tr>
-                        <th>사용자</th>
-                        <th>물품</th>
-                        <th>경과 시간</th>
-                        <th>참여 인원</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <div class="d-flex ">
-                            <img src="images/faces/face1.jpg" alt="">
-                            <div>
-                              <h6>홍동길</h6>
-                              <p>@HongDongGil@naver.com</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <h6>가전제품</h6>
-                          <p>카메라</p>
-                        </td>
-                        <td>
-                          <div>
-                            <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                              <p class="text-success">85%<p class="text-danger">총30분</p></p>
-                            </div>
-                            <div class="progress progress-md">
-                              <div class="progress-bar bg-danger" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
-                        </td>
-                        <td><div class="badge badge-opacity-warning">8명</div></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex ">
-                            <img src="images/faces/face3.jpg" alt="">
-                            <div>
-                              <h6>아무개<h6>
-                              <p>@Amuuuu12@naver.com</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <h6>가전제품</h6>
-                          <p>아이폰 13pro</p>
-                        </td>
-                        <td>
-                          <div>
-                            <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                              <p class="text-success">45%<p class="text-danger">총30분</p></p>
-                            </div>
-                            <div class="progress progress-md">
-                              <div class="progress-bar bg-danger" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
-                        </td>
-                        <td><div class="badge badge-opacity-warning">3명</div></td>
-                      </tr>
-					 </tbody>
-					</table>  
-                  </div>
-                </div>
-              </div>
-            </div>
+			  <div class="card">
+			    <div class="card-body">
+			      <h4 class="card-title">진행중인 경매</h4>
+			      <p class="card-description">
+			        <code>.live</code>
+			      </p>
+			      <div class="table-responsive mt-1">
+			        <table class="table select-table">
+			          <thead>
+			            <tr>
+			              <th>판매자</th>
+			              <th>물품</th>
+			              <th>시작 시간</th>
+			              <th></th>
+			            </tr>
+			          </thead>
+			          <tbody>
+			            <tr th:each="dto : ${progressList}">
+			              <td>
+		                    <h6 th:text="${dto.userInfo.name}"></h6>
+		                    <p th:text="${dto.userInfo.email}"></p>
+			              </td>
+			              <td>
+			                <h6 th:text="${dto.name}"></h6>
+			              </td>
+			              <td>
+			                <div>
+			                  <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+			                    <p class="text-danger" th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></p>
+			                  </div>
+			                </div>
+			              </td>
+			              <td><a class="badge badge-opacity-warning">참여</a></td>
+			            </tr>
+			          </tbody>
+			        </table>
+			      </div>
+			    </div>
+			  </div>
+			</div>
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -257,59 +231,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                       <tbody>
                         <tr>
                           <td class="py-1">
-                            <img src="/admin/images/faces/face2.jpg" alt="image"/>
+                           <!-- <img src="프로필"/>-->
                           </td>
                           <td>
-                            김유리
+                            <!--이름-->
                           </td>
                           <td>
-                            <div class="progress">
+                            <!--<div class="progress">
                               <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                          </td> 물품 그래프-->
+                          <td>
+                            <!--물품 개수-->
                           </td>
                           <td>
-                            총 20개
-                          </td>
-                          <td>
-                            2024-11-04
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face1.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            임호균
-                          </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 72%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                          <td>
-                           총 18개
-                          </td>
-                          <td>
-                            2024-11-23
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="/admin/images/faces/face6.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            이혜미
-                          </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 68%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                          <td>
-                            총 17개
-                          </td>
-                          <td>
-                            2024-11-22
+                            <!--등록일-->
                           </td>
                         </tr>
                       </tbody>
@@ -333,103 +269,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                             #
                           </th>
                           <th>
-                            카테고리
-                          </th>
-                          <th>
                             물품
                           </th>
-                          <th class="ti-heart text-danger"> 찜
-                          </th>
                           <th>
-                            등록일
+                            상태
+                          </th>
+						  <th>
+                             경매일
+                           </th>
+                          <th class="ti-heart text-danger"> 위시
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr th:each=" dto: ${wishList}">
                           <td>
                             1
                           </td>
-                          <td>
-                            가전제품
-                          </td>
-                          <td>
-                            에어팟 맥스
-                          </td>
-                          <td>
-                            100
-                          </td>
-                          <td>
-                            2024-11-20
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            2
-                          </td>
-                          <td>
-                            가전제품
-                          </td>
-                          <td>
-                            노트북
-                          </td>
-                          <td>
-                            87
-                          </td>
-                          <td>
-                            2024-11-20
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            3
-                          </td>
-                          <td>
-                            가전제품
-                          </td>
-                          <td>
-                            모니터
-                          </td>
-                          <td>
-                            54
-                          </td>
-                          <td>
-                            2024-11-18
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            4
-                          </td>
-                          <td>
-                           
-                          </td>
-                          <td>
-                            
-                          </td>
-                          <td>
-                            
-                          </td>
-                          <td>
-                            
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            5
-                          </td>
-                          <td>
-                            
-                          </td>
-                          <td>
-                            
-                          </td>
-                          <td>
-                            
-                          </td>
-                          <td>
-                            
-                          </td>
+                          <td th:text="${dto.name}"></td>
+                          <td class="badge" th:text="${dto.status}"></td>
+                          <td th:text="${dto.startTime}"></td>
+                          <td th:text="${dto.wishCount}"></td>
                         </tr>
                       </tbody>
                     </table>

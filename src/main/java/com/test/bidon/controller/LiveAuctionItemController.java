@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.test.bidon.dto.LiveAuctionItemListDTO;
-import com.test.bidon.entity.LiveAuctionItemImageList;
 import com.test.bidon.repository.CustomLiveAuctionItemRepository;
 
 import lombok.RequiredArgsConstructor;
