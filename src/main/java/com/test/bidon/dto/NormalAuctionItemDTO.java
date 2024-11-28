@@ -26,7 +26,7 @@ public class NormalAuctionItemDTO {
     public static NormalAuctionItem toEntity(NormalAuctionItemDTO dto) {
 
         return NormalAuctionItem.builder()
-                .seq(dto.getSeq())
+                .id(dto.getSeq())
                 .categorySubId(dto.getCategorySubId())
                 .userInfoId(dto.getUserInfoId())
                 .name(dto.getName())
@@ -42,7 +42,7 @@ public class NormalAuctionItemDTO {
     public NormalAuctionItem toEntity() {
 
         return NormalAuctionItem.builder()
-                .seq(this.getSeq())
+                .id(this.getSeq())
                 .categorySubId(this.getCategorySubId())
                 .userInfoId(this.getUserInfoId())
                 .name(this.getName())

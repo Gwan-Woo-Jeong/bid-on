@@ -24,7 +24,7 @@ public class LiveAuctionItemRepository {
 	
 	public List<LiveAuctionItemListDTO> LiveAuctionList(){
 		
-
+		
 		return jpaQueryFactory
 				.select(Projections.constructor(
 			            LiveAuctionItemListDTO.class,
