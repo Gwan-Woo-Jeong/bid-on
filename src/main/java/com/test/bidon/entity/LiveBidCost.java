@@ -1,5 +1,7 @@
 package com.test.bidon.entity;
 
+import java.time.LocalDateTime;
+
 import com.test.bidon.dto.LiveBidCostDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +30,7 @@ public class LiveBidCost {
     private Integer bidPrice;
     
     @Column(nullable = false)
-    private Integer bidTime;
+    private LocalDateTime bidTime;
 
     @ManyToOne
     @JoinColumn(name = "liveAuctionPartId")

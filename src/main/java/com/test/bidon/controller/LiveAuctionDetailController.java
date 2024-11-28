@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.test.bidon.dto.LiveAuctionDetailCustomerDTO;
 import com.test.bidon.dto.LiveAuctionDetailDTO;
 import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
 import com.test.bidon.repository.CustomLiveAuctionItemRepository;
@@ -30,27 +30,16 @@ public class LiveAuctionDetailController {
 		
 		LiveAuctionDetailDTO liveAuctionDetail = liveAuctionItemRepository.getAuctionDetail(id);
 		
+		List<LiveAuctionDetailCustomerDTO> customerBid = liveAuctionItemRepository.bidCustomer(id);
+		
 		model.addAttribute("detail", liveAuctionDetail);
 		model.addAttribute("images", detailImages);
-		
-		 System.out.println("images: " + detailImages); // 데이터 확인
-		 
-		 System.out.println("Images size: " + detailImages.size());
-
-		 
-		 
+		model.addAttribute("cutomer", customerBid);
+			 	 
 		    return "user/bid-detail-live";
 	}
 	
 	
-	
 
-	
-	
-//	@GetMapping("/{id}")
-//	@ResponseBody // JSON 형식으로 반환
-//	public LiveAuctionDetailDTO getBidDetailLiveAsJson(@PathVariable("id") Long id) {
-//	    return liveAuctionItemRepository.getAuctionDetail(id);
-//	}
-//	
+
 }
