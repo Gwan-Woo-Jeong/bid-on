@@ -25,7 +25,7 @@
     flex: 0 0 100%;
     display: none; /* 기본적으로 숨김 처리 */
     transition: opacity 0.5s ease;
-    
+
 }
 
 .dcard-image.active {
@@ -33,7 +33,7 @@
 }
 
 .dcard-image img {
-   width: 100%; 
+   width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 8px;
@@ -70,7 +70,7 @@
 .right-btn {
     right: 10px;
 }
-    	
+
     </style>
 </head>
 
@@ -82,7 +82,7 @@
         <div class="container">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">실시간 경매물품 상세보기</li>
                 </ol>
                 <h1 class="breadcrumb-title">경매정보 & 상세보기</h1>
@@ -95,10 +95,10 @@
                 <div class="col-lg-8">
 				    <button class="btn left-btn" onclick="showPreviousImage()">⬅</button>
 				    <div class="card-image-container">
-				        <div th:each="image, iterStat : ${images}" 
+				        <div th:each="image, iterStat : ${images}"
 				             class="dcard-image card-image"
 				             th:classappend="${iterStat.index == 0} ? 'active' : ''">
-				             <img th:src="${image.imagePath}" 
+				             <img th:src="${image.imagePath}"
          							th:alt="${image.isMainImage}">
 				        </div>
 				        <div class="timer-wrapper">
@@ -110,7 +110,7 @@
                 <div class="col-lg-4">
                     <div class="product-bid-widget h-100">
                         <h3 class="title" th:text="${detail.productName}">
-                            
+
                         </h3>
                         <ul>
                             <li><span>국가</span><span th:text="${detail.sellerNational}"></span></li>
@@ -119,9 +119,17 @@
                             <li><span>입찰 횟수</span><span th:text="${detail.participantCount}"></span></li>
                             <li><span>최소 입찰 단위</span><span>10,000원</span></li>
                         </ul>
-                        <div class="d-flex flex-wrap justify-content-between gap-2">
-                            <a href="/checkout" class="primary-btn d-flex align-items-center">실시간 경매방 입장</a>
-                        </div>
+                        <a id="live-enter-btn" class="primary-btn d-flex justify-content-center">실시간 경매방 1번</a>
+                        <a id="live-enter-btn1" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            1번</a>
+                        <a id="live-enter-btn2" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            1번</a>
+                        <a id="live-enter-btn3" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            2번</a>
+                        <a id="live-enter-btn4" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            2번</a>
+                        <a id="live-enter-btn5" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            2번</a>
 
                     </div>
                 </div>
@@ -187,7 +195,7 @@
                                         <h4 class="mb-3" th:text="${detail.productName}">
                                         </h4>
                                         <p class="mb-2" th:text="${detail.description}"></p>
-                                  
+
                                     </div>
                                 </div>
                             </div>
@@ -475,7 +483,7 @@ function showPreviousImage() {
     const totalImages = galleryItems.length;
 
     galleryItems[currentIndex].classList.remove('active');
-    
+
     // 이전 이미지로 이동 (첫 번째에서 마지막으로 순환)
     currentIndex = (currentIndex - 1 + totalImages) % totalImages;
     galleryItems[currentIndex].classList.add('active');
@@ -489,7 +497,7 @@ function showNextImage() {
     const totalImages = galleryItems.length;
 
     galleryItems[currentIndex].classList.remove('active');
-    
+
     // 다음 이미지로 이동 (마지막에서 첫 번째로 순환)
     currentIndex = (currentIndex + 1) % totalImages;
     galleryItems[currentIndex].classList.add('active');
@@ -497,7 +505,7 @@ function showNextImage() {
     console.log('현재 Index:', currentIndex); // 디버깅용
 }
 
-	
+
 </script>
 </body>
 
