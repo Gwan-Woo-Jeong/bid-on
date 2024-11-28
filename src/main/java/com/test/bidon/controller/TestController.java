@@ -1,11 +1,23 @@
 package com.test.bidon.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.test.bidon.dto.LiveAuctionItemListDTO;
+import com.test.bidon.repository.CustomLiveAuctionItemRepository;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class TestController {
+	
+	private final CustomLiveAuctionItemRepository liveAuctionItemRepository;
+	
+	
 
 	@GetMapping("/")
 	public String redirect(Model model) {
@@ -14,6 +26,22 @@ public class TestController {
 
 	@GetMapping("/home")
 	public String index(Model model) {
+		
+		List<LiveAuctionItemListDTO> HomeLiveItemList = liveAuctionItemRepository.LiveAuctionList();
+		
+		HomeLiveItemList.sort((a,b) -> b.getId().compareTo(a.getId()));
+		
+		List<LiveAuctionItemListDTO> limitedItems = HomeLiveItemList.stream().skip(2).limit(4).toList();
+		
+		
+		
+		LiveAuctionItemListDTO bigList = liveAuctionItemRepository.bigHomeLiveAuctionList();
+		
+		
+		
+		model.addAttribute("liveItemList", limitedItems);
+		model.addAttribute("big", bigList);
+		
 		return "user/home";
 	}
 
@@ -32,10 +60,10 @@ public class TestController {
 		return "user/bid-detail";
 	}
 	
-	@GetMapping("/bid-detail-live")
-	public String bidDetailLive(Model model) {
-		return "user/bid-detail-live";
-	}
+//	@GetMapping("/bid-detail-live")
+//	public String bidDetailLive(Model model) {
+//		return "user/bid-detail-live";
+//	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {

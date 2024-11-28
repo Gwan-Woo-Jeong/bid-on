@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class LiveAuctionItemListDTO {
 
+	private Long id;
 	private String name;
 	private String path;
 	private Integer startPrice;
