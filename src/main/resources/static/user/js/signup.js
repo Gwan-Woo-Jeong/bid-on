@@ -33,6 +33,7 @@ $(document).ready(function() {
 	    }
 	});
 
+	/*
     //국가 선택 기능
     const countrySelect = $('#countrySelect');
     
@@ -99,7 +100,78 @@ $(document).ready(function() {
                 );
             });
         }
-    });
+    });*/
+	
+	const countrySelect = $('#countrySelect');
+	const currentNational = countrySelect.attr('value'); // 현재 설정된 national 값 가져오기
+
+	//로딩 중 표시
+	countrySelect.html('<option value="">로딩 중...</option>');
+
+	//REST Countries API에서 모든 국가 정보 가져오기
+	$.ajax({
+	    url: 'https://restcountries.com/v3.1/all',
+	    method: 'GET',
+	    success: function(data) {
+	        const countries = data.map(country => ({
+	            code: country.cca2,
+	            name: country.translations.kor?.common || country.name.common
+	        }));
+
+	        countries.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+
+	        countrySelect.html('<option value="">국가 선택</option>');
+
+	        countries.forEach(country => {
+	            const option = $('<option>', {
+	                value: country.code,
+	                text: country.name
+	            });
+	            
+	            // 현재 사용자의 national 값과 일치하면 selected 설정
+	            if(country.code === currentNational) {
+	                option.prop('selected', true);
+	            }
+	            
+	            countrySelect.append(option);
+	        });
+
+	        console.log('Countries loaded successfully');
+	    },
+	    error: function(xhr, status, error) {
+	        console.error('Error fetching countries:', error);
+	        countrySelect.html('<option value="">국가 목록 로드 실패</option>');
+
+	        const fallbackCountries = [
+	            { code: 'KR', name: '대한민국' },
+	            { code: 'US', name: '미국' },
+	            { code: 'JP', name: '일본' },
+	            { code: 'CN', name: '중국' },
+	            { code: 'GB', name: '영국' },
+	            { code: 'DE', name: '독일' },
+	            { code: 'FR', name: '프랑스' },
+	            { code: 'CA', name: '캐나다' },
+	            { code: 'AU', name: '호주' }
+	        ];
+
+	        fallbackCountries.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+
+	        fallbackCountries.forEach(country => {
+	            const option = $('<option>', {
+	                value: country.code,
+	                text: country.name
+	            });
+	            
+	            // 현재 사용자의 national 값과 일치하면 selected 설정
+	            if(country.code === currentNational) {
+	                option.prop('selected', true);
+	            }
+	            
+	            countrySelect.append(option);
+	        });
+	    }
+	});
+	
 
 	$("#signupForm").submit(function(e) {
 	    e.preventDefault();

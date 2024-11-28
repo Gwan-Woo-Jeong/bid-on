@@ -124,7 +124,6 @@ public class UserController {
 
     @GetMapping("/mypage")
     @PreAuthorize("isAuthenticated()")
-	//public String mypage(Model model, @AuthenticationPrincipal UserEntity user) {
     public String mypage(Model model) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
@@ -134,7 +133,12 @@ public class UserController {
             // 예: customUserDetails.getUser() 또는 직접 정보 접근
             model.addAttribute("name", customUserDetails.getName());
             model.addAttribute("email", customUserDetails.getUsername());
-            log.info("User info found - Name: {}, Email: {}", customUserDetails.getName(), customUserDetails.getUsername());
+            model.addAttribute("national", customUserDetails.getNational());
+            model.addAttribute("birth", customUserDetails.getBirth());
+            model.addAttribute("tel", customUserDetails.getTel());
+            model.addAttribute("createDate", customUserDetails.getCreateDate());
+            model.addAttribute("profile", customUserDetails.getProfile());
+            log.info("User info found - Name: {}, Email: {}", customUserDetails.getName(), customUserDetails.getUsername(), customUserDetails.getNational());
         } else {
             log.warn("User information not found");
         }
