@@ -10,8 +10,7 @@ import lombok.ToString;
 public class Message {
 
 	private String code;
-	private String sender;
-	private String receiver;
+	private String userId;
 	private String content;
 	private String regdate;
 	

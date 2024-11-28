@@ -116,9 +116,7 @@ body {
     padding: 0 0 0 58px;
     text-align: left;
     margin: 0 auto;
-    width: fit-content;
 }
-
 
 .chat-body .answer.center .text {
     background: #182b6e;
@@ -172,6 +170,14 @@ body {
     height: 100%;
 }
 
+.chat-body .text {
+    width: fit-content;
+}
+
+.chat-body .answer {
+    width: fit-content;
+}
+
 .chat-body .answer .name {
     font-size: 14px;
     line-height: 36px;
@@ -189,6 +195,7 @@ body {
     background: #ebebeb;
     color: #333333;
     border-radius: 8px 8px 8px 0;
+    margin-right: auto;
 }
 
 .chat-body .answer .text {
@@ -219,10 +226,11 @@ body {
 }
 
 .chat-body .answer .time {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 36px;
     position: relative;
     padding-bottom: 1px;
+    color: #727272;
 }
 
 /*RIGHT*/
@@ -244,6 +252,7 @@ body {
     background: #ffda22;
     color: #000000;
     border-radius: 8px 8px 0 8px;
+    margin-left: auto;
 }
 
 .chat-body .answer.right .text:before {
