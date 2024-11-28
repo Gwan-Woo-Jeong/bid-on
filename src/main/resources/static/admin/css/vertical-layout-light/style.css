@@ -20749,6 +20749,11 @@ code {
   background: #fff2d6;
   color: #cc8c00;
 }
+.badge-opacity-warning:hover {
+  background: #cc8c00;
+  color: #fff2d6;
+  cursor: pointer; 
+}
 
 .badge-opacity-danger {
   background: white;

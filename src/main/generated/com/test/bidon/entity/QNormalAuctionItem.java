@@ -25,9 +25,9 @@ public class QNormalAuctionItem extends EntityPathBase<NormalAuctionItem> {
 
     public final StringPath endTime = createString("endTime");
 
-    public final StringPath name = createString("name");
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
+    public final StringPath name = createString("name");
 
     public final StringPath startPrice = createString("startPrice");
 

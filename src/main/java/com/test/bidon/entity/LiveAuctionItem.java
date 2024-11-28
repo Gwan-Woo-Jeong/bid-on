@@ -37,6 +37,9 @@ public class LiveAuctionItem {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
+    
+    @Transient  //Admin 페이지 실시간 경매 리스트 상태 표시 -민지
+    private String status;  
 
     @ManyToOne
     @JoinColumn(name = "userInfoId")
@@ -52,8 +55,22 @@ public class LiveAuctionItem {
                 .startTime(this.getStartTime())
                 .endTime(this.getEndTime())
                 .userInfo(this.getUserInfo().toDTO())
+                .status(this.getStatus())
                 .build();
     }
+    
+    
+    
+    public String getStatus() {
+        if (startTime.isAfter(LocalDateTime.now())) {
+            return "경매대기";
+        } else if (endTime.isBefore(LocalDateTime.now())) {
+            return "경매종료";
+        } else {
+            return "진행진행";
+        }
+    }
+
 
 }
 
