@@ -10561,7 +10561,7 @@ progress {
   overflow-x: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  max-height: 300px; 
+  max-height: 800px; 
 }
 
 .table-responsive::-webkit-scrollbar {

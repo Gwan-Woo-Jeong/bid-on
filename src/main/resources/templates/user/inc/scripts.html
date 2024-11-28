@@ -16,4 +16,14 @@
         <script src="/user/js/common/custom.js"></script>
     </th:block>
 
+    <th:block th:if="${dayjs} or ${all}">
+        <script src="/common/js/dayjs.min.js"></script>
+        <script src="/common/js/dayjs-istoday.min.js"></script>
+        <script src="/common/js/dayjs-isyesterday.min.js"></script>
+        <script src="/common/js/dayjs-relativetime.min.js"></script>
+        <script>dayjs.extend(window.dayjs_plugin_isToday);</script>
+        <script>dayjs.extend(window.dayjs_plugin_isYesterday);</script>
+        <script>dayjs.extend(window.dayjs_plugin_relativeTime);</script>
+    </th:block>
+
 </th:block>

@@ -60,23 +60,24 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         <div class="statistics-details d-flex align-items-center justify-content-between">
                           <div>
                             <p class="statistics-title">전체 회원 수</p>
-                            <h3 class="rate-percentage">100</h3>
-                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>-0.5%</span></p>
+                            <h3 class="rate-percentage" th:text="${userCount}-9"></h3>
+							<p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p>
+                            <!--<p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span th:text="${#numbers.formatDecimal((newUserCount / (userCount - 9 - newUserCount)) * 100, 1)} + ' POINT'"></span></p>-->
                           </div>
                           <div>
                             <p class="statistics-title">신규 회원 수</p>
-                            <h3 class="rate-percentage">30</h3>
+                            <h3 class="rate-percentage" th:text="${newUserCount}"></h3>
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p>
                           </div>
                           <div>
                             <p class="statistics-title">총 경매 물품 수</p>
-                            <h3 class="rate-percentage">40</h3>
+                            <h3 class="rate-percentage" th:text="${nomalItemCount}+${liveItemCount}"></h3>
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">진행 중인 경매 물품 수</p>
                             <h3 class="rate-percentage">20</h3>
-                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.8%</span></p>
+                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>0.01</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">총 낙찰 물품 수</p>
@@ -365,7 +366,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   <!-- container-scroller -->
 
 	<th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
+	
+	<script th:inline="javascript">
+			
 
+		
+	</script>
+	
 </body>
 
 </html>

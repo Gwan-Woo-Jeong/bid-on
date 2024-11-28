@@ -64,10 +64,10 @@ public class UserService {
     }
 
     // 사용자 조회 메서드 (필요시 사용)
-    @Transactional(readOnly = true)
-    public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+//    @Transactional(readOnly = true)
+//    public UserEntity findByEmail(String email) {
+//        return userRepository.findByEmail(email);
+//    }
     
 
     private void logUserEntityDetails(UserEntity userEntity) {

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Bid Detail')}"></th:block>
@@ -46,9 +46,14 @@
                             <li><span>입찰 횟수</span><span>21</span></li>
                             <li><span>최소 입찰 단위</span><span>10,000원</span></li>
                         </ul>
-                        <div class="d-flex flex-wrap justify-content-between gap-2">
-                            <a href="checkout" class="primary-btn d-flex align-items-center">실시간 경매방 입장</a>
-                        </div>
+                        <a id="live-enter-btn" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            입장</a>
+                        <a id="live-enter-btn1" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            입장1</a>
+                        <a id="live-enter-btn2" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            입장2</a>
+                        <a id="live-enter-btn3" class="primary-btn d-flex justify-content-center">실시간 경매방
+                            입장3</a>
 
                     </div>
                 </div>
@@ -407,11 +412,16 @@
             </div>
         </div>
     </section>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <input id="chat-user-id" type="hidden" th:value="${#authentication.principal.id}">
+    </th:block>
 </main>
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
-<script src="/user/js/bid-detail.js"></script>
+<script src="/user/js/bid-detail-live.js"></script>
+
 </body>
 
 </html>

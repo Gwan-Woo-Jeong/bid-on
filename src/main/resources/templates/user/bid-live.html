@@ -295,7 +295,7 @@
                         <h3>시작가: <strong>3,000</strong>원</h3>
                     </div>
                 </div>
-                <div class="scroll-area flex-base">
+                <div id="chat-list" class="scroll-area flex-base">
                     <div class="col-inside-lg decor-default">
                         <div class="chat-body">
 
@@ -454,7 +454,6 @@
                                 </div>
                                 <div class="time">5 min ago</div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -467,7 +466,7 @@
                         <span class="bid-time-text">입찰 가능 시간<time class="bid-time">1:00</time></span>
                     </div>
                     <div class="answer-add">
-                        <input placeholder="메시지를 입력해주세요">
+                        <input id="message-input" type="text" placeholder="메시지를 입력해주세요">
                         <button type="submit" class="send-button">
                             <i class="fa-solid fa-location-arrow"></i>
                         </button>
@@ -478,7 +477,8 @@
     </div>
 </div>
 
-<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true)}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, dayjs=true)}"></th:block>
+<script src="/common/js/dayjs-istoday.min.js"></script>
 <script src="/user/js/bid-live.js"></script>
 </body>
 </html>

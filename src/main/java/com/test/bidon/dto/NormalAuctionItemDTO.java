@@ -1,5 +1,7 @@
 package com.test.bidon.dto;
 
+import java.time.LocalDateTime;
+
 import com.test.bidon.entity.NormalAuctionItem;
 import lombok.*;
 
@@ -17,10 +19,14 @@ public class NormalAuctionItemDTO {
     private Long userInfoId;
     private String name;
     private String description;
-    private String startTime;
-    private String endTime;
-    private String startPrice;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private Integer startPrice;
     private String status;
+    private String statusNormal;
+    private Long wishCount;
+
+	private UserInfoDTO userInfo;
 
     // DTO 본인을 Entity로 변환하는 method
     public static NormalAuctionItem toEntity(NormalAuctionItemDTO dto) {
@@ -53,4 +59,13 @@ public class NormalAuctionItemDTO {
                 .status(this.getStatus())
                 .build();
     }
+    
+    
+    public NormalAuctionItemDTO(String name, LocalDateTime startTime, String userProfile, String userName, String userEmail) {
+        this.name = name;
+        this.startTime = startTime;
+        this.userInfo = new UserInfoDTO(id, userProfile, userName, userEmail, userEmail, null, userEmail, userEmail, null, userEmail, startPrice, userEmail, null); 
+    }
+    
+    
 }

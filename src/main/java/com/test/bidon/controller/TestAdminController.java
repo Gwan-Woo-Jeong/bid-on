@@ -1,6 +1,7 @@
 package com.test.bidon.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.test.bidon.dto.LiveAuctionItemDTO;
+import com.test.bidon.dto.NormalAuctionItemDTO;
 import com.test.bidon.entity.LiveAuctionItem;
 import com.test.bidon.entity.NormalAuctionItem;
 import com.test.bidon.entity.OneOnOne;
@@ -44,28 +46,47 @@ public class TestAdminController {
 	//경매 관리
 	@GetMapping("/admin/auction")
 	public String auctionPage(Model model) {
+		
+		LocalDateTime currentTime = LocalDateTime.now();
 	    
-	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll();
+	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+	    
+	    for (NormalAuctionItem item : normalList) {
+            item.calculateStatus(currentTime);  
+        }
+	    
+	    model.addAttribute("normalList", normalList);
+	    
+	    
+	    List<NormalAuctionItem> normalProgressList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
 
-	    // startTime을 기준으로 문자열을 사전식으로 정렬
-	    List<NormalAuctionItem> sortedList = normalList.stream()
-	        .sorted((item1, item2) -> item2.getStartTime().compareTo(item1.getStartTime()))
-	        .collect(Collectors.toList());
-	    model.addAttribute("normalList", sortedList);
+	    List<NormalAuctionItem> filteredNormalProgressList = normalProgressList.stream()
+                .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
+                .collect(Collectors.toList());
+
+        model.addAttribute("normalProgressList", filteredNormalProgressList);
 	    
+
+	    List<LiveAuctionItem> liveList = liveAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
 	    
-	    List<LiveAuctionItem> liveList = liveAuctionItemRepository.findLiveList();
-	    List<LiveAuctionItemDTO> dtoList = liveList.stream()
-	            .map(LiveAuctionItem::toDTO)
-	            .collect(Collectors.toList());
+	    for (LiveAuctionItem item : liveList) {
+            item.calculateStatus(currentTime);  
+        }
+
+
 	    model.addAttribute("liveList", liveList);
 	    
-	    List<LiveAuctionItemDTO> progressList = liveAuctionItemRepository.findProgress();
+	    List<LiveAuctionItem> progressList = liveAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+
+	    List<LiveAuctionItem> filteredProgressList = progressList.stream()
+                .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
+                .collect(Collectors.toList());
+
+        model.addAttribute("progressList", filteredProgressList);
 	    
-	    model.addAttribute("progressList", progressList);
-	    
-	    List<NormalAuctionItem> wishList = normalAuctionItemRepository.findItemsWithWishCount();
-	    model.addAttribute("wishList", wishList);
+//	    List<NormalAuctionItemDTO> wishList = normalAuctionItemRepository.findWishItem();
+//	    
+//	    model.addAttribute("wishList", wishList);
 	    
 	    
 	    return "admin/auction";

@@ -4,6 +4,9 @@
       // 월별 기존 회원수 대비 신규 가입자 수 추이
       // "#performaneLine" 요소가 존재하는지 확인
       if ($("#performaneLine").length) {
+		
+		
+		
           // "performaneLine" 캔버리 요소의 2D 컨텍스트를 가져옴
           var graphGradient = document.getElementById("performaneLine").getContext('2d');
           var graphGradient2 = document.getElementById("performaneLine").getContext('2d'); // 동일한 컨텍스트를 다시 가져옴 (중복)
