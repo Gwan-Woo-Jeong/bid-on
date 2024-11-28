@@ -20,7 +20,7 @@
                     <li class="breadcrumb-item"><a href="home">홈</a></li>
                     <li class="breadcrumb-item active" aria-current="page">마이 페이지</li>
                 </ol>
-                <h1 class="breadcrumb-title">여기가 선택값 이름 나오게 하기</h1>
+                <h1 class="breadcrumb-title"></h1>
             </div>
         </div>
     </div>
@@ -328,6 +328,7 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<script th:src="@{/user/js/mypage.js}"></script>
 </body>
 
 </html>
