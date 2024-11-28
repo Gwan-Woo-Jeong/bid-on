@@ -5,7 +5,12 @@ select * from WinningBid;
 select * from NormalBidInfo;
 select * from LiveBidCost;
 
+select sum(bidprice) from LiveBidCost;
+select sum(bidprice) from NormalBidInfo;
 
+select * from MainCategory;
+
+select * from SubCategory;
 
 --사용자 통계---------------------------------------------------------
 --전체 회원 수
@@ -62,21 +67,69 @@ select * from LiveAuctionItem where startTime >= sysdate and endTime is null;
 --총 낙찰 물품 수
 select count(*) from WinningBid;
 
+-- 총수익률 (winningbod 데이터 추가되면 inner join 해야됨 right innre join 해야될듯..)
+SELECT 
+    (COALESCE(SUM(nbi.bidprice), 0) + COALESCE(SUM(lbc.bidprice), 0)) * 0.1 AS total_bid_price
+FROM 
+    winningbid wb
+FULL OUTER JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+FULL OUTER JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id;
 
 
 --수익 분석---------------------------------------------------------
 --일반 경매 총 수익(월별)
-select * from WinningBid; --입찰가격에서 낙찰가격된것만 가져옴
+SELECT 
+    EXTRACT(MONTH FROM nbi.bidDate) AS month,
+    SUM(nbi.bidprice) AS monthly_revenue
+FROM 
+    winningbid wb
+FULL OUTER JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+WHERE 
+    nbi.bidDate IS NOT NULL
+GROUP BY 
+    EXTRACT(MONTH FROM nbi.bidDate)
+ORDER BY 
+    month;
+--입찰가격에서 낙찰가격된것만 가져옴
 
 --실시간 경매 총 수익(월별)
-
+SELECT 
+    EXTRACT(MONTH FROM lbc.bidTime) AS month,
+    SUM(lbc.bidprice) AS monthly_revenue
+FROM 
+    winningbid wb
+FULL OUTER JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id
+WHERE 
+    lbc.bidTime IS NOT NULL
+GROUP BY 
+    EXTRACT(MONTH FROM lbc.bidTime)
+ORDER BY 
+    month;
 
 --총 수익률 (수수료 10%)
-select * from WinningBid wb
-inner join LiveBidCost lbc
-on wb.liveBidId = lbc.id;
+
 
 --평균 경매 시간
 
 
 
+
+
+
+
+
+SELECT 
+    nbi.bidDate,
+    nbi.bidPrice,
+    lbc.bidTime,
+    lbc.bidPrice
+FROM 
+    winningbid wb
+FULL OUTER JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+FULL OUTER JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id; 
