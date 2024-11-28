@@ -1,6 +1,5 @@
 package com.test.bidon.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.test.bidon.dto.MonthlyUserCountDTO;
 import com.test.bidon.repository.AdminDashboardRepository;
+import com.test.bidon.repository.LiveAuctionItemRepository;
 import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.UserRepository;
 
@@ -22,8 +22,8 @@ public class AdminDashboardController {
 	private AdminDashboardRepository adminDashboardRepository;
 	@Autowired
 	private NormalAuctionItemRepository normalAuctionItemRepository;
-	//@Autowired
-	//private LiveAuctionItemRepository liveAuctionItemRepository;
+	@Autowired
+	private LiveAuctionItemRepository liveAuctionItemRepository;
 	
 	@GetMapping("/admin")
 	public String index(Model model) {
@@ -34,12 +34,14 @@ public class AdminDashboardController {
         long newUserCount = adminDashboardRepository.newUserCount();
         // 월별 누적 회원 수 + 신규 회원 수
         List<MonthlyUserCountDTO> monthlyUserCountList = adminDashboardRepository.findMonthlyUserCounts(); // MonthlyUserCountDTO 리스트로 변경
-
+        
         System.out.println(monthlyUserCountList);
         
         
 		//일반 경매 상품 수
 		long nomalItemCount = normalAuctionItemRepository.count();
+		//실시간 경매 상품 수
+		long liveItemCount = liveAuctionItemRepository.count();
 		
 		
 		
@@ -47,6 +49,7 @@ public class AdminDashboardController {
 		model.addAttribute("newUserCount", newUserCount);
         model.addAttribute("monthlyUserCountList", monthlyUserCountList);
 		model.addAttribute("nomalItemCount", nomalItemCount);
+		model.addAttribute("liveItemCount", liveItemCount);
 		
 		return "admin/index";
 	}
