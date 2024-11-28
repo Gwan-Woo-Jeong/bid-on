@@ -10,15 +10,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.springframework.web.socket.WebSocketSession;
 
 public class SocketConnectionHandler extends TextWebSocketHandler {
 
-	private static List<WebSocketSession> sessionList;
+    private static List<WebSocketSession> sessionList;
 
-	static {
-		sessionList = Collections.synchronizedList(new ArrayList<>());
-	}
+    static {
+        sessionList = Collections.synchronizedList(new ArrayList<>());
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -52,46 +53,22 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         System.out.println(msg);
 
         switch (msg.getCode()) {
-
-            //새로운 유저 접속
-            case "1" -> {
+            case "IN", "TALK" -> {
                 for (WebSocketSession s : sessionList) {
                     if (s != session) {
-                        try {
-                            s.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+                        sendMessage(s, mapper, msg);
                     }
                 }
             }
 
-            //기존 유저 나감
-            case "2" -> {
+            case "OUT" -> {
                 sessionList.remove(session);
 
                 for (WebSocketSession s : sessionList) {
-                    try {
-                        s.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    sendMessage(s, mapper, msg);
                 }
             }
 
-            //클라이언트가 보낸 메시지를 다른 클라이언트에게 전달
-            case "3" -> {
-                for (WebSocketSession s : sessionList) {
-                    if (s != session) {
-                        try {
-                            s.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -101,4 +78,12 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         System.out.println("[LOG] 에러가 발생했습니다. " + exception.getMessage());
     }
 
+
+    private static void sendMessage(WebSocketSession s, ObjectMapper mapper, Message msg) {
+        try {
+            s.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
