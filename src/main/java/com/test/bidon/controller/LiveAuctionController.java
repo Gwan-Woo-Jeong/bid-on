@@ -1,14 +1,11 @@
 package com.test.bidon.controller;
 
-import com.test.bidon.dto.LiveAuctionDetailDTO;
-import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
-import com.test.bidon.dto.LiveAuctionItemListDTO;
+import com.test.bidon.dto.*;
 import com.test.bidon.repository.CustomLiveAuctionItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -51,7 +48,20 @@ public class LiveAuctionController {
     @GetMapping("/bid-room")
     public String bidLive(Model model, String itemId) {
 
+        LiveBidRoomItemDTO liveBidRoomItemInfo = liveAuctionItemRepository.getLiveBidRoomItem(Long.valueOf(itemId));
+        Long totalBidCount = liveAuctionItemRepository.getTotalBidCount(Long.valueOf(itemId));
+        Integer lastBidPrice = liveAuctionItemRepository.getLastBidPrice(Long.valueOf(itemId));
+        LiveBidRoomUserDTO lastBidder = liveAuctionItemRepository.getLastBidder(Long.valueOf(itemId));
+        // List<LiveBidRoomUserDTO> liveBidRoomParticipants = liveAuctionItemRepository.getLiveBidRoomParticipants(Long.valueOf(itemId));
+
+        model.addAttribute("itemInfo", liveBidRoomItemInfo);
+        model.addAttribute("totalBidCount", totalBidCount);
+        model.addAttribute("lastBidPrice", lastBidPrice);
+        model.addAttribute("lastBidder", lastBidder);
+        // model.addAttribute("participants", liveBidRoomParticipants);
+
         return "user/bid-live";
+
     }
 
 //	@GetMapping("/{id}")
