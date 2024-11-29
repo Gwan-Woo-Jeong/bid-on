@@ -1,12 +1,13 @@
 package com.test.bidon.entity;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
-import com.querydsl.core.types.dsl.*;
-
-import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
+
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.PathInits;
 
 
@@ -24,7 +25,7 @@ public class QNormalAuctionItemImageList extends EntityPathBase<NormalAuctionIte
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final BooleanPath isMainImage = createBoolean("isMainImage");
+    public final NumberPath<Integer> isMainImage = createNumber("isMainImage", Integer.class);
 
     public final QNormalAuctionItem normalAuctionItem;
 

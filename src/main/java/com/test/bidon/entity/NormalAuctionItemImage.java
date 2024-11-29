@@ -22,10 +22,11 @@ import lombok.Setter;
 public class NormalAuctionItemImage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false, length = 500)
     private String path;
+    
 }
 

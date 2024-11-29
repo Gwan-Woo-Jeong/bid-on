@@ -132,16 +132,18 @@
                 <div class="col-xl-9">
                     <div class="auction-card-small">
                         <div class="row gy-4 justify-content-center">
-                            <div class="col-sm-6 col-lg-4">
+                            <div class="col-sm-6 col-lg-4" th:each="itemList: ${itemList}">
                                 <div class="auction-card">
                                     <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-20.png" alt="auction-card-img">
+                                  <!--  --> 
+                                        <img th:src="${itemList.path}" alt="auction-card-img">
                                         <div class="timer-wrapper">
                                             <div class="timer-inner"></div>
                                         </div>
                                     </div>
                                     <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Gegreg</a>
+                                    <!--  -->
+                                        <a th:href="@{'/browse-bid/bid-detail?itemId=' + ${itemList.id}" class="card-title" th:text="${itemList.name}">Gegreg</a>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <p class="p-0">Current bid <span>589.00$</span></p>
                                             <button class="like-btn"><i class="fa-regular fa-heart"></i></button>

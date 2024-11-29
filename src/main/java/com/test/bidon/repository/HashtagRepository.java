@@ -13,8 +13,9 @@ import com.test.bidon.entity.HashTaggingEntity;
 @Repository
 public interface HashtagRepository extends JpaRepository<HashTagEntity, Long> {
 
-    @Query("SELECT h.tag FROM HashTaggingEntity hg " +
-           "INNER JOIN hg.hashTag h " + 
-           "WHERE hg.reviewBoard.id = :reviewBoardId")
+    @Query("SELECT h.tag "
+    		+ "FROM HashTaggingEntity hg " +
+    			"INNER JOIN hg.hashTag h " + 
+    				"WHERE hg.reviewBoard.id = :reviewBoardId")
     List<String> findHashtagsByReviewBoardId(@Param("reviewBoardId") Long reviewBoardId);
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.test.bidon.dto.NormalAuctionItem2DTO;
 import com.test.bidon.dto.NormalBidInfoDTO;
 import com.test.bidon.repository.CustomNormalAuctionItemRepository;
 import com.test.bidon.repository.NormalAuctionItemDetailRepository;
@@ -24,6 +25,9 @@ public class NormalAuctionController {
     
 	@GetMapping("/browse-bid")
 	public String browseBid(Model model) {
+		List<NormalAuctionItem2DTO> itemList = normalAuctionItemDetailRepository.NormalAuctionList();
+		
+		model.addAttribute("itemList", itemList);
 		return "user/browse-bid";
 	}
 	
@@ -32,7 +36,6 @@ public class NormalAuctionController {
 		List<NormalBidInfoDTO> bidinfoList = normalAuctionItemDetailRepository.ItemDetail();
 		
 		model.addAttribute("bidinfoList", bidinfoList);
-		
 		return "user/bid-detail";
 	}
 }
