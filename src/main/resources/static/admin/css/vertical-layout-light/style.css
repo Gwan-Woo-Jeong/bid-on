@@ -10561,7 +10561,7 @@ progress {
   overflow-x: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  max-height: 300px; 
+  max-height: 600px; 
 }
 
 .table-responsive::-webkit-scrollbar {
@@ -20748,6 +20748,11 @@ code {
 .badge-opacity-warning {
   background: #fff2d6;
   color: #cc8c00;
+}
+.badge-opacity-warning:hover {
+  background: #cc8c00;
+  color: #fff2d6;
+  cursor: pointer; 
 }
 
 .badge-opacity-danger {

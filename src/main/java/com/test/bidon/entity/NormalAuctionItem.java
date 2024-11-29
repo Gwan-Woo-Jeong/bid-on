@@ -1,5 +1,7 @@
 package com.test.bidon.entity;
 
+import java.time.LocalDateTime;
+
 import com.test.bidon.dto.NormalAuctionItemDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,13 +21,24 @@ public class NormalAuctionItem {
     private Long id;
 
     private Long categorySubId;
+    
+    @Column(nullable = false, insertable = false, updatable = false)
     private Long userInfoId;
+    
     private String name;
     private String description;
-    private String startTime;
-    private String endTime;
-    private String startPrice;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private Integer startPrice;
     private String status;
+    
+    @Transient
+    private String statusNormal;
+    
+    @ManyToOne
+    @JoinColumn(name = "userInfoId")
+    private UserEntity userInfo;
+  
 
     // Entity 본인을 DTO로 변환시키는 method
     public static NormalAuctionItemDTO toDTO(NormalAuctionItem item) {
@@ -58,8 +71,23 @@ public class NormalAuctionItem {
     }
 
     // Setter. 물품 정보 수정을 대비해 생성
-    public void updateNormalAuctionItem(String name, String startPrice) {
+    public void updateNormalAuctionItem(String name, Integer startPrice) {
         this.name = name;
         this.startPrice = startPrice;
     }
+    
+ // 상태를 계산하는 메서드
+    public void calculateStatus(LocalDateTime currentTime) {
+        if (this.startTime.isAfter(currentTime)) {
+            this.statusNormal = "경매대기";  // 경매 대기 상태
+        } else if (this.endTime != null && this.endTime.isBefore(currentTime)) {
+            this.statusNormal = "경매종료";  // 경매 종료 상태
+        } else {
+            this.statusNormal = "경매진행";  // 경매 진행 중 상태
+        }
+    }
+    
+ 
+    
+    
 }

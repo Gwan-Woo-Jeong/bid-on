@@ -1,3 +1,11 @@
+const urlParams = new URLSearchParams(window.location.search);
+const itemId = urlParams.get('itemId');
+
+if (itemId === null) {
+    alert('ERROR: 잘못된 접근입니다. (물품번호가 존재하지 않음)');
+    window.close();
+}
+
 window.onUnload = function () {
     disconnect();
 }
@@ -18,7 +26,8 @@ function connect(userId) {
         log('서버와 연결되었습니다.');
 
         const message = {
-            code: "IN",
+            roomId: itemId,
+            type: "IN",
             userId,
             content: '',
             regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -31,13 +40,15 @@ function connect(userId) {
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
 
+        console.log(evt.data);
+
         const message = JSON.parse(evt.data);
 
-        if (message.code === 'IN') {
+        if (message.type === 'IN') {
             print('', `[${message.userId}]님이 들어왔습니다.`, 'left', 'state', message.regdate);
-        } else if (message.code === 'OUT') {
+        } else if (message.type === 'OUT') {
             print('', `[${message.userId}]님이 나갔습니다.`, 'left', 'state', message.regdate);
-        } else if (message.code === 'TALK') {
+        } else if (message.type === 'TALK') {
             print(message.userId, message.content, 'left', 'msg', message.regdate);
         }
     };
@@ -55,8 +66,9 @@ function connect(userId) {
 function disconnect() {
     //소켓 연결 종료
     const message = {
-        code: "OUT",
-        userId: this.userId,
+        roomId: itemId,
+        type: "OUT",
+        userId,
         content: '',
         regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
@@ -111,9 +123,11 @@ function showTime(date) {
 }
 
 $('#message-input').keydown(evt => {
+
     if (evt.keyCode === 13) {
         const message = {
-            code: 'TALK',
+            roomId: itemId,
+            type: 'TALK',
             userId: this.userId,
             content: $(evt.target).val(),
             regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -126,3 +140,5 @@ $('#message-input').keydown(evt => {
         print(message.userId, message.content, 'right', 'msg', message.regdate);
     }
 });
+
+

@@ -4,6 +4,7 @@ import com.test.bidon.entity.LiveAuctionPart;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ public class LiveAuctionPartDTO {
     private Long id;
     private Long userInfoId;
     private Long liveAuctionId;
+    private LocalDateTime createTime;
 
     private UserInfoDTO userInfo;
     private LiveAuctionDTO liveAuction;
@@ -25,6 +27,7 @@ public class LiveAuctionPartDTO {
                 .id(this.getId())
                 .userInfoId(this.getUserInfoId())
                 .liveAuctionId(this.getLiveAuctionId())
+                .createTime(this.getCreateTime())
                 .build();
     }
 
