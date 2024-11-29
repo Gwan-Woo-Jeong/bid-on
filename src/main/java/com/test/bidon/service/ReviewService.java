@@ -20,7 +20,7 @@
 //    private final HashtagRepository hashtagRepository;
 //    private final ReviewBoardRepository reviewBoardRepository;
 //
-//    public ReviewBoardDetailDTO getReviewDetail(Integer id) {
+//    public ReviewBoardDetailDTO getReviewDetail(Long id) {
 //        ReviewBoard review = reviewBoardRepository.findById(id)
 //            .orElseThrow(() -> new RuntimeException("Review not found"));
 //        
