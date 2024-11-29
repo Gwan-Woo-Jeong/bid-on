@@ -9,15 +9,11 @@ import static com.test.bidon.entity.QUserEntity.userEntity;
 
 import java.util.List;
 
+import com.test.bidon.dto.*;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.test.bidon.dto.LiveAuctionDetailCustomerDTO;
-import com.test.bidon.dto.LiveAuctionDetailDTO;
-import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
-import com.test.bidon.dto.LiveAuctionItemListDTO;
-import com.test.bidon.entity.LiveAuctionItemImageList;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +25,7 @@ public class CustomLiveAuctionItemRepository {
 	
 	
 	public List<LiveAuctionItemListDTO> LiveAuctionList(){
-		
+
 
 		return jpaQueryFactory
 				.select(Projections.constructor(
@@ -45,10 +41,10 @@ public class CustomLiveAuctionItemRepository {
 			        .where(liveAuctionItemImageList.isMainImage.eq(1))
 			        .fetch();
 }
-	
-	
+
+
 	public LiveAuctionItemListDTO bigHomeLiveAuctionList() {
-		
+
 		return jpaQueryFactory
 				.select(Projections.constructor(
 			            LiveAuctionItemListDTO.class,
@@ -64,14 +60,14 @@ public class CustomLiveAuctionItemRepository {
 			        .orderBy(liveAuctionItem.id.desc()) // ID 기준 내림차순 정렬
 			        .limit(1) // 상위 1개만 가져옴
 			        .fetchOne();
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 	public List<LiveAuctionItemListDTO> HomeLiveAuctionList(){
-		
+
 
 		return jpaQueryFactory
 				.select(Projections.constructor(
@@ -90,12 +86,12 @@ public class CustomLiveAuctionItemRepository {
 			        .limit(4) // 최대 4개 가져오기
 			        .fetch();
 }
-	
-	
-	
-	
+
+
+
+
 	public LiveAuctionDetailDTO getAuctionDetail(Long liveAuctionItemId) {
-		
+
 		return jpaQueryFactory
 				.select(Projections.fields(
 						LiveAuctionDetailDTO.class,
@@ -105,20 +101,20 @@ public class CustomLiveAuctionItemRepository {
 						liveAuctionItem.description,
 						liveAuctionItem.brand,
 						liveAuctionItem.createTime,
-						
+
 
 						liveAuctionPart.id.count().as("participantCount"),
-						
+
 						userEntity.name.as("sellerName"),
 						userEntity.email.as("sellerEmail"),
 						userEntity.createDate.as("sellerJoinDate"),
 						userEntity.national.as("sellerNational"),
 						userEntity.tel.as("sellerTel"),
-						
+
 						liveBidCost.bidPrice.max().as("lastBidPrice")
 						))
 				.from(liveAuctionItem)
-		        .leftJoin(liveAuctionPart).on(liveAuctionPart.liveAuctionId.eq(liveAuctionItem.id))
+		        .leftJoin(liveAuctionPart).on(liveAuctionPart.liveAuctionItemId.eq(liveAuctionItem.id))
 		        .leftJoin(userEntity).on(userEntity.id.eq(liveAuctionItem.userInfoId))
 		        .leftJoin(liveBidCost).on(liveBidCost.liveAuctionItemId.eq(liveAuctionItem.id))
 		        .where(liveAuctionItem.id.eq(liveAuctionItemId))
@@ -137,11 +133,11 @@ public class CustomLiveAuctionItemRepository {
 		        )
 		        .fetchOne();
 	}
-	
-	
+
+
 	public List<LiveAuctionDetailImagesDTO> detailImages(Long liveAuctionItemId){
-		
-		
+
+
 		return jpaQueryFactory
 				.select(Projections.fields(LiveAuctionDetailImagesDTO.class,
 						liveAuctionItem.id.as("itemId"),
@@ -154,10 +150,10 @@ public class CustomLiveAuctionItemRepository {
 				.orderBy(liveAuctionItemImageList.isMainImage.desc())
 				.fetch();
 	}
-	
-	
+
+
 	public List<LiveAuctionDetailCustomerDTO> bidCustomer(Long liveAuctionItemId){
-		
+
 		return jpaQueryFactory
 				.select(Projections.fields(LiveAuctionDetailCustomerDTO.class,
 						liveBidCost.id,
@@ -172,7 +168,7 @@ public class CustomLiveAuctionItemRepository {
 				.where(liveBidCost.liveAuctionItemId.eq(liveAuctionItemId))
 				.orderBy(liveBidCost.bidTime.desc())
 				.fetch();
-		
+
 	}
 	
 	
