@@ -209,7 +209,7 @@
 								    <div class="form-grid">
 								        <div class="mb-3">
 								            <label class="form-label">이름</label>
-								            <input type="text" class="form-control" th:value="${name}">
+								            <input type="text" name="name" class="form-control" th:value="${name}">
 								        </div>
 								        <div class="mb-3">
 								            <label class="form-label" id="space">이메일</label>
@@ -217,11 +217,11 @@
 								        </div>
 								        <div class="mb-3">
 								            <label class="form-label">비밀번호</label>
-								            <input type="password" name="password" class="form-control">
+								            <input type="password" name="password" id="userPassword" class="form-control">
 								        </div>
 										<div class="mb-3">
 											<label class="form-label" id="space">비밀번호 확인</label>
-											<input type="password" name="confirmPassword" class="form-control">
+											<input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
 											<span class="input-checker"></i></span>
 											<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
 	 									</div>
