@@ -22,26 +22,26 @@ public class ReviewPhotoController {
     @Autowired
     private ReviewBoardService reviewBoardService;
 
-    @GetMapping("/blog-detail")
-    public String showBlogDetailPage(
-            @RequestParam("reviewBoardId") Integer reviewBoardId, Model model) {
-
-
-        // reviewBoardId를 기반으로 데이터 조회
-        ReviewBoard reviewBoard = reviewBoardService.findById(reviewBoardId);
-
-        // 데이터가 없을 경우 처리
-        if (reviewBoard == null) {
-            throw new IllegalArgumentException("Invalid reviewBoardId: " + reviewBoardId);
-        }
-        
-        // ReviewPhoto 데이터 가져오기
-        List<ReviewPhoto> photos = reviewPhotoService.getPhotosByReviewBoardId(reviewBoardId);
-
-        // 모델에 데이터 추가
-        model.addAttribute("reviewBoard", reviewBoard);
-        model.addAttribute("photos", photos);
-
-        return "blog-detail";
-    }
+//    @GetMapping("/blog-detail")
+//    public String showBlogDetailPage(
+//            @RequestParam("reviewBoardId") Integer reviewBoardId, Model model) {
+//
+//
+//        // reviewBoardId를 기반으로 데이터 조회
+//        ReviewBoard reviewBoard = reviewBoardService.findById(reviewBoardId);
+//
+//        // 데이터가 없을 경우 처리
+//        if (reviewBoard == null) {
+//            throw new IllegalArgumentException("Invalid reviewBoardId: " + reviewBoardId);
+//        }
+//        
+//        // ReviewPhoto 데이터 가져오기
+//        List<ReviewPhoto> photos = reviewPhotoService.getPhotosByReviewBoardId(reviewBoardId);
+//
+//        // 모델에 데이터 추가
+//        model.addAttribute("reviewBoard", reviewBoard);
+//        model.addAttribute("photos", photos);
+//
+//        return "blog-detail";
+//    }
 }
