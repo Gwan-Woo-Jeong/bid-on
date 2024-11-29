@@ -2,6 +2,10 @@ package com.test.bidon.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
@@ -74,7 +78,7 @@ public class UserController {
                             .body(Map.of("message", "프로필 이미지 저장 중 오류가 발생했습니다."));
                 }
             } else {
-                userInfoDTO.setProfile("default.jpg");
+                userInfoDTO.setProfile("default-profile.svg");
             }
 
             UserEntity savedUser = userService.registerUser(userInfoDTO);
@@ -88,24 +92,26 @@ public class UserController {
     }
 
     private String saveProfileFile(MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return "default.jpg";
+    	
+    	if (file.isEmpty()) {
+            return "default-profile.svg";
         }
 
-        // uploads 디렉토리 생성
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        String uploadDir = "src/main/resources/static/uploads/profiles/";
+        
+        // 디렉토리가 없으면 생성
+        File directory = new File(uploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs();
         }
 
-        String originalFilename = file.getOriginalFilename();
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String savedFileName = UUID.randomUUID().toString() + fileExtension;
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        File destFile = new File(uploadPath + File.separator + savedFileName);
-        file.transferTo(destFile);
+        // 파일 저장
+        Path path = Paths.get(uploadDir + fileName);
+        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-        return savedFileName;
+        return fileName;
     }
 
     @GetMapping("/login")
@@ -157,7 +163,7 @@ public class UserController {
     
     @PostMapping("/api/user/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> updateUser(	//value때문에 경고뜨는데, 이거 삭제하면 에러남
+    public ResponseEntity<?> updateUser(	//value때문에 경고뜨는데, 이거 삭제하면 에러 발생
         @RequestParam(value = "name", required = false) String name,
         @RequestParam(value = "password", required = false) String password,
         @RequestParam(value = "birth", required = false) String birth,
@@ -180,8 +186,8 @@ public class UserController {
             
             // 파일이 있는 경우만 처리
             if (profile != null && !profile.isEmpty()) {
-                String fileName = StringUtils.cleanPath(profile.getOriginalFilename());
-                updateDto.setProfile(fileName);
+            	String savedFileName = saveProfileFile(profile);
+                updateDto.setProfile(savedFileName);
             }
             
             UserEntity updatedUser = userService.updateUser(userDetails.getId(), updateDto);
