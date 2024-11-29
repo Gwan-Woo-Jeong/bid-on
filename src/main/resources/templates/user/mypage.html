@@ -216,16 +216,16 @@
 								            <label class="form-label" id="space">이메일</label>
 								            <input type="email" class="form-control" th:value="${email}" readonly>
 								        </div>
-								        <div class="mb-3">
-								            <label class="form-label">비밀번호</label>
-								            <input type="password" name="password" id="userPassword" class="form-control">
-								        </div>
-										<div class="mb-3">
-											<label class="form-label" id="space">비밀번호 확인</label>
-											<input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
-											<span class="input-checker"></i></span>
-											<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
-	 									</div>
+										<div th:if="${provider == 'local'}" class="mb-3">
+										    <label class="form-label">비밀번호</label>
+										    <input type="password" name="password" id="userPassword" class="form-control">
+										</div>
+										<div th:if="${provider == 'local'}" class="mb-3">
+										    <label class="form-label" id="space">비밀번호 확인</label>
+										    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
+										    <span class="input-checker"></i></span>
+										    <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+										</div>
 								        <div class="mb-3">
 								            <label class="form-label">생년월일</label>
 								            <input type="date" class="form-control" name="birth" th:value="${birth}">
