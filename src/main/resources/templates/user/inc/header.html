@@ -190,10 +190,10 @@
                     </ul>
                 </div>
                 <div class="d-flex gap-1 nav-btn-group align-items-center">
-                    <a href="/login" class="primary-btn">
+                    <a sec:authorize="!isAuthenticated()" href="/login" class="primary-btn">	<!-- 우진아 건들지마 -->
                         로그인
                     </a>
-                    <a href="/logout" class="primary-btn">
+                    <a sec:authorize="isAuthenticated()" href="/logout" class="primary-btn">
                         로그아웃
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="nav-right" data-bs-target="#navbar"
