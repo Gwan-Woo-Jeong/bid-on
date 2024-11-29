@@ -32,11 +32,14 @@ public class NormalAuctionItemDetailRepository {
 	                    normalAuctionItem.description, // auctionItemDescription
 	                    userEntity.name,
 	                    userEntity.email,
-	                    userEntity.national // national
+	                    userEntity.national, // national
+	                    normalAuctionItem.id
     	            )
     	            .from(normalBidInfo)
     	            .join(normalAuctionItem).on(normalBidInfo.auctionItemId.eq(normalAuctionItem.id))
     	            .join(userEntity).on(normalBidInfo.userInfoId.eq(userEntity.id))
+    	            
+    	            .where(normalAuctionItem.id.eq(normalBidInfo.auctionItemId))
     	            .fetch()
     	            .stream()
     	            .map(record -> NormalBidInfoDTO.builder()
@@ -50,6 +53,7 @@ public class NormalAuctionItemDetailRepository {
                         .bidderName(record.get(userEntity.name))
                         .bidderEmail(record.get(userEntity.email))  // 필드명 맞추기
                         .national(record.get(userEntity.national))
+                        .id(record.get(normalAuctionItem.id))
                         .build())
     	            .collect(Collectors.toList());
     	    }

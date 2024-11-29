@@ -462,8 +462,9 @@
                            고프로8 Hero
                         </h3>
                         <ul>
-                            <!-- <li><span>국가</span><span th:text="${bidInfo.national}"></span></li> -->
-                            <li><span>국가</span><span th:text="${bidInfo != null ? bidInfo.national : '정보 없음'}"></span></li>
+                            <li><span>국가</span><span th:text="${bidinfoList[0].national}"></span></li>
+                            <!-- <li><span>국가</span><span th:text="${bidInfoList.national}"></span></li> -->
+                            <!-- <li><span>국가</span><span th:text="${bidinfoList != null ? bidinfoList.national : '정보 없음'}"></span></li> -->
                             
                             <li><span>시작 경매가</span><span>60,000원</span></li>
                             <li><span>최신 경매가</span><span>80,000원</span></li>
@@ -549,10 +550,9 @@
                                         </div>
                                         <h4 class="mb-3">1번만 쓴 고프로입니다.
                                         </h4>
-                                        <p class="mb-2" >테스트테스트테스트테스트테스트테스트테스트테스트테스트</p>
                                     </div>
                                 </div>
-                                <table>
+<!--                                 <table>
     <thead>
         <tr>
             <th>Bid ID</th>
@@ -567,7 +567,7 @@
         </tr>
     </thead>
     <tbody>
-        <!-- bidinfoList를 순회하면서 각 값 출력 -->
+        bidinfoList를 순회하면서 각 값 출력
         <tr th:each="bidInfo : ${bidinfoList}">
             <td th:text="${bidInfo.id}"></td>
             <td th:text="${bidInfo.auctionItemName}"></td>
@@ -579,7 +579,7 @@
             <td th:text="${bidInfo.auctionItemDescription}"></td>
         </tr>
     </tbody>
-</table>
+</table> -->
                             </div>
                             <div class="tab-pane fade accordion-item" id="profile-tab-pane" role="tabpanel"
                                  aria-labelledby="profile-tab" tabindex="0">
@@ -604,42 +604,19 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
+                                                <tr th:each="bidInfo : ${bidinfoList}">
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <img src="/user/images/sample/avatar-5.png"
                                                                  class="dashboard-avatar" alt="avatar">
-                                                            <p>김두한</p>
+                                                            <p th:text="${bidInfo.bidderName}"></p>
                                                         </div>
                                                     </td>
-                                                    <td>종로</td>
-                                                    <td>4,800원</td>
-                                                    <td>10분전</td>
+                                                    <td th:text="${bidInfo.national}"></td>
+                                                    <td th:text="${bidInfo.bidPrice}"></td>
+                                                    <td th:text="${#temporals.format(bidInfo.bidDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>호날두</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Portugal</td>
-                                                    <td>3,600원</td>
-                                                    <td>20분전</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>마이클</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Canada</td>
-                                                    <td>2,400원</td>
-                                                    <td>10 Minute Ago</td>
-                                                </tr>
+                                              
                                                 </tbody>
                                             </table>
                                         </div>

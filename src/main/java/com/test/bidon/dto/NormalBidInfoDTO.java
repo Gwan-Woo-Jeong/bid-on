@@ -28,11 +28,12 @@ public class NormalBidInfoDTO {
     private String bidderName;
     private String bidderEmail;
     private String national;
+    private Long normalAuctionItem;
 
     @QueryProjection
     public NormalBidInfoDTO(Long id, Long auctionItemId, Long userInfoId, Integer bidPrice, LocalDateTime bidDate, 
                             String auctionItemName, String auctionItemDescription, String bidderName, 
-                            String bidderEmail, String national) {
+                            String bidderEmail, String national, Long normalAuctionItem) {
         this.id = id;
         this.auctionItemId = auctionItemId;
         this.userInfoId = userInfoId;
@@ -43,5 +44,6 @@ public class NormalBidInfoDTO {
         this.bidderName = bidderName;
         this.bidderEmail = bidderEmail;
         this.national = national;
+        this.normalAuctionItem = normalAuctionItem;
     }
 }
