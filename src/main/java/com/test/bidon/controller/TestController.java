@@ -151,10 +151,10 @@ public class TestController {
 		return "user/winner";
 	}
 
-	@GetMapping("/bid-live")
-	public String bidLive(Model model) {
-		return "user/bid-live";
-	}
+	// @GetMapping("/bid-live")
+	// public String bidLive(Model model) {
+	// 	return "user/bid-live";
+	// }
 	
 	@GetMapping("/bid-registration")
 	public String bidRegistration(Model model) {
