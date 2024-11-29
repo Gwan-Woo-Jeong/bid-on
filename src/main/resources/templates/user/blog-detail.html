@@ -1,132 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" id="theme" class="light" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:insert="~{user/inc/head.html :: head(title='Blog Detail')}"></th:block>
+    <th:block th:replace="~{user/inc/head.html :: head(title='리뷰 상세')}"></th:block>
 </head>
-
 <body>
-    <th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+<th:block th:replace="~{user/inc/header.html :: header}"></th:block>
 
-    <main id="main-content" class="position-relative">
-        <div class="breadcrumb-main">
-            <div class="container">
-                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="home">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">blogs details</li>
-                    </ol>
-                    <h1 class="breadcrumb-title">Detailed Blogs</h1>
+<main id="main-content" class="position-relative">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-8">
+                <div class="single-blog">
+                    <!-- 동적으로 이미지 출력 -->
+                    <!-- <img th:each="photo : ${review.photoPaths}" 
+                         th:src="@{${photo}}" 
+                         class="blog-img"> -->
+                    
+                    <div class="single-blog-content py-3 py-md-4">
+                        <h3 th:text="${review.title}">게시글 제목</h3>
+                        <p th:text="${review.contents}">게시글 내용</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <section class="outer-gap">
-            <div class="container">
-                <div class="row gy-4">
-                    <div class="col-lg-8">
-                        <div class="single-blog">
-                            <!-- 리뷰 이미지 반복 렌더링 -->
-                            <div th:each="photo : ${photos}">
-                                <img class="blog-img" th:src="@{/user/images/review/{photoPath}(photoPath=${photo.path})}" />
-                            </div>
-
-                            <!-- 제목과 내용 -->
-                            <div class="single-blog-content py-3 py-md-4">
-                                <h3 th:text="${reviewBoard.title}">제목</h3>
-                                <p th:text="${reviewBoard.contents}">내용</p>
-                            </div>
-                        </div>
-                        <div class="card-wrapper">
-                            <h5 class="mb-4">댓글을 남겨보세요!</h5>
-                            <form action="#" method="post">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>이름*</label>
-                                            <input type="text" class="form-control" placeholder="Rozzy Nomad" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Email*</label>
-                                            <input type="email" class="form-control" placeholder="name@mail.com " required>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label>답장*</label>
-                                            <textarea class="form-control" placeholder="Write Here Your Message" required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="primary-btn btn-light" type="submit">제출하기</button>
-                                    </div>
+                
+                <!-- 댓글 폼 -->
+                <div class="card-wrapper">
+                    <h5 class="mb-4">댓글을 남겨보세요!</h5>
+                    <form th:action="@{/review/comment}" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>이름*</label>
+                                    <input type="text" name="name" class="form-control" required>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card-wrapper mb-3">
-                            <h5 class="mb-3">공유</h5>
-                            <ul class="d-flex flex-wrap gap-3">
-                                <li>
-                                    <a href="javascript:void(0)" class="fs-18 text-dark">
-                                        <i class="fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="fs-18 text-dark">
-                                        <i class="fa-brands fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="fs-18 text-dark">
-                                        <i class="fa-brands fa-pinterest-p"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="fs-18 text-dark">
-                                        <i class="fa-brands fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="fs-18 text-dark">
-                                        <i class="fa-brands fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="fs-18 text-dark">
-                                        <i class="fa-brands fa-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-wrapper">
-                            <h5>June 5, 2024</h5>
-                            <hr>
-                            <h5 class="mb-3">카테고리</h5>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="badge text-bg-primary">New!</span>
-                                <span class="badge text-bg-primary">New!</span>
-                                <span class="badge text-bg-primary">New!</span>
-                                <span class="badge text-bg-primary">New!</span>
-                                <span class="badge text-bg-primary">New!</span>
                             </div>
-                            <hr>
-                            <h5 class="mb-3">해시 태그</h5>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="">#전자기기</span>
-                                <span class="">#노트북</span>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email*</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>답장*</label>
+                                    <textarea name="message" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="primary-btn btn-light" type="submit">제출하기</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
-    </main>
+            
+            <div class="col-lg-4">
+    <div class="card-wrapper mb-3">
+        <h5 th:text="${#temporals.format(review.regdate, 'yyyy-MM-dd')}">작성일자</h5>
+        <hr>
+        <h5>조회수: <span th:text="${review.views}">0</span></h5>
+        <hr>
+        <h5>해시태그</h5>
+        <div class="d-flex flex-wrap gap-2">
+            <!-- <th:block th:if="${not #lists.isEmpty(hashtagRepository.findHashtagsByReviewBoardId(review.id))}">
+                <span th:each="tag : ${review.hashTags}" 
+                      class="badge text-bg-primary" 
+                      th:text="${tag}">
+                    해시태그
+                </span>
+			</th:block>
+            <th:block th:unless="${review.hashTags != null and !review.hashTags.isEmpty()}">
+                <span class="text-muted">해시태그 없음</span>
+            </th:block>
+            </th:block> -->
+            <th:block th:if="${not #lists.isEmpty(hashTags)}">
+			    <span th:each="tag : ${hashTags}" 
+			          class="badge text-bg-primary" 
+			          th:text="${tag}">
+			        해시태그
+			    </span>
+			</th:block>
+			<th:block th:unless="${not #lists.isEmpty(hashTags)}">
+			    <span class="text-muted">해시태그 없음</span>
+			</th:block>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</main>
 
-    <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
-    <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<th:block th:replace="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:replace="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
 </body>
-
 </html>

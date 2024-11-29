@@ -47,6 +47,7 @@ public class ReviewBoard {
         if (this.regdate == null) {
             this.regdate = LocalDate.now();
         }
+
     }
 
     // 조회수 증가 메서드

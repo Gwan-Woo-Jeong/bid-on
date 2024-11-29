@@ -1,8 +1,10 @@
 package com.test.bidon.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.bidon.dto.ReviewBoardFormDTO;
+import com.test.bidon.dto.ReviewBoardDetailDTO;
 import com.test.bidon.entity.ReviewBoard;
+import com.test.bidon.repository.HashtagRepository;
 import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.service.FileService;
 import com.test.bidon.service.ReviewBoardService;
+import com.test.bidon.service.ReviewService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class ReviewBoardController {
 
     @Autowired
@@ -60,6 +68,8 @@ public class ReviewBoardController {
         List<Map<String, Object>> reviewList = reviews.getContent().stream().map(review -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", review.getId());
+
+            map.put("id",review.getId());
             map.put("title", review.getTitle());
             map.put("contents", review.getContents());
             map.put("views", review.getViews());
@@ -118,4 +128,29 @@ public class ReviewBoardController {
     
    
     
+    /**
+     * 블로그 상세 페이지
+     */
+    private final ReviewService reviewService;
+
+    @GetMapping("/blog-detail")
+    public String getBlogDetail(@RequestParam(name = "id") Long id, Model model) {
+        ReviewBoard review = reviewBoardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid review ID: " + id));
+        
+
+        ReviewBoardDetailDTO reviewDetailDto = reviewService.getReviewDetail(id);
+        
+
+        // 조회수 증가
+        review.incrementViews();
+        reviewBoardRepository.save(review);
+
+        
+        model.addAttribute("review", review); // 상세 정보
+        model.addAttribute("hashTags", reviewDetailDto.getHashTags());
+
+        return "user/blog-detail"; // 상세 페이지 템플릿 경로
+    }
 }
+
