@@ -18,8 +18,8 @@ import lombok.ToString;
 public class NormalBidInfoDTO {
 
     private Long id;
-    private Long auctionItemId; 
-    private Long userInfoId; 
+    private Long auctionItemId;
+    private Long userInfoId;
     private Integer bidPrice;
     private LocalDateTime bidDate;
 
@@ -31,8 +31,8 @@ public class NormalBidInfoDTO {
     private Long normalAuctionItem;
 
     @QueryProjection
-    public NormalBidInfoDTO(Long id, Long auctionItemId, Long userInfoId, Integer bidPrice, LocalDateTime bidDate, 
-                            String auctionItemName, String auctionItemDescription, String bidderName, 
+    public NormalBidInfoDTO(Long id, Long auctionItemId, Long userInfoId, Integer bidPrice, LocalDateTime bidDate,
+                            String auctionItemName, String auctionItemDescription, String bidderName,
                             String bidderEmail, String national, Long normalAuctionItem) {
         this.id = id;
         this.auctionItemId = auctionItemId;

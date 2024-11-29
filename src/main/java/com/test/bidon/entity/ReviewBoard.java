@@ -31,8 +31,8 @@ public class ReviewBoard {
     @Column(nullable = false, length = 3000)
     private String contents; // 내용
 
-    @Column(nullable = false)
     @Builder.Default
+    @Column(nullable = false)
     private Integer views = 0; // 조회수 (기본값 0)
 
     @Column(nullable = false)
@@ -56,4 +56,3 @@ public class ReviewBoard {
         this.views = (this.views == null ? 0 : this.views) + 1;
     }
 }
-

@@ -24,11 +24,15 @@ public class QNormalAuctionItemImageList extends EntityPathBase<NormalAuctionIte
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final BooleanPath isMainImage = createBoolean("isMainImage");
+    public final NumberPath<Long> isMainImage = createNumber("isMainImage", Long.class);
 
     public final QNormalAuctionItem normalAuctionItem;
 
+    public final NumberPath<Long> normalAuctionItemId = createNumber("normalAuctionItemId", Long.class);
+
     public final QNormalAuctionItemImage normalAuctionItemImage;
+
+    public final NumberPath<Long> normalAuctionItemImageId = createNumber("normalAuctionItemImageId", Long.class);
 
     public QNormalAuctionItemImageList(String variable) {
         this(NormalAuctionItemImageList.class, forVariable(variable), INITS);

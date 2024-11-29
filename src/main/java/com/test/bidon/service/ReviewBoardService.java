@@ -17,11 +17,14 @@ public class ReviewBoardService {
     private ReviewBoardRepository reviewBoardRepository;
 
     // ReviewBoardId로 ReviewBoard 데이터 가져오기
-    public ReviewBoard getReviewBoardById(Long reviewBoardId) {
+    public ReviewBoard getReviewBoardById(Integer reviewBoardId) {
         return reviewBoardRepository.findById(reviewBoardId).orElse(null);
     }
 
-	
+	public ReviewBoard findById(Integer reviewBoardId) {
+		
+		return null;
+	}
 	
 	@PersistenceContext
     private EntityManager entityManager;

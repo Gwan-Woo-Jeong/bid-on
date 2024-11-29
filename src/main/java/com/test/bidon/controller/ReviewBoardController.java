@@ -31,7 +31,7 @@ public class ReviewBoardController {
 
     @Autowired
     private ReviewBoardService reviewBoardService;
-    
+
     @Autowired
     private FileService fileService;
     /**
@@ -44,18 +44,18 @@ public class ReviewBoardController {
 
         // ID와 사진 번호 매핑 (기존 하드코딩된 부분)
         Map<Integer, Integer> idToPhotoMap = Map.ofEntries(
-            Map.entry(1, 1),
-            Map.entry(2, 3),
-            Map.entry(3, 5),
-            Map.entry(4, 8),
-            Map.entry(5, 10),
-            Map.entry(6, 11),
-            Map.entry(7, 12),
-            Map.entry(8, 13),
-            Map.entry(9, 15),
-            Map.entry(10, 16),
-            Map.entry(11, 18),
-            Map.entry(12, 19)
+                Map.entry(1, 1),
+                Map.entry(2, 3),
+                Map.entry(3, 5),
+                Map.entry(4, 8),
+                Map.entry(5, 10),
+                Map.entry(6, 11),
+                Map.entry(7, 12),
+                Map.entry(8, 13),
+                Map.entry(9, 15),
+                Map.entry(10, 16),
+                Map.entry(11, 18),
+                Map.entry(12, 19)
         );
 
         // 리뷰 데이터를 가공하여 대표사진 경로 추가
@@ -72,7 +72,7 @@ public class ReviewBoardController {
                 int photoNumber = idToPhotoMap.get(review.getId());
                 String thumbnailPath = "/user/images/review/reviewPhoto" + String.format("%03d", photoNumber) + ".png";
                 map.put("thumbnailPath", thumbnailPath);
-            } 
+            }
             // 2. 하드코딩되지 않은 새로운 게시글의 대표 사진 처리
             else {
                 String thumbnailPath = getDynamicThumbnailPath(review);
@@ -95,8 +95,8 @@ public class ReviewBoardController {
     private String getDynamicThumbnailPath(ReviewBoard review) {
         // 데이터베이스에서 대표 사진 가져오기
         ReviewPhoto mainPhoto = review.getReviewPhotos().stream()
-            .findFirst() // 첫 번째 사진을 대표 사진으로 사용
-            .orElse(null);
+                .findFirst() // 첫 번째 사진을 대표 사진으로 사용
+                .orElse(null);
 
         // 대표 사진 경로 설정
         if (mainPhoto != null) {
@@ -107,7 +107,7 @@ public class ReviewBoardController {
     }
 
 
-    
+
     @GetMapping("/add-review")
     public String showAddReviewPage(Model model) {
         return "user/add-review"; // 폼 렌더링
@@ -129,19 +129,19 @@ public class ReviewBoardController {
 
             // 추가 사진 저장
             List<String> additionalPhotoPaths = form.getPhotos() != null
-                ? form.getPhotos().stream()
+                    ? form.getPhotos().stream()
                     .filter(photo -> photo != null && !photo.isEmpty())
                     .map(photo -> fileService.saveFile(photo, "review"))
                     .collect(Collectors.toList())
-                : new ArrayList<>();
+                    : new ArrayList<>();
 
             // 서비스 호출
             reviewBoardService.addReview(
-                form.getTitle(),
-                form.getContents(),
-                form.getEmail(),
-                thumbnailPath,
-                String.join(",", additionalPhotoPaths)
+                    form.getTitle(),
+                    form.getContents(),
+                    form.getEmail(),
+                    thumbnailPath,
+                    String.join(",", additionalPhotoPaths)
             );
 
             return "redirect:/blog"; // 성공 시 블로그로 리다이렉트
@@ -154,13 +154,9 @@ public class ReviewBoardController {
 
 
 
-    
+
     public void addReviewFromController() {
         reviewBoardService.addReview("Title", "Content", "email@example.com", "/path/to/thumbnail", "/path/to/photos");
     }
 
-
-    
-   
-    
 }

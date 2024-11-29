@@ -3,13 +3,9 @@ package com.test.bidon.dto;
 import java.time.LocalDateTime;
 
 import com.test.bidon.entity.NormalAuctionItem;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
