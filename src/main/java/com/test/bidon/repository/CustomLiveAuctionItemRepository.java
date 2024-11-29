@@ -120,7 +120,7 @@ public class CustomLiveAuctionItemRepository {
 				.from(liveAuctionItem)
 		        .leftJoin(liveAuctionPart).on(liveAuctionPart.liveAuctionId.eq(liveAuctionItem.id))
 		        .leftJoin(userEntity).on(userEntity.id.eq(liveAuctionItem.userInfoId))
-		        .leftJoin(liveBidCost).on(liveBidCost.id.eq(liveAuctionItem.id))
+		        .leftJoin(liveBidCost).on(liveBidCost.liveAuctionItemId.eq(liveAuctionItem.id))
 		        .where(liveAuctionItem.id.eq(liveAuctionItemId))
 		        .groupBy(
 		            liveAuctionItem.name,

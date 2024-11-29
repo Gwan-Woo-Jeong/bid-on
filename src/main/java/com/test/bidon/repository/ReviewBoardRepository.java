@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.test.bidon.entity.ReviewBoard;
 
 @Repository
-public interface ReviewBoardRepository extends JpaRepository<ReviewBoard, Integer> {
+public interface ReviewBoardRepository extends JpaRepository<ReviewBoard, Long> {
 
     // Fetch Join으로 연관된 UserEntity를 한 번에 로드
     @Query("SELECT rb FROM ReviewBoard rb JOIN FETCH rb.userEntityInfo")
