@@ -27,7 +27,7 @@ public class NormalAuctionItem {
     
     private String name;
     private String description;
-    private LocalDateTime startTime;
+    private LocalDateTime startTime; // 연, 월, 일, 시, 분, 초까지 저장되는 자료형
     private LocalDateTime endTime;
     private Integer startPrice;
     private String status;
@@ -86,8 +86,5 @@ public class NormalAuctionItem {
             this.statusNormal = "경매진행";  // 경매 진행 중 상태
         }
     }
-    
- 
-    
-    
+
 }

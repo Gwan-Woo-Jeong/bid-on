@@ -9,11 +9,14 @@ import static com.test.bidon.entity.QUserEntity.userEntity;
 
 import java.util.List;
 
-import com.test.bidon.dto.*;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.test.bidon.dto.LiveAuctionDetailCustomerDTO;
+import com.test.bidon.dto.LiveAuctionDetailDTO;
+import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
+import com.test.bidon.dto.LiveAuctionItemListDTO;
 
 import lombok.RequiredArgsConstructor;
 

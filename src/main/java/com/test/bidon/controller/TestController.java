@@ -55,10 +55,16 @@ public class TestController {
 		return "user/about";
 	}
 
-	@GetMapping("/bid-detail")
-	public String bidDetail(Model model) {
-		return "user/bid-detail";
-	}
+//	private final NormalAuctionItemDetailRepository normalAuctionItemDetailRepository;
+//	@GetMapping("/bid-detail")
+//	public String bidDetail(Model model) {
+//		List<NormalBidInfoDTO> bidinfoList = normalAuctionItemDetailRepository.ItemDetail();
+//		
+//		System.out.println(bidinfoList.getLast().getNational());
+//		model.addAttribute("bidinfoList", bidinfoList);
+//		
+//		return "user/bid-detail";
+//	}
 	
 //	@GetMapping("/bid-detail-live")
 //	public String bidDetailLive(Model model) {
@@ -80,10 +86,10 @@ public class TestController {
 //		return "user/blog-detail";
 //	}
 
-	@GetMapping("/browse-bid")
-	public String browseBid(Model model) {
-		return "user/browse-bid";
-	}
+//	@GetMapping("/browse-bid")
+//	public String browseBid(Model model) {
+//		return "user/browse-bid";
+//	}
 	
 //	@GetMapping("/browse-live-bid")
 //	public String browseLiveBid(Model model) {
