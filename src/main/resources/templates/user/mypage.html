@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
->
-
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Dashboard')}"></th:block>
+	<link rel="stylesheet" th:href="@{/user/css/mypage.css}">
 </head>
-
 
 <body>
 <th:block th:insert="~{user/inc/header.html :: header}"></th:block>
@@ -17,320 +16,286 @@
         <div class="container">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="home">홈</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">마이 페이지</li>
                 </ol>
-                <h1 class="breadcrumb-title">Personal Dashboard</h1>
+                <h1 class="breadcrumb-title"></h1>
             </div>
         </div>
     </div>
     <div class="inner-gap">
         <div class="container">
             <div class="row">
+                <!-- 사이드바 시작 -->
                 <div class="col-lg-3 pe-lg-0 position-relative">
                     <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3 mt-3 mb-4">
-                            <img src="/user/images/sample/avatar-5.png" class="dashboard-avatar" alt="avatar">
-                            <div>
-                                <h5>Rozzy Nomad</h5>
-                                <p>system@mail.com</p>
+                        <div class="d-flex align-items-center gap-3 mt-3 mb-4" id="profileinfo">
+							<img th:src="@{'/uploads/profiles/' + ${profile}}" class="dashboard-avatar" alt="avatar"
+							     th:onerror="this.src='/user/images/default-profile.svg'">
+							<div>
+                                <h5 th:text="${name}">사용자명</h5>
+                                <p th:text="${email}">이메일</p>
                             </div>
                         </div>
-
                         <button class="primary-btn dashboard-toggler d-block d-lg-none" id="sidebarMenuOpen">
                             <i class="fa-solid fa-bars"></i>
                         </button>
                     </div>
+                    
                     <div class="dashboard-sidebar">
                         <div class="sidebar-menu">
                             <ul>
                                 <li class="active">
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-house"></i> <span>Dashboard</span>
+                                    <a href="#" class="menu-link" data-target="activity">
+                                        <i class="fa-solid fa-house"></i> <span>나의 활동</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-user"></i> <span>Personal Profile</span>
+                                    <a href="#" class="menu-link" data-target="profile">
+                                        <i class="fa-solid fa-user"></i> <span>개인 정보</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-gavel"></i> <span>My Bids</span>
+                                    <a href="#" class="menu-link" data-target="inquiry">
+                                        <i class="fa-solid fa-gavel"></i> <span>관리자 문의</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-trophy"></i> <span>Winning Bids</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-bell"></i> <span>My Alerts</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa-solid fa-star"></i> <span>My Favorite</span>
+                                    <a href="#" class="menu-link" data-target="notifications">
+                                        <i class="fa-solid fa-bell"></i> <span>알림</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+                <!-- 사이드바 끝 -->
+
+                <!-- 콘텐츠 영역 시작 -->
                 <div class="col-lg-9 ps-md-0">
                     <div class="dashboard-data">
-                        <div class="row g-3 mb-3 mb-md-5">
-                            <div class="col-md-4">
-                                <div class="card-wrapper">
-                                    <div class="d-flex gap-4">
-                                        <i class="fa-solid fa-gavel text-orange"></i>
-                                        <div>
-                                            <h3 class="fw-bold">80</h3>
-                                            <p>Active Bids</p>
+                        <!-- 나의 활동 섹션 -->
+                        <div id="activity" class="content-section">
+                            <!-- 경매 활동 요약 -->
+                            <div class="row g-3 mb-3 mb-md-5">
+                                <div class="col-md-4">
+                                    <div class="card-wrapper">
+                                        <div class="d-flex gap-4">
+                                            <i class="fa-solid fa-gavel text-orange"></i>
+                                            <div>
+                                                <h3 class="fw-bold">80</h3>
+                                                <p>경매 활동</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card-wrapper">
+                                        <div class="d-flex gap-4">
+                                            <i class="fa-solid fa-trophy text-orange"></i>
+                                            <div>
+                                                <h3 class="fw-bold">15</h3>
+                                                <p>낙찰 횟수</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card-wrapper">
+                                        <div class="d-flex gap-4">
+                                            <i class="fa-solid fa-star text-orange"></i>
+                                            <div>
+                                                <h3 class="fw-bold">124</h3>
+                                                <p>판매 활동</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="card-wrapper">
-                                    <div class="d-flex gap-4">
-                                        <i class="fa-solid fa-trophy text-orange"></i>
-                                        <div>
-                                            <h3 class="fw-bold">15</h3>
-                                            <p>Item Won</p>
+
+                            <!-- 경매 활동 상세 -->
+                            <div class="bidding-detail-wrapper">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#bidding">
+                                            입찰한 경매
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#won">
+                                            낙찰한 경매
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#sold">
+                                            판매된 경매 물품
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <!-- 입찰한 경매 탭 -->
+                                    <div class="tab-pane fade show active" id="bidding">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>물품 목록</th>
+                                                        <th>최종 입찰가</th>
+                                                        <th>기본 입찰가</th>
+                                                        <th>남은 시간</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>2015 Premium Watch</td>
+                                                        <td>$589.21</td>
+                                                        <td>$159.87</td>
+                                                        <td>
+                                                            <div class="timer-inner">2d : 5h : 30m</div>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- 추가 데이터 행 -->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card-wrapper">
-                                    <div class="d-flex gap-4">
-                                        <i class="fa-solid fa-star text-orange"></i>
-                                        <div>
-                                            <h3 class="fw-bold">124</h3>
-                                            <p>Favorite</p>
+                                    
+                                    <!-- 낙찰한 경매 탭 -->
+                                    <div class="tab-pane fade" id="won">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>물품 목록</th>
+                                                        <th>낙찰가</th>
+                                                        <th>낙찰일</th>
+                                                        <th>상태</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- 낙찰 데이터 -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 판매된 경매 물품 탭 -->
+                                    <div class="tab-pane fade" id="sold">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>물품 목록</th>
+                                                        <th>판매가</th>
+                                                        <th>판매일</th>
+                                                        <th>구매자</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- 판매 데이터 -->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="bidding-detail-wrapper">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <button class="nav-link" id="description-tab" data-bs-toggle="tab"
-                                                data-bs-target="#description" type="button" role="tab"
-                                                aria-controls="description" aria-selected="true">Description
-                                        </button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link" id="bidHistory-tab" data-bs-toggle="tab"
-                                                data-bs-target="#bidHistory" type="button" role="tab"
-                                                aria-controls="bidHistory" aria-selected="false">Bid history
-                                        </button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link active" id="sellerInfo-tab" data-bs-toggle="tab"
-                                                data-bs-target="#sellerInfo" type="button" role="tab"
-                                                aria-controls="sellerInfo" aria-selected="false">Seller Info
-                                        </button>
-                                    </li>
-                                </ul>
-                                <div class="tab-content dashboard-bidding" id="productDetailTab">
-                                    <div class="tab-pane fade" id="description" role="tabpanel"
-                                         aria-labelledby="description-tab">
-                                        <div class="bidding-history">
-                                            <div class="table-responsive">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Item List</th>
-                                                            <th>Last Bid</th>
-                                                            <th>Opening Bid</th>
-                                                            <th>Left Time</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                2015 Premium Watch
-                                                            </td>
-                                                            <td>$589.21</td>
-                                                            <td>$159.87</td>
-                                                            <td>
-                                                                <div class="timer-inner"></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                2015 Premium Watch
-                                                            </td>
-                                                            <td>$589.21</td>
-                                                            <td>$159.87</td>
-                                                            <td>
-                                                                <div class="timer-inner"></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                2015 Premium Watch
-                                                            </td>
-                                                            <td>$589.21</td>
-                                                            <td>$159.87</td>
-                                                            <td>
-                                                                <div class="timer text-danger">0d : 0h : 00m :
-                                                                    00s
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                2015 Premium Watch
-                                                            </td>
-                                                            <td>$589.21</td>
-                                                            <td>$159.87</td>
-                                                            <td>
-                                                                <div class="timer text-danger">0d : 0h : 00m :
-                                                                    00s
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="bidHistory" role="tabpanel"
-                                         aria-labelledby="bidHistory-tab">
-                                        <div class="bidding-history">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Item List</th>
-                                                        <th>Last Bid</th>
-                                                        <th>Opening Bid</th>
-                                                        <th>Left Time</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer-inner"></div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer-inner"></div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade show active" id="sellerInfo" role="tabpanel"
-                                         aria-labelledby="sellerInfo-tab">
-                                        <div class="bidding-history">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Item List</th>
-                                                        <th>Last Bid</th>
-                                                        <th>Opening Bid</th>
-                                                        <th>Left Time</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer-inner"></div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer-inner"></div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2015 Premium Watch
-                                                        </td>
-                                                        <td>$589.21</td>
-                                                        <td>$159.87</td>
-                                                        <td>
-                                                            <div class="timer text-danger">0d : 0h : 00m : 00s
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
 
+                        <!-- 개인 정보 섹션 -->
+                        <div id="profile" class="content-section d-none">
+                            <div id="userEdittool">
+                                <h4 class="mb-4">개인 정보</h4>
+								<form id="userEditForm" method="POST" enctype="multipart/form-data">
+								    <div class="form-grid">
+								        <div class="mb-3">
+								            <label class="form-label">이름</label>
+								            <input type="text" name="name" class="form-control" th:value="${name}">
+								        </div>
+								        <div class="mb-3">
+								            <label class="form-label" id="space">이메일</label>
+								            <input type="email" class="form-control" th:value="${email}" readonly>
+								        </div>
+								        <div class="mb-3">
+								            <label class="form-label">비밀번호</label>
+								            <input type="password" name="password" id="userPassword" class="form-control">
+								        </div>
+										<div class="mb-3">
+											<label class="form-label" id="space">비밀번호 확인</label>
+											<input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
+											<span class="input-checker"></i></span>
+											<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+	 									</div>
+								        <div class="mb-3">
+								            <label class="form-label">생년월일</label>
+								            <input type="date" class="form-control" name="birth" th:value="${birth}">
+								        </div>
+								        <div class="mb-3">
+								            <label class="form-label" id="space">국가</label>
+											<select class="form-select form-control" id="countrySelect" name="national" th:value="${national}">
+											    <option value="">국가 선택</option>
+											</select>
+								        </div>
+								        <div class="mb-3">
+								            <label class="form-label">전화번호</label>
+								            <input type="tel" class="form-control" name="tel" th:value="${tel}">
+								        </div>
+								        <div class="mb-3">
+								            <label class="form-label" id="space">계정 생성일</label>
+								            <input type="text" class="form-control" th:value="${createDate}" readonly>
+								        </div>
+								        <div class="mb-3">
+								            <label class="form-label">프로필</label>
+								            <input type="file" name="profile" class="form-control" th:value="${profile}">
+								        </div>
+								    </div>
+								    <button type="submit" class="primary-btn" id="editUser">수정하기</button>
+								</form>
+
+                            </div>
+                        </div>
+
+                        <!-- 관리자 문의 섹션 -->
+                        <div id="inquiry" class="content-section d-none">
+                            <div class="card-wrapper p-4">
+                                <div class="mt-5">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>날짜</th>
+                                                    <th>제목</th>
+                                                    <th>상태</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- 문의 내역 데이터 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 알림 섹션 -->
+                        <div id="notifications" class="content-section d-none">
+                            <div class="card-wrapper p-4">
+                                <h4 class="mb-4">알림</h4>
+                                <div class="notification-list">
+                                    <div class="notification-item d-flex align-items-start gap-3 mb-3 p-3 border-bottom">
+                                        <i class="fa-solid fa-bell text-orange"></i>
+                                        <div>
+                                            <p class="mb-1">새로운 입찰자가 있습니다.</p>
+                                            <small class="text-muted">2시간 전</small>
+                                        </div>
+                                    </div>
+                                    <!-- 추가 알림 항목들 -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- 콘텐츠 영역 끝 -->
             </div>
         </div>
     </div>
@@ -338,6 +303,7 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<script th:src="@{/user/js/mypage.js}"></script>
+<script th:src="@{/user/js/signup.js}"></script>
 </body>
-
 </html>

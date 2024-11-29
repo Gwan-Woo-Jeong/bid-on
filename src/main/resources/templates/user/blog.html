@@ -1,11 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light">
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Blog')}"></th:block>
-	</style>
+	
+	<style>
+		/* 스타일 추가 가능 */
+	</style> 
 </head>
-
 
 <body>
 <th:block th:insert="~{user/inc/header.html :: header}"></th:block>
@@ -22,27 +25,37 @@
             </div>
         </div>
     </div>
+
+    <div class="container mt-3">
+        <div class="d-flex justify-content-end">
+            <button onclick="location.href='/add-review'" class="btn btn-primary mt-3">New</button>
+        </div>
+    </div>
+
     <section class="outer-gap blog-section">
         <div class="container">
             <div class="row gy-4">
-                <!-- 리뷰 카드 반복 출력 -->
-                <div class="col-md-6 col-lg-4" th:each="review : ${reviews}">
-                    <div class="card blog-card">
-                        <img class="card-img-top" src="/user/images/review/reviewPhoto001.png" alt="blog-image">
-                        <div class="card-body p-3 p-md-4">
-                            <a href="blog-detail"><b th:text="${#strings.substring(review.title, 0, review.title.length() > 20 ? 20 : review.title.length())}">제목</b>
-<span th:if="${review.title.length() > 20}">...</span></a>
-                            <p th:text="${#strings.substring(review.contents, 0, 100)} + '...'"></p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center gap-1">
-								    <img src="/user/images/sample/testimonial-avatar.png" height="50" class="blog-avatar" alt="avatar">
-								    <h6 th:text="${review.name}">작성자</h6>
-								</div>
-                                <p class="mb-0"><span th:text="${review.views}"></span>명 조회</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               <!-- 리뷰 카드 반복 출력 -->
+				<div class="col-md-6 col-lg-4" th:each="review : ${reviews}">
+				    <div class="card blog-card">
+				        <!-- 동적 이미지 경로 -->
+						<img class="card-img-top" th:src="${review.thumbnailPath != null ? review.thumbnailPath : '/user/images/default_thumbnail.png'}" alt="blog-image" />
+				        <div class="card-body p-3 p-md-4">
+				            <a href="blog-detail">
+							    <b th:text="${#strings.substring(review.title, 0, review.title.length() > 20 ? 20 : review.title.length())}">제목</b>
+							    <span th:if="${review.title.length() > 20}">...</span>
+							</a>
+							<p th:text="${review.contents != null && #strings.length(review.contents) > 100 ? #strings.substring(review.contents, 0, 100) + '...' : review.contents}"></p>
+				            <div class="d-flex align-items-center justify-content-between">
+				                <div class="d-flex align-items-center gap-1">
+				                    <img src="/user/images/sample/testimonial-avatar.png" height="50" class="blog-avatar" alt="avatar">
+				                    <h6 th:text="${review.name}">작성자</h6>
+				                </div>
+				                <p class="mb-0"><span th:text="${review.views}"></span>명 조회</p>
+				            </div>
+				        </div>
+				    </div>
+				</div>
 
                 <!-- 페이징 -->
                 <div class="col-12">

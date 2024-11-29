@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 
 <head>
@@ -164,7 +165,7 @@
                 <div class="col-lg-6">
                     <div class="auction-card">
                         <div class="card-image left-card-image">
-                            <img src="/user/images/sample/live-auction.png" class="h-100 w-100" alt="auction-card-img">
+                            <img th:src="${big.path}" class="h-100 w-100" alt="auction-card-img">
                             <div class="timer-wrapper">
                                 <div class="timer-inner">
                                 </div>
@@ -172,10 +173,10 @@
                         </div>
                         <!-- </div> -->
                         <div class="card-content">
-                            <h4>Champagne Diamond & 29.47ct Smokey Topaz 14k Rose Gold Ring</h4>
-                            <p>Current bid <span>589.00$</span></p>
+                            <h4 th:text="${big.name}"></h4>
+                            <p>Current bid <span th:text="${big.startPrice}"></span></p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="bid-detail-live" class="primary-btn">자세히</a>
+                                <a th:href="@{'/live-auction/detail?itemId=' + ${big.id}}" class="primary-btn">자세히</a>
                             </div>
                         </div>
                     </div>
@@ -183,10 +184,10 @@
                 <div class="col-lg-6">
                     <div class="auction-card-small">
                         <div class="row gy-3">
-                            <div class="col-md-6">
+                            <div class="col-md-6" th:each="HomeLiveItem : ${liveItemList}">
                                 <div class="auction-card">
                                     <div class="card-image">
-                                        <img src="/user/images/sample/live-auction-1.png" class="img-fluid"
+                                        <img th:src="${HomeLiveItem.path}" class="img-fluid"
                                              alt="auction-card-img">
                                         <div class="timer-wrapper">
                                             <div class="timer-inner">
@@ -209,105 +210,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    
                                     <div class="card-content">
-                                        <h4>Most famous Skirt piece of celebrities</h4>
-                                        <p>Current bid <span>589.00$</span></p>
+                                        <h4 th:text="${HomeLiveItem.name}"></h4>
+                                        <p>Current bid <span th:text="${HomeLiveItem.startPrice}"></span></p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
+                                            <a th:href="@{'/live-auction/detail?itemId=' + ${HomeLiveItem.id}}"class="primary-btn">자세히</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/live-auction-2.png" class="img-fluid"
-                                             alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner">
-                                                    <span class="days">
-                                                        <span class="">0</span>
-                                                        <span class="">D</span>
-                                                    </span>:
-                                                <span class="hours">
-                                                        <span class="">1</span>
-                                                        <span class="">H</span>
-                                                    </span>:
-                                                <span class="minutes">
-                                                        <span class="">60</span>
-                                                        <span class="">M</span>
-                                                    </span>:
-                                                <span class="seconds">
-                                                        <span class="">40</span>
-                                                        <span class="">S</span>
-                                                    </span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>Old aged Small Wooden Trinket</h4>
-                                        <p>Current bid <span>589.00$</span></p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/live-auction-3.png" class="img-fluid"
-                                             alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner">
-                                                    <span class="days">
-                                                        <span class="">0</span>
-                                                        <span class="">D</span>
-                                                    </span>:
-                                                <span class="hours">
-                                                        <span class="">1</span>
-                                                        <span class="">H</span>
-                                                    </span>:
-                                                <span class="minutes">
-                                                        <span class="">60</span>
-                                                        <span class="">M</span>
-                                                    </span>:
-                                                <span class="seconds">
-                                                        <span class="">40</span>
-                                                        <span class="">S</span>
-                                                    </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>1987’s Mediterranean style home</h4>
-                                        <p>Current bid <span>589.00$</span></p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/live-auction-4.png" class="img-fluid"
-                                             alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>Café Racer: the vintage spirit</h4>
-                                        <p>Current bid <span>589.00$</span></p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <a href="bid-detail-live" class="primary-btn">자세히</a>
-                                        </div>
-                                    </div>
-                                </div>
+                          
                             </div>
                         </div>
                     </div>
@@ -316,7 +230,7 @@
                     <a href="browse-live-bid" class="primary-btn dark-btn mt-3 mt-md-5">모든 실시간 경매 상품 보기</a>
                 </div>
             </div>
-        </div>
+
     </section>
     <section class="outer-gap inner-gap bg-light">
         <div class="container">
@@ -586,6 +500,8 @@
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
 <script src="/user/js/home.js"></script>
+
+
 </body>
 
 </html>

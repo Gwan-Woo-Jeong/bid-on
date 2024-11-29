@@ -29,4 +29,16 @@ public class ReviewPhoto {
 	
 	@Column(nullable = false)
 	private String path;
+
+
+	public void setFileName(String originalFilename) {
+
+		
+	}
+
+
+	public void setThumbnail(Thumbnail thumbnailEntity) {
+		
+		
+	}
 }

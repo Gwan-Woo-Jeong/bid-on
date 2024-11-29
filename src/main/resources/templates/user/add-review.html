@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light">
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='새 게시글 쓰기')}"></th:block>
+	
+	<style>
+		/* 기본 스타일 */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f9f9f9;
+			margin: 0;
+			padding: 20px;
+		}
+
+		main {
+			max-width: 800px;
+			margin: 0 auto;
+			background: white;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		form div {
+			margin-bottom: 15px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		input, textarea {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+
+		button {
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			color: white;
+		}
+
+		.btn-primary:hover {
+			background-color: #0056b3;
+		}
+
+		.btn-secondary {
+			background-color: #6c757d;
+			color: white;
+			margin-left: 10px;
+		}
+
+		.btn-secondary:hover {
+			background-color: #5a6268;
+		}
+	</style> 
+</head>
+
+<body>
+	<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+	<main id="main-content" class="position-relative">
+		<h2>새 게시글 쓰기</h2>
+		<br>
+		<p>새로운 게시글을 작성하세요.</p>
+		<br>
+		<form action="/add-review" method="post" enctype="multipart/form-data">
+		    <!-- 이메일 입력 폼 추가 -->
+			<div class="container mt-3">
+			    <div class="d-flex flex-column">
+			        <label for="emailInput" class="form-label">이메일을 입력하세요:</label>
+			        <input type="email" id="emailInput" class="form-control" placeholder="이메일을 입력하세요" name="email">
+			        <button type="submit" id="emailSubmitBtn" class="btn btn-primary mt-3">이메일 확인</button>
+			    </div>
+			</div>
+		
+		    <!-- 제목 입력 -->
+		    <div>
+		        <label for="title">제목:</label>
+		        <input type="text" id="title" name="title" required placeholder="제목을 입력하세요" maxlength="100">
+		    </div>
+		
+		    <!-- 내용 입력 -->
+		    <div>
+		        <label for="contents">내용:</label>
+		        <textarea id="contents" name="contents" rows="10" required placeholder="내용을 입력하세요" maxlength="2000"></textarea>
+		    </div>
+		
+		    <!-- 이미지 업로드 -->
+		    <div>
+		        <label for="thumbnail">대표 이미지:</label>
+		        <input type="file" name="thumbnail" id="thumbnail" required>
+		        
+		        <label for="photos">추가 이미지:</label>
+		        <input type="file" name="photos" id="photos" multiple>
+		    </div>
+		
+		    <!-- 버튼 -->
+		    <div>
+		        <button type="submit" class="btn btn-primary">게시글 작성</button>
+		        <button type="button" onclick="location.href='/blog'" class="btn btn-secondary">취소</button>
+		    </div>
+		</form>
+
+	</main>
+
+	<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+	<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+</body>
+
+</html>

@@ -35,7 +35,6 @@ public class UserService {
         }
 
         UserEntity entity = UserEntity.builder()
-        		.profile(dto.getProfile())
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
@@ -63,13 +62,6 @@ public class UserService {
         }
     }
 
-    // 사용자 조회 메서드 (필요시 사용)
-    @Transactional(readOnly = true)
-    public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-    
-
     private void logUserEntityDetails(UserEntity userEntity) {
         log.debug("=== 저장할 엔티티 정보 ===");
         log.debug("email: {}", userEntity.getEmail());
@@ -87,4 +79,35 @@ public class UserService {
     }
     
     
+    @Transactional
+    public UserEntity updateUser(Long id, UserInfoDTO updateDto) {
+        UserEntity user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        if (updateDto.getPassword() != null && !updateDto.getPassword().isEmpty()) {
+            user.setPassword(bCryptPasswordEncoder.encode(updateDto.getPassword()));
+        }
+        if (updateDto.getName() != null) user.setName(updateDto.getName());
+        if (updateDto.getBirth() != null) user.setBirth(updateDto.getBirth());
+        if (updateDto.getNational() != null) user.setNational(updateDto.getNational());
+        if (updateDto.getTel() != null) user.setTel(updateDto.getTel());
+        if (updateDto.getProfile() != null) user.setProfile(updateDto.getProfile());
+        
+        return userRepository.save(user);
+    }
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+

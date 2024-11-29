@@ -1,4 +1,3 @@
-
 package com.test.bidon.config;
 
 import java.util.Random;

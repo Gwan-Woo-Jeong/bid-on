@@ -1,15 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Bid Detail')}"></th:block>
+    <style>
+    	.col-lg-8 {
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+.card-image-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.dcard-image {
+    flex: 0 0 100%;
+    display: none; /* 기본적으로 숨김 처리 */
+    transition: opacity 0.5s ease;
+
+}
+
+.dcard-image.active {
+    display: block; /* 활성화된 이미지만 보이도록 설정 */
+}
+
+.dcard-image img {
+   width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.timer-wrapper {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
+    </style>
 </head>
 
 <body>
-<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+<th:block th:insert="~{/user/inc/header.html :: header}"></th:block>
 
 <main id="main-content" class="position-relative">
     <div class="breadcrumb-main">
@@ -27,28 +93,33 @@
         <div class="container">
             <div class="row gy-4 gy-md-5">
                 <div class="col-lg-8">
-                    <div class="card-image">
-                        <img src="/user/images/sample/auction-card-1.png" alt="auction-card-img">
-                        <div class="timer-wrapper">
-                            <div class="timer-inner"></div>
-                        </div>
-                    </div>
-                </div>
+				    <button class="btn left-btn" onclick="showPreviousImage()">⬅</button>
+				    <div class="card-image-container">
+				        <div th:each="image, iterStat : ${images}"
+				             class="dcard-image card-image"
+				             th:classappend="${iterStat.index == 0} ? 'active' : ''">
+				             <img th:src="${image.imagePath}"
+         							th:alt="${image.isMainImage}">
+				        </div>
+				        <div class="timer-wrapper">
+				            <div class="timer-inner"></div>
+				        </div>
+				    </div>
+				    <button class="btn right-btn" onclick="showNextImage()">➡</button>
+				</div>
                 <div class="col-lg-4">
                     <div class="product-bid-widget h-100">
-                        <h3 class="title">
-                            Enchanting Decorative Ensembles: Adorn Your Space with Elegance
+                        <h3 class="title" th:text="${detail.productName}">
+
                         </h3>
                         <ul>
-                            <li><span>국가</span><span>KR</span></li>
-                            <li><span>시작 경매가</span><span>20,000원</span></li>
-                            <li><span>최신 경매가</span><span>40,000원</span></li>
-                            <li><span>입찰 횟수</span><span>21</span></li>
+                            <li><span>국가</span><span th:text="${detail.sellerNational}"></span></li>
+                            <li><span>시작 경매가</span><span th:text="${detail.startPrice}"></span></li>
+                            <li><span>최신 경매가</span><span th:text="${detail.lastBidPrice}"></span></li>
+                            <li><span>입찰 횟수</span><span th:text="${detail.participantCount}"></span></li>
                             <li><span>최소 입찰 단위</span><span>10,000원</span></li>
                         </ul>
-                        <div class="d-flex flex-wrap justify-content-between gap-2">
-                            <a href="checkout" class="primary-btn d-flex align-items-center">실시간 경매방 입장</a>
-                        </div>
+                        <a id="live-enter-btn" class="primary-btn d-flex justify-content-center">실시간 경매방 입장</a>
 
                     </div>
                 </div>
@@ -100,46 +171,21 @@
                                             </div>
                                             <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
                                                 <h5 class="mb-1">참여자 수</h5>
-                                                <p>54</p>
+                                                <p th:text="${detail.participantCount}"></p>
                                             </div>
                                             <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
                                                 <h5 class="mb-1">브랜드</h5>
-                                                <p>ERTL</p>
+                                                <p th:text="${detail.brand}"></p>
                                             </div>
                                             <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
                                                 <h5 class="mb-1">상품 등록 일자</h5>
-                                                <p>13 Mar, 2023 06:58 UTC</p>
+                                                <p th:text="${detail.createTime}"></p>
                                             </div>
                                         </div>
-                                        <h4 class="mb-3">Enchanting Decorative Ensembles: Adorn Your Space with
-                                            Elegance
+                                        <h4 class="mb-3" th:text="${detail.productName}">
                                         </h4>
-                                        <p class="mb-2">Id diam maecenas ultricies mi eget mauris pharetra. Tellus
-                                            id
-                                            interdum velit laoreet id donec ultrices. Neque laoreet suspendisse
-                                            interdum
-                                            consectetur libero id. Sagittis id consectetur purus ut faucibus
-                                            pulvinar.
-                                            Aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh.
-                                            Lorem ipsum
-                                            dolor sit amet consectetur adipiscing. Elit sed vulputate mi sit. In
-                                            aliquam sem
-                                            fringilla ut. Ac tortor dignissim convallis aenean et tortor at risus.
-                                            Vel eros
-                                            donec ac odio tempor.</p>
-                                        <p>Purus gravida quis blandit turpis cursus in hac. Amet commodo nulla
-                                            facilisi
-                                            nullam vehicula ipsum a arcu cursus. Mattis nunc sed blandit libero
-                                            volutpat.
-                                            Vitae suscipit tellus mauris a diam maecenas. Rhoncus mattis rhoncus
-                                            urna neque
-                                            viverra justo nec. Magna ac placerat vestibulum lectus mauris ultrices
-                                            eros.
-                                            Tempus imperdiet nulla malesuada pellentesque elit. Viverra adipiscing
-                                            at in
-                                            tellus integer feugiat. Turpis egestas sed tempus urna et pharetra. Nam
-                                            aliquam
-                                            sem et tortor. Tempus quam pellentesque nec nam.</p>
+                                        <p class="mb-2" th:text="${detail.description}"></p>
+
                                     </div>
                                 </div>
                             </div>
@@ -166,42 +212,19 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
+                                                <tr th:each="bidCustomer : ${cutomer}">
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <img src="/user/images/sample/avatar-5.png"
                                                                  class="dashboard-avatar" alt="avatar">
-                                                            <p>관우</p>
+                                                            <p th:text="${bidCustomer.customerName}"></p>
                                                         </div>
                                                     </td>
-                                                    <td>Korea</td>
-                                                    <td>33,000원</td>
-                                                    <td>5분전</td>
+                                                    <td th:text="${bidCustomer.customerNational}"></td>
+                                                    <td th:text="${bidCustomer.bidPrice}"></td>
+                                                    <td th:text="${bidCustomer.bidTime}"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>우진</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Korea</td>
-                                                    <td>23,000원</td>
-                                                    <td>10분전</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>길동</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Korea</td>
-                                                    <td>13,000원</td>
-                                                    <td>15분전</td>
-                                                </tr>
+                                                
                                                 </tbody>
                                             </table>
                                         </div>
@@ -226,7 +249,7 @@
                                             <tr>
                                                 <td>
                                                     <h6>이름</h6>
-                                                    <p>전상수</p>
+                                                    <p th:text="${detail.sellerName}"></p>
                                                 </td>
                                                 <td>
                                                     <h6>판매 횟수</h6>
@@ -236,21 +259,21 @@
                                             <tr>
                                                 <td>
                                                     <h6>가입일자</h6>
-                                                    <p>2024-01-01</p>
+                                                    <p th:text="${detail.sellerJoinDate}"></p>
                                                 </td>
                                                 <td>
                                                     <h6>국적</h6>
-                                                    <p>Korea</p>
+                                                    <p th:text="${detail.sellerNational}"></p>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <h6>Email</h6>
-                                                    <p>System@mail.com</p>
+                                                    <p th:text="${detail.sellerEmail}"></p>
                                                 </td>
                                                 <td>
                                                     <h6>연락처</h6>
-                                                    <p>010-3232-3232</p>
+                                                    <p th:text="${detail.sellerTel}"></p>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -309,11 +332,11 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">Mendinib top violin from best
+                                <a href="/bid-detail" class="card-title">Mendinib top violin from best
                                     artist</a>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
-                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+
                                 </div>
                             </div>
                         </div>
@@ -327,7 +350,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">An antique vintage landline
+                                <a href="/bid-detail" class="card-title">An antique vintage landline
                                     telephone</a>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
@@ -344,7 +367,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">Old baseball bat with ball and
+                                <a href="/bid-detail" class="card-title">Old baseball bat with ball and
                                     weathered glove</a>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
@@ -361,7 +384,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">Heritage french style home</a>
+                                <a href="/bid-detail" class="card-title">Heritage french style home</a>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
                                 </div>
@@ -378,7 +401,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">Arabic old style patterned teapot</a>
+                                <a href="/bid-detail" class="card-title">Arabic old style patterned teapot</a>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
                                 </div>
@@ -395,7 +418,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">Vintage wall clock</a>
+                                <a href="/bid-detail" class="card-title">Vintage wall clock</a>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <p class="p-0">Current bid <span>589.00$</span></p>
                                 </div>
@@ -407,11 +430,50 @@
             </div>
         </div>
     </section>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <input id="user-id" type="hidden" th:value="${#authentication.principal.id}">
+    </th:block>
 </main>
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
-<script src="/user/js/bid-detail.js"></script>
+<script src="/user/js/bid-detail-live.js"></script>
+
+<script>
+
+let currentIndex = 0;
+
+function showPreviousImage() {
+   const galleryItems = document.querySelectorAll('.card-image-container .dcard-image');
+
+    const totalImages = galleryItems.length;
+
+    galleryItems[currentIndex].classList.remove('active');
+
+    // 이전 이미지로 이동 (첫 번째에서 마지막으로 순환)
+    currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+    galleryItems[currentIndex].classList.add('active');
+
+    console.log('현재 Index:', currentIndex); // 디버깅용
+}
+
+function showNextImage() {
+    const galleryItems = document.querySelectorAll('.card-image-container .dcard-image');
+
+    const totalImages = galleryItems.length;
+
+    galleryItems[currentIndex].classList.remove('active');
+
+    // 다음 이미지로 이동 (마지막에서 첫 번째로 순환)
+    currentIndex = (currentIndex + 1) % totalImages;
+    galleryItems[currentIndex].classList.add('active');
+
+    console.log('현재 Index:', currentIndex); // 디버깅용
+}
+
+
+</script>
 </body>
 
 </html>

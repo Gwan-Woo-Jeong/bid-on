@@ -48,7 +48,7 @@ public class QNormalAuctionItemImageList extends EntityPathBase<NormalAuctionIte
 
     public QNormalAuctionItemImageList(Class<? extends NormalAuctionItemImageList> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.normalAuctionItem = inits.isInitialized("normalAuctionItem") ? new QNormalAuctionItem(forProperty("normalAuctionItem")) : null;
+        this.normalAuctionItem = inits.isInitialized("normalAuctionItem") ? new QNormalAuctionItem(forProperty("normalAuctionItem"), inits.get("normalAuctionItem")) : null;
         this.normalAuctionItemImage = inits.isInitialized("normalAuctionItemImage") ? new QNormalAuctionItemImage(forProperty("normalAuctionItemImage")) : null;
     }
 

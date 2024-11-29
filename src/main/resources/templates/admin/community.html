@@ -59,30 +59,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                           <td>2024-11-20</td>
                           <td><label class="badge badge-warning">수정</label></td>
                         </tr>   
-                        <tr>
-                          <td>관리자</td>
-                          <td>두번째 질문답</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-warning">수정</label></td>
-                        </tr>   
-                        <tr>
-                          <td>관리자</td>
-                          <td>세번째 질문답</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-warning">수정</label></td>
-                        </tr>   
-                        <tr>
-                          <td>관리자</td>
-                          <td>네번째 질문답</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-warning">수정</label></td>
-                        </tr>   
-                        <tr>
-                          <td>관리자</td>
-                          <td>다섯번째 질문답</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-warning">수정</label></td>
-                        </tr>   
                       </tbody>
                     </table>
                   </div>
@@ -107,17 +83,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				            </tr>
 				        </thead>
 				        <tbody>
-				            <tr th:each="question : ${questions}">
-				                <td th:text="${question.userEntityInfo.name}">문의자</td>
-				                <td th:text="${question.title}">제목</td>
-				                <td th:text="${question.regdate}">문의일</td>
-								<!--
-									<label class="badge badge-danger"> 답장 전 <빨강>
-										<label class="badge badge-success"> 답장 후 <초록>
-								-->
+				            <tr th:each=" dto : ${questionsList}">
+				                <td th:text="${dto.userEntityInfo.name}">문의자</td>
+				                <td th:text="${dto.title}">제목</td>
+				                <td th:text="${dto.regdate}">문의일</td>
 				                <td>
 				                    <!-- 답장 버튼 -->
-									<a th:href="@{/reply/{id}(id=${question.id})}" class="badge badge-danger custom-link">
+									<a th:href="@{/reply/{id}(id=${dto.id})}" class="badge badge-danger custom-link">
 									    문의 답변
 									</a>
 				                </td>
@@ -147,11 +119,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <!-- reviewList를 반복하면서 출력 -->
 					    <tr th:each="dto : ${reviewList}">
 					      <td th:text="${dto.id}">ID</td>
 					      <td th:text="${dto.userEntityInfo.name}">작성자</td>
-					      <td th:text="${dto.title}">제목</td>
+						  <td>
+						      <a th:href="@{'/blog-detail/' + ${dto.id}}" th:text="${dto.title}">제목</a>
+						    </td>
 					      <td th:text="${#temporals.format(dto.regdate, 'yyyy-MM-dd')}">게시일</td>
 					    </tr>
 					  </tbody>
@@ -191,89 +164,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                       <tbody>
                         <tr>
                           <td>
-                            게시글
+                            <!--삭제된 거: 게시글 or 댓글-->
                           </td>
                           <td>
-                            미미미누
+                            <!--작성자-->
                           </td>
                           <td>
-                            제가 팔 물건은...
+                            <!--글 내용-->
                           </td>
                           <td>
-                            2024-11-10
+                            <!--글 or 댓글 게시일-->
                           </td>
                           <td>
-                            2024-11-13
+                            <!--삭제일-->
                           </td>
                         </tr>
-                        <tr>
-                          <td>
-                            댓글
-                          </td>
-                          <td>
-                            이나
-                          </td>
-                          <td>
-                            이런 물건을 왜..
-                          </td>
-                          <td>
-                            2024-11-10
-                          </td>
-                          <td>
-                            2024-11-10
-                          </td>
-                        </tr>
-						<tr>
-						   <td>
-						     댓글
-						   </td>
-						   <td>
-						     철용
-						   </td>
-						   <td>
-						     이런 물건을 왜..
-						   </td>
-						   <td>
-						     2024-11-10
-						   </td>
-						   <td>
-						     2024-11-10
-						   </td>
-						 </tr>
-						 <tr>
-						    <td>
-						      댓글
-						    </td>
-						    <td>
-						      두산
-						    </td>
-						    <td>
-						      이런 물건을 왜..
-						    </td>
-						    <td>
-						      2024-11-10
-						    </td>
-						    <td>
-						      2024-11-10
-						    </td>
-						  </tr>
-						  <tr>
-						    <td>
-						      게시글
-						    </td>
-						    <td>
-						      만우
-						    </td>
-						    <td>
-						      제가 팔 물건은...
-						    </td>
-						    <td>
-						      2024-11-10
-						    </td>
-						    <td>
-						      2024-11-13
-						    </td>
-						  </tr>
                       </tbody>
                     </table>
                   </div>

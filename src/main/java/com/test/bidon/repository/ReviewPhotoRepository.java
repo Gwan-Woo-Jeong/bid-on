@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.test.bidon.entity.ReviewPhoto;
-import com.test.bidon.entity.ReviewBoard;
 import java.util.List;
 
 

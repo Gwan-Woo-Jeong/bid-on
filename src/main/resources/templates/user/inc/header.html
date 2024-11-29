@@ -1,7 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- head 내용 -->
+</head>
+<body>
 <th:block th:fragment="header">
     <th:block th:insert="~{user/inc/preloader.html :: preloader}"></th:block>
 
-    <a href="javascript:void(0)" class="back-to-top"><i class="fa-solid fa-up-long"></i></a>
+    <a href="/javascript:void(0)" class="back-to-top"><i class="fa-solid fa-up-long"></i></a>
 
     <div class="navbar-top border-bottom py-3 d-none d-lg-block">
         <div class="container">
@@ -46,12 +53,12 @@
                         <label for="changeTheme1" class="m-auto"></label>
                     </div>
                 </div>
-				<div class="col-4">	<!-- 이쪽만 건듦, 원상태로 복귀 -->
+				<div class="col-4">
 					<div class="d-flex gap-2 nav-btn-group align-items-center justify-content-end">
-				   		<a href="browse-bid.html" class="bg-transparent text-dark border-0 px-1">
+				   		<a href="/browse-bid.html" class="bg-transparent text-dark border-0 px-1">
 				        	<i class="fa-solid fa-search"></i>
 				       	</a>
-				      	<a href="mypage" class="bg-transparent text-dark border-0 px-1">
+				      	<a href="/mypage" class="bg-transparent text-dark border-0 px-1">
 				 			<i class="fa-solid fa-user"></i>
 				  		</a>
 						<button class="bg-transparent text-dark border-0"><i class="fa-solid fa-heart"></i></button>
@@ -64,35 +71,36 @@
     <header class="bg-white">
         <nav class="navbar navbar-expand-lg py-3">
             <div class="container">
-                <a class="navbar-brand p-0" href="home">
-                    <img src="/user/images/sample/logo.svg" id="headerLogo" class="themeLogo img-fluid w-100" alt="logo">
+                <a class="navbar-brand p-0" href="/home">
+                    <!-- <img src="/user/images/sample/logo.svg" id="headerLogo" class="themeLogo img-fluid w-100" alt="logo"> -->
+                    Bid On
                 </a>
                 <div class="nav-right justify-content-center" id="navbar">
                     <ul class="navbar-nav position-relative d-none d-lg-flex">
                         <li class="nav-item">
-                            <a class="nav-link text-dark active" href="home">홈</a>
+                            <a class="nav-link text-dark active" href="/home">홈</a>
                         </li>
                         <li class="nav-item dropdown-tgl">
                             <a class="nav-link text-dark" href="javascript:void(0)">경매</a>
                             <ul class="sub-menu">
-                                <li><a href="browse-bid">전자제품</a></li>
-                                <li><a href="bid-detail">스포츠</a></li>
-                                <li><a href="bid-detail">패션</a></li>
-                                <li><a href="bid-history">예술</a></li>
-                                <li><a href="bid-history">자동차</a></li>
-                                <li><a href="bid-history">미용</a></li>
+                                <li><a href="/browse-bid">전자제품</a></li>
+                                <li><a href="/bid-detail">스포츠</a></li>
+                                <li><a href="/bid-detail">패션</a></li>
+                                <li><a href="/bid-history">예술</a></li>
+                                <li><a href="/bid-history">자동차</a></li>
+                                <li><a href="/bid-history">미용</a></li>
                             </ul>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link text-dark" href="browse-live-bid">실시간 경매</a>
+                            <a class="nav-link text-dark" href="/live-auction/list">실시간 경매</a>
                         </li>
                         <li class="nav-item dropdown-tgl">
                             <a class="nav-link text-dark" href="javascript:void(0)">게시판</a>
                             <ul class="sub-menu">
-                                <li><a href="about">소개</a></li>
-                                <li><a href="blog">후기게시판</a></li>
-                                <li><a href="faq">자주 묻는 질문</a></li>
-                                <li><a href="privacy">기타 약관</a></li>
+                                <li><a href="/about">소개</a></li>
+                                <li><a href="/blog">후기게시판</a></li>
+                                <li><a href="/faq">자주 묻는 질문</a></li>
+                                <li><a href="/privacy">기타 약관</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -101,7 +109,7 @@
                     </ul>
                     <ul class="navbar-nav d-block d-lg-none">
                         <li class="nav-item">
-                            <a class="nav-link text-dark active" href="home">홈</a>
+                            <a class="nav-link text-dark active" href="/home">홈</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark" href="javascript:void(0)">경매</a>
@@ -115,22 +123,22 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="browse-live-bid">실시간 경매</a>
+                            <a class="nav-link text-dark" href="/live-auction/list">실시간 경매</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link text-dark" href="javascript:void(0)">게시판</a>
+                            <a class="nav-link text-dark" href="/javascript:void(0)">게시판</a>
                             <ul class="sub-menu">
-                                <li><a href="about">소개</a></li>
-                                <li><a href="blog">후기게시판</a></li>
-                                <li><a href="faq">자주 묻는 질문</a></li>
-                                <li><a href="privacy">기타 약관</a></li>
+                                <li><a href="/about">소개</a></li>
+                                <li><a href="/blog">후기게시판</a></li>
+                                <li><a href="/faq">자주 묻는 질문</a></li>
+                                <li><a href="/privacy">기타 약관</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="dashboard">My Page</a>
+                            <a class="nav-link text-dark" href="/dashboard">My Page</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="dashboard">Admin Page</a>
+                            <a class="nav-link text-dark" href="/dashboard">Admin Page</a>
                         </li>
                         <li>
                             <hr>
@@ -163,7 +171,7 @@
                                 <button class="bg-transparent text-dark border-0">
                                     <i class="fa-solid fa-search"></i>
                                 </button>
-                                <a href="login" class="bg-transparent text-dark border-0 px-1">
+                                <a href="/login" class="bg-transparent text-dark border-0 px-1">
                                     <i class="fa-solid fa-user"></i>
                                 </a>
                                 <button class="bg-transparent text-dark border-0"><i
@@ -182,10 +190,10 @@
                     </ul>
                 </div>
                 <div class="d-flex gap-1 nav-btn-group align-items-center">
-                    <a href="login" class="primary-btn">
+                    <a sec:authorize="!isAuthenticated()" href="/login" class="primary-btn">	<!-- 우진아 건들지마 -->
                         로그인
                     </a>
-                    <a href="logout" class="primary-btn">
+                    <a sec:authorize="isAuthenticated()" href="/logout" class="primary-btn">
                         로그아웃
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="nav-right" data-bs-target="#navbar"
@@ -197,3 +205,5 @@
         </nav>
     </header>
 </th:block>
+</body>
+</html>

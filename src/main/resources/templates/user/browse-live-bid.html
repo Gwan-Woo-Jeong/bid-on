@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                     <div class="card-content">
-                                        <a href="bid-detail-live" class="card-title" th:text="${LiveItem.name}"></a>
+                                        <a th:href="@{'/live-auction/detail?itemId=' + ${LiveItem.id}}"class="card-title" th:text="${LiveItem.name}"></a>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <p class="p-0">Current bid <span class="price" 
                                     th:attr="data-price=${LiveItem.startPrice}"><span th:text="${LiveItem.startPrice}"></span></span></p>

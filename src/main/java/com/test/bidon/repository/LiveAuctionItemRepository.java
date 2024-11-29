@@ -1,45 +1,13 @@
 package com.test.bidon.repository;
 
-import static com.test.bidon.entity.QLiveAuctionItem.liveAuctionItem;
-import static com.test.bidon.entity.QLiveAuctionItemImage.liveAuctionItemImage;
-import static com.test.bidon.entity.QLiveAuctionItemImageList.liveAuctionItemImageList;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.test.bidon.entity.LiveAuctionItem;
 
-import org.springframework.stereotype.Repository;
+public interface LiveAuctionItemRepository extends JpaRepository<LiveAuctionItem, Long> {
 
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.test.bidon.dto.LiveAuctionItemListDTO;
 
-import lombok.RequiredArgsConstructor;
 
-@Repository
-@RequiredArgsConstructor
-public class LiveAuctionItemRepository {
-	
-	private final JPAQueryFactory jpaQueryFactory;
-	
-	
-	public List<LiveAuctionItemListDTO> LiveAuctionList(){
-		
 
-		return jpaQueryFactory
-				.select(Projections.constructor(
-			            LiveAuctionItemListDTO.class,
-			            liveAuctionItem.name,
-			            liveAuctionItemImage.path,
-			            liveAuctionItem.startPrice
-			        ))
-			        .from(liveAuctionItemImageList)
-			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
-			        .join(liveAuctionItemImageList.liveAuctionItem, liveAuctionItem)
-			        .where(liveAuctionItemImageList.isMainImage.eq(1))
-			        .fetch();
-			
-					
-					
-		
-	}
 
 }

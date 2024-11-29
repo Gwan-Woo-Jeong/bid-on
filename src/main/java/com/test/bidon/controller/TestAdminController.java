@@ -1,6 +1,7 @@
 package com.test.bidon.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,22 +15,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.test.bidon.dto.LiveAuctionItemDTO;
+import com.test.bidon.dto.NormalAuctionItemDTO;
+import com.test.bidon.entity.LiveAuctionItem;
+import com.test.bidon.entity.NormalAuctionItem;
 import com.test.bidon.entity.OneOnOne;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.entity.UserEntity;
+import com.test.bidon.repository.LiveAuctionItemRepository;
+import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.repository.UserRepository;
 
 @Controller
-
 public class TestAdminController {
-
-//	@GetMapping("/admin")
-//	public String redirect(Model model) {
-//
-//		return "redirect:/admin/index";
-//	}
 
 	@Autowired
 	private UserRepository userRepository;
@@ -37,27 +37,71 @@ public class TestAdminController {
 	private ReviewBoardRepository reviewBoardRepository;
 	@Autowired
 	private OneOnOneRepository oneOnOneRepository;
+	@Autowired
+	private NormalAuctionItemRepository normalAuctionItemRepository;
+	@Autowired
+	private LiveAuctionItemRepository liveAuctionItemRepository;
 	
-	@GetMapping("/admin")
-	public String index(Model model) {
-		
-		return "admin/index";
-	}
-	
+
+	//경매 관리
 	@GetMapping("/admin/auction")
-	public String auction(Model model) {
+	public String auctionPage(Model model) {
 		
-		return "admin/auction";
+		LocalDateTime currentTime = LocalDateTime.now();
+	    
+	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+	    
+	    for (NormalAuctionItem item : normalList) {
+            item.calculateStatus(currentTime);  
+        }
+	    
+	    model.addAttribute("normalList", normalList);
+	    
+	    
+	    List<NormalAuctionItem> normalProgressList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+
+	    List<NormalAuctionItem> filteredNormalProgressList = normalProgressList.stream()
+                .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
+                .collect(Collectors.toList());
+
+        model.addAttribute("normalProgressList", filteredNormalProgressList);
+	    
+
+	    List<LiveAuctionItem> liveList = liveAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+	    
+	    for (LiveAuctionItem item : liveList) {
+            item.calculateStatus(currentTime);  
+        }
+
+
+	    model.addAttribute("liveList", liveList);
+	    
+	    List<LiveAuctionItem> progressList = liveAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+
+	    List<LiveAuctionItem> filteredProgressList = progressList.stream()
+                .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
+                .collect(Collectors.toList());
+
+        model.addAttribute("progressList", filteredProgressList);
+	    
+//	    List<NormalAuctionItemDTO> wishList = normalAuctionItemRepository.findWishItem();
+//	    
+//	    model.addAttribute("wishList", wishList);
+	    
+	    
+	    return "admin/auction";
 	}
+
 	
+	//회원 관리 > 회원 리스트
 	@GetMapping("/admin/user")
 	public String userList(Model model) {
-	List<UserEntity> userList = userRepository.findAll();
-	model.addAttribute("userList", userList);
+		List<UserEntity> userList = userRepository.findAll();
+		model.addAttribute("userList", userList);
 	    return "admin/user";
 	}
 	
-	
+	//회원 관리 > 회원 검색
 	@GetMapping("/search")
 	@ResponseBody
 	public ResponseEntity<List<UserEntity>> searchUser(
@@ -89,14 +133,12 @@ public class TestAdminController {
 	        }
 	    }
 
-	    // 국적 필터링
 	    if (national != null && !national.isEmpty()) {
 	        userList = userList.stream()
 	                           .filter(user -> user.getNational() != null && user.getNational().equals(national))  
 	                           .collect(Collectors.toList());
 	    }
 
-	    // 생일 필터링
 	    if (birth != null && !birth.isEmpty()) {
 	        try {
 	            LocalDate parsedBirthDate = LocalDate.parse(birth);
@@ -123,33 +165,16 @@ public class TestAdminController {
 	}
 	
 	
-	
+	//커뮤니티 관리 > 리스트 조회
 	@GetMapping("/admin/community")
 	public String communityPage(Model model) {
 	    List<ReviewBoard> reviewList = reviewBoardRepository.findAll(Sort.by(Sort.Order.desc("regdate")));
-
-	    model.addAttribute("reviewList", reviewList);  // reviewList 모델에 추가
+	    model.addAttribute("reviewList", reviewList); 
 	    
-	    List<OneOnOne> questions = oneOnOneRepository.findAll();
-        model.addAttribute("questions", questions);
+	    List<OneOnOne> questionsList = oneOnOneRepository.findAll();
+        model.addAttribute("questionsList", questionsList);
 	    
 	    return "admin/community";  // admin/community 페이지로 이동
 	}
 
-	
-	/*
-	  @GetMapping("/admin/community") 
-	  public String community(Model model) {
-	  
-	  	return "admin/community"; 
-	  }
-	 */
-	
-	@GetMapping("/admin/login")
-	public String login(Model model) {
-		
-		return "admin/login";
-	}
-	
 }
-

@@ -30,7 +30,26 @@ public class CustomUserDetails implements UserDetails {
     public String getPassword() {
         return userEntity.getPassword();
     }
-
+    
+    //추가한 메서드 > 마이페이지에서 사용	> 잠시 주석 처리
+	/*
+	 * public String getName() { return userEntity.getName(); }
+	 * 
+	 * public String getNational() { return userEntity.getNational(); }
+	 * 
+	 * public LocalDate getBirth() { return userEntity.getBirth(); }
+	 * 
+	 * public String getTel() { return userEntity.getTel(); }
+	 * 
+	 * public LocalDate getCreateDate() { return userEntity.getCreateDate(); }
+	 * 
+	 * public String getProfile() { return userEntity.getProfile(); }
+	 */
+    
+    
+    //추가 메서드
+    public Long getId() { return userEntity.getId(); } 
+    
     @Override
     public String getUsername() {
         return userEntity.getEmail();
@@ -55,4 +74,7 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return userEntity.getStatus() == 0;
     }
+
+
+
 }
