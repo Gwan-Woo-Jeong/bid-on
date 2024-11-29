@@ -29,9 +29,10 @@
                 <!-- 사이드바 시작 -->
                 <div class="col-lg-3 pe-lg-0 position-relative">
                     <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3 mt-3 mb-4">
-                            <img src="/user/images/sample/avatar-5.png" class="dashboard-avatar" alt="avatar">
-                            <div>
+                        <div class="d-flex align-items-center gap-3 mt-3 mb-4" id="profileinfo">
+							<img th:src="@{'/uploads/profiles/' + ${profile}}" class="dashboard-avatar" alt="avatar"
+							     th:onerror="this.src='/user/images/default-profile.svg'">
+							<div>
                                 <h5 th:text="${name}">사용자명</h5>
                                 <p th:text="${email}">이메일</p>
                             </div>

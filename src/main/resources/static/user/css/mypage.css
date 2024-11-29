@@ -57,3 +57,16 @@
 	margin-bottom: 10px;
 }
 
+.dashboard-avatar {
+	width: 100px;
+	height: 100px;
+}
+
+/* 마이페이지 > 사용자정보 정렬 */
+#profileinfo {
+    text-align: left;  
+}
+
+#profileinfo > div {
+    margin-top: 50px;  
+}
