@@ -16,7 +16,7 @@ public class NormalAuctionItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NormalAuctionItem_seq_generator")
     @SequenceGenerator(name = "NormalAuctionItem_seq_generator", sequenceName = "id", allocationSize = 1)
-    private Long seq;
+    private Long id;
 
     private Long categorySubId;
     private Long userInfoId;
@@ -31,7 +31,7 @@ public class NormalAuctionItem {
     public static NormalAuctionItemDTO toDTO(NormalAuctionItem item) {
 
         return NormalAuctionItemDTO.builder()
-                .seq(item.seq)
+                .id(item.id)
                 .categorySubId(item.categorySubId)
                 .name(item.name)
                 .description(item.description)
@@ -46,7 +46,7 @@ public class NormalAuctionItem {
     public NormalAuctionItemDTO toDTO() {
 
         return NormalAuctionItemDTO.builder()
-                .seq(this.seq)
+                .id(this.id)
                 .categorySubId(this.categorySubId)
                 .name(this.name)
                 .description(this.description)

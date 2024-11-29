@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.test.bidon.dto.LiveAuctionItemListDTO;
-import com.test.bidon.entity.LiveAuctionItemImageList;
 
 import lombok.RequiredArgsConstructor;
 

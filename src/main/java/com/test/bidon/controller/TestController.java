@@ -1,10 +1,19 @@
 package com.test.bidon.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.test.bidon.dto.NormalBidInfoDTO;
+import com.test.bidon.repository.NormalAuctionItemDetailRepository;
+
+import lombok.RequiredArgsConstructor;
+
+
 @Controller
+@RequiredArgsConstructor
 public class TestController {
 
 	@GetMapping("/")
@@ -27,15 +36,20 @@ public class TestController {
 		return "user/about";
 	}
 
+	private final NormalAuctionItemDetailRepository normalAuctionItemDetailRepository;
 	@GetMapping("/bid-detail")
 	public String bidDetail(Model model) {
+		List<NormalBidInfoDTO> bidinfoList = normalAuctionItemDetailRepository.ItemDetail();
+		
+		model.addAttribute("bidinfoList", bidinfoList);
+		
 		return "user/bid-detail";
 	}
 	
-	@GetMapping("/bid-detail-live")
-	public String bidDetailLive(Model model) {
-		return "user/bid-detail-live";
-	}
+//	@GetMapping("/bid-detail-live")
+//	public String bidDetailLive(Model model) {
+//		return "user/bid-detail-live";
+//	}
 
 	@GetMapping("/bid-history")
 	public String bidHistory(Model model) {

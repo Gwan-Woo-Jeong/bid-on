@@ -50,14 +50,11 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    
 }
 
 tasks.named('test') {
     useJUnitPlatform()
-<<<<<<< HEAD
-
-=======
->>>>>>> 60a049f9494f1cfda82dd635e8921d0bc1895afd
 }
 
 // Querydsl 설정부

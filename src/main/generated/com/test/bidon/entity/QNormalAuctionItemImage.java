@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -21,8 +20,6 @@ public class QNormalAuctionItemImage extends EntityPathBase<NormalAuctionItemIma
     public static final QNormalAuctionItemImage normalAuctionItemImage = new QNormalAuctionItemImage("normalAuctionItemImage");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    public final ListPath<NormalAuctionItemImageList, QNormalAuctionItemImageList> imageLists = this.<NormalAuctionItemImageList, QNormalAuctionItemImageList>createList("imageLists", NormalAuctionItemImageList.class, QNormalAuctionItemImageList.class, PathInits.DIRECT2);
 
     public final StringPath path = createString("path");
 

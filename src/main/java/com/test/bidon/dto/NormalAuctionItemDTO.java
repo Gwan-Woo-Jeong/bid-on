@@ -1,7 +1,13 @@
 package com.test.bidon.dto;
 
 import com.test.bidon.entity.NormalAuctionItem;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -11,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 public class NormalAuctionItemDTO {
 
-    private Long seq;
+    private Long id;
 
     private Long categorySubId;
     private Long userInfoId;
@@ -26,7 +32,7 @@ public class NormalAuctionItemDTO {
     public static NormalAuctionItem toEntity(NormalAuctionItemDTO dto) {
 
         return NormalAuctionItem.builder()
-                .seq(dto.getSeq())
+                .id(dto.getId())
                 .categorySubId(dto.getCategorySubId())
                 .userInfoId(dto.getUserInfoId())
                 .name(dto.getName())
@@ -42,7 +48,7 @@ public class NormalAuctionItemDTO {
     public NormalAuctionItem toEntity() {
 
         return NormalAuctionItem.builder()
-                .seq(this.getSeq())
+                .id(this.getId())
                 .categorySubId(this.getCategorySubId())
                 .userInfoId(this.getUserInfoId())
                 .name(this.getName())
