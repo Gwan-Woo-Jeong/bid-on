@@ -22,7 +22,7 @@ function connect(user) {
         const message = {
             roomId: itemId,
             type: 'ENTER',
-            senderId: userId,
+            senderId: this.userId,
             text: '',
             payload: user,
             createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -40,12 +40,13 @@ function connect(user) {
 
         if (message.type === 'ENTER') {
             const newUser = message.payload;
-            printChat('', `[${newUser.name}]님이 들어왔습니다.`, 'left', 'state', message.createTime);
+            printChat(newUser.name, newUser.profile,`[${newUser.name}]님이 들어왔습니다.`, 'left', message.createTime);
         } else if (message.type === 'LEAVE') {
             const outUser = message.payload;
-            printChat('', `[${outUser.name}]님이 나갔습니다.`, 'left', 'state', message.createTime);
+            printChat(outUser.name, outUser.profile, `[${outUser.name}]님이 나갔습니다.`, 'left', message.createTime);
         } else if (message.type === 'TALK') {
-            printChat(message.userId, message.content, 'left', 'msg', message.createTime);
+            const talkUser = message.payload;
+            printChat(talkUser.name, talkUser.profile, message.text, 'left', message.createTime);
         } else if (message.type === 'PARTS') {
             const users = message.payload;
             clearUsers();
@@ -108,16 +109,15 @@ function printUserCount(count) {
     $('.user-count').text(count);
 }
 
-function printChat(userId, msg, side, state, time) {
+function printChat(name, profileImgName, text, side, time) {
     const temp = `
                 <div class="answer ${side}">
                     <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User userId">
-                        <div class="status offline"></div>
+                        <img src="/uploads/profiles/${profileImgName}" alt="User name">
                     </div>
-                    <div class="userId">${userId}</div>
+                    <div class="name">${name}</div>
                     <div class="text">
-                        ${msg}
+                        ${text}
                     </div>
                     <div class="time">${showTime(time)}</div>
                 </div>
@@ -163,8 +163,9 @@ $('#message-input').keydown(evt => {
         const message = {
             roomId: itemId,
             type: 'TALK',
-            userId: this.userId,
-            content: $(evt.target).val(),
+            senderId: this.userId,
+            text: $(evt.target).val(),
+            payload: null,
             createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
 
@@ -172,7 +173,7 @@ $('#message-input').keydown(evt => {
 
         $(evt.target).val('');
 
-        printChat(message.userId, message.content, 'right', 'msg', message.createTime);
+        printChat(myInfo.name, myInfo.profile, message.text, 'right', message.createTime);
     }
 });
 

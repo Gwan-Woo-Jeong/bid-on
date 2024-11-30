@@ -105,6 +105,19 @@ public class LiveBidService {
 
             sendPartsMessage(roomId, room);
             room.sendMessageAll(toTextMessage(outLeaveMessage));
+        } else if (isTalk(inMessage)) {
+            Long senderId = inMessage.getSenderId();
+            LiveBidRoomUserDTO foundUser = room.findRoomUser(senderId);
+
+            Message outTalkMessage = Message.builder()
+                    .roomId(roomId)
+                    .type("TALK")
+                    .text(inMessage.getText())
+                    .payload(foundUser)
+                    .createTime(inMessage.getCreateTime())
+                    .build();
+
+            room.sendMessageExclude(toTextMessage(outTalkMessage), session);
         }
     }
 
@@ -148,6 +161,10 @@ public class LiveBidService {
 
     private boolean isLeave(Message message) {
         return message.getType().equals("LEAVE");
+    }
+
+    private boolean isTalk(Message message) {
+        return message.getType().equals("TALK");
     }
 
 }
