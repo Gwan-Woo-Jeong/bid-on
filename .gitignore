@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 .env
 .metadata
-src/main/generated/*
+src/main/generated/**
 
 ### STS ###
 .apt_generated
