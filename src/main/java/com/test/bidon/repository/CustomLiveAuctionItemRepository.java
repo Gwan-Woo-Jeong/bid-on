@@ -191,64 +191,8 @@ public class CustomLiveAuctionItemRepository {
                 .join(liveAuctionItemImage).on(liveAuctionItemImageList.liveAuctionItemImage.id.eq(liveAuctionItemImage.id))
                 .where(liveAuctionItem.id.eq(liveAuctionItemId).and(liveAuctionItemImageList.isMainImage.eq(1)))
                 .fetchOne();
+
     }
-
-
-    public Integer getLastBidPrice(Long liveAuctionItemId) {
-        return jpaQueryFactory
-                .select(liveBidCost.bidPrice.max())
-                .from(liveBidCost)
-                .where(liveBidCost.liveAuctionItemId.eq(liveAuctionItemId))
-                .fetchOne();
-    }
-
-    public LiveBidRoomUserDTO getLastBidder(Long liveAuctionItemId) {
-        return jpaQueryFactory
-                .select(Projections.constructor(
-                        LiveBidRoomUserDTO.class,
-                        liveAuctionPart.id.as("partId"),
-                        liveAuctionPart.userInfoId.as("userId"),
-                        userEntity.email,
-                        userEntity.name,
-                        userEntity.profile,
-                        userEntity.national,
-                        userEntity.tel,
-                        liveBidCost.bidPrice
-                ))
-                .from(liveBidCost)
-                .join(liveAuctionPart).on(liveBidCost.liveAuctionPartId.eq(liveAuctionPart.id))
-                .join(userEntity).on(liveAuctionPart.userInfoId.eq(userEntity.id))
-                .where(liveBidCost.liveAuctionItemId.eq(liveAuctionItemId))
-                .orderBy(liveBidCost.bidTime.desc())
-                .fetchOne();
-    }
-
-    public Long getTotalBidCount(Long liveAuctionItemId) {
-        return jpaQueryFactory
-                .select(liveBidCost.id.count())
-                .from(liveBidCost)
-                .where(liveBidCost.liveAuctionItemId.eq(liveAuctionItemId))
-                .fetchOne();
-    }
-
-// public List<LiveBidRoomUserDTO> getLiveBidRoomParticipants(Long liveAuctionItemId) {
-//     return jpaQueryFactory
-//             .select(Projections.constructor(
-//                     LiveBidRoomUserDTO.class,
-//                     liveAuctionPart.id.as("partId"),
-//                     liveAuctionPart.userInfoId.as("userId"),
-//                     userEntity.email,
-//                     userEntity.name,
-//                     userEntity.profile,
-//                     userEntity.national,
-//                     userEntity.tel,
-//                     JPAExpressions.select(liveBidCost.bidPrice.max().as("bidPrice")).from(liveBidCost).where(liveBidCost.liveAuctionPartId.eq(liveAuctionPart.id)),
-//                     ))
-//             .from(liveAuctionPart)
-//             .join(userEntity).on(liveAuctionPart.userInfoId.eq(userEntity.id))
-//             .where(liveAuctionPart.liveAuctionItemId.eq(liveAuctionItemId))
-//             .fetch();
-// }
 
 }
 

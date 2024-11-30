@@ -49,16 +49,8 @@ public class LiveAuctionController {
     public String bidLive(Model model, String itemId) {
 
         LiveBidRoomItemDTO liveBidRoomItemInfo = liveAuctionItemRepository.getLiveBidRoomItem(Long.valueOf(itemId));
-        Long totalBidCount = liveAuctionItemRepository.getTotalBidCount(Long.valueOf(itemId));
-        Integer lastBidPrice = liveAuctionItemRepository.getLastBidPrice(Long.valueOf(itemId));
-        LiveBidRoomUserDTO lastBidder = liveAuctionItemRepository.getLastBidder(Long.valueOf(itemId));
-        // List<LiveBidRoomUserDTO> liveBidRoomParticipants = liveAuctionItemRepository.getLiveBidRoomParticipants(Long.valueOf(itemId));
 
         model.addAttribute("itemInfo", liveBidRoomItemInfo);
-        model.addAttribute("totalBidCount", totalBidCount);
-        model.addAttribute("lastBidPrice", lastBidPrice);
-        model.addAttribute("lastBidder", lastBidder);
-        // model.addAttribute("participants", liveBidRoomParticipants);
 
         return "user/bid-live";
 
