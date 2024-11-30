@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,7 +30,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.test.bidon.config.security.CustomUserDetails;
 import com.test.bidon.dto.CustomOAuth2User;
 import com.test.bidon.dto.UserInfoDTO;
+import com.test.bidon.entity.OneOnOne;
+import com.test.bidon.entity.OneOnOneAnswer;
 import com.test.bidon.entity.UserEntity;
+import com.test.bidon.repository.OneOnOneAnswerRepository;
+import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.UserRepository;
 import com.test.bidon.service.UserService;
 
@@ -44,9 +49,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
     private final UserService userService;
-    private final String uploadPath = "C:/temp/uploads"; // 실제 파일이 저장될 경로
+    //private final String uploadPath = "C:/temp/uploads"; // 실제 파일이 저장될 경로 > 이거 에러 안나면 지우자~
 
     private final UserRepository userRepository;
+    private final OneOnOneRepository oneOnOneRepository;
+    private final OneOnOneAnswerRepository oneOnOneAnswerRepository;
     
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -138,7 +145,7 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public String mypage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = null;	//추가한 부분
+        UserEntity user = null;
         
         if (auth.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
@@ -160,10 +167,22 @@ public class UserController {
             model.addAttribute("createDate", user.getCreateDate());
             model.addAttribute("profile", user.getProfile());
             model.addAttribute("provider", user.getProvider());
-          
-        
+            
+            // OneOnOne 데이터 가져오기
+            List<OneOnOne> oneOnOneList = oneOnOneRepository.findByUserEntityInfo(user);
+            
+            // 각 OneOnOne에 대한 답변을 가져와서 설정
+            for (OneOnOne oneOnOne : oneOnOneList) {
+                OneOnOneAnswer answer = oneOnOneAnswerRepository.findByOneonone(oneOnOne);
+                if (answer != null) {
+                    oneOnOne.setOneOnOneAnswer(answer);
+                }
+            }
+            
+            model.addAttribute("oneOnOneList", oneOnOneList);
         
             log.info("User info found - Name: {}, Email: {}, Provider: {}", user.getName(), user.getEmail(), user.getProvider());
+            log.info("OneOnOne count: {}", oneOnOneList.size());
         } else {
             log.warn("User information not found");
         }

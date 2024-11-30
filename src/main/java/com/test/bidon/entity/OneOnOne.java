@@ -33,4 +33,8 @@ public class OneOnOne {
             this.regdate = LocalDate.now();
         }
     }
+    
+    @OneToOne(mappedBy = "oneonone", fetch = FetchType.LAZY)	//종민아 oneononeanswer때문에 이것도 필요해서 만들었어. 보고나서 지워도돼~ -혜미-
+    private OneOnOneAnswer oneOnOneAnswer;
+    
 }
