@@ -58,9 +58,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			            </tr>
 			          </thead>
 			          <tbody>
-			            <!-- normalList를 반복하면서 출력 -->
 			            <tr th:each="dto : ${normalList}">
-			              <td>><a th:href="@{/bid-detail/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td> 
+							<!--일반경매 주소 나오면 경로 수정하기-->
+			              <td><a th:href="@{/bid-detail/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td> 
 			              <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td> 
 			              <td th:text="${dto.startPrice}">시작가</td>
 						  <td>
@@ -142,7 +142,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                       </thead>
                       <tbody>
                         <tr th:each="dto : ${liveList}">
-						  <td><a th:href="@{/bid-detail-live/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td>
+						<td><a th:href="@{'/live-auction/detail?itemId=' + ${dto.id}}" th:text="${dto.name}"></a></td>
                           <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                           <td th:text="${dto.startPrice}"></td>
 						  <td>
@@ -192,7 +192,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			                  </div>
 			                </div>
 			              </td>
-			              <td><a class="badge badge-opacity-warning">참여</a></td>
+						  <td><a th:href="@{'/live-auction/bid-room?itemId=' + ${dto.id}}" class="badge badge-opacity-warning">참여</a></td>
 			            </tr>
 			          </tbody>
 			        </table>
@@ -231,6 +231,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                       <tbody>
 						<tr th:each="dto : ${todayNormalList}">
 						  <td th:text="${dto.userInfo.name}">판매자</td>
+						  <!--일반경매 주소 나오면 경로 수정하기-->
 						  <td><a th:href="@{/bid-detail/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td>
 						  <td>일반 경매</td>
 						  <td th:text="${dto.startPrice}">경매 금액</td>
@@ -238,7 +239,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 						</tr>
 						<tr th:each="dto : ${todayLiveList}">
 						  <td th:text="${dto.userInfo.name}">판매자</td>
-						  <td><a th:href="@{'/bid-detail-live/' + ${dto.id}}" th:text="${dto.name}"></td>
+						  <td><a th:href="@{'/live-auction/detail?itemId=' + ${dto.id}}" th:text="${dto.name}"></a></td>
 						  <td>실시간 경매</td>
 						  <td th:text="${dto.startPrice}">경매 금액</td>
 						  <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}">경매 예정일</td>

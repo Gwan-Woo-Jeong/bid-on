@@ -84,7 +84,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 								<td id="faq-title-1">실시간 경매는 어떻게 참여하나요?</td>
 								<td>2024-11-20</td>
 								<td>
-									<button class="btn btn-warning btn-sm edit-faq-btn" data-id="1" onclick="editFaq(1)">수정</button>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="1" onclick="editFaq(1)">수정</button>
 								</td>
 							</tr>
 							<tr>
@@ -92,7 +92,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 								<td id="faq-title-2">저의 경매 내역을 확인하고 싶어요.</td>
 								<td>2024-11-20</td>
 								<td>
-									<button class="btn btn-warning btn-sm edit-faq-btn" data-id="2" onclick="editFaq(2)">수정</button>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="2" onclick="editFaq(2)">수정</button>
 								</td>
 							</tr>
 							<tr>
@@ -100,7 +100,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 								<td id="faq-title-3">경매 마감시간이 궁금합니다.</td>
 								<td>2024-11-20</td>
 								<td>
-									<button class="btn btn-warning btn-sm edit-faq-btn" data-id="3" onclick="editFaq(3)">수정</button>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="3" onclick="editFaq(3)">수정</button>
 								</td>
 							</tr>
 							<tr>
@@ -108,7 +108,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 								<td id="faq-title-4">입찰 금액을 잘못 적었는데 취소방법이 궁금합니다.</td>
 								<td>2024-11-20</td>
 								<td>
-									<button class="btn btn-warning btn-sm edit-faq-btn" data-id="4" onclick="editFaq(4)">수정</button>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="4" onclick="editFaq(4)">수정</button>
 								</td>
 							</tr>
 							<tr>
@@ -116,7 +116,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 								<td id="faq-title-5">제가 좋아하는 물건이 있는데 경매가 시작되면 알림 기능이 있나요?</td>
 								<td>2024-11-20</td>
 								<td>
-									<button class="btn btn-warning btn-sm edit-faq-btn" data-id="5" onclick="editFaq(5)">수정</button>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="5" onclick="editFaq(5)">수정</button>
 								</td>
 							</tr>   
 						</tbody>
@@ -182,8 +182,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					    <tr th:each="dto : ${reviewList}">
 					      <td th:text="${dto.id}">ID</td>
 					      <td th:text="${dto.userEntityInfo.name}">작성자</td>
-						  <td>
-						      <a th:href="@{'/blog-detail/' + ${dto.id}}" th:text="${dto.title}">제목</a>
+						    <td>
+							<a th:href="@{'/blog-detail?id=' + ${dto.id}}" th:text="${dto.title}">제목</a>
 						    </td>
 					      <td th:text="${#temporals.format(dto.regdate, 'yyyy-MM-dd')}">게시일</td>
 					    </tr>

@@ -8872,6 +8872,16 @@ a:hover {
     text-decoration: none; /* 호버 상태에서도 밑줄이 생기지 않도록 설정 */
 }
 
+.custom-link2 {
+    color: inherit; /* 기본 글씨 색을 부모로부터 상속받게 설정 */
+    background-color: #FFFFFF; /* 기본 배경색을 흰색으로 설정 */
+}
+
+.custom-link2:hover {
+    background-color: #FFAF00; /* 호버 시 배경색을 주황색으로 설정 */
+    color: white; /* 호버 시 글씨 색을 흰색으로 설정 */
+}
+
 
 /*
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
