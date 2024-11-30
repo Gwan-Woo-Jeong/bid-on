@@ -35,15 +35,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                     <li class="nav-item">
                       <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
                     </li>
-<!--                    <li class="nav-item">-->
-<!--                      <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#audiences" role="tab" aria-selected="false">Audiences</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                      <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#demographics" role="tab" aria-selected="false">Demographics</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                      <a class="nav-link border-0" id="more-tab" data-bs-toggle="tab" href="#more" role="tab" aria-selected="false">More</a>-->
-<!--                    </li>-->
+
                   </ul>
                   <div>
                     <div class="btn-wrapper">
@@ -81,12 +73,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">총 낙찰 물품 수</p>
-                            <h3 class="rate-percentage">20</h3>
+                            <h3 class="rate-percentage" th:text="${totalWinningBidCount}"></h3>
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">총 수익률</p>
-                            <h3 class="rate-percentage">1,000,000</h3>
+                            <h3 class="rate-percentage" th:text="${#numbers.formatInteger(totalBidPrice, 1, 'COMMA')}"></h3>
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.8%</span></p>
                           </div>
                         </div>
@@ -122,7 +114,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                 <div class="row">
                                   <div class="col-sm-4">
                                     <p class="status-summary-ight-white mb-1">경매 참여자 수</p>
-                                    <h2 class="text-info">357</h2>
+                                    <h2 class="text-info" th:text="${bidEnterUserCount}"></h2>
                                   </div>
                                   <div class="col-sm-8">
                                     <div class="status-summary-chart-wrapper pb-4">
@@ -155,7 +147,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                       </div>
                                       <div>
                                         <p class="text-small mb-2">오늘 방문자 수</p>
-                                        <h4 class="mb-0 fw-bold">100</h4>
+                                        <h4 class="mb-0 fw-bold">30</h4>
                                       </div>
                                     </div>
                                   </div>
@@ -175,16 +167,34 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                           <div class="col-12 grid-margin stretch-card">
                             <div class="card card-rounded">
                               <div class="card-body">
-                                <div class="row">
-                                  <div class="col-lg-12">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                      <h4 class="card-title card-title-dash">카테고리별 물품 등록률</h4>
-                                    </div>
-                                    <canvas class="my-auto" id="doughnutChart" height="200"></canvas>
-                                    <div id="doughnut-chart-legend" class="mt-5 text-center"></div>
-                                  </div>
-                                </div>
-                              </div>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="d-flex justify-content-between align-items-center mb-3">
+											<h4 class="card-title card-title-dash">카테고리별 물품수</h4>
+											<div>
+												<div class="dropdown">
+													<button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button"
+														id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														전자제품
+													</button>
+													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+														<h6 class="dropdown-header">카테고리</h6>
+														<a class="dropdown-item" href="#">전자제품</a>
+														<a class="dropdown-item" href="#">스포츠</a>
+														<a class="dropdown-item" href="#">패션</a>
+														<a class="dropdown-item" href="#">예술</a>
+														<a class="dropdown-item" href="#">자동차</a>
+														<a class="dropdown-item" href="#">미용</a>
+													</div>
+												</div>
+											</div>
+										</div>
+								
+										<canvas class="my-auto" id="doughnutChart" height="200"></canvas>
+										<div id="doughnut-chart-legend" class="mt-5 text-center"></div>
+									</div>
+								</div>
+								</div>
                             </div>
                           </div>
                         </div>
@@ -195,23 +205,28 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                             <div class="card card-rounded">
                               <div class="card-body">
                                 <div class="row">
-                                  <div class="col-lg-12">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                      <div>
-                                        <h4 class="card-title card-title-dash">일반 경매 총 수익</h4>
-                                      </div>
-                                      <div>
-                                        <div class="dropdown">
-                                          <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Month Wise </button>
-                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                            <h6 class="dropdown-header">week Wise</h6>
-                                            <a class="dropdown-item" href="#">Year Wise</a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="mt-3">
-                                      <canvas id="leaveReport"></canvas>
+								<div class="col-lg-12">
+									<div class="d-flex justify-content-between align-items-center mb-3">
+										<div>
+											<h4 class="card-title card-title-dash">일반 경매 총 수익</h4>
+										</div>
+										<div>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button"
+													id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													Quarterly </button>
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+													<h6 class="dropdown-header">Quarterly</h6>
+													<a class="dropdown-item" href="#">Q1 (Jan-Mar)</a>
+													<a class="dropdown-item" href="#">Q2 (Apr-Jun)</a>
+													<a class="dropdown-item" href="#">Q3 (Jul-Sep)</a>
+													<a class="dropdown-item" href="#">Q4 (Oct-Dec)</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="mt-3">
+										<canvas id="leaveReport"></canvas>
                                     </div>
                                   </div>
                                 </div>
@@ -232,10 +247,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                       </div>
                                       <div>
                                         <div class="dropdown">
-                                          <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Month Wise </button>
+                                          <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Quarterly </button>
                                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                            <h6 class="dropdown-header">week Wise</h6>
-                                            <a class="dropdown-item" href="#">Year Wise</a>
+                                            <h6 class="dropdown-header">Quarterly</h6>
+                                            <a class="dropdown-item" href="#">Q1 (Jan-Mar)</a>
+                                            <a class="dropdown-item" href="#">Q2 (Apr-Jun)</a>
+                                            <a class="dropdown-item" href="#">Q3 (Jul-Sep)</a>
+                                            <a class="dropdown-item" href="#">Q4 (Oct-Dec)</a>
                                           </div>
                                         </div>
                                       </div>
@@ -266,20 +284,18 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                   </div>
                                   <div>
                                     <div class="dropdown">
-                                      <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> This month </button>
+                                      <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 2024 </button>
                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <h6 class="dropdown-header">Settings</h6>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Separated link</a>
+                                        <h6 class="dropdown-header">Year</h6>
+                                        <a class="dropdown-item" href="#">2024</a>
+                                        <a class="dropdown-item" href="#">2025</a>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="d-sm-flex align-items-center mt-1 justify-content-between">
-                                  <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold">$36,2531.00</h2><h4 class="me-2">USD</h4><h4 class="text-success">(+1.37%)</h4></div>
+                                  <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold" th:text="${#numbers.formatDecimal(averageBidPrice, 0, 'COMMA', 2, 'POINT')}"></h2>
+									<h4 class="me-2">KRW</h4><h4 class="text-success">(+1.37%)</h4></div>
                                   <div class="me-3"><div id="marketing-overview-legend"></div></div>
                                 </div>
                                 <div class="chartjs-bar-wrapper mt-3">
@@ -316,22 +332,20 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                   <div>
                                     <h4 class="card-title card-title-dash">수익분석</h4>
-                                    <p class="card-subtitle card-subtitle-dash">아래 그래프는 모든 낙찰 물품의 10% 수수료를 계산하여 집계하고, 평균 경매 시간을 분석하여 보여줍니다.</p>
+                                    <p class="card-subtitle card-subtitle-dash">아래 그래프는 모든 낙찰 물품의 10% 수수료를 계산하여 집계하고, 월별 누적 수익금액을 확인 할 수 있다.</p>
                                   </div>
                                   <div>
-                                    <div class="dropdown">
-                                      <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton00" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> This month </button>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <h6 class="dropdown-header">Settings</h6>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Separated link</a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+									<div class="dropdown">
+										<button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button"
+											id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 2024 </button>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+											<h6 class="dropdown-header">Year</h6>
+											<a class="dropdown-item" href="#">2024</a>
+											<a class="dropdown-item" href="#">2025</a>
+										</div>
+									</div>
+									</div>
+									</div>
                                 <div class="d-sm-flex align-items-center mt-1 justify-content-between">
                                   <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold">$36,2531.00</h2><h4 class="me-2">USD</h4><h4 class="text-success">(+1.37%)</h4></div>
                                   <div class="me-3"> <div id="revenue-legend" class="mt-5 text-center"></div></div>

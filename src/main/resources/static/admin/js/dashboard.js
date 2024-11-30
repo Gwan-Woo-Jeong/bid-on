@@ -5,9 +5,9 @@
       // "#performaneLine" 요소가 존재하는지 확인
       if ($("#performaneLine").length) {
 
-          // console.log(monthlyNewUserCounts);
-          // console.log(monthlyExistingUserCounts);
-          // console.log(monthlyUserCountList);
+          //console.log(monthlyNewUserCounts);
+          //console.log(monthlyExistingUserCounts);
+          //console.log(monthlyUserCountList);
 
           // "performaneLine" 캔버리 요소의 2D 컨텍스트를 가져옴
           var graphGradient = document.getElementById("performaneLine").getContext('2d');
@@ -416,7 +416,7 @@
               fill: true, // 3: no fill
               
           },{
-            label: '평균 낙찰 가격',
+            label: '평균 종료 가격',
             data: [215, 290, 210, 250, 290, 230, 290, 210, 280, 220, 190, 300],
             backgroundColor: "#1F3BB3",
             borderColor: [
@@ -910,7 +910,7 @@
                 tension: 0.5 // 곡선의 부드러움
             },
             {
-                label: '평균 경매 시간',
+                label: '누적 수익 금액',
                 data: [15, 25, 20, 30, 35, 25, 40, 10, 20, 30, 40, 50], // 데이터 값
                 borderColor: 'rgba(54, 162, 235, 1)', // 테두리 색상
                 backgroundColor: 'rgba(54, 162, 235, 0.5)', // 배경색

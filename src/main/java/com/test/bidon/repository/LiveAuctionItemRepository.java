@@ -8,6 +8,4 @@ public interface LiveAuctionItemRepository extends JpaRepository<LiveAuctionItem
 
 
 
-
-
 }

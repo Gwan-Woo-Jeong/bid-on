@@ -5,12 +5,22 @@ select * from WinningBid;
 select * from NormalBidInfo;
 select * from LiveBidCost;
 
+select id, userInfoId, liveBidId, normalBidId from WinningBid;
+select id, auctionItemId,UserInfoId, bidPrice, bidDate from NormalBidInfo;
+
 select sum(bidprice) from LiveBidCost;
 select sum(bidprice) from NormalBidInfo;
 
 select * from MainCategory;
 
-select * from SubCategory;
+--메인 카테고리 count 세기
+select * from normalauctionitem;
+
+--서브 카테고리별 오름차순
+select sb.name, count(*) from SubCategory sb inner join NormalAuctionItem nai on sb.id = nai.categorySubId 
+group by sb.name, sb.id order by sb.id asc;
+
+
 
 --사용자 통계---------------------------------------------------------
 --전체 회원 수
@@ -25,10 +35,21 @@ select count(*) from userinfo where createDate >= to_char(sysdate-30,'yyyy-mm-dd
 --월별 신규 회원수
 
 --경매 참여자 수: 최근 30일 이내에 경매에 참여한 회원 수를 확인 할 수 있다.
-select count(*) from NormalAuctionItem;
-select count(*) from NormalBidInfo;
-select count(*) from LiveAuctionItem;
-select count(*) from LiveBidCost;
+SELECT COUNT(*) as BidEnterUserCount FROM (
+    SELECT userInfoId FROM NormalAuctionItem
+    UNION
+    SELECT userInfoId FROM NormalBidInfo
+    UNION
+    SELECT userInfoId FROM LiveAuctionPart
+    UNION
+    SELECT userInfoId FROM LiveAuctionItem
+);
+
+
+select * from NormalAuctionItem;
+select * from NormalBidInfo;
+select * from LiveAuctionPart;
+select * from LiveAuctionItem;
 --사이트 총 방문자 수
 
 --오늘 방문자 수
@@ -37,17 +58,45 @@ select count(*) from LiveBidCost;
 
 --경매 성과 분석---------------------------------------------------------
 --(월별)평균 시작 가격
+--SELECT TO_CHAR(na.startTime, 'MM') AS month,
+--    AVG(na.startPrice)+AVG(la.stratPrice) AS average_startprice FROM (
+--    SELECT userInfoId FROM NormalAuctionItem na
+--    UNION
+--    SELECT userInfoId FROM LiveAuctionItem la
+--) GROUP BY 
+--    TO_CHAR(startTime, 'MM')
+--ORDER BY
+--    month;
+
 SELECT 
     TO_CHAR(startTime, 'MM') AS month,
-    AVG(startprice) AS average_startprice
+    AVG(startPrice) AS average_startprice
 FROM 
     LiveAuctionItem
 GROUP BY 
     TO_CHAR(startTime, 'MM')
 ORDER BY
     month;
---(월별)평균 낙찰 가격
-
+    
+SELECT 
+    TO_CHAR(startTime, 'MM') AS month,
+    AVG(startPrice) AS average_startprice
+FROM 
+    NormalAuctionItem
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month; 
+    
+--평균 낙찰 가격
+SELECT 
+    (COALESCE(avg(nbi.bidprice), 0) + COALESCE(avg(lbc.bidprice), 0)) * 0.1 AS avg_bid_price
+FROM 
+    winningbid wb
+left JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+left JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id;
 
 --평균 낙찰 가격(총 낙찰 가격 / 낙찰된 경매 수)
 
@@ -60,21 +109,83 @@ SELECT
     (SELECT COUNT(*) FROM LiveAuctionItem) AS TotalAuctionCount
 FROM dual;
 
+
+
+
+
+
+--월별 등록된 물품수------------------------------------------
+select TO_CHAR(startTime, 'MM') AS month,
+    count(*) 
+from NormalAuctionItem 
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month;
+    
+select TO_CHAR(startTime, 'MM') AS month,
+    count(*) 
+from LiveAuctionItem
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month;
+    
+--월별 진행중인 물품수-----------------------------------------
+select TO_CHAR(startTime, 'MM') AS month,
+    count(*) 
+from NormalAuctionItem where status = '진행중' 
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month;
+    
+select TO_CHAR(startTime, 'MM') AS month,
+    count(*) 
+from LiveAuctionItem 
+where startTime >= sysdate and endTime is null
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month;
+    
+--월별 종료된 물품수--------------------------------------
+select TO_CHAR(startTime, 'MM') AS month,
+    count(*) 
+from NormalAuctionItem where status = '종료' 
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month;
+    
+select TO_CHAR(startTime, 'MM') AS month,
+    count(*) 
+from LiveAuctionItem
+where startTime <= sysdate and endTime is not null
+GROUP BY 
+    TO_CHAR(startTime, 'MM')
+ORDER BY
+    month;
+---------------------------------------------------------------------------------------
 --진행 중인 경매 물품 수
-select count(*) from NormalAuctionItem where status = '진행중';
+select * from NormalAuctionItem;
 select * from LiveAuctionItem where startTime >= sysdate and endTime is null;
+
+select * from LiveAuctionItem where startTime <= sysdate and endTime is not null;
+
+
 
 --총 낙찰 물품 수
 select count(*) from WinningBid;
 
 -- 총수익률 (winningbod 데이터 추가되면 inner join 해야됨 right innre join 해야될듯..)
 SELECT 
-    (COALESCE(SUM(nbi.bidprice), 0) + COALESCE(SUM(lbc.bidprice), 0)) * 0.1 AS total_bid_price
+    (COALESCE(SUM(nbi.bidprice), 0) + COALESCE(SUM(lbc.bidprice), 0)) *0.1 AS total_bid_price
 FROM 
     winningbid wb
-FULL OUTER JOIN 
+left JOIN 
     NormalBidInfo nbi ON wb.normalBidId = nbi.id
-FULL OUTER JOIN 
+left JOIN 
     LiveBidCost lbc ON wb.liveBidId = lbc.id;
 
 
@@ -123,13 +234,14 @@ ORDER BY
 
 
 SELECT 
+    wb.id,
     nbi.bidDate,
     nbi.bidPrice,
     lbc.bidTime,
     lbc.bidPrice
 FROM 
     winningbid wb
-FULL OUTER JOIN 
+left JOIN 
     NormalBidInfo nbi ON wb.normalBidId = nbi.id
-FULL OUTER JOIN 
+left JOIN 
     LiveBidCost lbc ON wb.liveBidId = lbc.id; 
