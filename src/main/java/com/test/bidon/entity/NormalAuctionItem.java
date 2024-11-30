@@ -32,6 +32,10 @@ public class NormalAuctionItem {
     private Integer startPrice;
     private String status;
     
+    
+    @Transient
+    private String wishCount;
+    
     @Transient
     private String statusNormal;
     

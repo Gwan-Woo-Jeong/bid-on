@@ -64,5 +64,7 @@ public class UserInfoDTO {
                 .userRole(this.getUserRole())
                 .build();
     }
+    
+    
 
 }

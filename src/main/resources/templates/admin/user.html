@@ -6,6 +6,40 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 <head>
 	<th:block th:insert="~{admin/inc/head.html :: head}"></th:block>
 </head>
+<style>
+/* 모달 css */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    width: 50%;
+    border-radius: 10px;
+  }
+  .close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
 <body>
   <div class="container-scroller"> 
     <!-- partial:partials/_navbar.html -->
@@ -102,35 +136,39 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                           </div>
 						  </div>
                           <button type="button" class="btn btn-primary btn-lg btn-block" id="searchButton">
-                            <i class="ti-user"></i> 회원 조회</button>
+                            <i class="mdi mdi-account-search">Search</i></button>
                         </form>
                       </div>
                     </div>
 					
-                    <h4 class="card-title">회원 목록</h4>
-                    <p class="card-description">
-                       <code>.user list</code>
-                    </p>
-                    <div class="table-responsive">
-                      <table class="table table-striped" id="userTable">
-                        <thead>
-                            <tr>
-                                <th>사용자</th>
-                                <th>이메일</th>
-                                <th>연락처</th>
-                                <th>생일</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="dto : ${userList}">
-                                <td th:text="${dto.name}">이름</td>
-                                <td th:text="${dto.email}">이메일</td>
-                                <td th:text="${dto.tel}">연락처</td>
-                                <td th:text="${#temporals.format(dto.birth, 'yyyy-MM-dd')}">생일</td>
-                            </tr>
-                        </tbody>
-                      </table>
-					  </div>
+					<h4 class="card-title">회원 목록</h4>
+					<p class="card-description">
+					   <code>.user list</code>
+					</p>
+					<div class="table-responsive">
+					  <table class="table table-striped" id="userTable">
+					    <thead>
+					        <tr>
+					            <th>사용자</th>
+					            <th>이메일</th>
+					            <th>연락처</th>
+					            <th>생일</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <tr th:each="dto : ${userList}">
+					            <td>
+					                <a href="javascript:void(0);" class="user-name" 
+					                   th:data-id="${dto.id}" 
+					                   th:text="${dto.name}">이름</a>
+					            </td>
+					            <td th:text="${dto.email}">이메일</td>
+					            <td th:text="${dto.tel}">연락처</td>
+					            <td th:text="${#temporals.format(dto.birth, 'yyyy-MM-dd')}">생일</td>
+					        </tr>
+					    </tbody>
+					  </table>
+					 </div>
                     </div>
                   </div>
                 </div>
@@ -151,83 +189,131 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   
   <th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
   
+  <!-- 개인정보 팝업창 -->
+  <div id="personalInfoModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h4><i class="ti-user"></i> 회원 정보</h4>
+      <p><strong>이름:</strong> <span id="modal-name"></span></p>
+      <p><strong>이메일:</strong> <span id="modal-email"></span></p>
+      <p><strong>연락처:</strong> <span id="modal-tel"></span></p>
+      <p><strong>생일:</strong> <span id="modal-birth"></span></p>
+      <p><strong>국적:</strong> <span id="modal-national"></span></p>
+      <p><strong>가입일:</strong> <span id="modal-createDate"></span></p>
+      <p><strong>상태:</strong> <span id="modal-status"></span></p>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
-	  $(document).ready(function() {
+	
+	
+	//-------------회원 검색 및 개인정보(모달) 띄우기--------------
+	$(document).ready(function() {
+	    // 회원 검색 버튼 클릭 시
 	    $('#searchButton').click(function() {
-	      
-	      var formData = $('#searchForm').serialize();
-	      
-	      // AJAX 요청
-	      $.ajax({
-	        url: "/search",
-	        type: "GET",
-	        data: formData, 
-	        success: function(response) {
-	          if (response && response.length > 0) {
-	            var tableBody = $('#userTable tbody');
-	            tableBody.empty();  
-	            
-	            
-	            response.forEach(function(user) {
-	              var row = `<tr>
-	                            <td>${user.name}</td>
-	                            <td>${user.email}</td>
-	                            <td>${user.tel}</td>
-	                            <td>${user.birth}</td>
-	                          </tr>`;
-	              tableBody.append(row); 
-	            });
-	          } else {
-	            console.log('No data found');
-				alert("해당 회원이 없습니다.")
-	          }
-	        },
-	        error: function(xhr, status, error) {
-	          console.error("AJAX error:", error);
-	        }
-	      });
+	        var formData = $('#searchForm').serialize();
+	        
+	        $.ajax({
+	            url: "/search",
+	            type: "GET",
+	            data: formData,
+	            success: function(response) {
+	                if (response && response.length > 0) {
+	                    var tableBody = $('#userTable tbody');
+	                    tableBody.empty();  
+	                    
+	                    response.forEach(function(user) {
+	                        var row = `<tr>
+	                                    <td><a href="javascript:void(0);" class="user-name" data-id="${user.id}">${user.name}</a></td>
+	                                    <td>${user.email}</td>
+	                                    <td>${user.tel}</td>
+	                                    <td>${user.birth}</td>
+	                                  </tr>`;
+	                        tableBody.append(row); 
+	                    });
+	                } else {
+	                    console.log('No data found');
+	                    alert("해당 회원이 없습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("AJAX error:", error);
+	            }
+	        });
+			//회원 검색(Search) 누르고 나서 바로 빈 폼으로 만들기
+			$('#searchForm')[0].reset(); 
 	    });
-	  });
+
+	//모달 작업
+    $('#userTable').on('click', '.user-name', function() {
+        const userId = $(this).data('id'); 
+        console.log('Clicked user ID: ', userId); 
+        
+        fetch(`/admin/userInfo?id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data: ', data);
+                $('#modal-name').text(data.name);
+                $('#modal-email').text(data.email);
+                $('#modal-tel').text(data.tel);
+                $('#modal-birth').text(data.birth);
+                $('#modal-national').text(data.national);
+                $('#modal-createDate').text(data.createDate);
+                $('#modal-status').text(data.status === 0 ? "활성화" : "비활성화");
+
+                $('#personalInfoModal').show();
+            })
+            .catch(error => console.log(error));
+    });
+
+    $('.close').click(function() {
+        $('#personalInfoModal').hide();
+    });
+
+	// x버튼 말고 외부 눌러도 닫힘
+    $(window).click(function(event) {
+        if (event.target == $('#personalInfoModal')[0]) {
+            $('#personalInfoModal').hide();
+	        }
+	    });
+	});
 	  
-	  //국가 선택 기능
+	
+	//------------국적 선택---------------------
 	  const countrySelect = $('#countrySelect');
-
-	  //로딩 중 표시
 	  countrySelect.html('<option value="">로딩 중...</option>');
-
-	  //REST Countries API에서 모든 국가 정보 가져오기
-	  $.ajax({
-	      url: 'https://restcountries.com/v3.1/all',
-	      method: 'GET',
-	      success: function(data) {
-	          // 국가 데이터 가공 (한국어 이름 우선, 없으면 영어 이름 사용)
-	          const countries = data.map(country => ({
-	              code: country.cca2,
-	              name: country.translations.kor?.common || country.name.common
-	          }));
-
-	          // 가나다순 정렬
-	          countries.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-
-	          // 셀렉트박스 초기화
-	          countrySelect.html('<option value="">국가 선택</option>');
-
-	          // 국가 목록 추가
-	          countries.forEach(country => {
-	              countrySelect.append(
-	                  $('<option>', {
-	                      value: country.code,
-	                      text: country.name
-	                  })
-	              );
-	          });
-			  },
+	
+		  $.ajax({
+		      url: 'https://restcountries.com/v3.1/all',
+		      method: 'GET',
+		      success: function(data) {
+		          
+		          const countries = data.map(country => ({
+		              code: country.cca2,
+		              name: country.translations.kor?.common || country.name.common
+		          }));
+		
+		          countries.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+		
+		          countrySelect.html('<option value="">국가 선택</option>');
+		
+		          countries.forEach(country => {
+		              countrySelect.append(
+		                  $('<option>', {
+		                      value: country.code,
+		                      text: country.name
+		                  })
+		              );
+		          });
+			   },
 			        error: function(xhr, status, error) {
 			            console.error("Error fetching countries:", error);
 			        }
 			    });
+			
+
   </script>
 </body>
 </html>
