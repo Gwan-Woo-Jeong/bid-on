@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org"
 >
@@ -40,7 +40,432 @@
                            고프로8 Hero
                         </h3>
                         <ul>
-                            <li><span>국가</span><span>한국</span></li>
+                            <li><span>국가</span><span>KOR</span></li>
+                            <li><span>시작 경매가</span><span>60,000원</span></li>
+                            <li><span>최신 경매가</span><span>80,000원</span></li>
+                            <li><span>입찰 횟수</span><span>2</span></li>
+                            <li><span>최소 입찰 단위</span><span>10,000원</span></li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-between gap-2">
+                            <div class="item-quantity">
+                                    <span class="input-group-tex decrement">
+                                        <button id="minus" onclick="down('0')">-</button>
+                                    </span>
+                                <input type="number" id="myNumber" value="1" class="">
+                                <span class="input-group-tex uncrement">
+                                        <button id="plus" onclick="up('')">+</button>
+                                    </span>
+                            </div>
+                            <a href="checkout" class="primary-btn d-flex align-items-center">입찰하기</a>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                            <p class="p-0">Add to wishlist</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="product-detail-wrapper">
+                        <ul class="nav nav-tabs d-none d-md-flex" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane" type="button" role="tab"
+                                        aria-controls="home-tab-pane" aria-selected="true">제품 정보
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                        aria-controls="profile-tab-pane" aria-selected="false">입찰 정보
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                        aria-controls="contact-tab-pane" aria-selected="false">판매자 정보
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="return-policy-tab" data-bs-toggle="tab"
+                                        data-bs-target="#return-policy-tab-pane" type="button" role="tab"
+                                        aria-controls="return-policy-tab-pane" aria-selected="false">이용 약관
+                                </button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content accordion" id="myTabContent">
+                            <div class="tab-pane fade show active accordion-item" id="home-tab-pane" role="tabpanel"
+                                 aria-labelledby="home-tab" tabindex="0">
+
+                                <h2 class="accordion-header d-md-none" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">Home
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show  d-md-block"
+                                     aria-labelledby="headingOne" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <div class="d-flex flex-wrap product-disc-stats">
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">수량</h5>
+                                                <p>1 개</p>
+                                            </div>
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">조회수</h5>
+                                                <p>83</p>
+                                            </div>
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">브랜드</h5>
+                                                <p>고프로</p>
+                                            </div>
+                                            <div class="p-2 p-sm-3 border border-opacity-10 flex-grow-1">
+                                                <h5 class="mb-1">상품 등록 일자</h5>
+                                                <p>2024-08-12 16:34:22</p>
+                                            </div>
+                                        </div>
+                                        <h4 class="mb-3">1번만 쓴 고프로입니다.
+                                        </h4>
+                                        <p class="mb-2">여행갈때 한번 사용하고 이후로 사용한적 없습니다..더이상 여행갈거 같지도 않아서 그냥 팔려구요..</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade accordion-item" id="profile-tab-pane" role="tabpanel"
+                                 aria-labelledby="profile-tab" tabindex="0">
+                                <h2 class="accordion-header d-md-none" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                        Profile
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse d-md-block"
+                                     aria-labelledby="headingTwo" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <div class="table-responsive">
+                                            <table class="table bid-history m-0">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">입찰자</th>
+                                                    <th scope="col">국적</th>
+                                                    <th scope="col">입찰가격</th>
+                                                    <th scope="col">입찰시간</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="bidInfo : ${bidinfoList}">
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p th:text="${bidInfo.bidderName}"></p>
+                                                        </div>
+                                                    </td>
+                                                    <td th:text="${bidInfo.national}"></td>
+                                                    <td th:text="${bidInfo.bidPrice} +'원'"></td>
+                                                    <td>2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p>김두한</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>종로</td>
+                                                    <td>4,800원</td>
+                                                    <td>10분전</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p>호날두</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>Portugal</td>
+                                                    <td>3,600원</td>
+                                                    <td>20분전</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="/user/images/sample/avatar-5.png"
+                                                                 class="dashboard-avatar" alt="avatar">
+                                                            <p>마이클</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>Canada</td>
+                                                    <td>2,400원</td>
+                                                    <td>10 Minute Ago</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade accordion-item" id="contact-tab-pane" role="tabpanel"
+                                 aria-labelledby="contact-tab" tabindex="0">
+                                <h2 class="accordion-header d-md-none" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                        연락
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse d-md-block"
+                                     aria-labelledby="headingThree" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <table class="table seller-info">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h6>이름</h6>
+                                                    <p th:text="${userInfo.bidderName}"></p>
+                                                    <p >김기동</p>
+                                                </td>
+                                                <td>
+                                                    <h6>판매 횟수</h6>
+                                                    <p>60</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6>가입일자</h6>
+                                                    <p>2024</p>
+                                                </td>
+                                                <td>
+                                                    <h6>국적</h6>
+                                                    <p >Kore</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6>Email</h6>
+                                                    <p>@@@</p>
+                                                </td>
+                                                <td>
+                                                    <h6>연락처</h6>
+                                                    <p>010-123-45678</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade accordion-item" id="return-policy-tab-pane" role="tabpanel"
+                                 aria-labelledby="contact-tab" tabindex="0">
+                                <h2 class="accordion-header d-md-none" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                            aria-expanded="false" aria-controls="collapseFour">
+                                        Return Policy
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse d-md-block"
+                                     aria-labelledby="headingFour" data-bs-parent="#myTabContent">
+                                    <div class="accordion-body">
+                                        <h4 class="mb-3">Hassle-free and easy return</h4>
+                                        <p class="mb-2">Id diam maecenas ultricies mi eget mauris pharetra. Tellus
+                                            id interdum velit laoreet id donec ultrices. Neque laoreet suspendisse
+                                            interdum consectetur libero id. Sagittis id consectetur purus ut
+                                            faucibus pulvinar. Aliquam nulla facilisi cras fermentum odio eu feugiat
+                                            pretium nibh. Lorem ipsum dolor sit amet consectetur adipiscing. Elit
+                                            sed vulputate mi sit. In aliquam sem fringilla ut. Ac tortor dignissim
+                                            convallis aenean et tortor at risus. Vel eros donec ac odio tempor.</p>
+                                        <p>Purus gravida quis blandit turpis cursus in hac. Amet commodo nulla
+                                            facilisi nullam vehicula ipsum a arcu cursus. Mattis nunc sed blandit
+                                            libero volutpat. Vitae suscipit tellus mauris a diam maecenas. Rhoncus
+                                            mattis rhoncus urna neque viverra justo nec. Magna ac placerat
+                                            vestibulum lectus mauris ultrices eros. Tempus imperdiet nulla malesuada
+                                            pellentesque elit. Viverra adipiscing at in tellus integer feugiat.
+                                            Turpis egestas sed tempus urna et pharetra. Nam aliquam sem et tortor.
+                                            Tempus quam pellentesque nec nam.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="outer-gap auction-card-small">
+        <div class="container">
+            <h2 class="section-title">추천하는 상품</h2>
+            <div class="swiper product-swiper px-0">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-1.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">진혼곡을 연주하는 바이올린</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">현재 입찰가<span>1,800,000원</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-2.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">An antique vintage landline
+                                    telephone</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-3.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Old baseball bat with ball and
+                                    weathered glove</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-4.png" alt="auction-card-img">
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Heritage french style home</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-5.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Arabic old style patterned teapot</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="auction-card">
+                            <div class="card-image">
+                                <img src="/user/images/sample/recent-auction-6.png" alt="auction-card-img">
+
+                                <div class="timer-wrapper">
+                                    <div class="timer-inner"></div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a href="bid-detail" class="card-title">Vintage wall clock</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
+<script src="/user/js/bid-detail.js"></script>
+</body>
+
+</html> 
+=================================================================-->
+<!DOCTYPE html>
+<html lang="en" id="theme" class="light"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+
+<head>
+    <th:block th:insert="~{user/inc/head.html :: head(title='Bid Detail')}"></th:block>
+</head>
+
+<body>
+<th:block th:insert="~{user/inc/header.html :: header}"></th:block>
+
+<main id="main-content" class="position-relative">
+    <div class="breadcrumb-main">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">경매정보</li>
+                </ol>
+                <h1 class="breadcrumb-title">경매정보 & 상세보기</h1>
+            </div>
+        </div>
+    </div>
+    <section class="single-bid-product outer-gap">
+        <div class="container">
+            <div class="row gy-4 gy-md-5">
+                <div class="col-lg-8">
+                    <div class="card-image">
+                        <img src="/user/images/auctionImages/GoPro.png" alt="GoPro-img">
+                        <div class="timer-wrapper">
+                            <div class="timer-inner"></div>
+                        </div>
+                    </div>
+                </div>
+                <div  class="col-lg-4">
+                    <div class="product-bid-widget h-100">
+                        <h3 class="title">
+                           고프로8 Hero
+                        </h3>
+                        <ul>
+                            <li><span>국가</span><span th:text="${bidinfoList[0].national}"></span></li>
+                            <!-- <li><span>국가</span><span th:text="${bidInfoList.national}"></span></li> -->
+                            <!-- <li><span>국가</span><span th:text="${bidinfoList != null ? bidinfoList.national : '정보 없음'}"></span></li> -->
+                            
                             <li><span>시작 경매가</span><span>60,000원</span></li>
                             <li><span>최신 경매가</span><span>80,000원</span></li>
                             <li><span>입찰 횟수</span><span>2</span></li>
@@ -125,9 +550,36 @@
                                         </div>
                                         <h4 class="mb-3">1번만 쓴 고프로입니다.
                                         </h4>
-                                        <p class="mb-2">여행갈때 한번 사용하고 이후로 사용한적 없습니다..더이상 여행갈거 같지도 않아서 그냥 팔려구요..</p>
                                     </div>
                                 </div>
+<!--                                 <table>
+    <thead>
+        <tr>
+            <th>Bid ID</th>
+            <th>Auction Item Name</th>
+            <th>Bid Price</th>
+            <th>Bid Date</th>
+            <th>national</th>
+            <th>email</th>
+            <th>Bidder Name</th>
+            <th>description</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        bidinfoList를 순회하면서 각 값 출력
+        <tr th:each="bidInfo : ${bidinfoList}">
+            <td th:text="${bidInfo.id}"></td>
+            <td th:text="${bidInfo.auctionItemName}"></td>
+            <td th:text="${bidInfo.bidPrice}"></td>
+            <td th:text="${bidInfo.bidDate}"></td>
+            <td th:text="${bidInfo.national}"></td>
+            <td th:text="${bidInfo.bidderEmail}"></td>
+            <td th:text="${bidInfo.bidderName}"></td>
+            <td th:text="${bidInfo.auctionItemDescription}"></td>
+        </tr>
+    </tbody>
+</table> -->
                             </div>
                             <div class="tab-pane fade accordion-item" id="profile-tab-pane" role="tabpanel"
                                  aria-labelledby="profile-tab" tabindex="0">
@@ -152,42 +604,19 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
+                                                <tr th:each="bidInfo : ${bidinfoList}">
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <img src="/user/images/sample/avatar-5.png"
                                                                  class="dashboard-avatar" alt="avatar">
-                                                            <p>김두한</p>
+                                                            <p th:text="${bidInfo.bidderName}"></p>
                                                         </div>
                                                     </td>
-                                                    <td>종로</td>
-                                                    <td>4,800원</td>
-                                                    <td>10분전</td>
+                                                    <td th:text="${bidInfo.national}"></td>
+                                                    <td th:text="${bidInfo.bidPrice}"></td>
+                                                    <td th:text="${#temporals.format(bidInfo.bidDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>호날두</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Portugal</td>
-                                                    <td>3,600원</td>
-                                                    <td>20분전</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <img src="/user/images/sample/avatar-5.png"
-                                                                 class="dashboard-avatar" alt="avatar">
-                                                            <p>마이클</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>Canada</td>
-                                                    <td>2,400원</td>
-                                                    <td>10 Minute Ago</td>
-                                                </tr>
+                                              
                                                 </tbody>
                                             </table>
                                         </div>

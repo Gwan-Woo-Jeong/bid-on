@@ -92,7 +92,7 @@
                             </ul>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link text-dark" href="/browse-live-bid">실시간 경매</a>
+                            <a class="nav-link text-dark" href="/live-auction/list">실시간 경매</a>
                         </li>
                         <li class="nav-item dropdown-tgl">
                             <a class="nav-link text-dark" href="javascript:void(0)">게시판</a>
@@ -123,7 +123,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/browse-live-bid">실시간 경매</a>
+                            <a class="nav-link text-dark" href="/live-auction/list">실시간 경매</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark" href="/javascript:void(0)">게시판</a>
@@ -190,7 +190,26 @@
                     </ul>
                 </div>
                 <div class="d-flex gap-1 nav-btn-group align-items-center">
-                    <a sec:authorize="!isAuthenticated()" href="/login" class="primary-btn">	<!-- 우진아 건들지마 -->
+                    <!--  FOR TEST  -->
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <button id="test-login-9" type="submit" class="primary-btn">
+                            id:9
+                        </button>
+
+                        <button id="test-login-10" type="submit" class="primary-btn">
+                            id:10
+                        </button>
+
+                        <button id="test-login-11" type="submit" class="primary-btn">
+                            id:11
+                        </button>
+
+                        <button id="test-login-12" type="submit" class="primary-btn">
+                            id:12
+                        </button>
+                    </th:block>
+
+                    <a sec:authorize="!isAuthenticated()" href="/login" class="primary-btn">    <!-- 우진아 건들지마 -->
                         로그인
                     </a>
                     <a sec:authorize="isAuthenticated()" href="/logout" class="primary-btn">
@@ -204,6 +223,48 @@
             </div>
         </nav>
     </header>
+    <!--  FOR TEST  -->
+    <script src="/user/js/common/jquery.min.js"></script>
+    <script>
+        $('#test-login-9').click(
+            (e) => testLogin(e, '6600baby@gmail.com')
+        );
+        $('#test-login-10').click(
+            (e) => testLogin(e, 'kim123@gmail.com')
+        );
+        $('#test-login-11').click(
+            (e) => testLogin(e, 'lee456@gmail.com')
+        );
+        $('#test-login-12').click(
+            (e) => testLogin(e, 'park789@gmail.com')
+        );
+
+        function testLogin(e, username) {
+            e.preventDefault();
+
+            const data = new FormData();
+            data.append('username', username);
+            data.append('password', '1111');
+
+            $.ajax({
+                url: '/loginok',
+                type: 'POST',
+                data,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    location.reload();
+                },
+                error: function (xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert('로그인에 실패했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
 </th:block>
 </body>
 </html>

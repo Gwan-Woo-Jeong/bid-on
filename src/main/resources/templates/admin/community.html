@@ -10,7 +10,33 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     
     overflow-y: auto; /* 세로 스크롤 허용 */
     
-}
+	}
+	#editModal {
+	    display: none;
+	    position: fixed;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    background: white;
+	    padding: 20px;
+	    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+	    z-index: 1000;
+	  }
+	  #editModal .form-control {
+	    margin-bottom: 15px;
+	    width: 100%;
+	    padding: 10px;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	  }
+	  
+	  #faq-content {
+		  height: 150px; /* 높이를 픽셀 단위로 설정 */
+		  resize: vertical; /* 사용자가 높이를 조정할 수 있게 함 */
+		}
+	  
+
+
 </style>
 </head>
 <body>
@@ -43,25 +69,59 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                     <code>.자주 묻는 질문</code>
                   </p>
                   <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>작성자</th>
-                          <th>제목</th>
-                          <th>게시일</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>관리자</td>
-                          <td>첫번째 질문답</td>
-                          <td>2024-11-20</td>
-                          <td><label class="badge badge-warning">수정</label></td>
-                        </tr>   
-                      </tbody>
-                    </table>
-                  </div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>작성자</th>
+								<th>제목</th>
+								<th>게시일</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="faq-table">
+							<tr>
+								<td>관리자</td>
+								<td id="faq-title-1">실시간 경매는 어떻게 참여하나요?</td>
+								<td>2024-11-20</td>
+								<td>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="1" onclick="editFaq(1)">수정</button>
+								</td>
+							</tr>
+							<tr>
+								<td>관리자</td>
+								<td id="faq-title-2">저의 경매 내역을 확인하고 싶어요.</td>
+								<td>2024-11-20</td>
+								<td>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="2" onclick="editFaq(2)">수정</button>
+								</td>
+							</tr>
+							<tr>
+								<td>관리자</td>
+								<td id="faq-title-3">경매 마감시간이 궁금합니다.</td>
+								<td>2024-11-20</td>
+								<td>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="3" onclick="editFaq(3)">수정</button>
+								</td>
+							</tr>
+							<tr>
+								<td>관리자</td>
+								<td id="faq-title-4">입찰 금액을 잘못 적었는데 취소방법이 궁금합니다.</td>
+								<td>2024-11-20</td>
+								<td>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="4" onclick="editFaq(4)">수정</button>
+								</td>
+							</tr>
+							<tr>
+								<td>관리자</td>
+								<td id="faq-title-5">제가 좋아하는 물건이 있는데 경매가 시작되면 알림 기능이 있나요?</td>
+								<td>2024-11-20</td>
+								<td>
+									<button class="badge badge-warning custom-link2 btn-sm edit-faq-btn" data-id="5" onclick="editFaq(5)">수정</button>
+								</td>
+							</tr>   
+						</tbody>
+					</table>
+				</div>
                 </div>
               </div>
             </div>
@@ -111,7 +171,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                   <div class="table-responsive pt-3">
 					<table class="table table-bordered">
 					  <thead>
-					    <tr class="table-warning">
+					    <tr class="table-primary">
 					      <th>#</th>
 					      <th>작성자</th>
 					      <th>제목</th>
@@ -122,13 +182,40 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					    <tr th:each="dto : ${reviewList}">
 					      <td th:text="${dto.id}">ID</td>
 					      <td th:text="${dto.userEntityInfo.name}">작성자</td>
-						  <td>
-						      <a th:href="@{'/blog-detail/' + ${dto.id}}" th:text="${dto.title}">제목</a>
+						    <td>
+							<a th:href="@{'/blog-detail?id=' + ${dto.id}}" th:text="${dto.title}">제목</a>
 						    </td>
 					      <td th:text="${#temporals.format(dto.regdate, 'yyyy-MM-dd')}">게시일</td>
 					    </tr>
 					  </tbody>
 					</table>
+					
+					<!-- 수정 모달 -->
+					<div id="editModal" class="modal">
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title">FAQ 수정</h5>
+					                <button type="button" class="btn-close" onclick="closeModal()" aria-label="Close"></button>
+					            </div>
+					            <div class="modal-body">
+					                <input type="hidden" id="faq-id">
+					                <div class="mb-3">
+					                    <label for="faq-title" class="form-label">제목</label>
+					                    <input type="text" class="form-control" id="faq-title">
+					                </div>
+					                <div class="mb-3">
+					                    <label for="faq-content" class="form-label">내용</label>
+					                    <textarea class="form-control" id="faq-content" rows="5"></textarea>
+					                </div>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-primary" onclick="saveFaq()">저장</button>
+					                <button type="button" class="btn btn-secondary" onclick="closeModal()">취소</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
                   </div>
                 </div>
               </div>
@@ -143,7 +230,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                   <div class="table-responsive pt-3">
                     <table class="table table-bordered">
                       <thead>
-                        <tr class="table-warning">
+                        <tr class="table-primary">
                           <th>
                             분류
                           </th>
@@ -199,6 +286,82 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   <!-- container-scroller -->
 
 	<th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
+  
+  	<script>
+  		
+		// FAQ 데이터
+				let faqData = {
+					1: { title: "실시간 경매는 어떻게 참여하나요?", content: "메인 홈페이지에 카테고리 목록 하단에..." },
+					2: { title: "저의 경매 내역을 확인하고 싶어요.", content: "저희 사이트 회원이실 경우 마이페이지에서..." },
+					3: { title: "경매 마감시간이 궁금합니다.", content: "페이지 상단에 경매 카테고리를 클릭하면..." },
+					4: { title: "입찰 금액을 잘못 적었는데 취소방법이 궁금합니다.", content: "경우에 따라 입찰을 취소할 수 없습니다..." },
+					5: { title: "제가 좋아하는 물건이 있는데 경매가 시작되면 알림 기능이 있나요?", content: "회원님의 관심 물품을 내 위시리스트에..." }
+				};
+
+				// 수정 모달 열기
+				function editFaq(id) {
+					const modal = document.getElementById("editModal");
+					if (modal) {
+						modal.style.display = "block";
+						document.getElementById("faq-id").value = id;
+						document.getElementById("faq-title").value = faqData[id].title;
+						document.getElementById("faq-content").value = faqData[id].content;
+					}
+				}
+
+				// 수정 내용 저장
+				function saveFaq() {
+					const id = document.getElementById("faq-id").value;
+					const title = document.getElementById("faq-title").value;
+					const content = document.getElementById("faq-content").value;
+
+					// 업데이트
+					if (faqData[id]) {
+						faqData[id].title = title;
+						faqData[id].content = content;
+						document.getElementById(`faq-title-${id}`).innerText = title;
+					}
+
+					// FAQ 페이지 업데이트
+					updateFaqPage();
+					closeModal();
+				}
+
+				// FAQ 페이지 업데이트
+				function updateFaqPage() {
+					const faqAccordion = document.querySelector(".faq-accordion .accordion");
+					if (!faqAccordion) return;
+
+					faqAccordion.innerHTML = "";
+					Object.keys(faqData).forEach(id => {
+						const data = faqData[id];
+						const item = `
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="heading${id}">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse${id}" aria-expanded="true" aria-controls="collapse${id}">
+										${data.title}
+									</button>
+								</h2>
+								<div id="collapse${id}" class="accordion-collapse collapse show" aria-labelledby="heading${id}">
+									<div class="accordion-body">${data.content}</div>
+								</div>
+							</div>`;
+						faqAccordion.insertAdjacentHTML("beforeend", item);
+					});
+				}
+
+				// 모달 닫기
+				function closeModal() {
+					const modal = document.getElementById("editModal");
+					if (modal) modal.style.display = "none";
+				}
+			 		
+		  		
+  			
+  	</script>
+  
+  
   
 </body>
 

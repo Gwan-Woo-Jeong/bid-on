@@ -1,54 +1,60 @@
 package com.test.bidon.entity;
 
+import com.test.bidon.dto.NormalBidInfoDTO;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
 @Entity
+@Getter
+@ToString
+@Table(name = "NormalBidInfo")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "NormalBidInfo")
 public class NormalBidInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "normalBidInfo_seq_generator")
+    @SequenceGenerator(name = "normalBidInfo_seq_generator", sequenceName = "id", allocationSize = 1)
     private Long id;
 
-    @Column(name = "auctionItemId")
+    @Column(insertable = false, updatable = false)
     private Long auctionItemId;
 
-    @Column(name = "UserInfoId")
+    @Column(insertable = false, updatable = false)
     private Long userInfoId;
 
-    @Column(name = "bidPrice")
-    private Long bidPrice;
-
-    @Column(name = "bidDate")
+    private Integer bidPrice;
     private LocalDateTime bidDate;
 
+    // Entity 본인을 DTO로 변환시키는 method
+    public static NormalBidInfoDTO normalBidInfoDTO(NormalBidInfo info) {
 
-    // toString 메서드
-    @Override
-    public String toString() {
-        return "NormalBidInfo{" +
-                "id=" + id +
-                ", auctionItemId=" + auctionItemId +
-                ", userInfoId=" + userInfoId +
-                ", bidPrice=" + bidPrice +
-                ", bidDate=" + bidDate +
-                '}';
+        return NormalBidInfoDTO.builder()
+                .id(info.id)
+                .auctionItemId(info.auctionItemId)
+                .userInfoId(info.userInfoId)
+                .bidPrice(info.bidPrice)
+                .bidDate(info.bidDate)
+                .build();
     }
+
+    // DTO로부터 값을 받지 않고 본인 스스로를 DTO로 변환시키는 method
+    public NormalBidInfoDTO normalBidInfoDTO() {
+
+        return NormalBidInfoDTO.builder()
+                .id(this.id)
+                .auctionItemId(this.auctionItemId)
+                .userInfoId(this.userInfoId)
+                .bidPrice(this.bidPrice)
+                .bidDate(this.bidDate)
+                .build();
+    }
+
+    // 자식(NormalBidInfo) -> 부모(NormalAuctionItem) 참조
+    @ManyToOne
+    @JoinColumn(name = "auctionItemId")
+    private NormalAuctionItem normalAuctionItem;
 }
