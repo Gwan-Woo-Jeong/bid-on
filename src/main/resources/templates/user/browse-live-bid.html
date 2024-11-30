@@ -58,25 +58,27 @@
                                     <h4 class="mb-3">경매가 필터</h4>
                                     <div class="filter-price">
                                         <div class="price-field">
-                                            <input type="range" min="10000" max="1000000" value="10000" step="10000" id="lower">
-                                            <input type="range" min="10000" max="1000000" value="1000000" step="10000" id="upper">
+                                            <input type="range" min="100000" max="10000000" value="100000" step="100000" id="lower">
+                                            <input type="range" min="100000" max="10000000" value="10000000" step="100000" id="upper">
                                         </div>
                                         <div class="price-wrap">
                                             <div class="price-wrap-1">
-                                                <input id="one">
-                                                <label for="one" readonly></label>
+                                                <input id="one" readonly>
+                                                <label for="one"></label>
                                             </div>
                                             <div class="price-wrap-2">
-                                                <input id="two">
-                                                <label for="two" readonly></label>
+                                                <input id="two" readonly>
+                                                <label for="two">&#x20A9;</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="primary-btn small-btn">적용</button>
+									<input type="hidden" name="minPrice" id="hiddenMinPrice">
+									<input type="hidden" name="maxPrice" id="hiddenMaxPrice">
+                                    <button type="submit" class="primary-btn small-btn throwServer">적용</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                     </div>
                 </div>
                 <div class="col-xl-9">
                     <div class="auction-card-small">
@@ -105,16 +107,20 @@
                             <div class="col-12">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" aria-label="Previous">
+										<!--이전-->
+                                      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'"></li>
+                                            <a class="page-link" th:href="@{/live-auction/list(page=${currentPage - 1}, minPrice=${minPrice}, maxPrice=${maxPrice})}" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
+										<!--페이지 번호-->	
+										<li class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber == currentPage} ? 'active'">
+									        <a class="page-link" th:href="@{/live-auction/list(page=${pageNumber}, minPrice=${minPrice}, maxPrice=${maxPrice})}"
+									               th:text="${pageNumber}">1</a>
+									   	</li>
+                                      
+										<!--다음-->
+                                        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                            <a class="page-link" th:href="@{/live-auction/list(page=${currentPage + 1}, minPrice=${minPrice}, maxPrice=${maxPrice})}" aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
@@ -260,6 +266,70 @@
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const lower = document.getElementById('lower');
+    const upper = document.getElementById('upper');
+    const one = document.getElementById('one');
+    const two = document.getElementById('two');
+    const applyButton = document.querySelector('.throwServer');
+	
+	if (isNaN(lower.value) || isNaN(upper.value)) {
+	        lower.value = 100000; // 기본 최소값
+	        upper.value = 10000000; // 기본 최대값
+	    }
+
+    // URL에서 쿼리 매개변수 읽기
+    const urlParams = new URLSearchParams(window.location.search);
+    const minPrice = urlParams.get('minPrice');
+    const maxPrice = urlParams.get('maxPrice');
+
+    // 슬라이더 초기값 설정
+    if (minPrice !== null) {
+        lower.value = minPrice;
+        one.value = parseInt(minPrice).toLocaleString(); // 화면 값 업데이트
+    } else {
+        one.value = parseInt(lower.value).toLocaleString();
+    }
+
+    if (maxPrice !== null) {
+        upper.value = maxPrice;
+        two.value = parseInt(maxPrice).toLocaleString(); // 화면 값 업데이트
+    } else {
+        two.value = parseInt(upper.value).toLocaleString();
+    }
+
+    // 슬라이더 입력 이벤트
+    lower.addEventListener('input', function () {
+        if (parseInt(lower.value) > parseInt(upper.value)) {
+            lower.value = upper.value;
+        }
+        one.value = parseInt(lower.value).toLocaleString();
+    });
+
+    upper.addEventListener('input', function () {
+        if (parseInt(upper.value) < parseInt(lower.value)) {
+            upper.value = lower.value;
+        }
+        two.value = parseInt(upper.value).toLocaleString();
+    });
+
+    // 적용 버튼 클릭 이벤트
+    applyButton.addEventListener('click', function () {
+        const minPrice = lower.value;
+        const maxPrice = upper.value;
+
+        console.log(`URL: /live-auction/list?minPrice=${minPrice}&maxPrice=${maxPrice}`);
+        window.location.href = `/live-auction/list?minPrice=${minPrice}&maxPrice=${maxPrice}`;
+    });
+
+    // 디버깅용 로그
+    console.log("Initialized Min Price:", lower.value);
+    console.log("Initialized Max Price:", upper.value);
+});
+
+
+   
 	
 	
 	

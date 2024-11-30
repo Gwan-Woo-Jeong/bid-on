@@ -1,32 +1,33 @@
 package com.test.bidon.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-import com.test.bidon.domain.Message;
-import com.test.bidon.dto.LiveBidRoomUserDTO;
-import com.test.bidon.dto.UserInfoDTO;
-import com.test.bidon.entity.LiveAuctionPartSummary;
-import com.test.bidon.repository.LiveAuctionPartRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.bidon.domain.LiveBidRoom;
+import com.test.bidon.domain.Message;
+import com.test.bidon.dto.LiveAuctionItemListDTO;
+import com.test.bidon.repository.LiveAuctionItemRepository;
 import com.test.bidon.repository.LiveBidRoomRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.test.bidon.util.BidRoomUtil.*;
 
 @RequiredArgsConstructor
 @Slf4j
 @Service
 public class LiveBidService {
     private final LiveBidRoomRepository liveBidRoomRepository;
-    private final LiveAuctionPartRepository liveAuctionPartRepository;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    
+
+    private final LiveAuctionItemRepository liveAuctionItemRepository;
+
 
     public List<LiveBidRoom> findAll() {
         return liveBidRoomRepository.findAll();
@@ -149,5 +150,13 @@ public class LiveBidService {
     private boolean isLeave(Message message) {
         return message.getType().equals("LEAVE");
     }
+    
+    
+  
+    
+    
+    
+    
+    
 
 }

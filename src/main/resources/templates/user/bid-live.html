@@ -215,11 +215,6 @@
 </div>
 
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, dayjs=true)}"></th:block>
-<script th:inline="javascript">
-    const itemInfo = [[${itemInfo}]];
-    const myInfo = [[${#authentication.principal}]]['userEntity'];
-</script>
-
 <script src="/user/js/bid-live.js"></script>
 </body>
 </html>

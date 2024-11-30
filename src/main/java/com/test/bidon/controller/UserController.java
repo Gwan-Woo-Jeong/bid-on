@@ -6,6 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +91,7 @@ public class UserController {
                 }
             } else {
                 userInfoDTO.setProfile("default-profile.svg");
+                userInfoDTO.setProfile("default-profile.svg");
             }
 
             UserEntity savedUser = userService.registerUser(userInfoDTO);
@@ -103,8 +108,17 @@ public class UserController {
     	
     	if (file.isEmpty()) {
             return "default-profile.svg";
+    	
+    	if (file.isEmpty()) {
+            return "default-profile.svg";
         }
 
+        String uploadDir = "src/main/resources/static/uploads/profiles/";
+        
+        // 디렉토리가 없으면 생성
+        File directory = new File(uploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs();
         String uploadDir = "src/main/resources/static/uploads/profiles/";
         
         // 디렉토리가 없으면 생성
@@ -118,7 +132,13 @@ public class UserController {
         // 파일 저장
         Path path = Paths.get(uploadDir + fileName);
         Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+        // 파일 저장
+        Path path = Paths.get(uploadDir + fileName);
+        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+        return fileName;
         return fileName;
     }
 
@@ -193,7 +213,7 @@ public class UserController {
     
     @PostMapping("/api/user/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> updateUser(
+    public ResponseEntity<?> updateUser(	//value때문에 경고뜨는데, 이거 삭제하면 에러 발생
         @RequestParam(value = "name", required = false) String name,
         @RequestParam(value = "password", required = false) String password,
         @RequestParam(value = "birth", required = false) String birth,
