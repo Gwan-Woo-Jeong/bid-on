@@ -35,7 +35,6 @@ public class UserService {
         }
 
         UserEntity entity = UserEntity.builder()
-        		.profile(dto.getProfile())
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())

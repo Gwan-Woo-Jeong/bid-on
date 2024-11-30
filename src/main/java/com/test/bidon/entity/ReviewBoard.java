@@ -31,6 +31,7 @@ public class ReviewBoard {
     @Column(nullable = false, length = 3000)
     private String contents; // 내용
 
+    @Builder.Default
     @Column(nullable = false)
     private Integer views = 0; // 조회수 (기본값 0)
 
@@ -47,6 +48,7 @@ public class ReviewBoard {
         if (this.regdate == null) {
             this.regdate = LocalDate.now();
         }
+
     }
 
     // 조회수 증가 메서드

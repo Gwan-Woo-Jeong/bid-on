@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
-const liveAuctionItemId = urlParams.get('liveAuctionItemId');
+const itemId = urlParams.get('itemId');
 
-if (liveAuctionItemId === null) {
+if (itemId === null) {
     alert('ERROR: 잘못된 접근입니다. (물품번호가 존재하지 않음)');
     window.close();
 }
@@ -26,7 +26,7 @@ function connect(userId) {
         log('서버와 연결되었습니다.');
 
         const message = {
-            roomId: liveAuctionItemId,
+            roomId: itemId,
             type: "IN",
             userId,
             content: '',
@@ -39,6 +39,8 @@ function connect(userId) {
 
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
+
+        console.log(evt.data);
 
         const message = JSON.parse(evt.data);
 
@@ -64,7 +66,7 @@ function connect(userId) {
 function disconnect() {
     //소켓 연결 종료
     const message = {
-        roomId: liveAuctionItemId,
+        roomId: itemId,
         type: "OUT",
         userId,
         content: '',
@@ -124,7 +126,7 @@ $('#message-input').keydown(evt => {
 
     if (evt.keyCode === 13) {
         const message = {
-            roomId: liveAuctionItemId,
+            roomId: itemId,
             type: 'TALK',
             userId: this.userId,
             content: $(evt.target).val(),
@@ -138,3 +140,5 @@ $('#message-input').keydown(evt => {
         print(message.userId, message.content, 'right', 'msg', message.regdate);
     }
 });
+
+

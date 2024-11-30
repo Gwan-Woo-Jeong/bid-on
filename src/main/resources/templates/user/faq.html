@@ -164,35 +164,10 @@
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
 
 <script>
-    function submitQuestion() {
-	    const formData = {
-	        email: document.getElementById("email").value,
-	        title: document.getElementById("title").value,
-	        contents: document.getElementById("contents").value
-	    };
-	
-	    fetch("/user/submit", {
-	        method: "POST",
-	        headers: {
-	            "Content-Type": "application/x-www-form-urlencoded"
-	        },
-	        body: new URLSearchParams(formData)
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        if (data.success) {
-	            alert(data.message); // 성공 메시지를 기본 alert로 표시
-	            document.getElementById("questionForm").reset(); // 폼 초기화
-	        } else {
-	            alert("오류 발생: " + data.message); // 오류 메시지를 기본 alert로 표시
-	        }
-	    })
-	    .catch(error => {
-	        alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-	        console.error("Error:", error);
-	    });
-	}
-
+   
+		document.addEventListener("DOMContentLoaded", () => {
+	    updateFaqPage();
+	  });
     
 </script>
 </body>

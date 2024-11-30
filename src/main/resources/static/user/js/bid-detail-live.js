@@ -1,68 +1,37 @@
-// console.log($('#chat-user-id').val());
+const userId = $('#user-id').val();
+console.log("userId : " + userId);
+
+const urlParams = new URLSearchParams(window.location.search);
+const itemId = urlParams.get('itemId');
 
 $("#live-enter-btn").click(function () {
-    const child = window.open('/bid-live?liveAuctionItemId=1', '_blank');
+    const child = window.open('/live-auction/bid-room?itemId=' + itemId, '_blank');
     child.moveTo(0, 0);
     child.resizeTo(screen.availWidth, screen.availHeight);
 
     child.addEventListener('load', () => {
-        // child.connect($('#chat-user-id').val());
-        child.connect("1번방 손님 (1)");
+        child.connect(userId || "Anonymous");
     })
 })
 
-$("#live-enter-btn1").click(function () {
-    const child = window.open('/bid-live?liveAuctionItemId=1', '_blank');
-    child.moveTo(0, 0);
-    child.resizeTo(screen.availWidth, screen.availHeight);
-
-    child.addEventListener('load', () => {
-        // child.connect($('#chat-user-id').val());
-        child.connect("1번방 손님 (2)");
-    })
-})
-
-$("#live-enter-btn2").click(function () {
-    const child = window.open('/bid-live?liveAuctionItemId=1', '_blank');
-    child.moveTo(0, 0);
-    child.resizeTo(screen.availWidth, screen.availHeight);
-
-    child.addEventListener('load', () => {
-        // child.connect($('#chat-user-id').val());
-        child.connect("1번방 손님 (3)");
-    })
-})
-
-$("#live-enter-btn3").click(function () {
-    const child = window.open('/bid-live?liveAuctionItemId=2', '_blank');
-    child.moveTo(0, 0);
-    child.resizeTo(screen.availWidth, screen.availHeight);
-
-    child.addEventListener('load', () => {
-        // child.connect($('#chat-user-id').val());
-        child.connect("2번방 손님 (1)");
-    })
-})
-
-$("#live-enter-btn4").click(function () {
-    const child = window.open('/bid-live?liveAuctionItemId=2', '_blank');
-    child.moveTo(0, 0);
-    child.resizeTo(screen.availWidth, screen.availHeight);
-
-    child.addEventListener('load', () => {
-        // child.connect($('#chat-user-id').val());
-        child.connect("2번방 손님 (2)");
-    })
-})
-
-$("#live-enter-btn5").click(function () {
-    const child = window.open('/bid-live?liveAuctionItemId=2', '_blank');
-    child.moveTo(0, 0);
-    child.resizeTo(screen.availWidth, screen.availHeight);
-
-    child.addEventListener('load', () => {
-        // child.connect($('#chat-user-id').val());
-        child.connect("2번방 손님 (3)");
-    })
-})
-
+const swiper = new Swiper(".product-swiper", {
+    spaceBetween: 32,
+    autoplay: {
+        delay: 1500,
+        disableOnInteraction: false,
+    },
+    breakpoints: {
+        450: {
+            slidesPerView: 1,
+        },
+        768: {
+            slidesPerView: 2,
+        },
+        992: {
+            slidesPerView: 3,
+        },
+        1400: {
+            slidesPerView: 4,
+        },
+    }
+});
