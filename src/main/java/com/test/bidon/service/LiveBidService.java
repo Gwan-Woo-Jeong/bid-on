@@ -57,10 +57,10 @@ public class LiveBidService {
             room = createRoom(roomId);
         }
 
-        if (isEnterRoom(inMessage)) {
+        if (isEnter(inMessage)) {
             UserInfoDTO newUser = convert(inMessage.getPayload(), UserInfoDTO.class);
 
-            LiveAuctionPartSummary liveAuctionPart = createOrGetLiveAuctionPart(newUser.getId(), Long.valueOf(roomId));
+            LiveAuctionPartSummary liveAuctionPart = createOrGetLiveAuctionPart(newUser.getId(), roomId);
 
             LiveBidRoomUserDTO newBidRoomUser = LiveBidRoomUserDTO.builder()
                     .partId(liveAuctionPart.getId())
@@ -72,22 +72,20 @@ public class LiveBidService {
                     .tel(newUser.getTel())
                     .build();
 
-            room.join(session, newBidRoomUser);
-
-            LocalDateTime now = LocalDateTime.now();
+            room.enter(session, newBidRoomUser);
 
             Message outPartsMessage = Message.builder()
                     .roomId(roomId)
                     .type("PARTS")
                     .payload(room.getRoomUsers())
-                    .createTime(now)
+                    .createTime(LocalDateTime.now())
                     .build();
 
             Message outEnterMessage = Message.builder()
                     .roomId(roomId)
                     .type("ENTER")
                     .payload(newBidRoomUser)
-                    .createTime(now)
+                    .createTime(inMessage.getCreateTime())
                     .build();
 
             room.sendMessageAll(toTextMessage(outPartsMessage));
@@ -96,7 +94,6 @@ public class LiveBidService {
 
     }
 
-    // TODO: Part에 종료 시간 추가. 나가면 종료 컬럼 삽입. 다시 못들어오게 하기.
     public LiveAuctionPartSummary createOrGetLiveAuctionPart(Long userInfoId, Long liveAuctionItemId) {
 
         Optional<LiveAuctionPartSummary> existingPart = liveAuctionPartRepository.findByUserInfoIdAndLiveAuctionItemId(userInfoId, liveAuctionItemId);
@@ -114,7 +111,7 @@ public class LiveBidService {
         }
     }
 
-    private boolean isEnterRoom(Message message) {
+    private boolean isEnter(Message message) {
         return message.getType().equals("ENTER");
     }
 
