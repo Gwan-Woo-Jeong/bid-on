@@ -1,7 +1,6 @@
 package com.test.bidon.controller;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.bidon.dto.ReviewBoardFormDTO;
 import com.test.bidon.entity.ReviewBoard;
-import com.test.bidon.entity.ReviewPhoto;
 import com.test.bidon.entity.ReviewPhoto;
 import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.service.FileService;
@@ -42,10 +40,8 @@ public class ReviewBoardController {
     @GetMapping("/blog")
     public String getBlogPage(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         int pageSize = 6; // 한 페이지에 보여줄 게시글 수
-        int pageSize = 6; // 한 페이지에 보여줄 게시글 수
         Page<ReviewBoard> reviews = reviewBoardRepository.findAll(PageRequest.of(page, pageSize));
 
-        // ID와 사진 번호 매핑 (기존 하드코딩된 부분)
         // ID와 사진 번호 매핑 (기존 하드코딩된 부분)
         Map<Integer, Integer> idToPhotoMap = Map.ofEntries(
                 Map.entry(1, 1),
@@ -87,7 +83,6 @@ public class ReviewBoardController {
         }).collect(Collectors.toList());
 
         // 뷰로 데이터 전달
-        // 뷰로 데이터 전달
         model.addAttribute("reviews", reviewList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", reviews.getTotalPages());
@@ -114,7 +109,6 @@ public class ReviewBoardController {
 
 
     @GetMapping("/add-review")
-    public String showAddReviewPage(Model model) {
     public String showAddReviewPage(Model model) {
         return "user/add-review"; // 폼 렌더링
     }

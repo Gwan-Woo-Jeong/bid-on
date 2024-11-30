@@ -212,7 +212,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr th:each="bidCustomer : ${customer}">
+                                                <tr th:each="bidCustomer : ${cutomer}">
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <img src="/user/images/sample/avatar-5.png"
@@ -430,48 +430,10 @@
             </div>
         </div>
     </section>
-
-    <th:block sec:authorize="isAuthenticated()">
-        <input id="user-id" type="hidden" th:value="${#authentication.principal.id}">
-    </th:block>
 </main>
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
-<script src="/user/js/bid-detail-live.js"></script>
-
-<script>
-
-let currentIndex = 0;
-
-function showPreviousImage() {
-   const galleryItems = document.querySelectorAll('.card-image-container .dcard-image');
-
-    const totalImages = galleryItems.length;
-
-    galleryItems[currentIndex].classList.remove('active');
-
-    // 이전 이미지로 이동 (첫 번째에서 마지막으로 순환)
-    currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-    galleryItems[currentIndex].classList.add('active');
-
-    console.log('현재 Index:', currentIndex); // 디버깅용
-}
-
-function showNextImage() {
-    const galleryItems = document.querySelectorAll('.card-image-container .dcard-image');
-
-    const totalImages = galleryItems.length;
-
-    galleryItems[currentIndex].classList.remove('active');
-
-    // 다음 이미지로 이동 (마지막에서 첫 번째로 순환)
-    currentIndex = (currentIndex + 1) % totalImages;
-    galleryItems[currentIndex].classList.add('active');
-
-    console.log('현재 Index:', currentIndex); // 디버깅용
-}
-
 
 <script th:inline="javascript">
     const myInfo = [[${#authentication.principal}]]['userEntity'];

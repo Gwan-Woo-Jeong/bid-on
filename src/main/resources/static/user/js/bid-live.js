@@ -1,15 +1,3 @@
-const urlParams = new URLSearchParams(window.location.search);
-const itemId = urlParams.get('itemId');
-
-if (itemId === null) {
-    alert('ERROR: 잘못된 접근입니다. (물품번호가 존재하지 않음)');
-    window.close();
-}
-
-window.onUnload = function () {
-    disconnect();
-}
-
 //대화명 설정 + 서버 연결
 const url = 'ws://localhost:8090/live-bid';
 let ws;
@@ -33,10 +21,11 @@ function connect(user) {
 
         const message = {
             roomId: itemId,
-            type: "IN",
-            userId,
-            content: '',
-            regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            type: 'ENTER',
+            senderId: userId,
+            text: '',
+            payload: user,
+            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
 
         ws.send(JSON.stringify(message));
@@ -44,8 +33,6 @@ function connect(user) {
 
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
-
-        console.log(evt.data);
 
         const message = JSON.parse(evt.data);
 
@@ -82,10 +69,11 @@ function connect(user) {
 function disconnect() {
     const message = {
         roomId: itemId,
-        type: "OUT",
-        userId,
-        content: '',
-        regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+        type: 'LEAVE',
+        senderId: this.userId,
+        text: '',
+        payload: null,
+        createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     ws.send(JSON.stringify(message));
