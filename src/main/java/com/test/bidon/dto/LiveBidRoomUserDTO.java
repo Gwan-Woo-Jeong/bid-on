@@ -1,12 +1,14 @@
 package com.test.bidon.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class LiveBidRoomUserDTO {
 
     private Long partId;

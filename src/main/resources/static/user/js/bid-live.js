@@ -14,10 +14,9 @@ window.onUnload = function () {
 const url = 'ws://localhost:8090/live-bid';
 let ws;
 
-function connect(userId) {
+function connect(user) {
 
-    $('#header small').text(userId);
-    this.userId = userId;
+    this.userId = user.id;
 
     ws = new WebSocket(url);
     log('서버에게 연결을 시도합니다.');
@@ -27,12 +26,12 @@ function connect(userId) {
 
         const message = {
             roomId: itemId,
-            type: "IN",
-            userId,
-            content: '',
-            regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            type: 'ENTER',
+            senderId: null,
+            text: '',
+            payload: user,
+            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
-
 
         ws.send(JSON.stringify(message));
     };
@@ -40,16 +39,24 @@ function connect(userId) {
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
 
-        console.log(evt.data);
-
         const message = JSON.parse(evt.data);
 
-        if (message.type === 'IN') {
-            print('', `[${message.userId}]님이 들어왔습니다.`, 'left', 'state', message.regdate);
-        } else if (message.type === 'OUT') {
-            print('', `[${message.userId}]님이 나갔습니다.`, 'left', 'state', message.regdate);
+        console.log(message);
+
+        if (message.type === 'ENTER') {
+            const newUser = message.payload;
+            printChat('', `[${newUser.name}]님이 들어왔습니다.`, 'left', 'state', message.createTime);
+        } else if (message.type === 'LEAVE') {
+            printChat('', `[${message.userId}]님이 나갔습니다.`, 'left', 'state', message.createTime);
         } else if (message.type === 'TALK') {
-            print(message.userId, message.content, 'left', 'msg', message.regdate);
+            printChat(message.userId, message.content, 'left', 'msg', message.createTime);
+        } else if (message.type === 'PARTS') {
+            const users = message.payload;
+            clearUsers();
+            users.forEach(user => {
+                printUsers(user.profile, user.name, user.email);
+            });
+            printUserCount(users.length)
         }
     };
 
@@ -70,7 +77,7 @@ function disconnect() {
         type: "OUT",
         userId,
         content: '',
-        regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+        createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     ws.send(JSON.stringify(message));
@@ -79,7 +86,32 @@ function disconnect() {
 }
 
 
-function print(userId, msg, side, state, time) {
+function clearUsers() {
+    $('.chat-users').empty();
+}
+
+function printUsers(profileImgName, name, email) {
+    const temp = `
+                <div class="user">
+                    <div class="avatar">
+                        <img src="/uploads/profiles/${profileImgName}" alt="User name">
+                    </div>
+                    <div class="user-info">
+                        <div class="name">${name}</div>
+                        <div class="mood">${email}</div>
+                    </div>
+                </div>
+                `;
+
+    $('.chat-users').append(temp);
+}
+
+function printUserCount(count) {
+    $('.user-count').text(count);
+}
+
+
+function printChat(userId, msg, side, state, time) {
     const temp = `
                 <div class="answer ${side}">
                     <div class="avatar">
@@ -92,7 +124,7 @@ function print(userId, msg, side, state, time) {
                     </div>
                     <div class="time">${showTime(time)}</div>
                 </div>
-			`;
+                `;
 
     $('.chat-body').append(temp);
 
@@ -130,14 +162,14 @@ $('#message-input').keydown(evt => {
             type: 'TALK',
             userId: this.userId,
             content: $(evt.target).val(),
-            regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
 
         ws.send(JSON.stringify(message));
 
         $(evt.target).val('');
 
-        print(message.userId, message.content, 'right', 'msg', message.regdate);
+        printChat(message.userId, message.content, 'right', 'msg', message.createTime);
     }
 });
 

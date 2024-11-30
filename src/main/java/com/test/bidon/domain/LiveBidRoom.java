@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.test.bidon.dto.LiveBidRoomUserDTO;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -12,15 +13,16 @@ import lombok.Getter;
 
 @Getter
 public class LiveBidRoom {
-    private final String roomId;
+    private final Long roomId;
     private final Set<WebSocketSession> sessions = new HashSet<>();
+    private final Set<LiveBidRoomUserDTO> roomUsers = new HashSet<>();
 
     @Builder
-    public LiveBidRoom(String roomId) {
+    public LiveBidRoom(Long roomId) {
         this.roomId = roomId;
     }
 
-    public void sendMessage(TextMessage message, WebSocketSession excludeSession) {
+    public void sendMessageExclude(TextMessage message, WebSocketSession excludeSession) {
         this.getSessions()
                 .parallelStream()
                 .filter(WebSocketSession::isOpen)
@@ -28,7 +30,14 @@ public class LiveBidRoom {
                 .forEach(session -> sendMessageToSession(session, message));
     }
 
-    private void sendMessageToSession(WebSocketSession session, TextMessage message) {
+    public void sendMessageAll(TextMessage message) {
+        this.getSessions()
+                .parallelStream()
+                .filter(WebSocketSession::isOpen)
+                .forEach(session -> sendMessageToSession(session, message));
+    }
+
+    public void sendMessageToSession(WebSocketSession session, TextMessage message) {
         try {
             session.sendMessage(message);
         } catch (IOException e) {
@@ -36,11 +45,12 @@ public class LiveBidRoom {
         }
     }
 
-    public void join(WebSocketSession session) {
+    public void join(WebSocketSession session, LiveBidRoomUserDTO roomUser) {
         sessions.add(session);
+        roomUsers.add(roomUser);
     }
 
-    public static LiveBidRoom of(String roomId) {
+    public static LiveBidRoom of(Long roomId) {
         return LiveBidRoom.builder()
                 .roomId(roomId)
                 .build();
