@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +29,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.test.bidon.config.security.CustomUserDetails;
 import com.test.bidon.dto.CustomOAuth2User;
+import com.test.bidon.dto.NormalAuctionItemDTO;
 import com.test.bidon.dto.UserInfoDTO;
+import com.test.bidon.entity.NormalAuctionItem;
 import com.test.bidon.entity.OneOnOne;
 import com.test.bidon.entity.OneOnOneAnswer;
 import com.test.bidon.entity.UserEntity;
+import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.OneOnOneAnswerRepository;
 import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.UserRepository;
@@ -54,6 +57,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final OneOnOneRepository oneOnOneRepository;
     private final OneOnOneAnswerRepository oneOnOneAnswerRepository;
+    private final NormalAuctionItemRepository normalAuctionItemRepository; 
     
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -168,10 +172,11 @@ public class UserController {
             model.addAttribute("profile", user.getProfile());
             model.addAttribute("provider", user.getProvider());
             
-            // OneOnOne 데이터 가져오기
+            //관리자 문의
+            //OneOnOne 데이터 가져오기
             List<OneOnOne> oneOnOneList = oneOnOneRepository.findByUserEntityInfo(user);
             
-            // 각 OneOnOne에 대한 답변을 가져와서 설정
+            //각 OneOnOne에 대한 답변을 가져와서 설정
             for (OneOnOne oneOnOne : oneOnOneList) {
                 OneOnOneAnswer answer = oneOnOneAnswerRepository.findByOneonone(oneOnOne);
                 if (answer != null) {
@@ -180,7 +185,31 @@ public class UserController {
             }
             
             model.addAttribute("oneOnOneList", oneOnOneList);
-        
+
+            //나의 활동
+            /*
+            List<NormalAuctionItem> normalAuctionItemList = normalAuctionItemRepository.findByUserEntity(user);
+            model.addAttribute("normalAuctionItemList", normalAuctionItemList);
+        	*/
+            
+            List<NormalAuctionItem> items = normalAuctionItemRepository.findByUserInfoId(user.getId());
+            List<NormalAuctionItemDTO> normalAuctionItemList = items.stream()
+                .map(item -> NormalAuctionItemDTO.builder()
+                    .id(item.getId())
+                    .categorySubId(item.getCategorySubId())
+                    .userInfoId(item.getUserInfoId())
+                    .name(item.getName())
+                    .description(item.getDescription())
+                    .startTime(item.getStartTime())
+                    .endTime(item.getEndTime())
+                    .startPrice(item.getStartPrice())
+                    .status(item.getStatus())
+                    .build())
+                .collect(Collectors.toList());
+
+            model.addAttribute("normalAuctionItemList", normalAuctionItemList);
+            
+            
             log.info("User info found - Name: {}, Email: {}, Provider: {}", user.getName(), user.getEmail(), user.getProvider());
             log.info("OneOnOne count: {}", oneOnOneList.size());
         } else {

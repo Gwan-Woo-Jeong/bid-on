@@ -147,14 +147,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <!--<tr>
                                                         <td>2015 Premium Watch</td>
                                                         <td>$589.21</td>
                                                         <td>$159.87</td>
                                                         <td>
                                                             <div class="timer-inner">2d : 5h : 30m</div>
                                                         </td>
-                                                    </tr>
+                                                    </tr-->
+													<tr th:each="item : ${normalAuctionItemList}">
+													    <td th:text="${item.name}"></td>
+														<!-- 아래 코드 최종입찰가, 이 부분 db 들어오면 넣기! -->
+														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
+														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
+													    <td th:text="${item.endTime}"></td>
+													</tr>
                                                     <!-- 추가 데이터 행 -->
                                                 </tbody>
                                             </table>
@@ -191,6 +198,13 @@
                                                         <th>판매일</th>
                                                         <th>구매자</th>
                                                     </tr>
+													<tr th:each="item : ${normalAuctionItemList}">
+														<td th:text="${item.name}"></td>
+														<!-- 아래 코드 최종입찰가, 이 부분 db 들어오면 넣기! -->
+														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
+														<td th:text="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+														<td>빵빵이</td>
+													</tr>
                                                 </thead>
                                                 <tbody>
                                                     <!-- 판매 데이터 -->
