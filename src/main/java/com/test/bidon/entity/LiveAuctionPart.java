@@ -35,6 +35,8 @@ public class LiveAuctionPart {
     @Column(nullable = false)
     private LocalDateTime createTime;
 
+    private LocalDateTime endTime;
+
     @ManyToOne
     @JoinColumn(name = "userInfoId")
     private UserEntity userInfo;

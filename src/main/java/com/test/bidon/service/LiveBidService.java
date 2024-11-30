@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.bidon.domain.LiveBidRoom;
 import com.test.bidon.repository.LiveBidRoomRepository;
 
@@ -28,9 +27,6 @@ import static com.test.bidon.util.BidRoomUtil.*;
 public class LiveBidService {
     private final LiveBidRoomRepository liveBidRoomRepository;
     private final LiveAuctionPartRepository liveAuctionPartRepository;
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
 
     public List<LiveBidRoom> findAll() {
         return liveBidRoomRepository.findAll();
@@ -51,6 +47,9 @@ public class LiveBidService {
             WebSocketSession session,
             Message inMessage
     ) throws JsonProcessingException {
+
+        System.out.println("inMessage = " + inMessage);
+
         LiveBidRoom room = findRoomById(roomId);
 
         if (room == null) {
@@ -60,7 +59,7 @@ public class LiveBidService {
         if (isEnter(inMessage)) {
             UserInfoDTO newUser = convert(inMessage.getPayload(), UserInfoDTO.class);
 
-            LiveAuctionPartSummary liveAuctionPart = createOrGetLiveAuctionPart(newUser.getId(), roomId);
+            LiveAuctionPartSummary liveAuctionPart = createPart(newUser.getId(), roomId);
 
             LiveBidRoomUserDTO newBidRoomUser = LiveBidRoomUserDTO.builder()
                     .partId(liveAuctionPart.getId())
@@ -74,12 +73,7 @@ public class LiveBidService {
 
             room.enter(session, newBidRoomUser);
 
-            Message outPartsMessage = Message.builder()
-                    .roomId(roomId)
-                    .type("PARTS")
-                    .payload(room.getRoomUsers())
-                    .createTime(LocalDateTime.now())
-                    .build();
+            sendPartsMessage(roomId, room);
 
             Message outEnterMessage = Message.builder()
                     .roomId(roomId)
@@ -88,31 +82,72 @@ public class LiveBidService {
                     .createTime(inMessage.getCreateTime())
                     .build();
 
-            room.sendMessageAll(toTextMessage(outPartsMessage));
             room.sendMessageExclude(toTextMessage(outEnterMessage), session);
-        }
 
+        } else if (isLeave(inMessage)) {
+
+            Long senderId = inMessage.getSenderId();
+            LiveBidRoomUserDTO foundUser = room.findRoomUser(senderId);
+
+            if (foundUser == null) {
+                return;
+            }
+
+            updatePartEndTime(senderId, roomId);
+            room.leave(session, senderId);
+
+            Message outLeaveMessage = Message.builder()
+                    .roomId(roomId)
+                    .type("LEAVE")
+                    .payload(foundUser)
+                    .createTime(inMessage.getCreateTime())
+                    .build();
+
+            sendPartsMessage(roomId, room);
+            room.sendMessageAll(toTextMessage(outLeaveMessage));
+        }
     }
 
-    public LiveAuctionPartSummary createOrGetLiveAuctionPart(Long userInfoId, Long liveAuctionItemId) {
+    private static void sendPartsMessage(Long roomId, LiveBidRoom room) {
 
-        Optional<LiveAuctionPartSummary> existingPart = liveAuctionPartRepository.findByUserInfoIdAndLiveAuctionItemId(userInfoId, liveAuctionItemId);
+        Message outPartsMessage = Message.builder()
+                .roomId(roomId)
+                .type("PARTS")
+                .payload(room.getRoomUsers())
+                .createTime(LocalDateTime.now())
+                .build();
 
-        if (existingPart.isPresent()) {
-            return existingPart.get();
-        } else {
-            LiveAuctionPartSummary liveAuctionPart = new LiveAuctionPartSummary();
+        room.sendMessageAll(toTextMessage(outPartsMessage));
+    }
 
-            liveAuctionPart.updateUserInfoId(userInfoId);
-            liveAuctionPart.updateLiveAuctionItemId(liveAuctionItemId);
-            liveAuctionPart.updateCreateTime(LocalDateTime.now());
+    public LiveAuctionPartSummary createPart(Long userInfoId, Long liveAuctionItemId) {
+        LiveAuctionPartSummary liveAuctionPart = new LiveAuctionPartSummary();
 
-            return liveAuctionPartRepository.save(liveAuctionPart);
+        liveAuctionPart.updateUserInfoId(userInfoId);
+        liveAuctionPart.updateLiveAuctionItemId(liveAuctionItemId);
+        liveAuctionPart.updateCreateTime(LocalDateTime.now());
+
+        return liveAuctionPartRepository.save(liveAuctionPart);
+    }
+
+    public void updatePartEndTime(Long userInfoId, Long liveAuctionItemId) {
+        Optional<LiveAuctionPartSummary> liveAuctionPart = liveAuctionPartRepository.findFirstByUserInfoIdAndLiveAuctionItemIdOrderByCreateTimeDesc(userInfoId, liveAuctionItemId);
+
+        if (liveAuctionPart.isEmpty()) {
+            return;
         }
+
+        LiveAuctionPartSummary liveAuctionPartSummary = liveAuctionPart.get();
+        liveAuctionPartSummary.updateEndTime(LocalDateTime.now());
+        liveAuctionPartRepository.save(liveAuctionPartSummary);
     }
 
     private boolean isEnter(Message message) {
         return message.getType().equals("ENTER");
+    }
+
+    private boolean isLeave(Message message) {
+        return message.getType().equals("LEAVE");
     }
 
 }

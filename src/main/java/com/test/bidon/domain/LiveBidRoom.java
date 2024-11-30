@@ -45,9 +45,24 @@ public class LiveBidRoom {
         }
     }
 
-    public void join(WebSocketSession session, LiveBidRoomUserDTO roomUser) {
+    public LiveBidRoomUserDTO findRoomUser(Long userId) {
+        for (LiveBidRoomUserDTO user : roomUsers) {
+            if (user.getUserId().equals(userId)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    public void enter(WebSocketSession session, LiveBidRoomUserDTO roomUser) {
         sessions.add(session);
         roomUsers.add(roomUser);
+    }
+
+    public void leave(WebSocketSession session, Long userInfoId) {
+        sessions.remove(session);
+        roomUsers.remove(new LiveBidRoomUserDTO(userInfoId));
     }
 
     public static LiveBidRoom of(Long roomId) {

@@ -29,6 +29,8 @@ public class LiveAuctionPartSummary {
     @Column(nullable = false)
     private LocalDateTime createTime;
 
+    private LocalDateTime endTime;
+
     public void updateUserInfoId(Long userInfoId) {
         this.userInfoId = userInfoId;
     }
@@ -39,6 +41,10 @@ public class LiveAuctionPartSummary {
 
     public void updateCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public void updateEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
 }

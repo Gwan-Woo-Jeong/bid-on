@@ -1,3 +1,7 @@
+//대화명 설정 + 서버 연결
+const url = 'ws://localhost:8090/live-bid';
+let ws;
+
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get('itemId');
 
@@ -6,16 +10,7 @@ if (itemId === null) {
     window.close();
 }
 
-window.onUnload = function () {
-    disconnect();
-}
-
-//대화명 설정 + 서버 연결
-const url = 'ws://localhost:8090/live-bid';
-let ws;
-
 function connect(user) {
-
     this.userId = user.id;
 
     ws = new WebSocket(url);
@@ -27,7 +22,7 @@ function connect(user) {
         const message = {
             roomId: itemId,
             type: 'ENTER',
-            senderId: null,
+            senderId: userId,
             text: '',
             payload: user,
             createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -47,7 +42,8 @@ function connect(user) {
             const newUser = message.payload;
             printChat('', `[${newUser.name}]님이 들어왔습니다.`, 'left', 'state', message.createTime);
         } else if (message.type === 'LEAVE') {
-            printChat('', `[${message.userId}]님이 나갔습니다.`, 'left', 'state', message.createTime);
+            const outUser = message.payload;
+            printChat('', `[${outUser.name}]님이 나갔습니다.`, 'left', 'state', message.createTime);
         } else if (message.type === 'TALK') {
             printChat(message.userId, message.content, 'left', 'msg', message.createTime);
         } else if (message.type === 'PARTS') {
@@ -60,27 +56,29 @@ function connect(user) {
         }
     };
 
-    ws.onclose = evt => {
-        log('서버와 연결이 종료되었습니다.');
+
+    window.onbeforeunload = function () {
+        disconnect();
     };
 
     ws.onerror = evt => {
         log('에러가 발생했습니다. ' + evt);
     };
-
 }
 
 function disconnect() {
-    //소켓 연결 종료
     const message = {
         roomId: itemId,
-        type: "OUT",
-        userId,
-        content: '',
+        type: 'LEAVE',
+        senderId: this.userId,
+        text: '',
+        payload: null,
         createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     ws.send(JSON.stringify(message));
+
+    log('서버와 연결이 종료되었습니다.');
 
     ws.close();
 }
@@ -109,7 +107,6 @@ function printUsers(profileImgName, name, email) {
 function printUserCount(count) {
     $('.user-count').text(count);
 }
-
 
 function printChat(userId, msg, side, state, time) {
     const temp = `
@@ -154,8 +151,14 @@ function showTime(date) {
     }
 }
 
-$('#message-input').keydown(evt => {
+$('.quit-button').click(e => {
+    e.preventDefault();
+    if (confirm('정말로 나가시겠습니까?')) {
+        window.close();
+    }
+});
 
+$('#message-input').keydown(evt => {
     if (evt.keyCode === 13) {
         const message = {
             roomId: itemId,
