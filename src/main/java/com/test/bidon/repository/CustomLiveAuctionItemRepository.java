@@ -9,16 +9,16 @@ import static com.test.bidon.entity.QUserEntity.userEntity;
 
 import java.util.List;
 
-import com.querydsl.jpa.JPAExpressions;
-import com.test.bidon.dto.*;
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.test.bidon.dto.LiveAuctionDetailCustomerDTO;
 import com.test.bidon.dto.LiveAuctionDetailDTO;
 import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
 import com.test.bidon.dto.LiveAuctionItemListDTO;
+import com.test.bidon.dto.LiveBidRoomItemDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,23 +29,70 @@ public class CustomLiveAuctionItemRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
 
-    public List<LiveAuctionItemListDTO> LiveAuctionList() {
+    public List<LiveAuctionItemListDTO> LiveAuctionList(int offset, int limit, Integer minPrice, Integer maxPrice){
+
+		BooleanBuilder builder = new BooleanBuilder();
+		
+		if(minPrice != null) {
+			builder.and(liveAuctionItem.startPrice.goe(minPrice));
+		}
+		System.out.println("Applied minPrice: " + minPrice);
+		
+		if(maxPrice != null) {
+			builder.and(liveAuctionItem.startPrice.loe(maxPrice));
+		}
+		System.out.println("Applied maxPrice: " + maxPrice);
+		
+
+		return jpaQueryFactory
+				.select(Projections.constructor(
+			            LiveAuctionItemListDTO.class,
+						liveAuctionItem.id,
+						liveAuctionItem.name,
+			            liveAuctionItemImage.path,
+			            liveAuctionItem.startPrice
+			        ))
+			        .from(liveAuctionItemImageList)
+			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
+			        .join(liveAuctionItemImageList.liveAuctionItem, liveAuctionItem)
+			        .where(liveAuctionItemImageList.isMainImage.eq(1).and(builder))
+			        .offset(offset)
+			        .limit(limit)
+			        .fetch();
+}
+	
+	
+	public Long LiveAuctionListPage(int offset, int limit, Integer minPrice, Integer maxPrice){
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		
+		if(minPrice != null) {
+			builder.and(liveAuctionItem.startPrice.goe(minPrice));
+		}
+		System.out.println("Applied minPrice: " + minPrice);
+		
+		if(maxPrice != null) {
+			builder.and(liveAuctionItem.startPrice.loe(maxPrice));
+		}
+		System.out.println("Applied maxPrice: " + maxPrice);
 
 
-        return jpaQueryFactory
-                .select(Projections.constructor(
-                        LiveAuctionItemListDTO.class,
-                        liveAuctionItem.id,
-                        liveAuctionItem.name,
-                        liveAuctionItemImage.path,
-                        liveAuctionItem.startPrice
-                ))
-                .from(liveAuctionItemImageList)
-                .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
-                .join(liveAuctionItemImageList.liveAuctionItem, liveAuctionItem)
-                .where(liveAuctionItemImageList.isMainImage.eq(1))
-                .fetch();
-    }
+		return jpaQueryFactory
+				.select(Projections.constructor(
+			            LiveAuctionItemListDTO.class,
+						liveAuctionItem.id,
+						liveAuctionItem.name,
+			            liveAuctionItemImage.path,
+			            liveAuctionItem.startPrice
+			        ))
+			        .from(liveAuctionItemImageList)
+			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
+			        .join(liveAuctionItemImageList.liveAuctionItem, liveAuctionItem)
+			        .where(liveAuctionItemImageList.isMainImage.eq(1).and(builder))
+			        .offset(offset)
+			        .limit(limit)
+			        .fetchCount();
+}
 
 
     public LiveAuctionItemListDTO bigHomeLiveAuctionList() {
