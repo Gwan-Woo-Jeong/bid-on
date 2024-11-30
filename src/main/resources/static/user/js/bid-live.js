@@ -38,13 +38,7 @@ function connect(user) {
 
         console.log(message);
 
-        if (message.type === 'ENTER') {
-            const newUser = message.payload;
-            printChat(newUser.name, newUser.profile,`[${newUser.name}]님이 들어왔습니다.`, 'left', message.createTime);
-        } else if (message.type === 'LEAVE') {
-            const outUser = message.payload;
-            printChat(outUser.name, outUser.profile, `[${outUser.name}]님이 나갔습니다.`, 'left', message.createTime);
-        } else if (message.type === 'TALK') {
+        if (message.type === 'TALK') {
             const talkUser = message.payload;
             printChat(talkUser.name, talkUser.profile, message.text, 'left', message.createTime);
         } else if (message.type === 'PARTS') {
@@ -54,6 +48,8 @@ function connect(user) {
                 printUsers(user.profile, user.name, user.email);
             });
             printUserCount(users.length)
+        } else if (message.type === 'ALERT') {
+            printAlert(message.text);
         }
     };
 
@@ -120,6 +116,22 @@ function printChat(name, profileImgName, text, side, time) {
                         ${text}
                     </div>
                     <div class="time">${showTime(time)}</div>
+                </div>
+                `;
+
+    $('.chat-body').append(temp);
+
+    scrollList();
+}
+
+function printAlert(text) {
+    const temp = `
+                <div class="answer center">
+                    <div class="avatar">
+                        <img src="/user/images/sample/auctioneer-bot.jpg" alt="User name">
+                    </div>
+                    <div class="name">경매사 봇</div>
+                    <div class="text">${text}</div>
                 </div>
                 `;
 

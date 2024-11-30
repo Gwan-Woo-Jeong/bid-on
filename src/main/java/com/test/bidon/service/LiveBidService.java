@@ -73,8 +73,6 @@ public class LiveBidService {
 
             room.enter(session, newBidRoomUser);
 
-            sendPartsMessage(roomId, room);
-
             Message outEnterMessage = Message.builder()
                     .roomId(roomId)
                     .type("ENTER")
@@ -82,6 +80,15 @@ public class LiveBidService {
                     .createTime(inMessage.getCreateTime())
                     .build();
 
+            Message alertMessage = Message.builder()
+                    .roomId(roomId)
+                    .type("ALERT")
+                    .text(newBidRoomUser.getName() + "님이 입장하셨습니다.")
+                    .createTime(LocalDateTime.now())
+                    .build();
+
+            sendPartsMessage(roomId, room);
+            room.sendMessageAll(toTextMessage(alertMessage));
             room.sendMessageExclude(toTextMessage(outEnterMessage), session);
 
         } else if (isLeave(inMessage)) {
@@ -96,16 +103,18 @@ public class LiveBidService {
             updatePartEndTime(senderId, roomId);
             room.leave(session, senderId);
 
-            Message outLeaveMessage = Message.builder()
+            Message alertMessage = Message.builder()
                     .roomId(roomId)
-                    .type("LEAVE")
-                    .payload(foundUser)
-                    .createTime(inMessage.getCreateTime())
+                    .type("ALERT")
+                    .text(foundUser.getName() + "님이 나가셨습니다.")
+                    .createTime(LocalDateTime.now())
                     .build();
 
             sendPartsMessage(roomId, room);
-            room.sendMessageAll(toTextMessage(outLeaveMessage));
+            room.sendMessageAll(toTextMessage(alertMessage));
+
         } else if (isTalk(inMessage)) {
+
             Long senderId = inMessage.getSenderId();
             LiveBidRoomUserDTO foundUser = room.findRoomUser(senderId);
 
