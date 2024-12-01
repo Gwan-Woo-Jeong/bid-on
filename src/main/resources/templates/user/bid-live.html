@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, dayjs=true)}"></th:block>
+<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, dayjs=true, util=true)}"></th:block>
 <script th:inline="javascript">
     const itemInfo = [[${itemInfo}]];
     const myInfo = [[${#authentication.principal}]]['userEntity'];
