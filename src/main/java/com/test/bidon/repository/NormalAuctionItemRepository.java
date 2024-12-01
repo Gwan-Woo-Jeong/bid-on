@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NormalAuctionItemRepository extends JpaRepository<NormalAuctionItem, Long> {
 
-	List<NormalAuctionItem> findByUserInfoId(Long userInfoId);
-
-	//List<NormalAuctionItem> findByUserEntity(UserEntity user);	//혜미가 추가함
-
+	List<NormalAuctionItem> findByUserInfoId(Long userInfoId);	//혜미가 추가함
 
 }
