@@ -138,23 +138,24 @@
                                     <div class="tab-pane fade show active" id="bidding">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>물품 목록</th>
-                                                        <th>최종 입찰가</th>
-                                                        <th>기본 입찰가</th>
-                                                        <th>남은 시간</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-													<tr th:each="item : ${normalAuctionItemList}">
-													    <td th:text="${item.name}"></td>
-														<td th:text="${item.finalPrice != null ? #numbers.formatDecimal(item.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
-														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
-														<td th:text="${item.remainingTime}"></td>
-													</tr>
-                                                    <!-- 추가 데이터 행 -->
-                                                </tbody>
+												<thead>
+											        <tr>
+											            <th>유형</th>
+											            <th>물품 목록</th>
+											            <th>현재 입찰가</th>
+											            <th>시작가</th>
+											            <th>남은 시간</th>
+											        </tr>
+											    </thead>
+												<tbody>
+											        <tr th:each="auction : ${combinedAuctions}">
+											            <td th:text="${auction.auctionType}"></td>
+											            <td th:text="${auction.name}"></td>
+											            <td th:text="${auction.currentPrice != null ? #numbers.formatDecimal(auction.currentPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
+											            <td th:text="${#numbers.formatDecimal(auction.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
+											            <td th:text="${auction.remainingTime}"></td>
+											        </tr>
+												</tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -165,45 +166,64 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
+														<th>유형</th>
                                                         <th>물품 목록</th>
                                                         <th>낙찰가</th>
                                                         <th>낙찰일</th>
                                                         <th>상태</th>
+                                                        <th>판매자</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- 낙찰 데이터 -->
+													<tbody>
+													    <tr th:each="auction : ${wonAuctions}">
+													        <td th:text="${auction.auctionType}"></td>
+													        <td th:text="${auction.name}"></td>
+													        <td th:text="${auction.finalPrice != null ? #numbers.formatDecimal(auction.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
+													        <td th:text="${#temporals.format(auction.soldDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+													        <td th:text="${auction.status}"></td>
+													        <td th:text="${auction.sellerName}"></td>
+													    </tr>
+													</tbody>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                     
-                                    <!-- 판매된 경매 물품 탭 -->
+                                    <!-- 판매 경매 물품 탭 -->
                                     <div class="tab-pane fade" id="sold">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>물품 목록</th>
-                                                        <th>기본가</th>
-                                                        <th>판매가</th>
-                                                        <th>판매일</th>
-                                                        <th>구매자</th>
-                                                    </tr>
-													<tr th:each="item : ${normalAuctionItemList}">
-														<td th:text="${item.name}"></td>
-														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
-														<td th:text="${item.finalPrice != null ? #numbers.formatDecimal(item.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
-														<td th:text="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-														<td th:text="${item.buyerName}"></td>
-													</tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- 판매 데이터 -->
-                                                </tbody>
+												<thead>
+													<tr>
+												    	<th>유형</th>
+												        <th>물품 목록</th>
+												        <th>기본가</th>
+												        <th>현재가/판매가</th>
+												        <th>판매상태</th>
+												        <th>판매일/종료일</th>
+												        <th>구매자</th>
+												  	</tr>
+												    </thead>
+												    <tbody>
+												    	<tr th:each="item : ${soldAuctions}">
+												        	<td th:text="${item.auctionType}"></td>
+												            <td th:text="${item.name}"></td>
+												            <td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
+												            <td th:text="${item.finalPrice != null ? #numbers.formatDecimal(item.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
+												            <td>
+												            <span th:text="${item.sellStatus}" 
+												            	th:class="${item.sellStatus == '판매중' ? 'badge bg-primary' : 'badge bg-success'}">
+												           	</span>
+												            </td>
+												            <td th:text="${#temporals.format(item.soldDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+												            <td th:text="${item.sellStatus == '판매완료' ? item.buyerName : '-'}"></td>
+														</tr>
+													</tbody>
                                             </table>
                                         </div>
                                     </div>
+									
                                 </div>
                             </div>
                         </div>
