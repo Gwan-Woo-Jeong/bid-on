@@ -29,6 +29,7 @@ function connect(user) {
             senderId: this.userId,
             text: '',
             payload: user,
+            bidPrice: null,
             createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
 
@@ -53,10 +54,14 @@ function connect(user) {
             printAlert(text);
         } else if (type === "BID-START") {
             const minBidPrice = setMinBidPrice(payload.highestBidPrice || itemInfo.startPrice);
-
             if (minBidPrice) {
                 bidButton.removeAttr('disabled');
             }
+        } else if (type === "BID-OK") {
+            setMinBidPrice(payload.highestBidPrice);
+        } else if (type === "BID-FAIL") {
+            alert(text);
+            setMinBidPrice(payload.highestBidPrice);
         }
     };
 
@@ -77,6 +82,7 @@ function disconnect() {
         senderId: this.userId,
         text: '',
         payload: null,
+        bidPrice: null,
         createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
@@ -170,8 +176,6 @@ function showTime(date) {
     }
 }
 
-
-
 function setMinBidPrice(highestBidPrice) {
     const minBidPriceUnit = getMinBidUnit(highestBidPrice);
     itemInfo.minBidPrice = highestBidPrice + minBidPriceUnit;
@@ -179,13 +183,30 @@ function setMinBidPrice(highestBidPrice) {
     return itemInfo.minBidPrice;
 }
 
+function sendMessage() {
+
+}
+
 function alertErrorAndClose(message) {
     alert('ERROR:' + message);
     window.close();
 }
 
+//TODO: 메시징 함수
 bidButton.click(e => {
     e.preventDefault();
+
+    const message = {
+        roomId: itemId,
+        type: 'BID',
+        senderId: this.userId,
+        text: '',
+        payload: null,
+        bidPrice: itemInfo.minBidPrice,
+        createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    }
+
+    ws.send(JSON.stringify(message));
 });
 
 $('.quit-button').click(e => {
@@ -203,6 +224,7 @@ $('#message-input').keydown(evt => {
             senderId: this.userId,
             text: $(evt.target).val(),
             payload: null,
+            bidPrice: null,
             createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
 
@@ -213,5 +235,6 @@ $('#message-input').keydown(evt => {
         printChat(myInfo.name, myInfo.profile, message.text, 'right', message.createTime);
     }
 });
+
 
 

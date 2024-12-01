@@ -143,6 +143,50 @@ public class LiveBidService {
                     .build();
 
             room.sendMessageExclude(toTextMessage(outTalkMessage), session);
+        } else if (isBid(inMessage)) {
+            Integer bidPrice = inMessage.getBidPrice();
+            Integer highestBidPrice = room.getHighestBidPrice();
+
+            Message.MessageBuilder outBidMessageBuilder = Message.builder()
+                    .roomId(roomId)
+                    .createTime(LocalDateTime.now());
+
+            if (bidPrice <= highestBidPrice) {
+                //TODO: builder 로직 중복 제거
+                LiveBidInfo liveBidInfo = LiveBidInfo.builder()
+                        .highestBidder(room.getHighestBidder())
+                        .highestBidPrice(room.getHighestBidPrice())
+                        .build();
+
+                outBidMessageBuilder = outBidMessageBuilder
+                        .type("BID-FAIL")
+                        .text("입찰가는 최고 입찰가보다 높아야합니다.")
+                        .payload(liveBidInfo);
+
+                room.sendMessageToSession(session, toTextMessage(outBidMessageBuilder.build()));
+            } else {
+
+                LiveBidRoomUser foundUser = room.findRoomUser(inMessage.getSenderId());
+
+                if (foundUser == null) {
+                    return;
+                }
+
+                room.setHighestBidder(foundUser);
+                room.setHighestBidPrice(bidPrice);
+
+                LiveBidInfo liveBidInfo = LiveBidInfo.builder()
+                        .highestBidder(foundUser)
+                        .highestBidPrice(bidPrice)
+                        .build();
+
+                outBidMessageBuilder = outBidMessageBuilder
+                        .roomId(roomId)
+                        .type("BID-OK")
+                        .payload(liveBidInfo);
+
+                room.sendMessageAll(toTextMessage(outBidMessageBuilder.build()));
+            }
         }
     }
 
@@ -190,5 +234,9 @@ public class LiveBidService {
 
     private boolean isTalk(Message message) {
         return message.getType().equals("TALK");
+    }
+
+    private boolean isBid(Message message) {
+        return message.getType().equals("BID");
     }
 }
