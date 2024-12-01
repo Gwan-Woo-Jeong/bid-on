@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -191,8 +192,20 @@ public class UserController {
             List<NormalAuctionItemDTO> normalAuctionItemList = items.stream()
             
             		.map(item -> {
-                        // BidOrderService를 통해 최종 가격 조회
+                        //BidOrderService를 통해 최종 가격 조회
                         Integer finalPrice = bidOrderService.getFinalPriceByNormalBidId(item.getId());
+                        
+                        // 남은 시간 계산 (endTime - startTime)
+                        Duration duration = Duration.between(item.getStartTime(), item.getEndTime());
+                        long secondsRemaining = duration.getSeconds(); // 초 단위로 남은 시간 계산
+                        
+                        // 초를 시간, 분, 초로 변환
+                        long days = secondsRemaining / (24 * 3600); // 하루는 24시간 * 3600초
+                        long hours = (secondsRemaining % (24 * 3600)) / 3600;
+                        long minutes = (secondsRemaining % 3600) / 60;
+                        long seconds = secondsRemaining % 60;
+                        
+                        String remainingTime = String.format("%d일 %02d:%02d:%02d", days, hours, minutes, seconds); // 일, 시간, 분, 초 형식으로 출력
                         
                         return NormalAuctionItemDTO.builder()
                             .id(item.getId())
@@ -204,9 +217,9 @@ public class UserController {
                             .endTime(item.getEndTime())
                             .startPrice(item.getStartPrice())
                             .status(item.getStatus())
-                            //.finalPrice(finalPrice)  // BidOrderService에서 가져온 최종 가격
                             .finalPrice(bidOrderService.getFinalPriceByNormalBidId(item.getId()))
                             .buyerName(bidOrderService.getBuyerNameByNormalBidId(item.getId()))
+                            .remainingTime(remainingTime)
                             .build();
                     })
                     .collect(Collectors.toList());
