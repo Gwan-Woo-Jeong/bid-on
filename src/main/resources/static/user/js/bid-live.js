@@ -22,18 +22,7 @@ function connect(user) {
 
     ws.onopen = evt => {
         log('서버와 연결되었습니다.');
-
-        const message = {
-            roomId: itemId,
-            type: 'ENTER',
-            senderId: this.userId,
-            text: '',
-            payload: user,
-            bidPrice: null,
-            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-        }
-
-        ws.send(JSON.stringify(message));
+        sendMessage({type: 'ENTER', payload: user});
     };
 
     ws.onmessage = evt => {
@@ -75,21 +64,23 @@ function connect(user) {
     };
 }
 
-function disconnect() {
+function sendMessage({type, text, payload, bidPrice}) {
     const message = {
         roomId: itemId,
-        type: 'LEAVE',
+        type,
         senderId: this.userId,
-        text: '',
-        payload: null,
-        bidPrice: null,
+        text: text || '',
+        payload: payload || null,
+        bidPrice: bidPrice || null,
         createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     ws.send(JSON.stringify(message));
+}
 
+function disconnect() {
+    sendMessage({type: 'LEAVE'});
     log('서버와 연결이 종료되었습니다.');
-
     ws.close();
 }
 
@@ -183,30 +174,14 @@ function setMinBidPrice(highestBidPrice) {
     return itemInfo.minBidPrice;
 }
 
-function sendMessage() {
-
-}
-
 function alertErrorAndClose(message) {
     alert('ERROR:' + message);
     window.close();
 }
 
-//TODO: 메시징 함수
 bidButton.click(e => {
     e.preventDefault();
-
-    const message = {
-        roomId: itemId,
-        type: 'BID',
-        senderId: this.userId,
-        text: '',
-        payload: null,
-        bidPrice: itemInfo.minBidPrice,
-        createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-    }
-
-    ws.send(JSON.stringify(message));
+    sendMessage({type: 'BID', bidPrice: itemInfo.minBidPrice});
 });
 
 $('.quit-button').click(e => {
@@ -218,21 +193,10 @@ $('.quit-button').click(e => {
 
 $('#message-input').keydown(evt => {
     if (evt.keyCode === 13) {
-        const message = {
-            roomId: itemId,
-            type: 'TALK',
-            senderId: this.userId,
-            text: $(evt.target).val(),
-            payload: null,
-            bidPrice: null,
-            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-        }
-
-        ws.send(JSON.stringify(message));
-
-        $(evt.target).val('');
-
-        printChat(myInfo.name, myInfo.profile, message.text, 'right', message.createTime);
+        const input = $(evt.target);
+        sendMessage({type: 'TALK', text: input.val()});
+        printChat(myInfo.name, myInfo.profile, input.val(), 'right', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+        input.val('')
     }
 });
 
