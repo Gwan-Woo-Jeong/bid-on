@@ -22,5 +22,6 @@ public class Message {
 	private LocalDateTime createTime;
 	@JsonProperty
 	private Object payload;
+	private Integer remainingSeconds;
 
 }

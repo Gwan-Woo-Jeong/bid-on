@@ -3,6 +3,8 @@ package com.test.bidon.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.test.bidon.domain.LiveBidInfo;
 import com.test.bidon.domain.Message;
@@ -58,6 +60,7 @@ public class LiveBidService {
         }
 
         LiveBidRoomUser highestBidder = room.getHighestBidder();
+
 
         if (isEnter(inMessage)) {
             UserInfoDTO newUser = convert(inMessage.getPayload(), UserInfoDTO.class);
@@ -156,7 +159,7 @@ public class LiveBidService {
                     .createTime(LocalDateTime.now());
 
             if (bidPrice <= highestBidPrice) {
-                //TODO: builder 로직 중복 제거
+                // TODO: builder 로직 중복 제거
                 LiveBidInfo liveBidInfo = LiveBidInfo.builder()
                         .highestBidder(highestBidder)
                         .highestBidPrice(room.getHighestBidPrice())
@@ -191,8 +194,48 @@ public class LiveBidService {
 
                 sendPartsMessage(roomId, room);
                 room.sendMessageAll(toTextMessage(outBidMessageBuilder.build()));
+
+                TimerTask task = getTimerTask(roomId, room);
+
+                if (room.getIsTimerRunning()) {
+                    room.resetTimer(task);
+                } else {
+                    room.setIsTimerRunning(true);
+                    room.startTimer(task);
+                }
+
             }
         }
+    }
+
+    private static TimerTask getTimerTask(Long roomId, LiveBidRoom room) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                int remainingSeconds = room.getRemainingSeconds();
+
+                Message outTimerMessage = Message.builder()
+                        .roomId(roomId)
+                        .type("TIMER")
+                        .remainingSeconds(remainingSeconds)
+                        .createTime(LocalDateTime.now())
+                        .build();
+
+                if (remainingSeconds > 0) {
+                    System.out.println("남은 시간: " + remainingSeconds + "초");
+                } else {
+                    System.out.println("타이머가 끝났습니다.");
+                    Timer timer = room.getTimer();
+                    if (timer != null) {
+                        timer.cancel();
+                        timer.purge();
+                    }
+                }
+
+                room.sendMessageAll(toTextMessage(outTimerMessage));
+                room.setRemainingSeconds(remainingSeconds - 1);
+            }
+        };
     }
 
     private static void sendPartsMessage(Long roomId, LiveBidRoom room) {

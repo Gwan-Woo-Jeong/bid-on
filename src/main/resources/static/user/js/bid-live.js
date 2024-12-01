@@ -29,9 +29,11 @@ function connect(user) {
         log('메시지를 수신했습니다.');
 
         console.log(JSON.parse(evt.data));
-        const {type, text, payload, createTime} = JSON.parse(evt.data);
+        const {type, text, payload, createTime, remainingSeconds} = JSON.parse(evt.data);
 
-        if (type === 'TALK') {
+        if (type === "TIMER") {
+            $('.bid-time').text(formatTime(remainingSeconds));
+        } else if (type === 'TALK') {
             printChat(payload.name, payload.profile, text, 'left', createTime);
         } else if (type === 'PARTS') {
             clearUsers();
@@ -178,6 +180,15 @@ function alertErrorAndClose(message) {
     alert('ERROR:' + message);
     window.close();
 }
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+
+    return `${minutes}:${formattedSeconds}`;
+}
+
 
 bidButton.click(e => {
     e.preventDefault();
