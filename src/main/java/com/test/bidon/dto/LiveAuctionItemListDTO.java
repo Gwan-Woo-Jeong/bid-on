@@ -12,4 +12,7 @@ public class LiveAuctionItemListDTO {
 	private String path;
 	private Integer startPrice;
 	
+	
+	
+	
 }
