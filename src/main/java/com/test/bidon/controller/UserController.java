@@ -39,6 +39,7 @@ import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.OneOnOneAnswerRepository;
 import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.UserRepository;
+import com.test.bidon.service.BidOrderService;
 import com.test.bidon.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,12 +53,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
     private final UserService userService;
-    //private final String uploadPath = "C:/temp/uploads"; // 실제 파일이 저장될 경로 > 이거 에러 안나면 지우자~
-
     private final UserRepository userRepository;
     private final OneOnOneRepository oneOnOneRepository;
     private final OneOnOneAnswerRepository oneOnOneAnswerRepository;
-    private final NormalAuctionItemRepository normalAuctionItemRepository; 
+    private final NormalAuctionItemRepository normalAuctionItemRepository;
+    private final BidOrderService bidOrderService;
     
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -187,26 +187,30 @@ public class UserController {
             model.addAttribute("oneOnOneList", oneOnOneList);
 
             //나의 활동
-            /*
-            List<NormalAuctionItem> normalAuctionItemList = normalAuctionItemRepository.findByUserEntity(user);
-            model.addAttribute("normalAuctionItemList", normalAuctionItemList);
-        	*/
-            
             List<NormalAuctionItem> items = normalAuctionItemRepository.findByUserInfoId(user.getId());
             List<NormalAuctionItemDTO> normalAuctionItemList = items.stream()
-                .map(item -> NormalAuctionItemDTO.builder()
-                    .id(item.getId())
-                    .categorySubId(item.getCategorySubId())
-                    .userInfoId(item.getUserInfoId())
-                    .name(item.getName())
-                    .description(item.getDescription())
-                    .startTime(item.getStartTime())
-                    .endTime(item.getEndTime())
-                    .startPrice(item.getStartPrice())
-                    .status(item.getStatus())
-                    .build())
-                .collect(Collectors.toList());
-
+            
+            		.map(item -> {
+                        // BidOrderService를 통해 최종 가격 조회
+                        Integer finalPrice = bidOrderService.getFinalPriceByNormalBidId(item.getId());
+                        
+                        return NormalAuctionItemDTO.builder()
+                            .id(item.getId())
+                            .categorySubId(item.getCategorySubId())
+                            .userInfoId(item.getUserInfoId())
+                            .name(item.getName())
+                            .description(item.getDescription())
+                            .startTime(item.getStartTime())
+                            .endTime(item.getEndTime())
+                            .startPrice(item.getStartPrice())
+                            .status(item.getStatus())
+                            //.finalPrice(finalPrice)  // BidOrderService에서 가져온 최종 가격
+                            .finalPrice(bidOrderService.getFinalPriceByNormalBidId(item.getId()))
+                            .buyerName(bidOrderService.getBuyerNameByNormalBidId(item.getId()))
+                            .build();
+                    })
+                    .collect(Collectors.toList());
+            		
             model.addAttribute("normalAuctionItemList", normalAuctionItemList);
             
             

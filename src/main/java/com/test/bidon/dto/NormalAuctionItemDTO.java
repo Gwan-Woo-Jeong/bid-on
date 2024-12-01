@@ -29,7 +29,10 @@ public class NormalAuctionItemDTO {
     private Long wishCount;
 
 	private UserInfoDTO userInfo;
-
+	
+	private Integer finalPrice;	//finalPrice는 OrderInfo에서 가져오는 값이므로 Entity 변환 시에는 포함시키지 않음 - HM -
+	private String buyerName;  // 구매자 이름 필드 추가 - HM -
+	
     // DTO 본인을 Entity로 변환하는 method
     public static NormalAuctionItem toEntity(NormalAuctionItemDTO dto) {
 

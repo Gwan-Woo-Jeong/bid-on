@@ -158,9 +158,9 @@
 													<tr th:each="item : ${normalAuctionItemList}">
 													    <td th:text="${item.name}"></td>
 														<!-- 아래 코드 최종입찰가, 이 부분 db 들어오면 넣기! -->
+														<td th:text="${item.finalPrice != null ? #numbers.formatDecimal(item.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
 														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
-														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
-													    <td th:text="${item.endTime}"></td>
+														<td th:text="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 													</tr>
                                                     <!-- 추가 데이터 행 -->
                                                 </tbody>
@@ -201,9 +201,9 @@
 													<tr th:each="item : ${normalAuctionItemList}">
 														<td th:text="${item.name}"></td>
 														<!-- 아래 코드 최종입찰가, 이 부분 db 들어오면 넣기! -->
-														<td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
+														<td th:text="${item.finalPrice != null ? #numbers.formatDecimal(item.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
 														<td th:text="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-														<td>빵빵이</td>
+														<td th:text="${item.buyerName}"></td>
 													</tr>
                                                 </thead>
                                                 <tbody>
