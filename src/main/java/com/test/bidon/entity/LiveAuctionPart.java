@@ -41,6 +41,10 @@ public class LiveAuctionPart {
     @JoinColumn(name = "userInfoId")
     private UserEntity userInfo;
 
+    @ManyToOne
+    @JoinColumn(name = "liveAuctionItemId")
+    private LiveAuctionItem liveAuctionItem;
+
     public LiveAuctionPartDTO toDTO() {
         return LiveAuctionPartDTO.builder()
                 .id(this.getId())
@@ -51,6 +55,9 @@ public class LiveAuctionPart {
                 .build();
     }
 
+    public void updateEndTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 }
 
 

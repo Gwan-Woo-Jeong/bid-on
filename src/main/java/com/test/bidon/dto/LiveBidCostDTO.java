@@ -3,6 +3,8 @@ package com.test.bidon.dto;
 import com.test.bidon.entity.LiveBidCost;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -15,6 +17,7 @@ public class LiveBidCostDTO {
     private Long liveAuctionPartId;
     private Long liveAuctionItemId;
     private Integer bidPrice;
+    private LocalDateTime bidTime;
 
     private LiveAuctionPartDTO liveAuctionPart;
     private LiveAuctionItemDTO liveAuctionItem;
@@ -25,6 +28,7 @@ public class LiveBidCostDTO {
                 .liveAuctionPartId(this.getLiveAuctionPartId())
                 .liveAuctionItemId(this.getLiveAuctionItemId())
                 .bidPrice(this.getBidPrice())
+                .bidTime(this.getBidTime())
                 .build();
     }
 

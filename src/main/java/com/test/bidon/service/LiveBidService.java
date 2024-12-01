@@ -9,15 +9,18 @@ import java.util.TimerTask;
 import com.test.bidon.domain.LiveBidInfo;
 import com.test.bidon.domain.Message;
 import com.test.bidon.domain.LiveBidRoomUser;
+import com.test.bidon.dto.LiveAuctionItemDTO;
 import com.test.bidon.dto.UserInfoDTO;
-import com.test.bidon.entity.LiveAuctionPartSummary;
-import com.test.bidon.repository.LiveAuctionPartRepository;
+import com.test.bidon.entity.LiveAuctionItem;
+import com.test.bidon.entity.LiveAuctionPart;
+import com.test.bidon.entity.LiveBidCost;
+import com.test.bidon.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.test.bidon.domain.LiveBidRoom;
-import com.test.bidon.repository.LiveBidRoomRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,9 @@ import static com.test.bidon.util.BidRoomUtil.*;
 public class LiveBidService {
     private final LiveBidRoomRepository liveBidRoomRepository;
     private final LiveAuctionPartRepository liveAuctionPartRepository;
+    private final LiveBidCostRepository liveBidCostRepository;
+    private final LiveAuctionItemRepository liveAuctionItemRepository;
+    private final UserRepository userRepository;
 
     public static final String WELCOME_MESSAGE = """
             실시간 경매에 오신 것을 환영합니다!
@@ -92,6 +98,7 @@ public class LiveBidService {
         return liveBidRoom;
     }
 
+    @Transactional
     public void handleAction(
             Long roomId,
             WebSocketSession session,
@@ -107,11 +114,13 @@ public class LiveBidService {
         }
 
         LiveBidRoomUser highestBidder = room.getHighestBidder();
+        LocalDateTime createTime = inMessage.getCreateTime();
 
         if (isEnter(inMessage)) {
             UserInfoDTO newUser = convert(inMessage.getPayload(), UserInfoDTO.class);
 
-            LiveAuctionPartSummary liveAuctionPart = createPart(newUser.getId(), roomId);
+            LiveAuctionPart liveAuctionPart = getLiveAuctionPart(roomId, newUser);
+
             Long userInfoId = liveAuctionPart.getUserInfoId();
 
             LiveBidRoomUser newBidRoomUser = LiveBidRoomUser.builder()
@@ -131,7 +140,7 @@ public class LiveBidService {
                     .roomId(roomId)
                     .type("ENTER")
                     .payload(newBidRoomUser)
-                    .createTime(inMessage.getCreateTime())
+                    .createTime(createTime)
                     .build();
 
             LocalDateTime now = LocalDateTime.now();
@@ -200,7 +209,7 @@ public class LiveBidService {
                     .type("TALK")
                     .text(inMessage.getText())
                     .payload(foundUser)
-                    .createTime(inMessage.getCreateTime())
+                    .createTime(createTime)
                     .build();
 
             room.sendMessageExclude(toTextMessage(outTalkMessage), session);
@@ -251,6 +260,8 @@ public class LiveBidService {
                 room.setHighestBidder(foundUser);
                 room.setHighestBidPrice(bidPrice);
 
+                saveBidCost(roomId, foundUser, bidPrice, createTime);
+
                 LiveBidInfo liveBidInfo = LiveBidInfo.builder()
                         .highestBidder(foundUser)
                         .highestBidPrice(bidPrice)
@@ -261,7 +272,7 @@ public class LiveBidService {
                         .type("BID-TALK")
                         .text(bidPrice + "원 입찰합니다.")
                         .payload(foundUser)
-                        .createTime(inMessage.getCreateTime())
+                        .createTime(createTime)
                         .build();
 
                 outBidMessageBuilder = outBidMessageBuilder
@@ -302,6 +313,22 @@ public class LiveBidService {
 
             }
         }
+    }
+
+    private void saveBidCost(Long roomId, LiveBidRoomUser foundUser, Integer bidPrice, LocalDateTime createTime) {
+        LiveAuctionItem liveAuctionItem = liveAuctionItemRepository.getReferenceById(roomId);
+        LiveAuctionPart liveAuctionPart = liveAuctionPartRepository.getReferenceById(foundUser.getPartId());
+
+        LiveBidCost liveBidCost =  LiveBidCost.builder()
+                .liveAuctionPartId(liveAuctionPart.getId())
+                .liveAuctionItemId(liveAuctionItem.getId())
+                .bidPrice(bidPrice)
+                .liveAuctionPart(liveAuctionPart)
+                .liveAuctionItem(liveAuctionItem)
+                .bidTime(createTime)
+                .build();
+
+        liveBidCostRepository.save(liveBidCost);
     }
 
     private static String getIntro(LiveBidRoom room) {
@@ -384,26 +411,31 @@ public class LiveBidService {
         room.sendMessageAll(toTextMessage(outPartsMessage));
     }
 
-    public LiveAuctionPartSummary createPart(Long userInfoId, Long liveAuctionItemId) {
-        LiveAuctionPartSummary liveAuctionPart = new LiveAuctionPartSummary();
+    private LiveAuctionPart getLiveAuctionPart(Long roomId, UserInfoDTO newUser) {
+        UserInfoDTO userDTO = userRepository.getReferenceById(newUser.getId()).toDTO();
+        LiveAuctionItemDTO itemDTO = liveAuctionItemRepository.getReferenceById(roomId).toDTO();
 
-        liveAuctionPart.updateUserInfoId(userInfoId);
-        liveAuctionPart.updateLiveAuctionItemId(liveAuctionItemId);
-        liveAuctionPart.updateCreateTime(LocalDateTime.now());
+        LiveAuctionPart liveAuctionPartEntity = LiveAuctionPart.builder()
+                .userInfoId(userDTO.getId())
+                .liveAuctionItemId(itemDTO.getId())
+                .liveAuctionItem(itemDTO.toEntity())
+                .userInfo(userDTO.toEntity())
+                .createTime(LocalDateTime.now())
+                .build();
 
-        return liveAuctionPartRepository.save(liveAuctionPart);
+        return liveAuctionPartRepository.save(liveAuctionPartEntity);
     }
 
     public void updatePartEndTime(Long userInfoId, Long liveAuctionItemId) {
-        Optional<LiveAuctionPartSummary> liveAuctionPart = liveAuctionPartRepository.findFirstByUserInfoIdAndLiveAuctionItemIdOrderByCreateTimeDesc(userInfoId, liveAuctionItemId);
+        Optional<LiveAuctionPart> liveAuctionPart = liveAuctionPartRepository.findFirstByUserInfoIdAndLiveAuctionItemIdOrderByCreateTimeDesc(userInfoId, liveAuctionItemId);
 
         if (liveAuctionPart.isEmpty()) {
             return;
         }
 
-        LiveAuctionPartSummary liveAuctionPartSummary = liveAuctionPart.get();
-        liveAuctionPartSummary.updateEndTime(LocalDateTime.now());
-        liveAuctionPartRepository.save(liveAuctionPartSummary);
+        LiveAuctionPart auctionPart = liveAuctionPart.get();
+        auctionPart.updateEndTime(LocalDateTime.now());
+        liveAuctionPartRepository.save(auctionPart);
     }
 
     private boolean isEnter(Message message) {
