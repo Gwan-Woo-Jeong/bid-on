@@ -312,13 +312,43 @@ public class LiveBidService {
 
                 if (remainingSeconds > 0) {
                     System.out.println("남은 시간: " + remainingSeconds + "초");
+
+                    if (remainingSeconds == 30) {
+                        Message outAlertMessage = Message.builder()
+                                .roomId(roomId)
+                                .type("ALERT")
+                                .text("입찰 가능 시간이 30초밖에 남지 않았습니다!\n서둘러 입찰해 주시기 바랍니다.")
+                                .createTime(LocalDateTime.now())
+                                .build();
+
+                        room.sendMessageAll(toTextMessage(outAlertMessage));
+                    } else if (remainingSeconds == 10) {
+                        Message outAlertMessage = Message.builder()
+                                .roomId(roomId)
+                                .type("ALERT")
+                                .text("입찰 가능 시간이 단 10초밖에 남지 않았습니다!\n 서둘러 입찰해 주시기 바랍니다.\n마지막 기회를 놓치지 마세요!")
+                                .createTime(LocalDateTime.now())
+                                .build();
+
+                        room.sendMessageAll(toTextMessage(outAlertMessage));
+                    }
                 } else {
                     System.out.println("타이머가 끝났습니다.");
+
                     Timer timer = room.getTimer();
                     if (timer != null) {
                         timer.cancel();
                         timer.purge();
                     }
+
+                    Message outAlertMessage = Message.builder()
+                            .roomId(roomId)
+                            .type("ALERT")
+                            .text("땅땅땅! 경매가 종료되었습니다.\n" + room.getHighestBidder().getName() + "님이 최종 입찰가\n" + room.getHighestBidPrice() + "원으로 낙찰되셨습니다.\n진심으로 축하드립니다!!")
+                            .createTime(LocalDateTime.now())
+                            .build();
+
+                    room.sendMessageAll(toTextMessage(outAlertMessage));
                 }
 
                 room.sendMessageAll(toTextMessage(outTimerMessage));
