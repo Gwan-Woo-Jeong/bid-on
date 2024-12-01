@@ -212,6 +212,21 @@ public class LiveBidService {
                     .roomId(roomId)
                     .createTime(LocalDateTime.now());
 
+            if (room.getIsTimerRunning() && room.getRemainingSeconds() <= 0) {
+                LiveBidInfo liveBidInfo = LiveBidInfo.builder()
+                        .highestBidder(highestBidder)
+                        .highestBidPrice(room.getHighestBidPrice())
+                        .build();
+
+                outBidMessageBuilder = outBidMessageBuilder
+                        .type("BID-FAIL")
+                        .text("경매가 종료되었습니다.")
+                        .payload(liveBidInfo);
+
+                room.sendMessageToSession(session, toTextMessage(outBidMessageBuilder.build()));
+                return;
+            }
+
             if (bidPrice <= highestBidPrice) {
                 // TODO: builder 로직 중복 제거
                 LiveBidInfo liveBidInfo = LiveBidInfo.builder()
