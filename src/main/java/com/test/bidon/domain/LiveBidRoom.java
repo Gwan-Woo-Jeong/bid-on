@@ -23,6 +23,7 @@ public class LiveBidRoom {
     private Integer remainingSeconds;
     private Boolean isTimerRunning = false;
     private static final int TOTAL_SECONDS = 60;
+    private final Object lock = new Object();
 
     @Setter
     private LiveBidRoomUser highestBidder = null;
@@ -51,10 +52,12 @@ public class LiveBidRoom {
     }
 
     public void sendMessageToSession(WebSocketSession session, TextMessage message) {
-        try {
-            session.sendMessage(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        synchronized (lock) {
+            try {
+                session.sendMessage(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
