@@ -211,6 +211,15 @@ body {
     border-right-width: 12px;
 }
 
+.chat-body .answer.left.bid .text {
+    background: #556dd7;
+    color: #ffffff;
+}
+
+.chat-body .answer.left.bid .text:before {
+    border-right-color: #556dd7;
+}
+
 .chat-body .answer .text:before {
     content: '';
     display: block;
@@ -259,6 +268,15 @@ body {
     right: -30px;
     border-left-color: #ffda22;
     border-left-width: 12px;
+}
+
+.chat-body .answer.right.bid .text {
+    background: #1d38b9;
+    color: #ffffff;
+}
+
+.chat-body .answer.right.bid .text:before {
+    border-left-color: #1d38b9;
 }
 
 .chat-body .answer.right .time {
@@ -345,7 +363,6 @@ body {
     top: 50%;
     margin-top: -18px;
 }
-
 
 
 .chat input {

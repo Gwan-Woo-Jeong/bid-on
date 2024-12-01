@@ -53,6 +53,8 @@ function connect(user) {
         } else if (type === "BID-FAIL") {
             alert(text);
             setMinBidPrice(payload.highestBidPrice);
+        } else if (type === "BID-TALK") {
+            printChat(payload.name, payload.profile, text, payload.userId === this.userId ? "right" : "left", createTime, true);
         }
     };
 
@@ -111,15 +113,15 @@ function printUserCount(count) {
     $('.user-count').text(count);
 }
 
-function printChat(name, profileImgName, text, side, time) {
+function printChat(name, profileImgName, text, side, time, isBid) {
     const temp = `
-                <div class="answer ${side}">
+                <div class="answer ${side} ${isBid ? 'bid' : ''}">
                     <div class="avatar">
                         <img src="/uploads/profiles/${profileImgName}" alt="User name">
                     </div>
                     <div class="name">${name}</div>
                     <div class="text">
-                        ${text}
+                        ${newlineToBreak(text)}
                     </div>
                     <div class="time">${showTime(time)}</div>
                 </div>
@@ -137,7 +139,7 @@ function printAlert(text) {
                         <img src="/user/images/sample/auctioneer-bot.jpg" alt="User name">
                     </div>
                     <div class="name">경매사 봇</div>
-                    <div class="text">${text}</div>
+                    <div class="text">${newlineToBreak(text)}</div>
                 </div>
                 `;
 
@@ -187,6 +189,10 @@ function formatTime(seconds) {
     const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
 
     return `${minutes}:${formattedSeconds}`;
+}
+
+function newlineToBreak(str) {
+    return str.replace(/\n/g, '<br>');
 }
 
 

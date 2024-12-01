@@ -31,6 +31,53 @@ public class LiveBidService {
     private final LiveBidRoomRepository liveBidRoomRepository;
     private final LiveAuctionPartRepository liveAuctionPartRepository;
 
+    public static final String WELCOME_MESSAGE = """
+            실시간 경매에 오신 것을 환영합니다!
+            입찰 버튼을 누르시면 본격적인 경매가 시작됩니다.
+            경매 진행 방식은 아주 간단합니다.
+            마지막 최고 금액을 입찰하신 분이 경매품을 획득할 수 있습니다.
+            그럼 준비가 되셨으면 입찰 버튼을 눌러 경매를 시작해주세요!""";
+
+    public static final String AUCTION_RUNNING_MESSAGE = """
+            경매가 진행중입니다.
+            입찰 가능 시간이 종료되기 전에 입찰하여 경매품을 획득해보세요!
+            """;
+
+    private static final String[] EXCLAMATIONS = {
+            "대단합니다!",
+            "최고입니다!",
+            "와우! 와우!",
+            "엄청나요!",
+            "대박입니다!",
+            "놀라워요!",
+            "경이롭습니다!",
+            "예술입니다!",
+            "정말 짱입니다!",
+            "환상적입니다!"
+    };
+
+    private static final String[] QUESTION_MESSAGES = {
+            "원보다 더 높은 입찰이 있을까요?",
+            "원보다 누가 더 높게 입찰할 수 있을까요?",
+            "원보다 더 높은 금액을 제시하는 분이 있을까요?",
+            "원입니다.\n이제 누가 더 높은 금액을 제시할까요?",
+            "원입니다.\n이제 누가 더 높은 금액으로 도전할까요?",
+            "원입니다.\n이제 누가 더 높은 금액을 제안할까요?",
+            "원입니다.\n이제 누가 더 높은 금액으로 이길까요?"
+    };
+
+    private static final String EOL = "\n";
+
+    private static String getRandomExclamation() {
+        int i = (int) (Math.random() * EXCLAMATIONS.length);
+        return EXCLAMATIONS[i];
+    }
+
+    private static String getRandomQuestion() {
+        int i = (int) (Math.random() * QUESTION_MESSAGES.length);
+        return QUESTION_MESSAGES[i];
+    }
+
     public List<LiveBidRoom> findAll() {
         return liveBidRoomRepository.findAll();
     }
@@ -60,7 +107,6 @@ public class LiveBidService {
         }
 
         LiveBidRoomUser highestBidder = room.getHighestBidder();
-
 
         if (isEnter(inMessage)) {
             UserInfoDTO newUser = convert(inMessage.getPayload(), UserInfoDTO.class);
@@ -114,6 +160,14 @@ public class LiveBidService {
             room.sendMessageExclude(toTextMessage(outEnterMessage), session);
             room.sendMessageToSession(session, toTextMessage(outBidMessage));
 
+            Message introMessage = Message.builder()
+                    .roomId(roomId)
+                    .type("ALERT")
+                    .text(getIntro(room))
+                    .createTime(now)
+                    .build();
+
+            room.sendMessageToSession(session, toTextMessage(introMessage));
         } else if (isLeave(inMessage)) {
 
             Long senderId = inMessage.getSenderId();
@@ -187,11 +241,20 @@ public class LiveBidService {
                         .highestBidPrice(bidPrice)
                         .build();
 
+                Message outBidTalkMessage = Message.builder()
+                        .roomId(roomId)
+                        .type("BID-TALK")
+                        .text(bidPrice + "원 입찰합니다.")
+                        .payload(foundUser)
+                        .createTime(inMessage.getCreateTime())
+                        .build();
+
                 outBidMessageBuilder = outBidMessageBuilder
                         .roomId(roomId)
                         .type("BID-OK")
                         .payload(liveBidInfo);
 
+                room.sendMessageAll(toTextMessage(outBidTalkMessage));
                 sendPartsMessage(roomId, room);
                 room.sendMessageAll(toTextMessage(outBidMessageBuilder.build()));
 
@@ -199,12 +262,38 @@ public class LiveBidService {
 
                 if (room.getIsTimerRunning()) {
                     room.resetTimer(task);
+
+                    Message outAlertMessage = Message.builder()
+                            .roomId(roomId)
+                            .type("ALERT")
+                            .text(getRandomExclamation() + EOL + bidPrice + getRandomQuestion())
+                            .createTime(LocalDateTime.now())
+                            .build();
+
+                    room.sendMessageAll(toTextMessage(outAlertMessage));
                 } else {
                     room.setIsTimerRunning(true);
                     room.startTimer(task);
+
+                    Message outAlertMessage = Message.builder()
+                            .roomId(roomId)
+                            .type("ALERT")
+                            .text("경매 시작합니다!" + EOL + foundUser.getName() + "님이 입찰하셨습니다.")
+                            .createTime(LocalDateTime.now())
+                            .build();
+
+                    room.sendMessageAll(toTextMessage(outAlertMessage));
                 }
 
             }
+        }
+    }
+
+    private static String getIntro(LiveBidRoom room) {
+        if (!room.getIsTimerRunning()) {
+            return WELCOME_MESSAGE;
+        } else {
+            return AUCTION_RUNNING_MESSAGE;
         }
     }
 
