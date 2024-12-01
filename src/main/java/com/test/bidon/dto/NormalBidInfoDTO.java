@@ -1,6 +1,7 @@
 package com.test.bidon.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.querydsl.core.annotations.QueryProjection;
 
@@ -25,15 +26,30 @@ public class NormalBidInfoDTO {
 
     private String auctionItemName;
     private String auctionItemDescription;
-    private String bidderName;
+    private List<String> bidderNames;
     private String bidderEmail;
     private String national;
     private Long normalAuctionItem;
+    
+    private List<String> imagePaths;
+    private Integer startPrice;
+    private String bidderName;
+    
+    private String sellerName;
+    private String sellerEmail;
+    private String sellerNational;
+    private String sellerTel;
 
     @QueryProjection
-    public NormalBidInfoDTO(Long id, Long auctionItemId, Long userInfoId, Integer bidPrice, LocalDateTime bidDate,
-                            String auctionItemName, String auctionItemDescription, String bidderName,
-                            String bidderEmail, String national, Long normalAuctionItem) {
+    public NormalBidInfoDTO(Long id, Long auctionItemId, Long userInfoId, 
+    						Integer bidPrice, LocalDateTime bidDate,
+                            String auctionItemName, String auctionItemDescription, 
+                            List<String> bidderNames, String bidderEmail, 
+                            String national, Long normalAuctionItem, 
+                            List<String> imagePaths, Integer startPrice,
+                            String bidderName, String sellerName,
+                            String sellerEmail, String sellerNational,
+                            String sellerTel) {
         this.id = id;
         this.auctionItemId = auctionItemId;
         this.userInfoId = userInfoId;
@@ -41,9 +57,18 @@ public class NormalBidInfoDTO {
         this.bidDate = bidDate;
         this.auctionItemName = auctionItemName;
         this.auctionItemDescription = auctionItemDescription;
-        this.bidderName = bidderName;
+        this.bidderNames = bidderNames;
         this.bidderEmail = bidderEmail;
         this.national = national;
         this.normalAuctionItem = normalAuctionItem;
+        this.imagePaths = imagePaths;
+        this.startPrice = startPrice;
+        this.bidderName = bidderName;
+        this.sellerName = sellerName;
+        this.sellerEmail = sellerEmail;
+        this.sellerNational = sellerNational;
+        this.sellerTel = sellerTel; 
+        
+        
     }
 }

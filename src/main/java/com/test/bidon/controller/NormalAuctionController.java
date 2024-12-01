@@ -1,18 +1,23 @@
 package com.test.bidon.controller;
 
-import com.querydsl.core.Tuple;
-import com.test.bidon.dto.NormalAuctionItemDTO;
-import com.test.bidon.entity.NormalAuctionItem;
-import com.test.bidon.repository.CustomNormalAuctionItemRepository;
-import com.test.bidon.repository.NormalAuctionItemRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.querydsl.core.Tuple;
+import com.test.bidon.dto.NormalAuctionItemWithImgDTO;
+import com.test.bidon.dto.NormalBidInfoDTO;
+import com.test.bidon.repository.CustomNormalAuctionItemRepository;
+import com.test.bidon.repository.NormalAuctionItemDetailRepository;
+import com.test.bidon.repository.NormalAuctionItemRepository;
+import com.test.bidon.repository.NormalAuctionItemWithImg;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +25,8 @@ public class NormalAuctionController {
 
     private final NormalAuctionItemRepository normalAuctionItemRepository;
     private final CustomNormalAuctionItemRepository customNormalAuctionItemRepository;
+    private final NormalAuctionItemDetailRepository normalAuctionItemDetailRepository;
+    private final NormalAuctionItemWithImg normalAuctionItemWithImg;
 
 
     // Oracle DB의 일반경매 물품 데이터를 가져와서 browse-bid 페이지에 출력하는 method
@@ -56,4 +63,37 @@ public class NormalAuctionController {
 
         return "user/browse-bid";
     }
+    
+    
+    
+	
+//	@GetMapping("/bid-detail")
+//	public String bidDetail(Model model) {
+//		List<NormalBidInfoDTO> bidinfoList = normalAuctionItemDetailRepository.ItemDetail();
+//		
+//		model.addAttribute("bidinfoList", bidinfoList);
+//		
+//		return "user/bid-detail";
+//	}
+    @GetMapping("/bid-detail/{id}")
+    public String bidDetail(@PathVariable("id") Long id, Model model) {
+    	
+    	System.out.println("Searching for bid info with id: " + id);
+
+        NormalBidInfoDTO bidinfo = normalAuctionItemDetailRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid bid ID"));  // Optional에서 orElseThrow 사용
+        
+        List<NormalAuctionItemWithImgDTO> itemImgs = normalAuctionItemWithImg.findItemImg();
+        
+        List<String> filteredImages = itemImgs.stream()
+        										.filter(item -> item.getId().equals(id))
+        										.flatMap(item -> item.getImagePath().stream())
+        										.collect(Collectors.toList());
+        
+        model.addAttribute("bidinfo", bidinfo);
+        model.addAttribute("itemImgs", filteredImages);	//이미지..
+
+        return "user/bid-detail";
+    }
+
 }
