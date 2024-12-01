@@ -174,7 +174,7 @@
                         <!-- </div> -->
                         <div class="card-content">
                             <h4 th:text="${big.name}"></h4>
-                            <p>Current bid <span th:text="${big.startPrice}"></span></p>
+                            <p>시작 경매가: <span th:text="&#x20A9;+${big.startPrice}"></span></p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <a th:href="@{'/live-auction/detail?itemId=' + ${big.id}}" class="primary-btn">자세히</a>
                             </div>
@@ -214,7 +214,7 @@
                                     
                                     <div class="card-content">
                                         <h4 th:text="${HomeLiveItem.name}"></h4>
-                                        <p>Current bid <span th:text="${HomeLiveItem.startPrice}"></span></p>
+                                        <p>시작 경매가:  <span th:text="&#x20A9;+${HomeLiveItem.startPrice}"></span></p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <a th:href="@{'/live-auction/detail?itemId=' + ${HomeLiveItem.id}}"class="primary-btn">자세히</a>
                                         </div>

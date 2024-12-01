@@ -34,6 +34,8 @@ public class LiveAuction {
                 .liveAuctionItem(this.getLiveAuctionItem().toDTO())
                 .build();
     }
+    
+    
 
 }
 
