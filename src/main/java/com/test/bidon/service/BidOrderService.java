@@ -335,4 +335,38 @@ public class BidOrderService {
 
         return String.format("%d일 %02d:%02d:%02d", days, hours, minutes, seconds);
     }
+    
+ // 사용자의 경매 활동 수 조회 (입찰한 일반 경매 + 실시간 경매 수)
+    public int countBiddingActivities(Long userId) {
+        // 일반 경매 입찰 수
+        int normalBidCount = normalBidInfoRepository.countByUserInfoId(userId);
+        
+        // 실시간 경매 입찰 수
+        int liveBidCount = liveBidCostRepository.countByLiveAuctionPartUserInfoId(userId);
+        
+        return normalBidCount + liveBidCount;
+    }
+
+    // 사용자의 낙찰 횟수 조회 (일반 + 실시간 경매)
+    public int countWonAuctions(Long userId) {
+        // 일반 경매 낙찰 수
+        int normalWonCount = winningBidRepository.countByUserInfoIdAndNormalBidIdIsNotNull(userId);
+        
+        // 실시간 경매 낙찰 수
+        int liveWonCount = winningBidRepository.countByUserInfoIdAndLiveBidIdIsNotNull(userId);
+        
+        return normalWonCount + liveWonCount;
+    }
+
+    // 사용자의 판매 활동 수 조회 (판매 등록한 일반 + 실시간 경매 수)
+    public int countSellingActivities(Long userId) {
+        // 일반 경매 판매 수
+        int normalSellCount = normalAuctionItemRepository.countByUserInfoId(userId);
+        
+        // 실시간 경매 판매 수
+        int liveSellCount = liveAuctionItemRepository.countByUserInfoId(userId);
+        
+        return normalSellCount + liveSellCount;
+    }
+    
 }

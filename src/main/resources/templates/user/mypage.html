@@ -83,7 +83,7 @@
                                         <div class="d-flex gap-4">
                                             <i class="fa-solid fa-gavel text-orange"></i>
                                             <div>
-                                                <h3 class="fw-bold">80</h3>
+                                                <h3 class="fw-bold" th:text="${biddingCount}">0</h3>
                                                 <p>경매 활동</p>
                                             </div>
                                         </div>
@@ -94,7 +94,7 @@
                                         <div class="d-flex gap-4">
                                             <i class="fa-solid fa-trophy text-orange"></i>
                                             <div>
-                                                <h3 class="fw-bold">15</h3>
+                                                <h3 class="fw-bold" th:text="${wonCount}">0</h3>
                                                 <p>낙찰 횟수</p>
                                             </div>
                                         </div>
@@ -105,7 +105,7 @@
                                         <div class="d-flex gap-4">
                                             <i class="fa-solid fa-star text-orange"></i>
                                             <div>
-                                                <h3 class="fw-bold">124</h3>
+                                                <h3 class="fw-bold" th:text="${sellingCount}">0</h3>
                                                 <p>판매 활동</p>
                                             </div>
                                         </div>
@@ -211,13 +211,9 @@
 												            <td th:text="${item.name}"></td>
 												            <td th:text="${#numbers.formatDecimal(item.startPrice, 0, 'COMMA', 0, 'POINT')} + '₩'"></td>
 												            <td th:text="${item.finalPrice != null ? #numbers.formatDecimal(item.finalPrice, 0, 'COMMA', 0, 'POINT') + '₩' : '-'}"></td>
-												            <td>
-												            <span th:text="${item.sellStatus}" 
-												            	th:class="${item.sellStatus == '판매중' ? 'badge bg-primary' : 'badge bg-success'}">
-												           	</span>
-												            </td>
-												            <td th:text="${#temporals.format(item.soldDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-												            <td th:text="${item.sellStatus == '판매완료' ? item.buyerName : '-'}"></td>
+															<td th:text="${item.sellStatus}"></td>
+															<td th:text="${#temporals.format(item.soldDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+															<td th:text="${item.sellStatus == '종료' ? item.buyerName : '-'}"></td>
 														</tr>
 													</tbody>
                                             </table>

@@ -12,4 +12,6 @@ public interface NormalBidInfoRepository extends JpaRepository<NormalBidInfo, Lo
     
     // 사용자 ID로 입찰 정보 찾기(사용자가 입찰한 일반 경매 목록 조회)
     List<NormalBidInfo> findByUserInfoId(Long userInfoId);
+
+	int countByUserInfoId(Long userInfoId);
 }

@@ -10,4 +10,6 @@ public interface LiveAuctionItemRepository extends JpaRepository<LiveAuctionItem
 
 	List<LiveAuctionItem> findByUserInfoId(Long userId);	//-HM-
 
+	int countByUserInfoId(Long userId);	//-HM-
+
 }

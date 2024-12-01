@@ -28,7 +28,11 @@ public interface WinningBidRepository extends JpaRepository<WinningBid, Long> {
     List<WinningBid> findByNormalBidIdIsNotNull();
     
     // 실시간 경매 낙찰 목록
-    List<WinningBid> findByLiveBidIdIsNotNull();   
+    List<WinningBid> findByLiveBidIdIsNotNull();
+
+	int countByUserInfoIdAndNormalBidIdIsNotNull(Long userInfoId);
+
+	int countByUserInfoIdAndLiveBidIdIsNotNull(Long userInfoId);   
 	
     
     

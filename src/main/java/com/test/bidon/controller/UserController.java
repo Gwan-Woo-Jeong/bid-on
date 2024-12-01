@@ -173,6 +173,9 @@ public class UserController {
             model.addAttribute("createDate", user.getCreateDate());
             model.addAttribute("profile", user.getProfile());
             model.addAttribute("provider", user.getProvider());
+            model.addAttribute("biddingCount", bidOrderService.countBiddingActivities(user.getId()));
+            model.addAttribute("wonCount", bidOrderService.countWonAuctions(user.getId()));
+            model.addAttribute("sellingCount", bidOrderService.countSellingActivities(user.getId()));
             
             //관리자 문의
             //OneOnOne 데이터 가져오기
@@ -239,12 +242,7 @@ public class UserController {
             model.addAttribute("soldAuctions", bidOrderService.getSoldAuctionsByUserId(user.getId()));
         
             
-            // 낙찰된 실시간 경매 정보는 별도로 유지
-            //model.addAttribute("wonLiveAuctions", bidOrderService.getWonLiveAuctions(user.getId()));
             
-            // 판매된 경매 물품 정보 추가
-            //List<CombinedAuctionDTO> soldAuctions = bidOrderService.getSoldAuctionsByUserId(user.getId());
-            //model.addAttribute("soldAuctions", soldAuctions);
         }
         
 		
