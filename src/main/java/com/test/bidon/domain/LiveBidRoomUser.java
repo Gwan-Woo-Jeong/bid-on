@@ -1,4 +1,4 @@
-package com.test.bidon.dto;
+package com.test.bidon.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LiveBidRoomUserDTO {
+public class LiveBidRoomUser {
 
     private Long partId;
     private Long userId;
@@ -20,9 +20,8 @@ public class LiveBidRoomUserDTO {
     private String profile;
     private String national;
     private String tel;
-    private Integer bidPrice;
 
-    public LiveBidRoomUserDTO(Long userId) {
+    public LiveBidRoomUser(Long userId) {
         this.userId = userId;
     }
 
@@ -30,7 +29,7 @@ public class LiveBidRoomUserDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LiveBidRoomUserDTO user = (LiveBidRoomUserDTO) o;
+        LiveBidRoomUser user = (LiveBidRoomUser) o;
         return Objects.equals(userId, user.userId);
     }
 

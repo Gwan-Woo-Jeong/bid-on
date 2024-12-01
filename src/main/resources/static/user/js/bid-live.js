@@ -4,10 +4,14 @@ let ws;
 
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get('itemId');
+const bidButton = $('.bid-button');
 
-if (itemId === null) {
-    alert('ERROR: 잘못된 접근입니다. (물품번호가 존재하지 않음)');
-    window.close();
+// TODO: 로그인 체크
+// TODO: 경매 시간 체크
+if (!itemId) {
+    alertErrorAndClose("잘못된 접근입니다.");
+} else if (!itemInfo) {
+    alertErrorAndClose("경매 물품이 존재하지 않습니다.");
 }
 
 function connect(user) {
@@ -18,38 +22,35 @@ function connect(user) {
 
     ws.onopen = evt => {
         log('서버와 연결되었습니다.');
-
-        const message = {
-            roomId: itemId,
-            type: 'ENTER',
-            senderId: this.userId,
-            text: '',
-            payload: user,
-            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-        }
-
-        ws.send(JSON.stringify(message));
+        sendMessage({type: 'ENTER', payload: user});
     };
 
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
 
-        const message = JSON.parse(evt.data);
+        console.log(JSON.parse(evt.data));
+        const {type, text, payload, createTime} = JSON.parse(evt.data);
 
-        console.log(message);
-
-        if (message.type === 'TALK') {
-            const talkUser = message.payload;
-            printChat(talkUser.name, talkUser.profile, message.text, 'left', message.createTime);
-        } else if (message.type === 'PARTS') {
-            const users = message.payload;
+        if (type === 'TALK') {
+            printChat(payload.name, payload.profile, text, 'left', createTime);
+        } else if (type === 'PARTS') {
             clearUsers();
-            users.forEach(user => {
+            payload.forEach(user => {
                 printUsers(user.profile, user.name, user.email);
             });
-            printUserCount(users.length)
-        } else if (message.type === 'ALERT') {
-            printAlert(message.text);
+            printUserCount(payload.length)
+        } else if (type === 'ALERT') {
+            printAlert(text);
+        } else if (type === "BID-START") {
+            const minBidPrice = setMinBidPrice(payload.highestBidPrice || itemInfo.startPrice);
+            if (minBidPrice) {
+                bidButton.removeAttr('disabled');
+            }
+        } else if (type === "BID-OK") {
+            setMinBidPrice(payload.highestBidPrice);
+        } else if (type === "BID-FAIL") {
+            alert(text);
+            setMinBidPrice(payload.highestBidPrice);
         }
     };
 
@@ -63,20 +64,23 @@ function connect(user) {
     };
 }
 
-function disconnect() {
+function sendMessage({type, text, payload, bidPrice}) {
     const message = {
         roomId: itemId,
-        type: 'LEAVE',
+        type,
         senderId: this.userId,
-        text: '',
-        payload: null,
+        text: text || '',
+        payload: payload || null,
+        bidPrice: bidPrice || null,
         createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     ws.send(JSON.stringify(message));
+}
 
+function disconnect() {
+    sendMessage({type: 'LEAVE'});
     log('서버와 연결이 종료되었습니다.');
-
     ws.close();
 }
 
@@ -163,6 +167,23 @@ function showTime(date) {
     }
 }
 
+function setMinBidPrice(highestBidPrice) {
+    const minBidPriceUnit = getMinBidUnit(highestBidPrice);
+    itemInfo.minBidPrice = highestBidPrice + minBidPriceUnit;
+    bidButton.text(itemInfo.minBidPrice + "원 입찰");
+    return itemInfo.minBidPrice;
+}
+
+function alertErrorAndClose(message) {
+    alert('ERROR:' + message);
+    window.close();
+}
+
+bidButton.click(e => {
+    e.preventDefault();
+    sendMessage({type: 'BID', bidPrice: itemInfo.minBidPrice});
+});
+
 $('.quit-button').click(e => {
     e.preventDefault();
     if (confirm('정말로 나가시겠습니까?')) {
@@ -172,21 +193,12 @@ $('.quit-button').click(e => {
 
 $('#message-input').keydown(evt => {
     if (evt.keyCode === 13) {
-        const message = {
-            roomId: itemId,
-            type: 'TALK',
-            senderId: this.userId,
-            text: $(evt.target).val(),
-            payload: null,
-            createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-        }
-
-        ws.send(JSON.stringify(message));
-
-        $(evt.target).val('');
-
-        printChat(myInfo.name, myInfo.profile, message.text, 'right', message.createTime);
+        const input = $(evt.target);
+        sendMessage({type: 'TALK', text: input.val()});
+        printChat(myInfo.name, myInfo.profile, input.val(), 'right', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+        input.val('')
     }
 });
+
 
 
