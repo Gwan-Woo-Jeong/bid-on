@@ -17,7 +17,7 @@ public class NormalBidInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "normalBidInfo_seq_generator")
-    @SequenceGenerator(name = "normalBidInfo_seq_generator", sequenceName = "id", allocationSize = 1)
+    @SequenceGenerator(name = "normalBidInfo_seq_generator", sequenceName = "seqNormalBidInfo", allocationSize = 1)
     private Long id;
 
     @Column(insertable = false, updatable = false)

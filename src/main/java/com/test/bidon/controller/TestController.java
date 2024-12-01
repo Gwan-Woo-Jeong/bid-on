@@ -27,7 +27,7 @@ public class TestController {
 	@GetMapping("/home")
 	public String index(Model model) {
 		
-		List<LiveAuctionItemListDTO> HomeLiveItemList = liveAuctionItemRepository.LiveAuctionList(0, 6, null, null);
+		List<LiveAuctionItemListDTO> HomeLiveItemList = liveAuctionItemRepository.LiveAuctionList(0, 6, null, null, null);
 		
 		HomeLiveItemList.sort((a,b) -> b.getId().compareTo(a.getId()));
 		

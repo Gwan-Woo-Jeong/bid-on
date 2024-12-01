@@ -6,7 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,10 +31,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.bidon.config.security.CustomUserDetails;
+import com.test.bidon.dto.CombinedAuctionDTO;
 import com.test.bidon.dto.CustomOAuth2User;
-import com.test.bidon.dto.NormalAuctionItemDTO;
 import com.test.bidon.dto.UserInfoDTO;
-import com.test.bidon.entity.NormalAuctionItem;
 import com.test.bidon.entity.OneOnOne;
 import com.test.bidon.entity.OneOnOneAnswer;
 import com.test.bidon.entity.UserEntity;
@@ -39,6 +41,7 @@ import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.OneOnOneAnswerRepository;
 import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.UserRepository;
+import com.test.bidon.service.BidOrderService;
 import com.test.bidon.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,12 +55,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
     private final UserService userService;
-    //private final String uploadPath = "C:/temp/uploads"; // 실제 파일이 저장될 경로 > 이거 에러 안나면 지우자~
-
     private final UserRepository userRepository;
     private final OneOnOneRepository oneOnOneRepository;
     private final OneOnOneAnswerRepository oneOnOneAnswerRepository;
-    private final NormalAuctionItemRepository normalAuctionItemRepository; 
+    private final NormalAuctionItemRepository normalAuctionItemRepository;
+    private final BidOrderService bidOrderService;
     
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -171,6 +173,9 @@ public class UserController {
             model.addAttribute("createDate", user.getCreateDate());
             model.addAttribute("profile", user.getProfile());
             model.addAttribute("provider", user.getProvider());
+            model.addAttribute("biddingCount", bidOrderService.countBiddingActivities(user.getId()));
+            model.addAttribute("wonCount", bidOrderService.countWonAuctions(user.getId()));
+            model.addAttribute("sellingCount", bidOrderService.countSellingActivities(user.getId()));
             
             //관리자 문의
             //OneOnOne 데이터 가져오기
@@ -185,40 +190,75 @@ public class UserController {
             }
             
             model.addAttribute("oneOnOneList", oneOnOneList);
-
-            //나의 활동
-            /*
-            List<NormalAuctionItem> normalAuctionItemList = normalAuctionItemRepository.findByUserEntity(user);
-            model.addAttribute("normalAuctionItemList", normalAuctionItemList);
-        	*/
             
-            List<NormalAuctionItem> items = normalAuctionItemRepository.findByUserInfoId(user.getId());
-            List<NormalAuctionItemDTO> normalAuctionItemList = items.stream()
-                .map(item -> NormalAuctionItemDTO.builder()
-                    .id(item.getId())
-                    .categorySubId(item.getCategorySubId())
-                    .userInfoId(item.getUserInfoId())
-                    .name(item.getName())
-                    .description(item.getDescription())
-                    .startTime(item.getStartTime())
-                    .endTime(item.getEndTime())
-                    .startPrice(item.getStartPrice())
-                    .status(item.getStatus())
-                    .build())
+            //나의 활동 > 일반 경매와 실시간 경매 통합 처리
+            List<CombinedAuctionDTO> normalAuctions = normalAuctionItemRepository.findByUserInfoId(user.getId())
+                .stream()
+                .map(item -> {
+                    Duration duration = Duration.between(item.getStartTime(), item.getEndTime());
+                    long secondsRemaining = duration.getSeconds();
+                    String remainingTime = formatRemainingTime(secondsRemaining);
+
+                    return CombinedAuctionDTO.builder()
+                        .auctionType("일반")
+                        .id(item.getId())
+                        .name(item.getName())
+                        .currentPrice(bidOrderService.getFinalPriceByNormalBidId(item.getId()))
+                        .startPrice(item.getStartPrice())
+                        .remainingTime(remainingTime)
+                        .build();
+                })
                 .collect(Collectors.toList());
 
-            model.addAttribute("normalAuctionItemList", normalAuctionItemList);
-            
-            
-            log.info("User info found - Name: {}, Email: {}, Provider: {}", user.getName(), user.getEmail(), user.getProvider());
-            log.info("OneOnOne count: {}", oneOnOneList.size());
-        } else {
-            log.warn("User information not found");
-        }
+            List<CombinedAuctionDTO> liveAuctions = bidOrderService.getLiveBidsByUserId(user.getId())
+            	    .stream()
+            	    .map(item -> {
+            	        Duration duration = Duration.between(LocalDateTime.now(), item.getEndTime());
+            	        String remainingTime = formatRemainingTime(duration.getSeconds());
 
+            	        return CombinedAuctionDTO.builder()
+            	            .auctionType("실시간")
+            	            .id(item.getId())
+            	            .name(item.getName())
+            	            .currentPrice(item.getFinalPrice())
+            	            .startPrice(item.getStartPrice())
+            	            .remainingTime(remainingTime)
+            	            .build();
+            	    })
+            	    .collect(Collectors.toList());
+
+            // 두 리스트 병합
+            List<CombinedAuctionDTO> combinedAuctions = new ArrayList<>();
+            combinedAuctions.addAll(normalAuctions);
+            combinedAuctions.addAll(liveAuctions);
+            
+            // 입찰한 경매 목록
+            model.addAttribute("combinedAuctions", bidOrderService.getBiddingAuctions(user.getId()));
+            
+            // 낙찰받은 경매 목록
+            model.addAttribute("wonAuctions", bidOrderService.getWonAuctions(user.getId()));
+            
+            // 판매된 경매 목록
+            model.addAttribute("soldAuctions", bidOrderService.getSoldAuctionsByUserId(user.getId()));
+        
+            
+            
+        }
+        
+		
+            
         return "user/mypage";
     }
     
+    //남은 시간 포맷팅 메서드 > 따로 빼서 관리
+    private String formatRemainingTime(long secondsRemaining) {
+        long days = secondsRemaining / (24 * 3600);
+        long hours = (secondsRemaining % (24 * 3600)) / 3600;
+        long minutes = (secondsRemaining % 3600) / 60;
+        long seconds = secondsRemaining % 60;
+        
+        return String.format("%d일 %02d:%02d:%02d", days, hours, minutes, seconds);
+    }
     
     @PostMapping("/api/user/update")
     @PreAuthorize("isAuthenticated()")

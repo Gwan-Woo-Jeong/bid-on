@@ -1,4 +1,7 @@
 <th:block th:fragment="scripts">
+    <th:block th:if="${util} or ${all}">
+        <script src="/user/js/common/util.js"></script>
+    </th:block>
 
     <th:block th:if="${jquery} or ${all}">
         <script src="/user/js/common/jquery.min.js"></script>

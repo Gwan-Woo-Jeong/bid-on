@@ -77,8 +77,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
                           </div>
                           <div class="d-none d-md-block">
-                            <p class="statistics-title">총 수익률</p>
-                            <h3 class="rate-percentage" th:text="${#numbers.formatInteger(totalBidPrice, 1, 'COMMA')}"></h3>
+                            <p class="statistics-title">총 수수료 수익률</p>
+                            <h3 class="rate-percentage" th:text="${#numbers.formatInteger(totalBidPrice*0.1, 1, 'COMMA')}"></h3>
                             <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.8%</span></p>
                           </div>
                         </div>
@@ -315,7 +315,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                                     <h4 class="card-title card-title-dash">경매 물품 분석</h4>
                                     <p class="card-subtitle card-subtitle-dash">각 유형별 총 등록된 물품 수, 진행중인 경매 물품 수, 종료된 경매 물품 수를 그래프로 보여줍니다.</p>
                                   </div>
-                                    <div id="auction-item-legend"></div>
+                                    <div id="auction-item-legend" style="flex-grow: 1;"></div>
                                 </div>
                                 <div class="chartjs-wrapper mt-5">
                                   <canvas id="auction-item-analysis-chart" width="850" height="150"></canvas>
@@ -347,7 +347,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 									</div>
 									</div>
                                 <div class="d-sm-flex align-items-center mt-1 justify-content-between">
-                                  <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold">$36,2531.00</h2><h4 class="me-2">USD</h4><h4 class="text-success">(+1.37%)</h4></div>
+                                  <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold"th:text="${#numbers.formatInteger(totalBidPrice*0.1, 1, 'COMMA')}"></h2><h4 class="me-2">KRW</h4><h4 class="text-success">(+1.37%)</h4></div>
                                   <div class="me-3"> <div id="revenue-legend" class="mt-5 text-center"></div></div>
                                 </div>
                                 <div class="chartjs-bar-wrapper mt-3">
@@ -379,16 +379,26 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   </div>
   <!-- container-scroller -->
 
-	<th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
 
     <script th:inline="javascript">
       /*<![CDATA[*/
       var monthlyNewUserCounts = /*[[${monthlyNewUserCounts}]]*/ [];
       var monthlyExistingUserCounts = /*[[${monthlyExistingUserCounts}]]*/ [];
       var monthlyUserCountList = /*[[${monthlyUserCountList}]]*/ [];
-      /*]]>*/
-    </script>
+	  
+	  var registeredCount = /*[[${registeredCount}]]*/ [];
+	  var ongoingCount = /*[[${ongoingCount}]]*/ [];
+	  var endCount = /*[[${endCount}]]*/ [];
+	  
+	  var totalRevenue = /*[[${totalRevenue}]]*/ [];
+	  var cumulativeTotalRevenue = /*[[${cumulativeTotalRevenue}]]*/ [];
+	  
+	  var monthlyAverageStartPrice = /*[[${monthlyAverageStartPrice}]]*/ [];
+	  var monthlyAverageBidPrice = /*[[${monthlyAverageBidPrice}]]*/ [];
+	  /*]]>*/
+	</script>
 	
+	<th:block th:insert="~{admin/inc/scripts.html :: scripts}"></th:block>
 </body>
 
 </html>

@@ -26,6 +26,8 @@ public class LiveAuctionItemDTO {
 
 
     private UserInfoDTO userInfo;
+    
+    private Integer finalPrice;	// -HM-
 
     public LiveAuctionItem toEntity() {
         return LiveAuctionItem.builder()

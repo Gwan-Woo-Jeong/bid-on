@@ -44,11 +44,14 @@
                             </div>
                             <div class="col-sm-6 col-xl-12">
                                 <div class="auction-wrapper p-3">
-                                    <select name="shorting" class="form-control bg-transparent border-0">
-                                        <option value="">시작 임박 경매 상품</option>
-                                        <option value="">가격 낮은 순</option>
-                                        <option value="">가격 높은 순</option>
+									<form id="sortForm" action="/live-auction/list" method="get">
+                                    <select name="shorting" class="form-control bg-transparent border-0" onchange="document.getElementById('sortForm').submit()">
+                                        <option value="newArrivals" th:selected="${sorting == 'newArrivals'}">시작 임박 경매 상품</option>
+                                        <option value="startPriceAsc" th:selected="${sorting == 'startPriceAsc'}">가격 낮은 순</option>
+                                        <option value="startPriceDesc" th:selected="${sorting == 'startPriceDesc'}">가격 높은 순</option>
                                     </select>
+									
+									</form>
                                 </div>
                             </div>
                            
@@ -94,8 +97,8 @@
                                     <div class="card-content">
                                         <a th:href="@{'/live-auction/detail?itemId=' + ${LiveItem.id}}"class="card-title" th:text="${LiveItem.name}"></a>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span class="price" 
-                                    th:attr="data-price=${LiveItem.startPrice}"><span th:text="${LiveItem.startPrice}"></span></span></p>
+                                            <p class="p-0">시작 경매가: <span class="price" 
+                                    th:attr="data-price=${LiveItem.startPrice}"><span th:text="&#x20A9;+${LiveItem.startPrice}"></span></span></p>
                                         </div>
                                     </div>
                                 </div>
