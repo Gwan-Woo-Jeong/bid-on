@@ -1,11 +1,6 @@
 package com.test.bidon.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +17,11 @@ import lombok.Setter;
 public class WinningBid {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "winningBid_seq_generator")
+    @SequenceGenerator(name = "winningBid_seq_generator", sequenceName = "seqWinningBid", allocationSize = 1)
     private Long id;
 
-    @Column(name = "userInfoId")
+    @Column(name = "userInfoId", nullable = false)
     private Long userInfoId;
 
     @Column(name = "liveBidId")

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.test.bidon.dto.LiveBidCostDTO;
 import lombok.Setter;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,23 +14,22 @@ import org.springframework.web.socket.WebSocketSession;
 import lombok.Builder;
 import lombok.Getter;
 
-@Setter
 @Getter
+@Setter
 public class LiveBidRoom {
     private final Long roomId;
     private final Set<WebSocketSession> sessions = new HashSet<>();
     private final Set<LiveBidRoomUser> roomUsers = new HashSet<>();
+    private LiveBidRoomUser highestBidder = null;
+    private LiveBidCostDTO highestBidCost = null;
+    private Integer highestBidPrice = 0;
     private Timer timer = new Timer();
     private Integer remainingSeconds;
     private Boolean isTimerRunning = false;
-    private static final int TOTAL_SECONDS = 60;
+    private static final int TOTAL_SECONDS = 5;
     private final Object lock = new Object();
 
-    @Setter
-    private LiveBidRoomUser highestBidder = null;
 
-    @Setter
-    private Integer highestBidPrice = 0;
 
     @Builder
     public LiveBidRoom(Long roomId) {

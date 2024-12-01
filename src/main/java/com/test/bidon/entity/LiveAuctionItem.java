@@ -77,8 +77,10 @@ public class LiveAuctionItem {
             this.status = "경매진행";  // 경매 진행 중 상태
         }
     }
-    
-    
+
+    public void updateEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 
 }
 
