@@ -29,9 +29,10 @@ public class LiveAuctionController {
     public String browseLiveBid(Model model,
             @RequestParam(defaultValue = "1", name = "page") Integer page,
             @RequestParam(required = false) Integer minPrice,
-            @RequestParam(required = false) Integer maxPrice) {
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(defaultValue = "newArrivals", name = "shorting") String sortingOption) {
 
-			// 가격이 NaN인 경우 기본값 설정
+			// 가격이 NaN인 경우
 			if (minPrice == null || minPrice < 0) {
 			minPrice = 100000; // 기본 최소값
 			}
@@ -42,8 +43,8 @@ public class LiveAuctionController {
 			int pageSize = 15; // 한 페이지당 항목 수
 			int offset = (page - 1) * pageSize;
 			
-			List<LiveAuctionItemListDTO> liveItemList = liveAuctionItemRepository.LiveAuctionList(offset, pageSize, minPrice, maxPrice);
-			Long count = liveAuctionItemRepository.LiveAuctionListPage(offset, pageSize, minPrice, maxPrice);
+			List<LiveAuctionItemListDTO> liveItemList = liveAuctionItemRepository.LiveAuctionList(offset, pageSize, minPrice, maxPrice, sortingOption);
+			Long count = liveAuctionItemRepository.LiveAuctionListPage(offset, pageSize, minPrice, maxPrice, sortingOption);
 			
 			int totalPages = count == 0 ? 1 : (int) Math.ceil(count / (double) pageSize);
 
@@ -55,12 +56,7 @@ public class LiveAuctionController {
 			
 			if (pageNumbers.isEmpty()) {
 		        pageNumbers.add(1);
-		    }
-			
-			
-			  System.out.println("Total Items (count): " + count);
-			    System.out.println("Total Pages: " + totalPages);
-			    System.out.println("Page Numbers: " + pageNumbers);
+		    } // 페이지 기본값 1로 만듬
 
 			
 			model.addAttribute("liveItemList", liveItemList);
@@ -69,6 +65,7 @@ public class LiveAuctionController {
 			model.addAttribute("pageNumbers", pageNumbers);
 			model.addAttribute("minPrice", minPrice);
 			model.addAttribute("maxPrice", maxPrice);
+			model.addAttribute("sorting", sortingOption);
 			
 			return "user/browse-live-bid";
     }

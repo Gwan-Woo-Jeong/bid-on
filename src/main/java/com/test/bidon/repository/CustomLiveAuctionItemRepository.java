@@ -12,13 +12,16 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.test.bidon.dto.LiveAuctionDetailCustomerDTO;
 import com.test.bidon.dto.LiveAuctionDetailDTO;
 import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
 import com.test.bidon.dto.LiveAuctionItemListDTO;
 import com.test.bidon.dto.LiveBidRoomItemDTO;
+import com.test.bidon.entity.LiveAuctionItem;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +32,27 @@ public class CustomLiveAuctionItemRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
 
-    public List<LiveAuctionItemListDTO> LiveAuctionList(int offset, int limit, Integer minPrice, Integer maxPrice){
+    
+    public OrderSpecifier<?> getOrderSpecifier(String sortingOption) { 
+    	
+    	if(sortingOption == null || sortingOption.isEmpty()) {
+    		
+	    	return liveAuctionItem.startTime.asc();
+    	}
+    	
+        switch (sortingOption) {
+            case "startPriceAsc":
+                return liveAuctionItem.startPrice.asc();
+            case "startPriceDesc":
+                return liveAuctionItem.startPrice.desc();
+            case "newArrivals":
+            default:
+                return  liveAuctionItem.startTime.asc();
+        }
+    } // 가격 높은 순, 가격 낮은 순, 최신상품 정렬 기능 관련
+    
+
+    public List<LiveAuctionItemListDTO> LiveAuctionList(int offset, int limit, Integer minPrice, Integer maxPrice, String sortingOption){
 
 		BooleanBuilder builder = new BooleanBuilder();
 		
@@ -42,6 +65,9 @@ public class CustomLiveAuctionItemRepository {
 			builder.and(liveAuctionItem.startPrice.loe(maxPrice));
 		}
 		System.out.println("Applied maxPrice: " + maxPrice);
+		
+		//<?> 은 와일드카드를 의미함
+		OrderSpecifier<?> orderSpecifer = getOrderSpecifier(sortingOption); 
 		
 
 		return jpaQueryFactory
@@ -56,13 +82,14 @@ public class CustomLiveAuctionItemRepository {
 			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
 			        .join(liveAuctionItemImageList.liveAuctionItem, liveAuctionItem)
 			        .where(liveAuctionItemImageList.isMainImage.eq(1).and(builder))
+			        .orderBy(orderSpecifer)
 			        .offset(offset)
 			        .limit(limit)
 			        .fetch();
 }
 	
 	
-	public Long LiveAuctionListPage(int offset, int limit, Integer minPrice, Integer maxPrice){
+	public Long LiveAuctionListPage(int offset, int limit, Integer minPrice, Integer maxPrice, String sortingOption){
 		
 		BooleanBuilder builder = new BooleanBuilder();
 		
@@ -77,6 +104,8 @@ public class CustomLiveAuctionItemRepository {
 		System.out.println("Applied maxPrice: " + maxPrice);
 
 
+		OrderSpecifier<?> orderSpecifer = getOrderSpecifier(sortingOption);
+		
 		return jpaQueryFactory
 				.select(Projections.constructor(
 			            LiveAuctionItemListDTO.class,
@@ -89,6 +118,7 @@ public class CustomLiveAuctionItemRepository {
 			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
 			        .join(liveAuctionItemImageList.liveAuctionItem, liveAuctionItem)
 			        .where(liveAuctionItemImageList.isMainImage.eq(1).and(builder))
+			        .orderBy(orderSpecifer)
 			        .offset(offset)
 			        .limit(limit)
 			        .fetchCount();
