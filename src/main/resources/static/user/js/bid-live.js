@@ -36,7 +36,7 @@ function connect(user) {
         } else if (type === 'PARTS') {
             clearUsers();
             payload.forEach(user => {
-                printUsers(user.profile, user.name, user.email);
+                printUsers(user.profile, user.name, user.email, user.isHighestBidder);
             });
             printUserCount(payload.length)
         } else if (type === 'ALERT') {
@@ -89,14 +89,14 @@ function clearUsers() {
     $('.chat-users').empty();
 }
 
-function printUsers(profileImgName, name, email) {
+function printUsers(profileImgName, name, email, isHighestBidder) {
     const temp = `
                 <div class="user">
                     <div class="avatar">
                         <img src="/uploads/profiles/${profileImgName}" alt="User name">
                     </div>
                     <div class="user-info">
-                        <div class="name">${name}</div>
+                        <div class="name">${name} ${isHighestBidder ? '👑' : ''}</div>
                         <div class="mood">${email}</div>
                     </div>
                 </div>

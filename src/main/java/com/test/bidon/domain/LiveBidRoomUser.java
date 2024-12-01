@@ -20,6 +20,7 @@ public class LiveBidRoomUser {
     private String profile;
     private String national;
     private String tel;
+    private Boolean isHighestBidder;
 
     public LiveBidRoomUser(Long userId) {
         this.userId = userId;

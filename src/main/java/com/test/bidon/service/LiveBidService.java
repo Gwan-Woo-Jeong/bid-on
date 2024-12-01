@@ -38,9 +38,9 @@ public class LiveBidService {
     }
 
     public LiveBidRoom createRoom(Long roomId) {
-        LiveBidRoom chatRoom = LiveBidRoom.of(roomId);
-        liveBidRoomRepository.save(roomId, chatRoom);
-        return chatRoom;
+        LiveBidRoom liveBidRoom = LiveBidRoom.of(roomId);
+        liveBidRoomRepository.save(roomId, liveBidRoom);
+        return liveBidRoom;
     }
 
     public void handleAction(
@@ -57,18 +57,22 @@ public class LiveBidService {
             room = createRoom(roomId);
         }
 
+        LiveBidRoomUser highestBidder = room.getHighestBidder();
+
         if (isEnter(inMessage)) {
             UserInfoDTO newUser = convert(inMessage.getPayload(), UserInfoDTO.class);
 
             LiveAuctionPartSummary liveAuctionPart = createPart(newUser.getId(), roomId);
+            Long userInfoId = liveAuctionPart.getUserInfoId();
 
             LiveBidRoomUser newBidRoomUser = LiveBidRoomUser.builder()
                     .partId(liveAuctionPart.getId())
-                    .userId(liveAuctionPart.getUserInfoId())
+                    .userId(userInfoId)
                     .email(newUser.getEmail())
                     .name(newUser.getName())
                     .profile(newUser.getProfile())
                     .national(newUser.getNational())
+                    .isHighestBidder(highestBidder != null && highestBidder.getUserId().equals(userInfoId))
                     .tel(newUser.getTel())
                     .build();
 
@@ -91,7 +95,7 @@ public class LiveBidService {
                     .build();
 
             LiveBidInfo liveBidInfo = LiveBidInfo.builder()
-                    .highestBidder(room.getHighestBidder())
+                    .highestBidder(highestBidder)
                     .highestBidPrice(room.getHighestBidPrice())
                     .build();
 
@@ -154,7 +158,7 @@ public class LiveBidService {
             if (bidPrice <= highestBidPrice) {
                 //TODO: builder 로직 중복 제거
                 LiveBidInfo liveBidInfo = LiveBidInfo.builder()
-                        .highestBidder(room.getHighestBidder())
+                        .highestBidder(highestBidder)
                         .highestBidPrice(room.getHighestBidPrice())
                         .build();
 
@@ -166,7 +170,7 @@ public class LiveBidService {
                 room.sendMessageToSession(session, toTextMessage(outBidMessageBuilder.build()));
             } else {
 
-                LiveBidRoomUser foundUser = room.findRoomUser(inMessage.getSenderId());
+                LiveBidRoomUser foundUser = room.updateHighestBidder(inMessage.getSenderId());
 
                 if (foundUser == null) {
                     return;
@@ -185,6 +189,7 @@ public class LiveBidService {
                         .type("BID-OK")
                         .payload(liveBidInfo);
 
+                sendPartsMessage(roomId, room);
                 room.sendMessageAll(toTextMessage(outBidMessageBuilder.build()));
             }
         }

@@ -61,6 +61,21 @@ public class LiveBidRoom {
         return null;
     }
 
+    public LiveBidRoomUser updateHighestBidder(Long userId) {
+        LiveBidRoomUser highestBidder = null;
+
+        for (LiveBidRoomUser user : roomUsers) {
+            if (user.getUserId().equals(userId)) {
+                highestBidder = user;
+                user.setIsHighestBidder(true);
+            } else {
+                user.setIsHighestBidder(false);
+            }
+        }
+
+        return highestBidder;
+    }
+
     public void enter(WebSocketSession session, LiveBidRoomUser roomUser) {
         sessions.add(session);
         roomUsers.add(roomUser);
