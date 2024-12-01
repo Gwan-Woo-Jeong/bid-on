@@ -15,8 +15,8 @@ import com.test.bidon.dto.MonthlyItemCountDTO;
 import com.test.bidon.dto.MonthlyRevenueDTO;
 import com.test.bidon.dto.MonthlyUserCountDTO;
 import com.test.bidon.repository.CustomAdminDashboardRepository;
+import com.test.bidon.repository.CustomNormalAuctionItemRepository;
 import com.test.bidon.repository.LiveAuctionItemRepository;
-import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.UserRepository;
 
 @Controller
@@ -27,7 +27,7 @@ public class AdminDashboardController {
 	@Autowired
 	private CustomAdminDashboardRepository customAdminDashboardRepository;
 	@Autowired
-	private NormalAuctionItemRepository normalAuctionItemRepository;
+	private CustomNormalAuctionItemRepository customNormalAuctionItemRepository;
 	@Autowired
 	private LiveAuctionItemRepository liveAuctionItemRepository;
 
@@ -58,7 +58,7 @@ public class AdminDashboardController {
 		long bidEnterUserCount = customAdminDashboardRepository.getBidEnterUserCount();
 
 		//일반 경매 상품 수
-		long normalItemCount = normalAuctionItemRepository.count();
+		long normalItemCount = customNormalAuctionItemRepository.count();
 		//실시간 경매 상품 수
 		long liveItemCount = liveAuctionItemRepository.count();
 		//총 수익률

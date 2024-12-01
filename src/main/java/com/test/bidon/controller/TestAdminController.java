@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.test.bidon.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.test.bidon.dto.UserInfoDTO;
 import com.test.bidon.entity.LiveAuctionItem;
@@ -38,11 +40,13 @@ public class TestAdminController {
 	@Autowired
 	private OneOnOneRepository oneOnOneRepository;
 	@Autowired
-	private NormalAuctionItemRepository normalAuctionItemRepository;
+	private CustomNormalAuctionItemRepository customNormalAuctionItemRepository;
 	@Autowired
 	private LiveAuctionItemRepository liveAuctionItemRepository;
 	@Autowired
 	private TodayAddItem todayAddItem;
+	@Autowired
+	private NormalAuctionItemRepository normalAuctionItemRepository;
 	
 
 	//경매 관리
@@ -52,16 +56,16 @@ public class TestAdminController {
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime startOfDay = currentTime.toLocalDate().atStartOfDay();
 		LocalDateTime endOfDay = currentTime.toLocalDate().atTime(23, 59, 59);
-	    
-		
-	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+
+	    List<NormalAuctionItem> normalList = customNormalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+
 	    for (NormalAuctionItem item : normalList) {
             item.calculateStatus(currentTime);  
         }
 	    model.addAttribute("normalList", normalList);
 	    
 	    
-	    List<NormalAuctionItem> normalProgressList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
+	    List<NormalAuctionItem> normalProgressList = customNormalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
 
 	    List<NormalAuctionItem> filteredNormalProgressList = normalProgressList.stream()
                 .filter(item -> item.getStartTime().isBefore(currentTime) && item.getEndTime().isAfter(currentTime))
@@ -90,8 +94,8 @@ public class TestAdminController {
 
         // 오늘 등록된 LiveAuctionItem만 필터링
         List<LiveAuctionItem> todayLiveList = todayAddItem.TodayAddLiveItems(liveList, currentTime);
-        model.addAttribute("todayLiveList", todayLiveList); 
-        
+        model.addAttribute("todayLiveList", todayLiveList);
+
 	    List<NormalAuctionItem> wishList = normalAuctionItemRepository.findAll();
 	    model.addAttribute("wishList", wishList);
 	    

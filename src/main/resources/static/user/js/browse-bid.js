@@ -14,7 +14,7 @@ var swiper = new Swiper(".product-swiper", {
     }
 });
 
-// price Range
+	// price Range
 	const lowerSlider = document.querySelector('#lower');
 	const upperSlider = document.querySelector('#upper');
 	const lowerValueInput = document.querySelector('#one');

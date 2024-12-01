@@ -17,7 +17,11 @@ public class NormalAuctionItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NormalAuctionItem_seq_generator")
+<<<<<<< Updated upstream
     @SequenceGenerator(name = "NormalAuctionItem_seq_generator", sequenceName = "seqNormalAuctionItem", allocationSize = 1) //시퀀스명 적음 - HM-
+=======
+    @SequenceGenerator(name = "NormalAuctionItem_seq_generator", sequenceName = "seqNormalAuctionItem", allocationSize = 1)
+>>>>>>> Stashed changes
     private Long id;
 
     private Long categorySubId;

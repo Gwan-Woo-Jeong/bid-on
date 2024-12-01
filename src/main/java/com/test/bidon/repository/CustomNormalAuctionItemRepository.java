@@ -2,7 +2,9 @@ package com.test.bidon.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.test.bidon.entity.NormalAuctionItem;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class CustomNormalAuctionItemRepository {
         boot-jpa/CustomAddressRepository.java 참고
      */
 
-    // 대표이미지 값이 1이고, 경매 상태가 진행중이거나 대기중인 tuple만 골라서 browse-bid 페이지에 출력하는 method
+    // 대표이미지 값이 1이고, 경매 상태가 진행중인 tuple만 골라서 browse-bid 페이지에 출력하는 method
     // offset과 limit으로 Controller에서 페이징 구현
     public List<Tuple> joinTablesToDisplayBrowseBid(int offset, int limit) {
 
@@ -32,10 +34,9 @@ public class CustomNormalAuctionItemRepository {
                 .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
                 .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
                 .where(normalAuctionItemImageList.isMainImage.eq(1L)
-                        .and(normalAuctionItem.status.eq("진행중")
-                                .or(normalAuctionItem.status.eq("대기중")))
+                        .and(normalAuctionItem.status.eq("진행중"))
                 )
-                .orderBy(normalAuctionItem.endTime.asc())
+                .orderBy(normalAuctionItem.id.asc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();
@@ -49,10 +50,9 @@ public class CustomNormalAuctionItemRepository {
                 .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
                 .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
                 .where(normalAuctionItemImageList.isMainImage.eq(1L)
-                        .and(normalAuctionItem.status.eq("진행중")
-                                .or(normalAuctionItem.status.eq("대기중")))
+                        .and(normalAuctionItem.status.eq("진행중"))
                 )
-                .orderBy(normalAuctionItem.endTime.asc())
+                .orderBy(normalAuctionItem.id.asc())
                 .offset(offset)
                 .limit(limit)
                 .fetchCount();
@@ -69,12 +69,70 @@ public class CustomNormalAuctionItemRepository {
                     ...를 Query DSL 방식으로 refactoring 필요.
                 */
         return jpaQueryFactory
-                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItem.endTime, normalBidInfo.bidPrice.max())
+                .select(normalAuctionItem.id, normalAuctionItem.endTime, normalBidInfo.bidPrice.max())
                 .from(normalBidInfo)
                 .join(normalBidInfo.normalAuctionItem, normalAuctionItem)
+                .where(normalAuctionItem.status.eq("진행중"))
                 .groupBy(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItem.endTime)
-                .orderBy(normalAuctionItem.endTime.asc())
+                .orderBy(normalAuctionItem.id.asc())
                 .fetch();
     }
 
+    // 최근 경매 물품 6개를 출력하기 위한 method
+    public List<Tuple> DisplaySixItems() {
+
+        return jpaQueryFactory
+                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path)
+                .from(normalAuctionItemImageList)
+                .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
+                .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
+                .where(normalAuctionItemImageList.isMainImage.eq(1L)
+                        .and(normalAuctionItem.status.eq("진행중"))
+                )
+                .orderBy(normalAuctionItem.startTime.desc())
+                .limit(6) // 처음 6개로 데이터 제한
+                .fetch();
+    }
+
+    // 최근 경매 물품 6개의 경매 종료 시간, 현재 경매가를 출력하기 위한 method
+    public List<Tuple> DisplaySixTimeAndPrice() {
+
+        return jpaQueryFactory
+                .select(normalAuctionItem.id, normalAuctionItem.endTime, normalBidInfo.bidPrice.max())
+                .from(normalBidInfo)
+                .join(normalBidInfo.normalAuctionItem, normalAuctionItem)
+                .where(normalAuctionItem.status.eq("진행중"))
+                .groupBy(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItem.endTime)
+                .orderBy(normalAuctionItem.id.asc())
+                .limit(6)
+                .fetch();
+    }
+
+    // AdminDashboardController.java에서 등록된 일반 경매 물품의 총 개수를 계산할 때 사용하는 method
+    public Long count() {
+
+        return jpaQueryFactory
+                .selectFrom(normalAuctionItem)
+                .fetchCount();
+    }
+
+    // TestAdminController.java에서 일반 경매 물품들의 시작시간을 내림차순으로 구할 때 사용하는 method
+    public List<NormalAuctionItem> findAll(Sort startTime) {
+
+        return jpaQueryFactory
+                .selectFrom(normalAuctionItem)
+                .fetch();
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
