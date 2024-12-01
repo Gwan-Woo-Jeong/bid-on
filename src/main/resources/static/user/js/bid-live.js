@@ -4,10 +4,14 @@ let ws;
 
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get('itemId');
+const bidButton = $('.bid-button');
 
-if (itemId === null) {
-    alert('ERROR: 잘못된 접근입니다. (물품번호가 존재하지 않음)');
-    window.close();
+// TODO: 로그인 체크
+// TODO: 경매 시간 체크
+if (!itemId) {
+    alertErrorAndClose("잘못된 접근입니다.");
+} else if (!itemInfo) {
+    alertErrorAndClose("경매 물품이 존재하지 않습니다.");
 }
 
 function connect(user) {
@@ -34,22 +38,25 @@ function connect(user) {
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
 
-        const message = JSON.parse(evt.data);
+        console.log(JSON.parse(evt.data));
+        const {type, text, payload, createTime} = JSON.parse(evt.data);
 
-        console.log(message);
-
-        if (message.type === 'TALK') {
-            const talkUser = message.payload;
-            printChat(talkUser.name, talkUser.profile, message.text, 'left', message.createTime);
-        } else if (message.type === 'PARTS') {
-            const users = message.payload;
+        if (type === 'TALK') {
+            printChat(payload.name, payload.profile, text, 'left', createTime);
+        } else if (type === 'PARTS') {
             clearUsers();
-            users.forEach(user => {
+            payload.forEach(user => {
                 printUsers(user.profile, user.name, user.email);
             });
-            printUserCount(users.length)
-        } else if (message.type === 'ALERT') {
-            printAlert(message.text);
+            printUserCount(payload.length)
+        } else if (type === 'ALERT') {
+            printAlert(text);
+        } else if (type === "BID-START") {
+            const minBidPrice = setMinBidPrice(payload.highestBidPrice || itemInfo.startPrice);
+
+            if (minBidPrice) {
+                bidButton.removeAttr('disabled');
+            }
         }
     };
 
@@ -162,6 +169,24 @@ function showTime(date) {
         return dayDate.format('YY-MM-DD HH:mm');
     }
 }
+
+
+
+function setMinBidPrice(highestBidPrice) {
+    const minBidPriceUnit = getMinBidUnit(highestBidPrice);
+    itemInfo.minBidPrice = highestBidPrice + minBidPriceUnit;
+    bidButton.text(itemInfo.minBidPrice + "원 입찰");
+    return itemInfo.minBidPrice;
+}
+
+function alertErrorAndClose(message) {
+    alert('ERROR:' + message);
+    window.close();
+}
+
+bidButton.click(e => {
+    e.preventDefault();
+});
 
 $('.quit-button').click(e => {
     e.preventDefault();

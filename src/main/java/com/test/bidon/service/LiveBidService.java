@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.test.bidon.domain.LiveBidInfo;
 import com.test.bidon.domain.Message;
-import com.test.bidon.dto.LiveBidRoomUserDTO;
+import com.test.bidon.domain.LiveBidRoomUser;
 import com.test.bidon.dto.UserInfoDTO;
 import com.test.bidon.entity.LiveAuctionPartSummary;
 import com.test.bidon.repository.LiveAuctionPartRepository;
@@ -61,7 +62,7 @@ public class LiveBidService {
 
             LiveAuctionPartSummary liveAuctionPart = createPart(newUser.getId(), roomId);
 
-            LiveBidRoomUserDTO newBidRoomUser = LiveBidRoomUserDTO.builder()
+            LiveBidRoomUser newBidRoomUser = LiveBidRoomUser.builder()
                     .partId(liveAuctionPart.getId())
                     .userId(liveAuctionPart.getUserInfoId())
                     .email(newUser.getEmail())
@@ -80,21 +81,36 @@ public class LiveBidService {
                     .createTime(inMessage.getCreateTime())
                     .build();
 
+            LocalDateTime now = LocalDateTime.now();
+
             Message alertMessage = Message.builder()
                     .roomId(roomId)
                     .type("ALERT")
                     .text(newBidRoomUser.getName() + "님이 입장하셨습니다.")
-                    .createTime(LocalDateTime.now())
+                    .createTime(now)
+                    .build();
+
+            LiveBidInfo liveBidInfo = LiveBidInfo.builder()
+                    .highestBidder(room.getHighestBidder())
+                    .highestBidPrice(room.getHighestBidPrice())
+                    .build();
+
+            Message outBidMessage = Message.builder()
+                    .roomId(roomId)
+                    .type("BID-START")
+                    .payload(liveBidInfo)
+                    .createTime(now)
                     .build();
 
             sendPartsMessage(roomId, room);
             room.sendMessageAll(toTextMessage(alertMessage));
             room.sendMessageExclude(toTextMessage(outEnterMessage), session);
+            room.sendMessageToSession(session, toTextMessage(outBidMessage));
 
         } else if (isLeave(inMessage)) {
 
             Long senderId = inMessage.getSenderId();
-            LiveBidRoomUserDTO foundUser = room.findRoomUser(senderId);
+            LiveBidRoomUser foundUser = room.findRoomUser(senderId);
 
             if (foundUser == null) {
                 return;
@@ -116,7 +132,7 @@ public class LiveBidService {
         } else if (isTalk(inMessage)) {
 
             Long senderId = inMessage.getSenderId();
-            LiveBidRoomUserDTO foundUser = room.findRoomUser(senderId);
+            LiveBidRoomUser foundUser = room.findRoomUser(senderId);
 
             Message outTalkMessage = Message.builder()
                     .roomId(roomId)
@@ -175,5 +191,4 @@ public class LiveBidService {
     private boolean isTalk(Message message) {
         return message.getType().equals("TALK");
     }
-
 }

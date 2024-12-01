@@ -1,6 +1,3 @@
-const userId = $('#user-id').val();
-console.log("userId : " + userId);
-
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get('itemId');
 

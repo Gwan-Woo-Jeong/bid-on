@@ -466,6 +466,12 @@ body {
     color: #fff;
 }
 
+.button-wrap .bid-button[disabled] {
+    cursor: not-allowed;
+    background-color: #8c8c8c;
+    color: #fff;
+}
+
 .button-wrap .quit-button {
     background-color: #d74b4b;
     color: #fff;

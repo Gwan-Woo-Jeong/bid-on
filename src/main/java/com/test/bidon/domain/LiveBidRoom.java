@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.test.bidon.dto.LiveBidRoomUserDTO;
+import lombok.Setter;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -15,7 +15,13 @@ import lombok.Getter;
 public class LiveBidRoom {
     private final Long roomId;
     private final Set<WebSocketSession> sessions = new HashSet<>();
-    private final Set<LiveBidRoomUserDTO> roomUsers = new HashSet<>();
+    private final Set<LiveBidRoomUser> roomUsers = new HashSet<>();
+
+    @Setter
+    private LiveBidRoomUser highestBidder = null;
+
+    @Setter
+    private Integer highestBidPrice = 0;
 
     @Builder
     public LiveBidRoom(Long roomId) {
@@ -45,8 +51,8 @@ public class LiveBidRoom {
         }
     }
 
-    public LiveBidRoomUserDTO findRoomUser(Long userId) {
-        for (LiveBidRoomUserDTO user : roomUsers) {
+    public LiveBidRoomUser findRoomUser(Long userId) {
+        for (LiveBidRoomUser user : roomUsers) {
             if (user.getUserId().equals(userId)) {
                 return user;
             }
@@ -55,14 +61,14 @@ public class LiveBidRoom {
         return null;
     }
 
-    public void enter(WebSocketSession session, LiveBidRoomUserDTO roomUser) {
+    public void enter(WebSocketSession session, LiveBidRoomUser roomUser) {
         sessions.add(session);
         roomUsers.add(roomUser);
     }
 
     public void leave(WebSocketSession session, Long userInfoId) {
         sessions.remove(session);
-        roomUsers.remove(new LiveBidRoomUserDTO(userInfoId));
+        roomUsers.remove(new LiveBidRoomUser(userInfoId));
     }
 
     public static LiveBidRoom of(Long roomId) {
@@ -70,4 +76,5 @@ public class LiveBidRoom {
                 .roomId(roomId)
                 .build();
     }
+
 }
