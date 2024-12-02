@@ -1,7 +1,7 @@
 package com.test.bidon.handler;
 
 import com.test.bidon.domain.Message;
-import com.test.bidon.util.BidRoomUtil;
+import com.test.bidon.util.JsonUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,7 +22,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
 
         try {
-            Message inMessage = BidRoomUtil.fromJson(payload, Message.class);
+            Message inMessage = JsonUtil.fromJson(payload, Message.class);
             liveBidService.handleAction(inMessage.getRoomId(), session, inMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

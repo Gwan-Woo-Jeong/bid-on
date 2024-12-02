@@ -10,13 +10,13 @@ import org.springframework.web.socket.TextMessage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BidRoomUtil {
+public class JsonUtil {
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    private static final Logger logger = Logger.getLogger(BidRoomUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(JsonUtil.class.getName());
 
     public static <T> T fromJson(String json, Class<T> clazz) {
         try {

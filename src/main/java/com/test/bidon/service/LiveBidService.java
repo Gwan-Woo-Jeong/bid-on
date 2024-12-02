@@ -23,7 +23,7 @@ import com.test.bidon.domain.LiveBidRoom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.test.bidon.util.BidRoomUtil.*;
+import static com.test.bidon.util.JsonUtil.*;
 
 @RequiredArgsConstructor
 @Slf4j

@@ -6,22 +6,22 @@ import static com.test.bidon.entity.QLiveAuctionItemImageList.liveAuctionItemIma
 import static com.test.bidon.entity.QLiveAuctionPart.liveAuctionPart;
 import static com.test.bidon.entity.QLiveBidCost.liveBidCost;
 import static com.test.bidon.entity.QUserEntity.userEntity;
+import static com.test.bidon.entity.QWinningBid.winningBid;
 
 import java.util.List;
 
+import com.test.bidon.dto.*;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.test.bidon.dto.LiveAuctionDetailCustomerDTO;
 import com.test.bidon.dto.LiveAuctionDetailDTO;
 import com.test.bidon.dto.LiveAuctionDetailImagesDTO;
 import com.test.bidon.dto.LiveAuctionItemListDTO;
 import com.test.bidon.dto.LiveBidRoomItemDTO;
-import com.test.bidon.entity.LiveAuctionItem;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,14 +32,13 @@ public class CustomLiveAuctionItemRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
 
-    
-    public OrderSpecifier<?> getOrderSpecifier(String sortingOption) { 
-    	
-    	if(sortingOption == null || sortingOption.isEmpty()) {
-    		
-	    	return liveAuctionItem.startTime.asc();
-    	}
-    	
+    public OrderSpecifier<?> getOrderSpecifier(String sortingOption) {
+
+        if (sortingOption == null || sortingOption.isEmpty()) {
+
+            return liveAuctionItem.startTime.asc();
+        }
+
         switch (sortingOption) {
             case "startPriceAsc":
                 return liveAuctionItem.startPrice.asc();
@@ -47,28 +46,28 @@ public class CustomLiveAuctionItemRepository {
                 return liveAuctionItem.startPrice.desc();
             case "newArrivals":
             default:
-                return  liveAuctionItem.startTime.asc();
+                return liveAuctionItem.startTime.asc();
         }
     } // 가격 높은 순, 가격 낮은 순, 최신상품 정렬 기능 관련
-    
 
-    public List<LiveAuctionItemListDTO> LiveAuctionList(int offset, int limit, Integer minPrice, Integer maxPrice, String sortingOption){
 
-		BooleanBuilder builder = new BooleanBuilder();
-		
-		if(minPrice != null) {
-			builder.and(liveAuctionItem.startPrice.goe(minPrice));
-		}
-		System.out.println("Applied minPrice: " + minPrice);
-		
-		if(maxPrice != null) {
-			builder.and(liveAuctionItem.startPrice.loe(maxPrice));
-		}
-		System.out.println("Applied maxPrice: " + maxPrice);
-		
-		//<?> 은 와일드카드를 의미함
-		OrderSpecifier<?> orderSpecifer = getOrderSpecifier(sortingOption); 
-		
+    public List<LiveAuctionItemListDTO> LiveAuctionList(int offset, int limit, Integer minPrice, Integer maxPrice, String sortingOption) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (minPrice != null) {
+            builder.and(liveAuctionItem.startPrice.goe(minPrice));
+        }
+        System.out.println("Applied minPrice: " + minPrice);
+
+        if (maxPrice != null) {
+            builder.and(liveAuctionItem.startPrice.loe(maxPrice));
+        }
+        System.out.println("Applied maxPrice: " + maxPrice);
+
+        //<?> 은 와일드카드를 의미함
+        OrderSpecifier<?> orderSpecifer = getOrderSpecifier(sortingOption);
+
 
 		return jpaQueryFactory
 				.select(Projections.constructor(
@@ -273,6 +272,32 @@ public class CustomLiveAuctionItemRepository {
                 .where(liveAuctionItem.id.eq(liveAuctionItemId).and(liveAuctionItemImageList.isMainImage.eq(1)))
                 .fetchOne();
 
+    }
+
+    public CheckoutItemDTO getCheckoutItem(Long liveAuctionItemId, Long winningBidId) {
+        return jpaQueryFactory
+                .select(Projections.fields(
+                        CheckoutItemDTO.class,
+                        liveAuctionItem.id.as("itemId"),
+                        liveAuctionItem.name.as("itemName"),
+                        liveAuctionItemImage.path.as("itemMainImagePath"),
+                        liveAuctionItem.createTime,
+                        liveAuctionItem.startPrice,
+                        liveBidCost.bidPrice,
+                        userEntity.id.as("sellerId"),
+                        userEntity.name.as("sellerName"),
+                        userEntity.email.as("sellerEmail"),
+                        userEntity.createDate.as("sellerJoinDate"),
+                        userEntity.national.as("sellerNational"),
+                        userEntity.tel.as("sellerTel")
+                )).from(liveAuctionItem)
+                .join(liveAuctionItemImageList).on(liveAuctionItem.id.eq(liveAuctionItemImageList.liveAuctionItem.id))
+                .join(liveAuctionItemImage).on(liveAuctionItemImageList.liveAuctionItemImage.id.eq(liveAuctionItemImage.id))
+                .join(userEntity).on(liveAuctionItem.userInfoId.eq(userEntity.id))
+                .join(liveBidCost).on(liveBidCost.liveAuctionItemId.eq(liveAuctionItem.id))
+                .join(winningBid).on(winningBid.liveBidId.eq(liveBidCost.id).and(winningBid.id.eq(winningBidId)))
+                .where(liveAuctionItem.id.eq(liveAuctionItemId).and(liveAuctionItemImageList.isMainImage.eq(1)))
+                .fetchOne();
     }
 
 }

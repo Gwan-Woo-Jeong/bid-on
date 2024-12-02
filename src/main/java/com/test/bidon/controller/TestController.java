@@ -129,10 +129,10 @@ public class TestController {
 //		return "user/login";
 //	}
 
-	@GetMapping("/payment")
-	public String payment(Model model) {
-		return "user/payment";
-	}
+	// @GetMapping("/payment")
+	// public String payment(Model model) {
+	// 	return "user/payment";
+	// }
 
 	@GetMapping("/privacy")
 	public String privacy(Model model) {
@@ -149,10 +149,10 @@ public class TestController {
 		return "user/term-condition";
 	}
 
-	@GetMapping("/thankyou")
-	public String thankyou(Model model) {
-		return "user/thankyou";
-	}
+	// @GetMapping("/thankyou")
+	// public String thankyou(Model model) {
+	// 	return "user/thankyou";
+	// }
 
 	@GetMapping("/winner")
 	public String winner(Model model) {

@@ -32,83 +32,109 @@
                             <a href="bid-detail" class="text-black ms-auto"><i
                                     class="fa-solid fa-chevron-left me-2"></i>입찰로 돌아가기</a>
                         </div>
-                        <form>
+
+                        <form id="checkoutForm" method="POST">
                             <div class="form-wrapper">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>이름*</label>
-                                            <input type="text" class="form-control" placeholder="두한">
+                                            <label for="firstName">이름*</label>
+                                            <input type="text" id="firstName" name="firstName" class="form-control"
+                                                   placeholder="두한">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>성*</label>
-                                            <input type="text" class="form-control" placeholder="김">
+                                            <label for="lastName">성*</label>
+                                            <input type="text" id="lastName" name="lastName" class="form-control"
+                                                   placeholder="김">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Email*</label>
-                                            <input type="text" class="form-control" placeholder="name@mail.com ">
+                                            <label for="email">Email*</label>
+                                            <input type="text" id="email" name="email" class="form-control"
+                                                   placeholder="name@mail.com ">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>전화번호*</label>
-                                            <input type="number" class="form-control" placeholder="010-1234-5678">
+                                            <label for="phone">전화번호*</label>
+                                            <input type="number" id="phone" name="phone" class="form-control"
+                                                   placeholder="010-1234-5678">
                                         </div>
                                     </div>
                                     <h4 class="form-title mb-4">배송 주소</h4>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>주소 - 1*</label>
-                                            <input type="text" class="form-control"
+                                            <label for="address1">주소 - 1*</label>
+                                            <input type="text" id="address1" name="address1" class="form-control"
                                                    placeholder="Floor, Street, Suite, etc.">
                                         </div>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="form-group">
-                                            <label>주소 - 2*</label>
-                                            <input type="text" class="form-control"
+                                            <label for="address2">주소 - 2*</label>
+                                            <input type="text" id="address2" name="address2" class="form-control"
                                                    placeholder="Floor, Street, Suite, etc.">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>우편번호*</label>
-                                            <input type="number" class="form-control" placeholder="Pin Code">
+                                            <label for="zipCode">우편번호*</label>
+                                            <input type="number" id="zipCode" name="zipCode" class="form-control"
+                                                   placeholder="Pin Code">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>도시*</label>
-                                            <select name="city" class="form-control">
-                                                <option selected="selected">Jonglo</option>
-                                                <option value="Van-Nuys">Van Nuys</option>
-                                                <option value="los-angeles">Los Angeles</option>
-                                                <option value="chicago">Chicago</option>
-                                                <option value="houston">Houston</option>
+                                            <label for="district">구*</label>
+                                            <select name="district" id="district" class="form-control">
+                                                <option selected value="강남">강남</option>
+                                                <option value="강북">강북</option>
+                                                <option value="강서">강서</option>
+                                                <option value="강동">강동</option>
+                                                <option value="광진">광진</option>
+                                                <option value="동대문">동대문</option>
+                                                <option value="중구">중구</option>
+                                                <option value="용산">용산</option>
+                                                <option value="마포">마포</option>
+                                                <option value="서대문">서대문</option>
+                                                <option value="성북">성북</option>
+                                                <option value="성동">성동</option>
+                                                <option value="송파">송파</option>
+                                                <option value="양천">양천</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>시*</label>
-                                            <select name="city" class="form-control">
-                                                <option selected="selected">Seoul</option>
-                                                <option value="California">California</option>
-                                                <option value="Alaska">Alaska</option>
-                                                <option value="alabama">Alabama</option>
-                                                <option value="florida">Florida</option>
+                                            <label for="city">City*</label>
+                                            <select name="city" id="city" class="form-control">
+                                                <option selected value="서울">서울</option>
+                                                <option value="부산">부산</option>
+                                                <option value="인천">인천</option>
+                                                <option value="경기">경기</option>
+                                                <option value="대구">대구</option>
+                                                <option value="광주">광주</option>
+                                                <option value="대전">대전</option>
+                                                <option value="울산">울산</option>
+                                                <option value="강원">강원</option>
+                                                <option value="충북">충북</option>
+                                                <option value="충남">충남</option>
+                                                <option value="전북">전북</option>
+                                                <option value="전남">전남</option>
+                                                <option value="경북">경북</option>
+                                                <option value="경남">경남</option>
+                                                <option value="제주">제주</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>국가 / 지역*</label>
-                                            <select name="Country" class="form-control">
-                                                <option selected="selected">KOR</option>
+                                            <label for="country">국가 / 지역*</label>
+                                            <select name="country" id="country" class="form-control">
+                                                <option selected="selected">KR</option>
                                                 <option value="USA">USA</option>
                                                 <option value="uk">UK</option>
                                                 <option value="aus">AUS</option>
@@ -118,33 +144,21 @@
                                     </div>
                                     <h4 class="form-title mb-4">배송 방법</h4>
                                     <div class="d-flex flex-wrap gap-2">
-                                        <div class="form-radio">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="deliveryMethod"
-                                                       id="deliveryMethod1" value="Ship" checked>
-                                                <label class="form-check-label" for="deliveryMethod1">
-                                                    일반배송(Ship)
-                                                </label>
+                                        <div th:each="deliveryMethod : ${deliveryMethods}">
+                                            <div class="form-radio">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="deliveryMethod"
+                                                           th:id="${'deliveryMethod' + deliveryMethod.id}"
+                                                           th:value="${deliveryMethod.id}"
+                                                           th:checked="${deliveryMethod.id == 1}">
+                                                    <label class="form-check-label"
+                                                           th:for="${'deliveryMethod' + deliveryMethod.id}"
+                                                           th:text="${deliveryMethod.method + ' (' + deliveryMethod.getDayCount() + '일)'}">
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-radio">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="deliveryMethod"
-                                                       id="deliveryMethod2" value="Aircraft">
-                                                <label class="form-check-label" for="deliveryMethod2">
-                                                    퀵배송(Aircraft)
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-radio">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="deliveryMethod"
-                                                       id="deliveryMethod3" value="DeliveryVans">
-                                                <label class="form-check-label" for="deliveryMethod3">
-                                                   	총알배송(Delivery Vans)
-                                                </label>
-                                            </div>
-                                        </div>
+
 
                                     </div>
                                 </div>
@@ -156,15 +170,16 @@
                     <div class="row gy-4">
                         <div class="col-lg-12">
                             <div class="product-card-wrapper checkout-product-wrapper">
-                                    <h5 class="fw-bold line-clamp line-clamp-2">고프로 8 HERO</h5>
-                                    <br>
+                                <h5 class="fw-bold line-clamp line-clamp-2">[[${item.itemName}]]</h5>
+                                <br>
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="/user/images/auctionImages/GoPro.png" alt="GoPro-img" class="product-img">
+                                    <img th:src="${item.itemMainImagePath}" alt="경매품 이미지" class="product-img">
                                 </div>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">경매 시작가</span> <span class="fw-semibold">60,000원</span></h6>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">입찰 금액</span> <span class="fw-semibold">90,000원</span></h6>
-                                <h6 class="d-flex justify-content-between py-2"><span
-                                        class="fw-normal">수량</span> <span class="fw-semibold">1</span>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">경매 시작가</span>
+                                    <span class="fw-semibold">[[${item.startPrice}]]원</span>
+                                </h6>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">입찰 금액</span>
+                                    <span class="fw-semibold">[[${item.bidPrice}]]원</span>
                                 </h6>
                             </div>
                         </div>
@@ -178,7 +193,7 @@
                                             <h6>이름</h6>
                                         </td>
                                         <td>
-                                            <p>빠니보틀</p>
+                                            <p th:text="${item.sellerName}"></p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -186,7 +201,7 @@
                                             <h6>국가</h6>
                                         </td>
                                         <td>
-                                            <p>한국</p>
+                                            <p th:text="${item.sellerNational}"></p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -194,7 +209,7 @@
                                             <h6>가입일자</h6>
                                         </td>
                                         <td>
-                                            <p>2023-04-13</p>
+                                            <p th:text="${item.sellerJoinDate}"></p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -202,7 +217,7 @@
                                             <h6>Email</h6>
                                         </td>
                                         <td>
-                                            <p>system@mail.com</p>
+                                            <p th:text="${item.sellerEmail}"></p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -210,7 +225,7 @@
                                             <h6>연락처</h6>
                                         </td>
                                         <td>
-                                            <p>010-1234-5678</p>
+                                            <p th:text="${item.sellerTel}"></p>
                                         </td>
                                     </tr>
 
@@ -219,7 +234,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <a href="payment" type="submit" class="payment-btn">결제 단계로 이동</a>
+                            <button id="submitBtn" type="submit" class="payment-btn">결제 단계로 이동</button>
                         </div>
                     </div>
                 </div>
@@ -230,6 +245,17 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<script th:inline="javascript">
+    const count = [[${winningBidCount}]];
+    const item = [[${item}]]
+
+    if (!count) {
+        alert("해당 경매품에 대한 낙찰 정보가 없습니다.");
+        location.href = "/";
+    }
+</script>
+<script src="/user/js/checkout.js"></script>
+
 </body>
 
 </html>

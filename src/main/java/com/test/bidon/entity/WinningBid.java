@@ -30,6 +30,9 @@ public class WinningBid {
     @Column(name = "normalBidId")
     private Long normalBidId;
 
+    @ManyToOne
+    @JoinColumn(name = "liveBidId", insertable = false, updatable = false)
+    private LiveBidCost liveBidCost;
 
     // toString 메서드
     @Override

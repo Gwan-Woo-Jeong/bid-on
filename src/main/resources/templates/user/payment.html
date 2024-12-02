@@ -34,7 +34,7 @@
                                             data-bs-target="#collapseWallet" aria-expanded="true"
                                             aria-controls="collapseWallet">
                                         <span>지갑</span>
-                                        <span class="acc-para">안전한 온라인 결제. 신용카드가 필요합니다. 페이팔은 필요하지 않습니다. 
+                                        <span class="acc-para">안전한 온라인 결제. 신용카드가 필요합니다. 페이팔은 필요하지 않습니다.
                                             </span>
                                     </button>
                                 </h2>
@@ -69,7 +69,7 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label>신용카드 번호</label>
-                                                        <input type="text"  id="cardNumber" class="form-control"
+                                                        <input type="text" id="cardNumber" class="form-control"
                                                                placeholder="0000 0000 0000 0000">
                                                         <span class="input-checker" id="CardNumberChecker"><i
                                                                 class="fa-regular fa-circle-check"></i></span>
@@ -125,28 +125,26 @@
                     <div class="row gy-4">
                         <div class="col-lg-12">
                             <div class="product-card-wrapper">
-                                    <h5 class="fw-bold line-clamp line-clamp-2">고프로 8 HREO</h5>
-                                    <br>
+                                <h5 class="fw-bold line-clamp line-clamp-2">[[${item.itemName}]]</h5>
+                                <br>
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="/user/images/auctionImages/GoPro.png" alt="GoPro-img" class="product-img">
+                                    <img th:src="${item.itemMainImagePath}" alt="경매품 이미지" class="product-img">
                                 </div>
-                                <h6 class="d-flex justify-content-between py-2"><span
-                                        class="fw-normal">수량</span> <span class="fw-semibold">1</span>
-                                </h6>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">결제 금액</span> <span class="fw-semibold">100,000원</span></h6>
-                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">배송요금
-                                            </span> <span class="fw-semibold">5,000원</span></h6>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">결제 금액</span>
+                                    <span class="fw-semibold">[[${item.bidPrice}]]원</span></h6>
+                                <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">배송요금</span>
+                                    <span id="deliveryFee" class="fw-semibold"></span></h6>
                                 <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">수수료</span>
-                                    <span class="fw-semibold">1,000원</span>
+                                    <span id="serviceFee" class="fw-semibold"></span>
                                 </h6>
-                                <h5 class="d-flex justify-content-between pt-2 pt-md-3 fw-bold border-top"><span
-                                        class="">총계</span>
-                                    <span class="">106,000원</span>
+                                <h5 class="d-flex justify-content-between pt-2 pt-md-3 fw-bold border-top">
+                                    <span>총계</span>
+                                    <span id="totalPrice">106,000원</span>
                                 </h5>
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <a href="thankyou" class="payment-btn">지금 결제하기</a>
+                            <a class="payment-btn">지금 결제하기</a>
                         </div>
                     </div>
                 </div>
@@ -156,9 +154,97 @@
 </main>
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
-<th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+<th:block
+        th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
 
 <script th:inline="javascript">
+    const checkoutData = JSON.parse(localStorage.getItem('checkoutData'));
+
+    //FOR TEST
+    // const checkoutData = {
+    //     firstName: '지우',
+    //     lastName: '박',
+    //     email: 'park789@gmail.com',
+    //     tel: '010-3456-7890',
+    //     address: '위례광장로 280',
+    //     detailAddress: '304동 1004호',
+    //     zipcode: '150286',
+    //     district: '송파',
+    //     city: '서울',
+    //     country: 'KR',
+    //     deliveryMethod: 1
+    // };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('itemId');
+    const winningBidId = urlParams.get('winningBidId');
+    const auctionType = urlParams.get('auctionType');
+
+    const deliveryMethods = [[${deliveryMethods}]];
+    const deliveryMethod = deliveryMethods.find(deliveryMethod => deliveryMethod.id === checkoutData.deliveryMethod);
+
+    const item = [[${item}]];
+    const serviceFee = item.bidPrice * 0.1;
+    const totalPrice = item.bidPrice + deliveryMethod.price + serviceFee;
+    const now = new Date().toISOString();
+
+    $('#deliveryFee').text(deliveryMethod.price + "원");
+    $('#serviceFee').text(serviceFee.toFixed(0) + "원");
+    $('#totalPrice').text(totalPrice.toFixed(0) + "원");
+
+    const orderInfo = {
+        ...checkoutData,
+        finalPrice: totalPrice,
+        createDate: now,
+        winningBidId: Number(winningBidId),
+        deliveryMethodId: checkoutData.deliveryMethod
+    }
+
+    const payment = {
+        createDate: now,
+        status: '완료',
+        method: '카드',
+        paymentPrice: totalPrice,
+        depositPrice: 0,
+        depositBank: '우리은행',
+        depositName: checkoutData.lastName + checkoutData.firstName,
+    };
+
+    const formData = new FormData();
+    formData.append('orderInfo', new Blob([JSON.stringify(orderInfo)], {type: 'application/json'}));
+    formData.append('payment', new Blob([JSON.stringify(payment)], {type: 'application/json'}));
+
+    $('.payment-btn').click(() => {
+        $.ajax({
+            url: '/auction/order-ok',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (response) {
+                alert(response.message);
+                const data = JSON.parse(response.data);
+                localStorage.removeItem('checkoutData');
+                location.href = "/auction/thankyou?orderId=" + data.id + "&auctionType=" + auctionType;
+            },
+            error: function (xhr, status, error) {
+                console.error("Status:", status);
+                console.error("Error:", error);
+                console.error("XHR:", xhr);
+                let errorMessage = 'ERROR: ';
+                if (xhr.responseText) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorMessage = response.message || errorMessage;
+                    } catch (e) {
+                        console.error("Response parsing error:", e);
+                    }
+                }
+                alert(errorMessage);
+            }
+        });
+    });
+
     const count = [[${winningBidCount}]];
 
     if (!count) {
