@@ -143,6 +143,7 @@ public class CustomNormalAuctionItemRepository {
     	
         return jpaQueryFactory
             .select(Projections.constructor(NormalAuctionWishDTO.class,
+            	normalAuctionItem.id,
                 normalAuctionItem.name,            // 경매 물품 이름
                 normalAuctionItem.startTime,       // 경매 시작 시간
                 normalAuctionWish.id.count()       // 찜 수 (찜한 사용자 수)
@@ -150,7 +151,7 @@ public class CustomNormalAuctionItemRepository {
             .from(normalAuctionItem)
             .leftJoin(normalAuctionWish) 
             .on(normalAuctionItem.id.eq(normalAuctionWish.normalAuctionItemId)) 
-            .groupBy(normalAuctionItem.name, normalAuctionItem.startTime) 
+            .groupBy(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItem.startTime) 
             .where(normalAuctionItem.startTime.after(oneMonthAgo))
             .having(normalAuctionWish.id.count().gt(0))  
             .orderBy(normalAuctionWish.id.count().desc())  
