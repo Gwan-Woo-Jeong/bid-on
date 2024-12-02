@@ -32,8 +32,10 @@ public interface WinningBidRepository extends JpaRepository<WinningBid, Long> {
 
 	int countByUserInfoIdAndNormalBidIdIsNotNull(Long userInfoId);
 
-	int countByUserInfoIdAndLiveBidIdIsNotNull(Long userInfoId);   
-	
-    
+	int countByUserInfoIdAndLiveBidIdIsNotNull(Long userInfoId);
+
+    // WinningBidRepository에 추가할 메서드
+    List<WinningBid> findAllByUserInfoIdAndNormalBidIdIsNotNull(Long userInfoId);
+    List<WinningBid> findAllByUserInfoIdAndLiveBidIdIsNotNull(Long userInfoId);
     
 }
