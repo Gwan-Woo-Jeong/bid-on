@@ -49,15 +49,16 @@
                 <div class="col-11 col-md-8 col-xl-5">
                     <div class="swiper banner-slider">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
+                            <div class="swiper-slide" th:each="nList, nListSize : ${normalItemList}">
                                 <div class="banner-card position-relative">
-                                    <img src="/user/images/sample/auction-product-1.png" alt="banner-bid">
+                                    <img th:src="${nList.get(2, String)}" alt="banner-bid">
                                     <div class="banner-card-disc">
-                                        <a href="bid-detail">vintage luxurious house</a>
-                                        <p>$350.00</p>
+                                        <a th:href="'bid-detail/' + ${nList.get(0, Integer)}" th:text="${nList.get(1, String)}"></a>
+                                        <p th:text="${normalTimeAndPriceList[nListSize.index].get(2, String)} + ' ￦'"></p>
                                     </div>
                                 </div>
                             </div>
+                            <!--
                             <div class="swiper-slide">
                                 <div class="banner-card position-relative">
                                     <img src="/user/images/sample/auction-product-2.png" alt="banner-bid">
@@ -94,6 +95,7 @@
                                     </div>
                                 </div>
                             </div>
+                            -->
                         </div>
                     </div>
                 </div>
@@ -105,7 +107,7 @@
             <div class="swiper categorySwiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <a href="browse-bid">
+                        <a href="browse-bid/electro">
                             <div class="category-card">
                                 <img src="/user/images/sample/electronics.gif" alt="category-img">
                                 <h5>전자제품</h5>
@@ -240,15 +242,13 @@
                     <div class="upcoming-auction position-relative bg-orange">
                         <div class="row gy-4">
                             <div class="col-md-6 text-white position-relative">
-                                <h3 class="upcoming-title line-clamp line-clamp-2">Final Match Football Studs</h3>
-                                <p class="line-clamp line-clamp-4">Experience the timeless charm of the vintage
-                                    coffee bean grinder, meticulously crafted to bring you the perfect grind for a
-                                    rich and flavorful cup of coffee.</p>
-                                <a href="bid-detail" class="primary-btn light-btn">자세히</a>
+                                <h3 class="upcoming-title line-clamp line-clamp-2" th:text="${normalItemList[0].get(1, String)}"></h3>
+                                <p class="line-clamp line-clamp-4" th:text="${normalItemList[0].get(3, String)}"></p>
+                                <a th:href="'bid-detail/' + ${normalItemList[0].get(0, Integer)}" class="primary-btn light-btn">자세히</a>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <div class="upcoming-img">
-                                    <img src="/user/images/sample/thumb-auction-img-3.png"
+                                    <img th:src="${normalItemList[0].get(2, String)}"
                                          class="w-100 h-100 object-contain" alt="Final Match Football Studs">
                                 </div>
                             </div>
@@ -259,15 +259,13 @@
                     <div class="upcoming-auction position-relative bg-blue">
                         <div class="row gy-4">
                             <div class="col-md-6 text-white position-relative">
-                                <h3 class="upcoming-title line-clamp line-clamp-2">Ancient Greek Goddess of Victory
-                                </h3>
-                                <p class="line-clamp line-clamp-4">Inspire greatness and achievement with our
-                                    stunning sculpture depicting the legendary goddess of victory, Nike.</p>
-                                <a href="bid-detail" class="primary-btn light-btn">자세히</a>
+                                <h3 class="upcoming-title line-clamp line-clamp-2" th:text="${normalItemList[1].get(1, String)}"></h3>                                </h3>
+                                <p class="line-clamp line-clamp-4" th:text="${normalItemList[1].get(3, String)}"></p>
+                                <a th:href="'bid-detail/' + ${normalItemList[1].get(0, Integer)}" class="primary-btn light-btn">자세히</a>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <div class="upcoming-img">
-                                    <img src="/user/images/sample/thumb-auction-img-1.png"
+                                    <img th:src="${normalItemList[1].get(2, String)}"
                                          class="w-100 h-100 object-contain" alt="Ancient Greek Goddess of Victory">
                                 </div>
                             </div>
@@ -427,7 +425,7 @@
                         </div>
                     </div>
                        <div class="col-12 text-center">
-                    <a href="browse-bid" class="primary-btn dark-btn mt-3 mt-md-5">모든 일반 경매 상품 보기</a>
+                    <a href="browse-bid/electro" class="primary-btn dark-btn mt-3 mt-md-5">모든 일반 경매 상품 보기</a>
                 </div>
                 </div>
             </div>
