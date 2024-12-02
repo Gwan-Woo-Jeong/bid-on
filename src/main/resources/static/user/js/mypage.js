@@ -88,5 +88,29 @@ document.getElementById('userEditForm').addEventListener('submit', async functio
 
 
 
+/* 마이페이지 > 관리자 문의 */
 
-
+document.addEventListener('DOMContentLoaded', function() {
+    const inquiryRows = document.querySelectorAll('.inquiry-row');
+    
+    inquiryRows.forEach(row => {
+        row.addEventListener('click', function() {
+            const inquiryId = this.getAttribute('data-id');
+            const answerRow = document.getElementById('answer-' + inquiryId);
+            
+            // 다른 모든 답변 행 숨기기
+            document.querySelectorAll('[id^="answer-"]').forEach(el => {
+                if (el.id !== 'answer-' + inquiryId) {
+                    el.style.display = 'none';
+                }
+            });
+            
+            // 클릭된 답변 행 토글
+            if (answerRow.style.display === 'none') {
+                answerRow.style.display = 'table-row';
+            } else {
+                answerRow.style.display = 'none';
+            }
+        });
+    });
+});

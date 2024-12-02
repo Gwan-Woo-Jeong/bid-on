@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 .env
 .metadata
-src/main/generated/*
+src/main/generated/**
 
 ### STS ###
 .apt_generated
@@ -38,3 +38,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# 시스템 파일 무시
+AppData/
+NTUSER.DAT
+*.lnk

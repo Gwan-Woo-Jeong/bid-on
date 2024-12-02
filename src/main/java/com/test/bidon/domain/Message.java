@@ -1,18 +1,27 @@
 package com.test.bidon.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
-
-	private String roomId;
+	private Long roomId;
 	private String type;
-	private String userId;
-	private String content;
-	private String regdate;
-	
+	private Long senderId;
+	private Integer bidPrice;
+	private String text;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime createTime;
+	@JsonProperty
+	private Object payload;
+	private Integer remainingSeconds;
+
 }

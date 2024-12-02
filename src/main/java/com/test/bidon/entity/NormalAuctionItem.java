@@ -17,7 +17,7 @@ public class NormalAuctionItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NormalAuctionItem_seq_generator")
-    @SequenceGenerator(name = "NormalAuctionItem_seq_generator", sequenceName = "id", allocationSize = 1)
+    @SequenceGenerator(name = "NormalAuctionItem_seq_generator", sequenceName = "seqNormalAuctionItem", allocationSize = 1)
     private Long id;
 
     private Long categorySubId;
@@ -31,6 +31,10 @@ public class NormalAuctionItem {
     private LocalDateTime endTime;
     private Integer startPrice;
     private String status;
+    
+    
+    @Transient
+    private String wishCount;
     
     @Transient
     private String statusNormal;

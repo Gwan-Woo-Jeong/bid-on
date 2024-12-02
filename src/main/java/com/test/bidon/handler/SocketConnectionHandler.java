@@ -1,13 +1,13 @@
 package com.test.bidon.handler;
 
+import com.test.bidon.domain.Message;
+import com.test.bidon.util.BidRoomUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.test.bidon.domain.Message;
 import com.test.bidon.service.LiveBidService;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class SocketConnectionHandler extends TextWebSocketHandler {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
     private final LiveBidService liveBidService;
 
     @Override
@@ -23,11 +22,8 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
 
         try {
-            Message msg = objectMapper.readValue(payload, Message.class);
-
-            System.out.println("msg = " + msg);
-
-            liveBidService.handleAction(msg.getRoomId(), session, msg);
+            Message inMessage = BidRoomUtil.fromJson(payload, Message.class);
+            liveBidService.handleAction(inMessage.getRoomId(), session, inMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

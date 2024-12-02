@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="theme" class="light"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" id="theme" class="light" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Browse Bid')}"></th:block>
@@ -44,24 +42,28 @@
                             </div>
                             <div class="col-sm-6 col-xl-12">
                                 <div class="auction-wrapper p-3">
-                                    <select name="shorting" class="form-control bg-transparent border-0">
-                                        <option value="">종료 임박 경매 순</option>
-                                        <option value="">낮은 경매가 순</option>
-                                        <option value="">높은 경매가 순</option>
+                                    <form id="sortForm" th:action="@{/browse-bid.html}" method="GET">
+                                    <select id="sortOrder" name="sortOrder" class="form-control bg-transparent border-0" th:value="${sortOrder}">
+                                        <option value="default">등록 순</option>
+                                        <option value="endTimeAsc">종료 임박 경매 순</option>
+                                        <option value="priceAsc">낮은 경매가 순</option>
+                                        <option value="priceDesc">높은 경매가 순</option>
                                     </select>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="auction-wrapper">
                                     <h4 class="mb-2">이런 물품은 어떠세요?</h4>
-                                    <div class="d-flex flex-column flex-lg-row flex-xl-column  gap-3">
-                                        <div class="product-card">
-                                            <img src="/user/images/sample/product-card-img.png" alt="product-card-img">
+                                    <div class="d-flex flex-column flex-lg-row flex-xl-column  gap-3" th:each="tuple, rand : ${itemList}">
+                                        <div class="product-card" th:if="${randomIndexes.contains(rand.index)}">
+                                            <img th:src="${tuple.get(2, String)}" alt="product-card-img" style="width: 50px; height: 50px;">
                                             <div>
-                                                <h6 class="mb-1">Lorem ipsum labore dolor sit amet</h6>
-                                                <p>Current bid <span class="fw-bold">$715.00</span></p>
+                                                <h6 class="mb-1"></h6>
+                                                <p><span class="fw-bold" th:text="${tuple.get(1, String)}"></span></p>
                                             </div>
                                         </div>
+                                        <!--
                                         <div class="product-card">
                                             <img src="/user/images/sample/product-card-img-2.png" alt="product-card-img">
                                             <div>
@@ -76,6 +78,7 @@
                                                 <p>Current bid <span class="fw-bold">$715.00</span></p>
                                             </div>
                                         </div>
+                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -84,22 +87,22 @@
                                     <h4 class="mb-3">Products</h4>
                                     <ul class="product-list">
                                         <li>
-                                            <a href=""><span>세부 카테고리1</span> <span>(1333)</span> </a>
+                                            <a href=""><span>전자제품</span> <span th:text=|(${itemStatusList.size()})|>(1333)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>세부 카테고리2</span> <span>(1557)</span> </a>
+                                            <a href=""><span>스포츠</span> <span>(1557)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>세부 카테고리3</span> <span>(18)</span> </a>
+                                            <a href=""><span>패션</span> <span>(141)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>세부 카테고리4</span> <span>(18)</span> </a>
+                                            <a href=""><span>예술</span> <span>(59)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>세부 카테고리5</span> <span>(18)</span> </a>
+                                            <a href=""><span>자동차</span> <span>(18)</span> </a>
                                         </li>
                                         <li>
-                                            <a href=""><span>세부 카테고리6</span> <span>(18)</span> </a>
+                                            <a href=""><span>미용</span> <span>(119)</span> </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -132,159 +135,20 @@
                 <div class="col-xl-9">
                     <div class="auction-card-small">
                         <div class="row gy-4 justify-content-center">
-                            <div class="col-sm-6 col-lg-4">
+                            <div class="col-sm-6 col-lg-4" th:each="tuple, tupleLength : ${itemList}">
                                 <div class="auction-card">
                                     <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-20.png" alt="auction-card-img">
+                                        <img th:src="${tuple.get(2, String)}" alt="auction-card-img">
                                         <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
+                                            <div class="browseTime" style="text-align: center;">
+                                                <span th:text="${#temporals.format(itemStatusList[tupleLength.index].get(1, T(java.time.LocalDateTime)), 'MM월 dd일 HH:mm:ss')}"></span> 종료
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Gegreg</a>
+                                        <a th:href=|bid-detail/${tupleLength.index}| class="card-title" th:text="${tuple.get(1, String)}">Item</a>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-17.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">1985’s cricket ball</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-18.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Heritage royal palace from
-                                            1896</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-16.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Old fashion premium women
-                                            dresses</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-14.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Vintage Champagne cognac
-                                            diamond 1.25cttw and 14kt rose gold ring.</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-6.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Premium vase with gold and
-                                            black designs</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-12.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Black sling bag</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/recent-auction-5.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Arabic old style patterned
-                                            teapot</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
-                                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="auction-card">
-                                    <div class="card-image">
-                                        <img src="/user/images/sample/auction-product-13.png" alt="auction-card-img">
-                                        <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <a href="bid-detail" class="card-title">Victorian Noir-Gold Decor</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">Current bid <span>589.00$</span></p>
+                                            <p class="p-0">현재 경매가 ￦ <span th:text="${itemStatusList[tupleLength.index].get(2, String)}"></span></p>
                                             <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
                                         </div>
                                     </div>
@@ -292,7 +156,8 @@
                             </div>
                             <div class="col-12">
                                 <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center">
+                                    <ul class="pagination justify-content-center" th:utext="${sb}">
+                                        <!--
                                         <li class="page-item disabled">
                                             <a class="page-link" href="#" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
@@ -306,6 +171,7 @@
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
+                                        !-->
                                     </ul>
                                 </nav>
                             </div>
@@ -317,27 +183,29 @@
     </section>
     <section class="outer-gap auction-card-small">
         <div class="container">
-            <h2 class="section-title">Latest Auctions</h2>
+            <h2 class="section-title">최근 경매</h2>
             <div class="swiper product-swiper px-0">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:each="tuple, tupleSize : ${recentList}">
                         <div class="auction-card">
                             <div class="card-image">
-                                <img src="/user/images/sample/recent-auction-1.png" alt="auction-card-img">
+                                <img th:src="${tuple.get(2, String)}" alt="auction-card-img">
                                 <div class="timer-wrapper">
-                                    <div class="timer-inner"></div>
+                                    <div class="browseTime" style="text-align: center;">
+                                        <span th:text="${#temporals.format(recentStatusList[tupleSize.index].get(1, T(java.time.LocalDateTime)), 'MM월 dd일 HH:mm:ss')}"></span> 종료
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="bid-detail" class="card-title">Mendinib top violin from best
-                                    artist</a>
+                                <a href="" class="card-title" th:text="${tuple.get(1, String)}"></a>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="p-0">Current bid <span>589.00$</span></p>
+                                    <p class="p-0">현재 경매가 ￦ <span th:text="${recentStatusList[tupleSize.index].get(2, String)}"></span></p>
                                     <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--
                     <div class="swiper-slide">
                         <div class="auction-card">
                             <div class="card-image">
@@ -427,6 +295,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
                 </div>
             </div>
         </div>

@@ -48,7 +48,7 @@ public class UserInfoDTO {
         this.userRole = "ROLE_USER";
     }
 
-    private UserEntity toEntity() {
+    public UserEntity toEntity() {
         return UserEntity.builder()
                 .id(this.getId())
                 .email(this.getEmail())
@@ -64,5 +64,7 @@ public class UserInfoDTO {
                 .userRole(this.getUserRole())
                 .build();
     }
+    
+    
 
 }

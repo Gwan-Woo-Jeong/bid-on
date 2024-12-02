@@ -5,9 +5,9 @@
       // "#performaneLine" 요소가 존재하는지 확인
       if ($("#performaneLine").length) {
 
-          // console.log(monthlyNewUserCounts);
-          // console.log(monthlyExistingUserCounts);
-          // console.log(monthlyUserCountList);
+          //console.log(monthlyNewUserCounts);
+          //console.log(monthlyExistingUserCounts);
+          //console.log(monthlyUserCountList);
 
           // "performaneLine" 캔버리 요소의 2D 컨텍스트를 가져옴
           var graphGradient = document.getElementById("performaneLine").getContext('2d');
@@ -406,8 +406,8 @@
       var marketingOverviewData = {
           labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
           datasets: [{
-              label: '평균 시작 가격',
-              data: [110, 220, 200, 190, 220, 110, 210, 110, 205, 202, 201, 150],
+              label: '평균 낙찰 가격',
+              data: monthlyAverageBidPrice,
               backgroundColor: "#52CDFF",
               borderColor: [
                   '#52CDFF',
@@ -416,8 +416,8 @@
               fill: true, // 3: no fill
               
           },{
-            label: '평균 낙찰 가격',
-            data: [215, 290, 210, 250, 290, 230, 290, 210, 280, 220, 190, 300],
+            label: '평균 시작 가격',
+            data: monthlyAverageStartPrice,
             backgroundColor: "#1F3BB3",
             borderColor: [
                 '#1F3BB3',
@@ -681,7 +681,7 @@
           labels: ["1분기","2분기", "3분기", "4분기"],
           datasets: [{
               label: 'Last week',
-              data: [18, 25, 39, 11],
+              data: [8, 5, 11, 39],
               backgroundColor: "#52CDFF",
               borderColor: [
                   '#52CDFF',
@@ -751,7 +751,7 @@
           labels: ["1분기","2분기", "3분기", "4분기"],
           datasets: [{
               label: 'Last week',
-              data: [18, 25, 39, 11],
+              data: [18, 25, 20, 39],
               backgroundColor: "#1F3BB3",
               borderColor: [
                   '#1F3BB3',
@@ -821,7 +821,12 @@
 // 데이터셋을 위한 설정
     const DATA_COUNT = 12;
     const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-
+	
+/*	console.log(registeredCount);
+	console.log(ongoingCount);
+	console.log(endCount);
+*/
+	
 // 데이터셋 생성
     const data1 = {
         labels: labels,
@@ -833,7 +838,7 @@
                 backgroundColor: 'rgba(31,59,179, 0.5)', // 배경색
                 borderColor: 'rgba(31,59,179, 1)', // 테두리 색상
                 fill: false,
-                data: [10, 19, 13, 15, 12, 13, 9, 9, 1, 2, 3, 4] // 데이터 값
+                data: ongoingCount
             },
             {
                 type: 'line',
@@ -841,7 +846,7 @@
                 backgroundColor: 'rgba(129,218,218, 0.5)', // 배경색
                 borderColor: 'rgba(129,218,218, 1)', // 테두리 색상
                 fill: false,
-                data: [9, 14, 10, 19, 22, 11, 16, 1, 2, 3, 4, 5] // 데이터 값
+                data: endCount
             },
             {
                 type: 'bar',
@@ -849,7 +854,7 @@
                 backgroundColor: 'rgba(82,205,255,0.3)', // 배경색
                 borderColor: 'rgb(82,205,255, 0.5)', // 테두리 색상
                 borderWidth: 1,
-                data: [10, 19, 13, 15, 12, 13, 9, 1, 2, 3, 4, 5] // 데이터 값
+                data: registeredCount
             }
         ]
     };
@@ -859,27 +864,44 @@
         type: 'bar', // 기본 타입
         data: data1,
         options: {
-            scales: {
-                x: {
-                    display: false, // x축 표시 여부
-                    beginAtZero: true,
-                    grid: {
-                        display: false, // 세로선 표시 여부
-                    },
-                },
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        display: false, // 가로선 표시 여부
-                    }
-                }
-            },
-            legend: false, // 범례 표시 안 함
-            legendCallback: function (chart) { // 범례 생성 콜백 함수
+			scales: {
+				    yAxes: [{
+				        gridLines: {
+				            display: true,      // y축 그리드 라인 표시 여부
+				            drawBorder: false,  // y축 테두리 선 표시 여부
+				            color:"#F0F0F0",    // y축 그리드 라인 색상
+				            zeroLineColor: '#F0F0F0',  // y축 0 위치의 라인 색상
+				        },
+				        ticks: {
+				            beginAtZero: true,    // y축이 0부터 시작
+				            autoSkip: true,       // 눈금 자동 스킵 활성화
+				            maxTicksLimit: 5,     // 최대 눈금 개수를 5개로 제한
+				            fontSize: 10,         // 눈금 글자 크기
+				            color:"#6B778C"       // 눈금 글자 색상
+				        }
+				    }],
+				    xAxes: [{
+				        stacked: true,           // x축 데이터 스택(누적) 표시 여부
+				        barPercentage: 0.35,     // 막대 차트의 경우 막대 너비 비율
+				        gridLines: {
+				            display: false,       // x축 그리드 라인 숨김
+				            drawBorder: false,    // x축 테두리 선 숨김
+				        },
+				        ticks: {
+				            beginAtZero: false,   // x축은 0부터 시작하지 않음
+				            autoSkip: true,       // 눈금 자동 스킵 활성화
+				            maxTicksLimit: 12,    // 최대 눈금 개수를 12개로 제한
+				            fontSize: 10,         // 눈금 글자 크기
+				            color:"#6B778C"       // 눈금 글자 색상
+				        }
+				    }],
+				},
+				legend:false,                    // 범례 표시 안 함
+			    legendCallback: function (chart) { // 범례 생성 콜백 함수
                 var text = [];
-                text.push('<div class="chartjs-legend"><ul>'); // 범례 HTML 시작
+                text.push('<div class="chartjs-legend"><ul style="felx-direction: row-reverse;">'); // 범례 HTML 시작  
                 for (var i = 0; i < chart.data.datasets.length; i++) { // 각 데이터셋에 대해 반복
-                    text.push('<li style="display: flex; align-items: center;">'); // 리스트 항목 시작
+                    text.push('<li style="display: flex; align-items: center;">'); // 리스트 항목 시작 
                     text.push('<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background-color:' + chart.data.datasets[i].borderColor + '; margin-right: 5px;"></span>'); // 동그라미 추가
                     text.push(chart.data.datasets[i].label); // 데이터셋 레이블 추가
                     text.push('</li>'); // 리스트 항목 끝
@@ -903,15 +925,15 @@
         datasets: [
             {
                 label: '수익 수수료',
-                data: [10, 20, 15, 25, 30, 20, 35, 1, 2, 3, 4, 5], // 데이터 값
+                data: totalRevenue,
                 borderColor: 'rgba(31,59,179, 1)', // 테두리 색상
                 backgroundColor: 'rgba(31,59,179, 0.5)', // 배경색
                 fill: true,
                 tension: 0.5 // 곡선의 부드러움
             },
             {
-                label: '평균 경매 시간',
-                data: [15, 25, 20, 30, 35, 25, 40, 10, 20, 30, 40, 50], // 데이터 값
+                label: '누적 수익 금액',
+                data: cumulativeTotalRevenue,
                 borderColor: 'rgba(54, 162, 235, 1)', // 테두리 색상
                 backgroundColor: 'rgba(54, 162, 235, 0.5)', // 배경색
                 fill: true,
@@ -924,23 +946,41 @@
     const revenueChartInstance = new Chart(revenueChart, {
         type: 'line', // 차트 타입
         data: data2,
-        options: {
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    grid: {
-                        display: false, // 세로선 표시 여부
-                    },
-                },
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        display: false, // 가로선 표시 여부
-                    }
-                }
-            },
-            legend: false, // 범례 표시 안 함
-            legendCallback: function (chart) { // 범례 생성 콜백 함수
+		options: {
+			scales: {
+				    yAxes: [{
+				        gridLines: {
+				            display: true,      // y축 그리드 라인 표시 여부
+				            drawBorder: false,  // y축 테두리 선 표시 여부
+				            color:"#F0F0F0",    // y축 그리드 라인 색상
+				            zeroLineColor: '#F0F0F0',  // y축 0 위치의 라인 색상
+				        },
+				        ticks: {
+				            beginAtZero: true,    // y축이 0부터 시작
+				            autoSkip: true,       // 눈금 자동 스킵 활성화
+				            maxTicksLimit: 5,     // 최대 눈금 개수를 5개로 제한
+				            fontSize: 10,         // 눈금 글자 크기
+				            color:"#6B778C"       // 눈금 글자 색상
+				        }
+				    }],
+				    xAxes: [{
+				        stacked: true,           // x축 데이터 스택(누적) 표시 여부
+				        barPercentage: 0.35,     // 막대 차트의 경우 막대 너비 비율
+				        gridLines: {
+				            display: false,       // x축 그리드 라인 숨김
+				            drawBorder: false,    // x축 테두리 선 숨김
+				        },
+				        ticks: {
+				            beginAtZero: false,   // x축은 0부터 시작하지 않음
+				            autoSkip: true,       // 눈금 자동 스킵 활성화
+				            maxTicksLimit: 12,    // 최대 눈금 개수를 12개로 제한
+				            fontSize: 10,         // 눈금 글자 크기
+				            color:"#6B778C"       // 눈금 글자 색상
+				        }
+				    }],
+				},
+				legend:false,                    // 범례 표시 안 함
+			    legendCallback: function (chart) { // 범례 생성 콜백 함수
                 var text = [];
                 text.push('<div class="chartjs-legend"><ul>'); // 범례 HTML 시작
                 for (var i = 0; i < chart.data.datasets.length; i++) { // 각 데이터셋에 대해 반복

@@ -1,98 +1,147 @@
-const urlParams = new URLSearchParams(window.location.search);
-const itemId = urlParams.get('itemId');
-
-if (itemId === null) {
-    alert('ERROR: 잘못된 접근입니다. (물품번호가 존재하지 않음)');
-    window.close();
-}
-
-window.onUnload = function () {
-    disconnect();
-}
-
 //대화명 설정 + 서버 연결
 const url = 'ws://localhost:8090/live-bid';
 let ws;
 
-function connect(userId) {
+const urlParams = new URLSearchParams(window.location.search);
+const itemId = urlParams.get('itemId');
+const bidButton = $('.bid-button');
 
-    $('#header small').text(userId);
-    this.userId = userId;
+// TODO: 로그인 체크
+// TODO: 경매 시간 체크
+if (!itemId) {
+    alertErrorAndClose("잘못된 접근입니다.");
+} else if (!itemInfo) {
+    alertErrorAndClose("경매 물품이 존재하지 않습니다.");
+}
+
+function connect(user) {
+    this.userId = user.id;
 
     ws = new WebSocket(url);
     log('서버에게 연결을 시도합니다.');
 
     ws.onopen = evt => {
         log('서버와 연결되었습니다.');
-
-        const message = {
-            roomId: itemId,
-            type: "IN",
-            userId,
-            content: '',
-            regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
-        }
-
-
-        ws.send(JSON.stringify(message));
+        sendMessage({type: 'ENTER', payload: user});
     };
 
     ws.onmessage = evt => {
         log('메시지를 수신했습니다.');
 
-        console.log(evt.data);
+        console.log(JSON.parse(evt.data));
+        const {type, text, payload, createTime, remainingSeconds} = JSON.parse(evt.data);
 
-        const message = JSON.parse(evt.data);
-
-        if (message.type === 'IN') {
-            print('', `[${message.userId}]님이 들어왔습니다.`, 'left', 'state', message.regdate);
-        } else if (message.type === 'OUT') {
-            print('', `[${message.userId}]님이 나갔습니다.`, 'left', 'state', message.regdate);
-        } else if (message.type === 'TALK') {
-            print(message.userId, message.content, 'left', 'msg', message.regdate);
+        if (type === "TIMER") {
+            $('.bid-time').text(formatTime(remainingSeconds));
+        } else if (type === 'TALK') {
+            printChat(payload.name, payload.profile, text, 'left', createTime);
+        } else if (type === 'PARTS') {
+            clearUsers();
+            payload.forEach(user => {
+                printUsers(user.profile, user.name, user.email, user.isHighestBidder);
+            });
+            printUserCount(payload.length)
+        } else if (type === 'ALERT') {
+            printAlert(text);
+        } else if (type === "BID-START") {
+            const minBidPrice = setMinBidPrice(payload.highestBidPrice || itemInfo.startPrice);
+            if (minBidPrice) {
+                bidButton.removeAttr('disabled');
+            }
+        } else if (type === "BID-OK") {
+            setMinBidPrice(payload.highestBidPrice);
+        } else if (type === "BID-FAIL") {
+            alert(text);
+            setMinBidPrice(payload.highestBidPrice);
+        } else if (type === "BID-TALK") {
+            printChat(payload.name, payload.profile, text, payload.userId === this.userId ? "right" : "left", createTime, true);
         }
     };
 
-    ws.onclose = evt => {
-        log('서버와 연결이 종료되었습니다.');
+
+    window.onbeforeunload = function () {
+        disconnect();
     };
 
     ws.onerror = evt => {
         log('에러가 발생했습니다. ' + evt);
     };
-
 }
 
-function disconnect() {
-    //소켓 연결 종료
+function sendMessage({type, text, payload, bidPrice}) {
     const message = {
         roomId: itemId,
-        type: "OUT",
-        userId,
-        content: '',
-        regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+        type,
+        senderId: this.userId,
+        text: text || '',
+        payload: payload || null,
+        bidPrice: bidPrice || null,
+        createTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     ws.send(JSON.stringify(message));
+}
 
+function disconnect() {
+    sendMessage({type: 'LEAVE'});
+    log('서버와 연결이 종료되었습니다.');
     ws.close();
 }
 
 
-function print(userId, msg, side, state, time) {
+function clearUsers() {
+    $('.chat-users').empty();
+}
+
+function printUsers(profileImgName, name, email, isHighestBidder) {
     const temp = `
-                <div class="answer ${side}">
+                <div class="user">
                     <div class="avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User userId">
-                        <div class="status offline"></div>
+                        <img src="/uploads/profiles/${profileImgName}" alt="User name">
                     </div>
-                    <div class="userId">${userId}</div>
+                    <div class="user-info">
+                        <div class="name">${name} ${isHighestBidder ? '👑' : ''}</div>
+                        <div class="mood">${email}</div>
+                    </div>
+                </div>
+                `;
+
+    $('.chat-users').append(temp);
+}
+
+function printUserCount(count) {
+    $('.user-count').text(count);
+}
+
+function printChat(name, profileImgName, text, side, time, isBid) {
+    const temp = `
+                <div class="answer ${side} ${isBid ? 'bid' : ''}">
+                    <div class="avatar">
+                        <img src="/uploads/profiles/${profileImgName}" alt="User name">
+                    </div>
+                    <div class="name">${name}</div>
                     <div class="text">
-                        ${msg}
+                        ${newlineToBreak(text)}
                     </div>
                     <div class="time">${showTime(time)}</div>
                 </div>
-			`;
+                `;
+
+    $('.chat-body').append(temp);
+
+    scrollList();
+}
+
+function printAlert(text) {
+    const temp = `
+                <div class="answer center">
+                    <div class="avatar">
+                        <img src="/user/images/sample/auctioneer-bot.jpg" alt="User name">
+                    </div>
+                    <div class="name">경매사 봇</div>
+                    <div class="text">${newlineToBreak(text)}</div>
+                </div>
+                `;
 
     $('.chat-body').append(temp);
 
@@ -122,23 +171,51 @@ function showTime(date) {
     }
 }
 
-$('#message-input').keydown(evt => {
+function setMinBidPrice(highestBidPrice) {
+    const minBidPriceUnit = getMinBidUnit(highestBidPrice);
+    itemInfo.minBidPrice = highestBidPrice + minBidPriceUnit;
+    bidButton.text(itemInfo.minBidPrice + "원 입찰");
+    return itemInfo.minBidPrice;
+}
 
-    if (evt.keyCode === 13) {
-        const message = {
-            roomId: itemId,
-            type: 'TALK',
-            userId: this.userId,
-            content: $(evt.target).val(),
-            regdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
-        }
+function alertErrorAndClose(message) {
+    alert('ERROR:' + message);
+    window.close();
+}
 
-        ws.send(JSON.stringify(message));
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
 
-        $(evt.target).val('');
+    return `${minutes}:${formattedSeconds}`;
+}
 
-        print(message.userId, message.content, 'right', 'msg', message.regdate);
+function newlineToBreak(str) {
+    return str.replace(/\n/g, '<br>');
+}
+
+
+bidButton.click(e => {
+    e.preventDefault();
+    sendMessage({type: 'BID', bidPrice: itemInfo.minBidPrice});
+});
+
+$('.quit-button').click(e => {
+    e.preventDefault();
+    if (confirm('정말로 나가시겠습니까?')) {
+        window.close();
     }
 });
+
+$('#message-input').keydown(evt => {
+    if (evt.keyCode === 13) {
+        const input = $(evt.target);
+        sendMessage({type: 'TALK', text: input.val()});
+        printChat(myInfo.name, myInfo.profile, input.val(), 'right', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+        input.val('')
+    }
+});
+
 
 

@@ -12,13 +12,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Repository
 public class LiveBidRoomRepository {
-    private final Map<String, LiveBidRoom> bidRooms = new HashMap<>();
 
-    public void save(String roomId, LiveBidRoom bidRoom) {
+    private final Map<Long, LiveBidRoom> bidRooms = new HashMap<>();
+
+    public void save(Long roomId, LiveBidRoom bidRoom) {
         bidRooms.put(roomId, bidRoom);
     }
 
-    public LiveBidRoom findById(String roomId) {
+    public LiveBidRoom findById(Long roomId) {
         return bidRooms.get(roomId);
     }
 

@@ -6,9 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +31,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.bidon.config.security.CustomUserDetails;
+import com.test.bidon.dto.CombinedAuctionDTO;
+import com.test.bidon.dto.CustomOAuth2User;
 import com.test.bidon.dto.UserInfoDTO;
+import com.test.bidon.entity.OneOnOne;
+import com.test.bidon.entity.OneOnOneAnswer;
 import com.test.bidon.entity.UserEntity;
+import com.test.bidon.repository.NormalAuctionItemRepository;
+import com.test.bidon.repository.OneOnOneAnswerRepository;
+import com.test.bidon.repository.OneOnOneRepository;
 import com.test.bidon.repository.UserRepository;
+import com.test.bidon.service.BidOrderService;
 import com.test.bidon.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,9 +55,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
     private final UserService userService;
-    private final String uploadPath = "C:/temp/uploads"; // 실제 파일이 저장될 경로
-
     private final UserRepository userRepository;
+    private final OneOnOneRepository oneOnOneRepository;
+    private final OneOnOneAnswerRepository oneOnOneAnswerRepository;
+    private final NormalAuctionItemRepository normalAuctionItemRepository;
+    private final BidOrderService bidOrderService;
     
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -137,14 +151,20 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public String mypage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails) {
+        UserEntity user = null;
+        
+        if (auth.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
-            
-            UserEntity user = userRepository.findById(customUserDetails.getId())
+            user = userRepository.findById(customUserDetails.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-            
-            // CustomUserDetails 대신 DB에서 가져온 최신 user 정보를 사용
+        } else if (auth.getPrincipal() instanceof CustomOAuth2User) {
+            CustomOAuth2User oauth2User = (CustomOAuth2User) auth.getPrincipal();
+            user = userRepository.findByEmail(oauth2User.getEmail());
+        }
+
+        if (user != null) {
+        
+            //CustomUserDetails 대신 DB에서 가져온 최신 user 정보를 사용
             model.addAttribute("name", user.getName());
             model.addAttribute("email", user.getEmail());
             model.addAttribute("national", user.getNational());
@@ -152,18 +172,97 @@ public class UserController {
             model.addAttribute("tel", user.getTel());
             model.addAttribute("createDate", user.getCreateDate());
             model.addAttribute("profile", user.getProfile());
+            model.addAttribute("provider", user.getProvider());
+            model.addAttribute("biddingCount", bidOrderService.countBiddingActivities(user.getId()));
+            model.addAttribute("wonCount", bidOrderService.countWonAuctions(user.getId()));
+            model.addAttribute("sellingCount", bidOrderService.countSellingActivities(user.getId()));
             
-            log.info("User info found - Name: {}, Email: {}", user.getName(), user.getEmail());
-        } else {
-            log.warn("User information not found");
-        }
+            //관리자 문의
+            //OneOnOne 데이터 가져오기
+            List<OneOnOne> oneOnOneList = oneOnOneRepository.findByUserEntityInfo(user);
+            
+            //각 OneOnOne에 대한 답변을 가져와서 설정
+            for (OneOnOne oneOnOne : oneOnOneList) {
+                OneOnOneAnswer answer = oneOnOneAnswerRepository.findByOneonone(oneOnOne);
+                if (answer != null) {
+                    oneOnOne.setOneOnOneAnswer(answer);
+                }
+            }
+            
+            model.addAttribute("oneOnOneList", oneOnOneList);
+            
+            //나의 활동 > 일반 경매와 실시간 경매 통합 처리
+            List<CombinedAuctionDTO> normalAuctions = normalAuctionItemRepository.findByUserInfoId(user.getId())
+                .stream()
+                .map(item -> {
+                    Duration duration = Duration.between(item.getStartTime(), item.getEndTime());
+                    long secondsRemaining = duration.getSeconds();
+                    String remainingTime = formatRemainingTime(secondsRemaining);
 
+                    return CombinedAuctionDTO.builder()
+                        .auctionType("일반")
+                        .id(item.getId())
+                        .name(item.getName())
+                        .currentPrice(bidOrderService.getFinalPriceByNormalBidId(item.getId()))
+                        .startPrice(item.getStartPrice())
+                        .remainingTime(remainingTime)
+                        .build();
+                })
+                .collect(Collectors.toList());
+
+            List<CombinedAuctionDTO> liveAuctions = bidOrderService.getLiveBidsByUserId(user.getId())
+            	    .stream()
+            	    .map(item -> {
+            	        Duration duration = Duration.between(LocalDateTime.now(), item.getEndTime());
+            	        String remainingTime = formatRemainingTime(duration.getSeconds());
+
+            	        return CombinedAuctionDTO.builder()
+            	            .auctionType("실시간")
+            	            .id(item.getId())
+            	            .name(item.getName())
+            	            .currentPrice(item.getFinalPrice())
+            	            .startPrice(item.getStartPrice())
+            	            .remainingTime(remainingTime)
+            	            .build();
+            	    })
+            	    .collect(Collectors.toList());
+
+            // 두 리스트 병합
+            List<CombinedAuctionDTO> combinedAuctions = new ArrayList<>();
+            combinedAuctions.addAll(normalAuctions);
+            combinedAuctions.addAll(liveAuctions);
+            
+            // 입찰한 경매 목록
+            model.addAttribute("combinedAuctions", bidOrderService.getBiddingAuctions(user.getId()));
+            
+            // 낙찰받은 경매 목록
+            model.addAttribute("wonAuctions", bidOrderService.getWonAuctions(user.getId()));
+            
+            // 판매된 경매 목록
+            model.addAttribute("soldAuctions", bidOrderService.getSoldAuctionsByUserId(user.getId()));
+        
+            
+            
+        }
+        
+		
+            
         return "user/mypage";
+    }
+    
+    //남은 시간 포맷팅 메서드 > 따로 빼서 관리
+    private String formatRemainingTime(long secondsRemaining) {
+        long days = secondsRemaining / (24 * 3600);
+        long hours = (secondsRemaining % (24 * 3600)) / 3600;
+        long minutes = (secondsRemaining % 3600) / 60;
+        long seconds = secondsRemaining % 60;
+        
+        return String.format("%d일 %02d:%02d:%02d", days, hours, minutes, seconds);
     }
     
     @PostMapping("/api/user/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> updateUser(	//value때문에 경고뜨는데, 이거 삭제하면 에러 발생
+    public ResponseEntity<?> updateUser(
         @RequestParam(value = "name", required = false) String name,
         @RequestParam(value = "password", required = false) String password,
         @RequestParam(value = "birth", required = false) String birth,
@@ -173,7 +272,33 @@ public class UserController {
         
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+            UserEntity user = null;
+            
+            if (auth.getPrincipal() instanceof CustomUserDetails) {
+                CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+                user = userRepository.findById(userDetails.getId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            } else if (auth.getPrincipal() instanceof CustomOAuth2User) {
+                CustomOAuth2User oauth2User = (CustomOAuth2User) auth.getPrincipal();
+                user = userRepository.findByEmail(oauth2User.getEmail());
+            }
+            
+            if (user == null) {
+                return ResponseEntity.badRequest()
+                    .body(Map.of(
+                        "success", false,
+                        "message", "사용자를 찾을 수 없습니다."
+                    ));
+            }
+
+            // OAuth2 사용자의 경우 비밀번호 수정 방지
+            if ("google".equals(user.getProvider()) && password != null) {
+                return ResponseEntity.badRequest()
+                    .body(Map.of(
+                        "success", false,
+                        "message", "소셜 로그인 사용자는 비밀번호를 변경할 수 없습니다."
+                    ));
+            }
             
             UserInfoDTO updateDto = new UserInfoDTO();
             updateDto.setName(name);
@@ -184,13 +309,12 @@ public class UserController {
             updateDto.setNational(national);
             updateDto.setTel(tel);
             
-            // 파일이 있는 경우만 처리
             if (profile != null && !profile.isEmpty()) {
-            	String savedFileName = saveProfileFile(profile);
+                String savedFileName = saveProfileFile(profile);
                 updateDto.setProfile(savedFileName);
             }
             
-            UserEntity updatedUser = userService.updateUser(userDetails.getId(), updateDto);
+            UserEntity updatedUser = userService.updateUser(user.getId(), updateDto);
             
             return ResponseEntity.ok()
                 .body(Map.of(
@@ -206,5 +330,6 @@ public class UserController {
                 ));
         }
     }
-	 
+    
+    
 }
