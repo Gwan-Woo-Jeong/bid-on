@@ -319,7 +319,7 @@ public class LiveBidService {
         LiveAuctionItem liveAuctionItem = liveAuctionItemRepository.getReferenceById(roomId);
         LiveAuctionPart liveAuctionPart = liveAuctionPartRepository.getReferenceById(foundUser.getPartId());
 
-        LiveBidCost liveBidCost =  LiveBidCost.builder()
+        LiveBidCost liveBidCost = LiveBidCost.builder()
                 .liveAuctionPartId(liveAuctionPart.getId())
                 .liveAuctionItemId(liveAuctionItem.getId())
                 .bidPrice(bidPrice)
@@ -383,14 +383,18 @@ public class LiveBidService {
                         timer.purge();
                     }
 
+                    LiveBidRoomUser highestBidder = room.getHighestBidder();
+
                     Message outAlertMessage = Message.builder()
                             .roomId(roomId)
                             .type("ALERT")
-                            .text("땅땅땅! 경매가 종료되었습니다.\n" + room.getHighestBidder().getName() + "님이 최종 입찰가\n" + room.getHighestBidPrice() + "원으로 낙찰되셨습니다.\n진심으로 축하드립니다!!")
+                            .text("땅땅땅! 경매가 종료되었습니다.\n" + highestBidder.getName() + "님이 최종 입찰가\n" + room.getHighestBidPrice() + "원으로 낙찰되셨습니다.\n진심으로 축하드립니다!!")
                             .createTime(LocalDateTime.now())
                             .build();
 
                     room.sendMessageAll(toTextMessage(outAlertMessage));
+
+                    sendBidEndMessage(highestBidder, roomId, room);
                     saveWinningBid(room);
                     updateItemEndTime(roomId);
                 }
@@ -399,6 +403,17 @@ public class LiveBidService {
                 room.setRemainingSeconds(remainingSeconds - 1);
             }
         };
+    }
+
+    private static void sendBidEndMessage(LiveBidRoomUser highestBidder, Long roomId, LiveBidRoom room) {
+        Message outBidEndMessage = Message.builder()
+                .roomId(roomId)
+                .type("BID-END")
+                .payload(highestBidder)
+                .createTime(LocalDateTime.now())
+                .build();
+
+        room.sendMessageAll(toTextMessage(outBidEndMessage));
     }
 
     private void updateItemEndTime(Long roomId) {
