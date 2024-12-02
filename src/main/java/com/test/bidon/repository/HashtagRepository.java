@@ -11,7 +11,7 @@ import com.test.bidon.entity.HashTagEntity;
 import com.test.bidon.entity.HashTaggingEntity;
 
 @Repository
-public interface HashtagRepository extends JpaRepository<HashTagEntity, Long> {
+public interface HashtagRepository extends JpaRepository<HashTagEntity, Integer> {
 
     @Query("SELECT h.tag FROM HashTaggingEntity hg " +
            "INNER JOIN hg.hashTag h " + 

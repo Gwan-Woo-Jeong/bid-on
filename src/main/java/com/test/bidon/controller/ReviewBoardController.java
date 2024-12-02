@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -158,5 +159,22 @@ public class ReviewBoardController {
     public void addReviewFromController() {
         reviewBoardService.addReview("Title", "Content", "email@example.com", "/path/to/thumbnail", "/path/to/photos");
     }
+    
+//    @DeleteMapping("/delete-review")
+//    public String deleteReview(@RequestParam("reviewBoardId") Integer reviewBoardId, Model model) {
+//    	
+//    	try {
+//    		reviewBoardService.deleteReview(reviewBoardId);
+//			
+//    		return "redirect:/blog";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("error", "게시글 삭제 중 오류 발생");
+//			return "user/blog";
+//		}
+//    	
+//    	
+//    }
+    
 
 }
