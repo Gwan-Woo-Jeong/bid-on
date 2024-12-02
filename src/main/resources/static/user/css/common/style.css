@@ -1180,6 +1180,7 @@ button.like-btn:focus i {
     background: var(--bg-wrapper);
     border: 1px solid var(--border-clr);
     border-radius: 40px;
+    margin-top: 30px;
 }
 
 .product-detail-wrapper .nav-tabs {

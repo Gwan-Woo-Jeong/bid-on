@@ -1,18 +1,20 @@
 package com.test.bidon.repository;
 
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.test.bidon.entity.NormalAuctionItem;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
 import static com.test.bidon.entity.QNormalAuctionItem.normalAuctionItem;
 import static com.test.bidon.entity.QNormalAuctionItemImage.normalAuctionItemImage;
 import static com.test.bidon.entity.QNormalAuctionItemImageList.normalAuctionItemImageList;
 import static com.test.bidon.entity.QNormalBidInfo.normalBidInfo;
+
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
+
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.test.bidon.entity.NormalAuctionItem;
+
+import lombok.RequiredArgsConstructor;
 
 //Query DSL용 Repository
 @Repository

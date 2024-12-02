@@ -6,7 +6,94 @@
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Bid Detail')}"></th:block>
+<style>
 
+.single-bid-product .card-image img {
+    object-fit: cover; /* 이미지를 부모 영역에 맞추되 비율을 유지하면서 잘리게 함 */
+    max-width: 100%;
+    height: 540px;
+}
+/* 이미지 슬라이더 컨테이너의 위치를 상대적으로 설정 */
+.slider-container {
+    position: relative;
+}
+
+/* 좌측 및 우측 버튼 스타일 */
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* 투명한 배경색 */
+    color: white;  /* 글자 색 */
+    font-size: 18px;  /* 글자 크기 */
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    border: none;
+    border-radius: 5px; /* 둥근 테두리 */
+    cursor: pointer;
+    z-index: 10; /* 버튼이 이미지 위에 나타나도록 설정 */
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼의 호버 효과 */
+.slider-button:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* 호버 시 배경색 변경 */
+}
+
+/* 좌측 버튼 위치 조정 */
+.slider-button.left {
+    left: 10px;  /* 왼쪽 여백 */
+}
+
+/* 우측 버튼 위치 조정 */
+.slider-button.right {
+    right: 10px;  /* 오른쪽 여백 */
+}
+/* 슬라이더 점 컨테이너 */
+.slider-dots {
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #fff;
+}
+
+@media (max-width: 768px) {
+    .dot {
+        height: 8px;
+        width: 8px;
+    }
+    
+.product-detail-wrapper {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.col-12 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+
+
+
+
+
+</style>
 	
 </head>
 
@@ -25,57 +112,60 @@
             </div>
         </div>
     </div>
+    
+    
     <section class="single-bid-product outer-gap">
-        <div class="container">
-            <div class="row gy-4 gy-md-5">
-                <div class="col-lg-8">
+    <div class="container">
+        <div class="row d-flex gy-4 gy-md-5"> <!-- d-flex 추가 -->
+            <div class="col-lg-8">
+                <div class="slider-controls">
                     <div class="card-image">
-						<div class="slider-container">
-							<div th:each="imagePath:${itemImgs}">
-		            			<img th:src="${imagePath}" alt="Item img" class="slider-item">
-							</div>
-						</div>
-						
-						<div class="slider-controls">
-							<button id="prevBtn" class="slider-button">Prev</button>
-							<button id="nextBtn" class="slider-button">Next</button>
-						</div>
-					</div>
-                        <div class="timer-wrapper">
-                            <div class="timer-inner"></div>
-                        </div>
-                    </div>
-                </div>
-                <div  class="col-lg-4">
-                    <div class="product-bid-widget h-100">
-                        <h3 class="title">
-						<span th:text="${bidinfo.auctionItemName}">고프로8 Hero</span>
-                        </h3>
-                        <ul>
-							<li><span>국가</span><span th:text="${bidinfo.sellerNational}">국가</span></li>
-                            <li><span>시작 경매가</span><span th:text="${bidinfo.startPrice}">60,000원</span></li>
-                            <li><span>최신 경매가</span><span th:text="${bidinfo.bidPrice}">80,000원</span></li>
-                            <li><span>입찰 횟수</span><span>2</span></li>
-                            <li><span>최소 입찰 단위</span><span>10,000원</span></li>
-                        </ul>
-                        <div class="d-flex flex-wrap justify-content-between gap-2">
-                            <div class="item-quantity">
-                                    <span class="input-group-tex decrement">
-                                        <button id="minus" onclick="down('0')">-</button>
-                                    </span>
-                                <input type="number" id="myNumber" value="1" class="">
-                                <span class="input-group-tex uncrement">
-                                        <button id="plus" onclick="up('')">+</button>
-                                    </span>
+                        <div class="slider-container">
+                            <div th:each="imagePath:${itemImgs}">
+                                <img th:src="${imagePath}" alt="Item img" class="slider-item">
                             </div>
-                            <a href="checkout" class="primary-btn d-flex align-items-center">입찰하기</a>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                            <p class="p-0">Add to wishlist</p>
-                        </div>
+						    <button id="prevBtn" class="slider-button left"><</button>
+						    <button id="nextBtn" class="slider-button right">></button>
+						    <div class="slider-dots"></div>
                     </div>
                 </div>
+                <div class="timer-wrapper">
+                    <div class="timer-inner"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="product-bid-widget h-100">
+                    <h3 class="title">
+                        <span th:text="${bidinfo.auctionItemName}"></span>
+                    </h3>
+                    <ul>
+                        <li><span>국가</span><span th:text="${bidinfo.national}">국가</span></li>
+                        <li><span>시작 경매가</span><span th:text="${bidinfo.startPrice}">60,000원</span></li>
+                        <li><span>최신 경매가</span><span th:text="${bidinfo.bidPrice}">80,000원</span></li>
+                        <li><span>입찰 횟수</span><span>2</span></li>
+                        <li><span>최소 입찰 단위</span><span>10,000원</span></li>
+                    </ul>
+                    <div class="d-flex flex-wrap justify-content-between gap-2">
+                        <div class="item-quantity">
+                            <span class="input-group-tex decrement">
+                                <button id="minus" onclick="down('0')">-</button>
+                            </span>
+                            <input type="number" id="myNumber" value="1" class="">
+                            <span class="input-group-tex uncrement">
+                                <button id="plus" onclick="up('')">+</button>
+                            </span>
+                        </div>
+                        <a href="checkout" class="primary-btn d-flex align-items-center">입찰하기</a>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                        <p class="p-0">Add to wishlist</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
                 <div class="col-12">
                     <div class="product-detail-wrapper">
                         <ul class="nav nav-tabs d-none d-md-flex" id="myTab" role="tablist">
@@ -166,17 +256,17 @@
                                                 <tbody>
 													
 													
-													<tr th:each="bidderNames:${bidinfo.bidderNames}">
+													<tr th:each="user : ${users}">
 					                                   <td>
 					                                       <div class="d-flex align-items-center gap-2">
 					                                           <img src="/user/images/sample/avatar-5.png"
 					                                                class="dashboard-avatar" alt="avatar">
-					                                           <p th:text="${bidinfo.bidderName}">입찰자 이름</p>
+					                                           <p th:text="${user.name}">입찰자 이름</p>
 					                                       </div>
 					                                   </td>
-					                                   <td th:text="${bidinfo.national}">국적</td>
-					                                   <td th:text="${bidinfo.bidPrice}">80,000원</td>
-					                                   <td th:text="${#temporals.format(bidinfo.bidDate, 'yyyy-MM-dd HH:mm:ss')}">2024-08-12 16:34:22</td>
+					                                   <td th:text="${user.national}">국적</td>
+					                                   <td th:text="${user.bidPrice}">80,000원</td>
+					                                   <td th:text="${#temporals.format(user.bidDate, 'yyyy-MM-dd HH:mm:ss')}">2024-08-12 16:34:22</td>
                                                	 	</tr>
                                               
                                                 </tbody>
@@ -203,7 +293,10 @@
                                             <tr>
                                                 <td>
                                                     <h6>이름</h6>
-                                                    <p th:text="${bidinfo.sellerName}"></p>
+                                                    <!-- <p th:text="${users.sellerName}"></p> -->
+                                                    <!-- <p th:utext="${bidinfo.sellerName}"></p> -->
+                                                    <p th:text="${bidinfo.name}">이름 왜 아ㅑㄴ난</p>
+                                                    
                                                 </td>
                                                 <td>
                                                     <h6>판매 횟수</h6>
@@ -213,21 +306,21 @@
                                             <tr>
                                                 <td>
                                                     <h6>가입일자</h6>
-                                                    <p>2023-04-13</p>
-                                                </td>
+                                                    <p th:text="${bidinfo.createDate}">2023-04-13</p>
+                                                </td> 
                                                 <td>
                                                     <h6>국적</h6>
-                                                    <p th:text="${bidinfo.sellerNational}">Korea</p>
+                                                    <p th:text="${bidinfo.national}">Korea</p>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <h6>Email</h6>
-                                                    <p th:text="${bidinfo.sellerEmail}">System@mail.com</p>
+                                                    <p th:text="${bidinfo.email}">System@mail.com</p>
                                                 </td>
                                                 <td>
                                                     <h6>연락처</h6>
-                                                    <p th:text="${bidinfo.sellerTel}">010-1234-5678</p>
+                                                    <p th:text="${bidinfo.tel}">010-1234-5678</p>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -269,8 +362,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </section>
     <section class="outer-gap auction-card-small">
         <div class="container">
@@ -395,6 +486,68 @@
 <script src="/user/js/bid-detail.js"></script>
 </body>
 <script src="/user/js/imgSlider.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('.slider-item'); // 모든 슬라이드 이미지
+    const dotsContainer = document.querySelector('.slider-dots'); // 점을 표시할 컨테이너
+    let currentSlide = 0; // 현재 슬라이드 인덱스
+
+    // 점 동적으로 생성
+    slides.forEach((slide, index) => {
+        const dot = document.createElement('span'); // 새로운 점 생성
+        dot.classList.add('dot');
+        if (index === 0) {
+            dot.classList.add('active'); // 첫 번째 이미지는 활성화된 상태로 시작
+        }
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot'); // 점들
+
+    // 슬라이드 변경 함수
+    function changeSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.display = (i === index) ? 'block' : 'none'; // 현재 슬라이드만 보이게
+        });
+        dots.forEach((dot, i) => {
+            dot.classList.remove('active'); // 모든 점 비활성화
+            if (i === index) {
+                dot.classList.add('active'); // 현재 슬라이드에 해당하는 점 활성화
+            }
+        });
+    }
+
+    // 'Prev' 버튼 클릭 시 이전 슬라이드로 이동
+    document.getElementById('prevBtn').addEventListener('click', function () {
+        currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
+        changeSlide(currentSlide);
+    });
+
+    // 'Next' 버튼 클릭 시 다음 슬라이드로 이동
+    document.getElementById('nextBtn').addEventListener('click', function () {
+        currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+        changeSlide(currentSlide);
+    });
+
+    // 점 클릭 시 해당 슬라이드로 이동
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', function () {
+            currentSlide = index;
+            changeSlide(currentSlide);
+        });
+    });
+
+    // 초기 슬라이드 설정
+    changeSlide(currentSlide);
+
+    // 자동 슬라이드 (선택 사항)
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        changeSlide(currentSlide);
+    }, 3000); // 3초마다 자동으로 슬라이드 변경
+});
+	
+</script>
 
 
 </html>
