@@ -11,11 +11,13 @@
         <div class="row gy-4">
             <div class="col-lg-8">
                 <div class="single-blog">
-                    <!-- 동적으로 이미지 출력 -->
-                    <!-- <img th:each="photo : ${review.photoPaths}" 
-                         th:src="@{${photo}}" 
-                         class="blog-img"> -->
                     
+					<div id="hardcoded-photo-container">
+					    <!-- 하드코딩된 사진 출력 -->
+					    <img th:each="path : ${hardcodedPaths}" th:src="${path}" alt="Review Photo" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+					</div>
+
+
                     <div class="single-blog-content py-3 py-md-4">
                         <h3 th:text="${review.title}">게시글 제목</h3>
                         <p th:text="${review.contents}">게시글 내용</p>
@@ -91,5 +93,8 @@
 
 <th:block th:replace="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:replace="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+
+
 </body>
+
 </html>

@@ -186,28 +186,45 @@ public class ReviewBoardController {
      * 블로그 상세 페이지
      */
 
+    @Autowired
     private final ReviewService reviewService;
     @GetMapping("/blog-detail")
     public String getBlogDetail(@RequestParam(name = "id") Integer id, Model model) {
-        ReviewBoard review = reviewBoardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid review ID: " + id));
-        
-
+        // DTO를 통해 데이터 조회
         ReviewBoardDetailDTO reviewDetailDto = reviewService.getReviewDetail(id);
-        
 
         // 조회수 증가
+        ReviewBoard review = reviewDetailDto.getReview();
         review.incrementViews();
         reviewBoardRepository.save(review);
 
-        
-        model.addAttribute("review", review); // 상세 정보
+        // 하드코딩된 이미지 경로 매핑 (새 변수 사용)
+        Map<Integer, List<String>> hardcodedPhotoPaths = new HashMap<>();
+        hardcodedPhotoPaths.put(1, List.of("/user/images/review/reviewPhoto001.png", "/user/images/review/reviewPhoto002.png"));
+        hardcodedPhotoPaths.put(2, List.of("/user/images/review/reviewPhoto003.png", "/user/images/review/reviewPhoto004.png"));
+        hardcodedPhotoPaths.put(3, List.of("/user/images/review/reviewPhoto005.png", "/user/images/review/reviewPhoto006.png", "/user/images/review/reviewPhoto007.png"));
+        hardcodedPhotoPaths.put(4, List.of("/user/images/review/reviewPhoto008.png", "/user/images/review/reviewPhoto009.png"));
+        hardcodedPhotoPaths.put(5, List.of("/user/images/review/reviewPhoto010.png"));
+        hardcodedPhotoPaths.put(6, List.of("/user/images/review/reviewPhoto011.png"));
+        hardcodedPhotoPaths.put(7, List.of("/user/images/review/reviewPhoto012.png"));
+        hardcodedPhotoPaths.put(8, List.of("/user/images/review/reviewPhoto013.png", "/user/images/review/reviewPhoto014.png"));
+        hardcodedPhotoPaths.put(9, List.of("/user/images/review/reviewPhoto015.png"));
+        hardcodedPhotoPaths.put(10, List.of("/user/images/review/reviewPhoto016.png", "/user/images/review/reviewPhoto017.png"));
+        hardcodedPhotoPaths.put(11, List.of("/user/images/review/reviewPhoto018.png"));
+
+        // 해당 리뷰 ID에 매핑된 이미지 경로 가져오기
+        List<String> hardcodedPaths = hardcodedPhotoPaths.getOrDefault(id, List.of("/user/images/default_thumbnail.png"));
+
+
+        // 템플릿으로 데이터 전달
+        model.addAttribute("review", reviewDetailDto.getReview());
         model.addAttribute("hashTags", reviewDetailDto.getHashTags());
+        model.addAttribute("hardcodedPaths", hardcodedPaths); 
 
         return "user/blog-detail"; // 상세 페이지 템플릿 경로
     }
+
 }
-   
     
     
 

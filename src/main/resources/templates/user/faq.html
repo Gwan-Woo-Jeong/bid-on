@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" id="theme" class="light"
       xmlns:th="http://www.thymeleaf.org">
@@ -165,9 +166,47 @@
 
 <script>
    
-		document.addEventListener("DOMContentLoaded", () => {
-	    updateFaqPage();
-	  });
+// submitQuestion 함수는 글로벌 스코프로 설정되어야 함
+window.submitQuestion = async function () {
+    try {
+        const email = document.getElementById("email").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const contents = document.getElementById("contents").value.trim();
+
+        // 입력값 검증
+        if (!email || !title || !contents) {
+            alert("모든 필드를 입력해주세요.");
+            return;
+        }
+
+        // 서버로 데이터 전송
+        const response = await fetch('/questions/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `email=${encodeURIComponent(email)}&title=${encodeURIComponent(title)}&contents=${encodeURIComponent(contents)}`
+        });
+
+        // 응답 처리
+        if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+
+            if (result.success) {
+                // 입력값 초기화
+                document.getElementById("email").value = '';
+                document.getElementById("title").value = '';
+                document.getElementById("contents").value = '';
+            }
+        } else {
+            throw new Error("서버에서 요청을 처리하지 못했습니다.");
+        }
+    } catch (error) {
+        console.error("질문 제출 중 오류 발생:", error);
+        alert("질문 제출 중 문제가 발생했습니다. 다시 시도해주세요.");
+    }
+};
+
+
     
 </script>
 </body>
