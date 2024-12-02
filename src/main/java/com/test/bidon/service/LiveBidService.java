@@ -36,17 +36,26 @@ public class LiveBidService {
     private final UserRepository userRepository;
     private final WinningBidRepository winningBidRepository;
 
-    public static final String WELCOME_MESSAGE = """
+    private static final String WELCOME_MESSAGE = """
             실시간 경매에 오신 것을 환영합니다!
             입찰 버튼을 누르시면 본격적인 경매가 시작됩니다.
             경매 진행 방식은 아주 간단합니다.
             마지막 최고 금액을 입찰하신 분이 경매품을 획득할 수 있습니다.
             그럼 준비가 되셨으면 입찰 버튼을 눌러 경매를 시작해주세요!""";
 
-    public static final String AUCTION_RUNNING_MESSAGE = """
+    private static final String AUCTION_RUNNING_MESSAGE = """
             경매가 진행중입니다.
             입찰 가능 시간이 종료되기 전에 입찰하여 경매품을 획득해보세요!
             """;
+
+    private static final String THIRTY_SECONDS_MESSAGE = """
+            입찰 가능 시간이 30초밖에 남지 않았습니다!
+            서둘러 입찰해 주시기 바랍니다.""";
+
+    private static final String TEN_SECONDS_MESSAGE = """
+            입찰 가능 시간이 단 10초밖에 남지 않았습니다!
+            서둘러 입찰해 주시기 바랍니다.
+            마지막 기회를 놓치지 마세요!""";
 
     private static final String[] EXCLAMATIONS = {
             "대단합니다!",
@@ -319,7 +328,7 @@ public class LiveBidService {
         LiveAuctionItem liveAuctionItem = liveAuctionItemRepository.getReferenceById(roomId);
         LiveAuctionPart liveAuctionPart = liveAuctionPartRepository.getReferenceById(foundUser.getPartId());
 
-        LiveBidCost liveBidCost =  LiveBidCost.builder()
+        LiveBidCost liveBidCost = LiveBidCost.builder()
                 .liveAuctionPartId(liveAuctionPart.getId())
                 .liveAuctionItemId(liveAuctionItem.getId())
                 .bidPrice(bidPrice)
@@ -352,45 +361,16 @@ public class LiveBidService {
                         .createTime(LocalDateTime.now())
                         .build();
 
-                if (remainingSeconds > 0) {
-                    System.out.println("남은 시간: " + remainingSeconds + "초");
+                if (remainingSeconds == 30) {
+                    sendSecondsAlert(THIRTY_SECONDS_MESSAGE, roomId, room);
+                } else if (remainingSeconds == 10) {
+                    sendSecondsAlert(TEN_SECONDS_MESSAGE, roomId, room);
+                } else if (remainingSeconds <= 0) {
+                    endTimer(room);
 
-                    if (remainingSeconds == 30) {
-                        Message outAlertMessage = Message.builder()
-                                .roomId(roomId)
-                                .type("ALERT")
-                                .text("입찰 가능 시간이 30초밖에 남지 않았습니다!\n서둘러 입찰해 주시기 바랍니다.")
-                                .createTime(LocalDateTime.now())
-                                .build();
-
-                        room.sendMessageAll(toTextMessage(outAlertMessage));
-                    } else if (remainingSeconds == 10) {
-                        Message outAlertMessage = Message.builder()
-                                .roomId(roomId)
-                                .type("ALERT")
-                                .text("입찰 가능 시간이 단 10초밖에 남지 않았습니다!\n 서둘러 입찰해 주시기 바랍니다.\n마지막 기회를 놓치지 마세요!")
-                                .createTime(LocalDateTime.now())
-                                .build();
-
-                        room.sendMessageAll(toTextMessage(outAlertMessage));
-                    }
-                } else {
-                    System.out.println("타이머가 끝났습니다.");
-
-                    Timer timer = room.getTimer();
-                    if (timer != null) {
-                        timer.cancel();
-                        timer.purge();
-                    }
-
-                    Message outAlertMessage = Message.builder()
-                            .roomId(roomId)
-                            .type("ALERT")
-                            .text("땅땅땅! 경매가 종료되었습니다.\n" + room.getHighestBidder().getName() + "님이 최종 입찰가\n" + room.getHighestBidPrice() + "원으로 낙찰되셨습니다.\n진심으로 축하드립니다!!")
-                            .createTime(LocalDateTime.now())
-                            .build();
-
-                    room.sendMessageAll(toTextMessage(outAlertMessage));
+                    LiveBidRoomUser highestBidder = room.getHighestBidder();
+                    sendEndAlert(highestBidder, roomId, room);
+                    sendBidEnd(highestBidder, roomId, room);
                     saveWinningBid(room);
                     updateItemEndTime(roomId);
                 }
@@ -399,6 +379,48 @@ public class LiveBidService {
                 room.setRemainingSeconds(remainingSeconds - 1);
             }
         };
+    }
+
+    private static void endTimer(LiveBidRoom room) {
+        Timer timer = room.getTimer();
+
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+        }
+    }
+
+    private static void sendSecondsAlert(String message, Long roomId, LiveBidRoom room) {
+        Message outAlertMessage = Message.builder()
+                .roomId(roomId)
+                .type("ALERT")
+                .text(message)
+                .createTime(LocalDateTime.now())
+                .build();
+
+        room.sendMessageAll(toTextMessage(outAlertMessage));
+    }
+
+    private static void sendEndAlert(LiveBidRoomUser highestBidder, Long roomId, LiveBidRoom room) {
+        Message outAlertMessage = Message.builder()
+                .roomId(roomId)
+                .type("ALERT")
+                .text("땅땅땅! 경매가 종료되었습니다.\n" + highestBidder.getName() + "님이 최종 입찰가\n" + room.getHighestBidPrice() + "원으로 낙찰되셨습니다.\n진심으로 축하드립니다!!")
+                .createTime(LocalDateTime.now())
+                .build();
+
+        room.sendMessageAll(toTextMessage(outAlertMessage));
+    }
+
+    private static void sendBidEnd(LiveBidRoomUser highestBidder, Long roomId, LiveBidRoom room) {
+        Message outBidEndMessage = Message.builder()
+                .roomId(roomId)
+                .type("BID-END")
+                .payload(highestBidder)
+                .createTime(LocalDateTime.now())
+                .build();
+
+        room.sendMessageAll(toTextMessage(outBidEndMessage));
     }
 
     private void updateItemEndTime(Long roomId) {

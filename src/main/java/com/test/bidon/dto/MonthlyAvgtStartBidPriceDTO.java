@@ -13,8 +13,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyAveragetStartPriceDTO {
+public class MonthlyAvgtStartBidPriceDTO {
 	private String month;
-    private Double averagetPrice;
-
+    private Double avgStartPrice;
+    private Double avgBidPrice;
 }

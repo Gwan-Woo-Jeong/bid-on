@@ -1,7 +1,10 @@
 package com.test.bidon.repository;
 
 import com.querydsl.core.Tuple;
+
 import com.querydsl.core.types.Projections;
+
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.test.bidon.dto.NormalAuctionWishDTO;
 import com.test.bidon.entity.NormalAuctionItem;
@@ -87,7 +90,7 @@ public class CustomNormalAuctionItemRepository {
     public List<Tuple> DisplaySixItems() {
 
         return jpaQueryFactory
-                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path)
+                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path, normalAuctionItem.description)
                 .from(normalAuctionItemImageList)
                 .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
                 .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
@@ -130,6 +133,7 @@ public class CustomNormalAuctionItemRepository {
 
     }
 
+
     
 
     // 위시리스트 수 조회
@@ -152,6 +156,28 @@ public class CustomNormalAuctionItemRepository {
             .orderBy(normalAuctionWish.id.count().desc())  
             .fetch();  // 결과 반환
     }
+
+
+    public OrderSpecifier<?> itemFilter(String filterTrigger) {
+
+        // 필터가 적용되지 않으면
+        if (filterTrigger == null || filterTrigger.isEmpty()) {
+            return normalAuctionItem.id.asc();
+        }
+
+        switch (filterTrigger) {
+            case "priceAsc":
+                return normalAuctionItem.startPrice.asc();
+            case "priceDesc":
+                return normalAuctionItem.startPrice.desc();
+            default:
+                return normalAuctionItem.id.asc();
+
+        }
+
+    }
+
+    
 
 }
 
