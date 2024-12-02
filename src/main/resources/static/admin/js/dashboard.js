@@ -406,7 +406,7 @@
       var marketingOverviewData = {
           labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
           datasets: [{
-              label: '평균 낙찰 가격',
+              label: '평균 시작 가격',
               data: monthlyAverageBidPrice,
               backgroundColor: "#52CDFF",
               borderColor: [
@@ -416,7 +416,7 @@
               fill: true, // 3: no fill
               
           },{
-            label: '평균 시작 가격',
+            label: '평균 낙찰 가격',
             data: monthlyAverageStartPrice,
             backgroundColor: "#1F3BB3",
             borderColor: [

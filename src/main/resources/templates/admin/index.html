@@ -64,17 +64,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                           <div>
                             <p class="statistics-title">총 경매 물품 수</p>
                             <h3 class="rate-percentage" th:text="${normalItemCount}+${liveItemCount}"></h3>
-                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
+                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+11</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">진행 중인 경매 물품 수</p>
                             <h3 class="rate-percentage" th:text="${ongoingNormalItemCount}+${ongoingLiveItemCount}"></h3>
-                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>0.01</span></p>
+                            <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-3</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">총 낙찰 물품 수</p>
                             <h3 class="rate-percentage" th:text="${totalWinningBidCount}"></h3>
-                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>68.8</span></p>
+                            <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+3</span></p>
                           </div>
                           <div class="d-none d-md-block">
                             <p class="statistics-title">총 수수료 수익률</p>

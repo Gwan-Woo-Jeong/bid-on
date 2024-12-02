@@ -47,8 +47,6 @@ public class CustomAdminDashboardRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 	@PersistenceContext
 	private EntityManager entityManager;
-//	@Autowired
-//    private EntityManager em;
 	
 	// Date를 LocalDateTime으로 변환하는 메서드
     private LocalDateTime convertDateToLocalDateTime(Date date) {
@@ -111,8 +109,9 @@ public class CustomAdminDashboardRepository {
 	public long getOngoingNormalAuctionItemCount() {
 		return jpaQueryFactory
 				.selectFrom(normalAuctionItem)
-				.where(normalAuctionItem.status.eq("진행중"))
-				.fetchCount();
+				.where(normalAuctionItem.status.eq("진행중")
+	                    .or(normalAuctionItem.status.eq("대기중")))
+	            .fetchCount();
 	}
 
 	public long getOngoingLiveAuctionItemCount() {

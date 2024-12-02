@@ -59,6 +59,7 @@ select * from NormalAuctionItem;
 select * from NormalBidInfo;
 select * from LiveAuctionPart;
 select * from LiveAuctionItem;
+select * from winningBid;
 --사이트 총 방문자 수
 
 --오늘 방문자 수
@@ -67,6 +68,80 @@ select * from LiveAuctionItem;
 
 --경매 성과 분석---------------------------------------------------------
 --(월별)평균 시작 가격
+select 
+    wb.id,
+    nbi.bidPrice,
+    nai.startPrice,
+    nbi.bidDate
+from WinningBid wb
+inner join NormalBidInfo nbi
+on wb.normalBidId = nbi.id
+inner join NormalAuctionItem nai
+on nbi.auctionItemId = nai.id;
+
+select 
+    wb.id,
+    lbc.bidPrice,
+    lai.startPrice,
+    lbc.bidTime
+from WinningBid wb
+inner join LiveBidCost lbc
+on wb.liveBidId = lbc.id
+inner join LiveAuctionItem lai
+on lbc.liveAuctionItemId = lai.id;
+
+
+SELECT 
+    wb.id,
+    COALESCE(nbi.bidPrice, lbc.bidPrice) AS bidPrice,
+    COALESCE(nai.startPrice, lai.startPrice) AS startPrice,
+    COALESCE(nbi.bidDate, lbc.bidTime) AS bidDate
+FROM 
+    WinningBid wb
+LEFT JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+LEFT JOIN 
+    NormalAuctionItem nai ON nbi.auctionItemId = nai.id
+LEFT JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id
+LEFT JOIN 
+    LiveAuctionItem lai ON lbc.liveAuctionItemId = lai.id
+WHERE 
+    nbi.id IS NOT NULL OR lbc.id IS NOT NULL
+ORDER BY 
+    COALESCE(nbi.bidDate, lbc.bidTime) ASC;
+
+--비율로 나눠보자
+SELECT 
+    wb.id,
+    COALESCE(nbi.bidPrice, lbc.bidPrice) AS bidPrice,
+    COALESCE(nai.startPrice, lai.startPrice) AS startPrice,
+    COALESCE(nbi.bidDate, lbc.bidTime) AS bidDate,
+    CASE 
+        WHEN COALESCE(nai.startPrice, lai.startPrice) > 0 
+        THEN (COALESCE(nbi.bidPrice, lbc.bidPrice) / COALESCE(nai.startPrice, lai.startPrice)) * 100 
+        ELSE 0 
+    END AS price_ratio
+FROM 
+    WinningBid wb
+LEFT JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+LEFT JOIN 
+    NormalAuctionItem nai ON nbi.auctionItemId = nai.id
+LEFT JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id
+LEFT JOIN 
+    LiveAuctionItem lai ON lbc.liveAuctionItemId = lai.id
+WHERE 
+    nbi.id IS NOT NULL OR lbc.id IS NOT NULL
+ORDER BY 
+    price_ratio ASC;
+
+
+
+
+
+
 WITH MONTHS AS (
     SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'YEAR'), LEVEL-1), 'MM') AS MONTH
     FROM DUAL
@@ -327,16 +402,29 @@ LEFT JOIN (
 ) E ON M.MONTH = E.MONTH
 ORDER BY M.MONTH;
 ---------------------------------------------------------------------------------------
---진행 중인 경매 물품 수
-select * from NormalAuctionItem;
-select * from LiveAuctionItem where startTime >= sysdate and endTime is null;
+--진행 중인 경매 물품 수 25
+select count(*) from NormalAuctionItem where status = '진행중' or status = '대기중'; --25
+select count(*) from NormalAuctionItem where status = '종료'; --5
+select count(*) from NormalAuctionItem; --30
+select count(*) from LiveAuctionItem; --31
+select count(*) from LiveAuctionItem where startTime >= sysdate and endTime is null; --0
+select count(*) from LiveAuctionItem where startTime <= sysdate and endTime is not null; --31(완료)
 
-select * from LiveAuctionItem where startTime <= sysdate and endTime is not null;
 
-
-
+--34+5 =29 + 25 =54
 --총 낙찰 물품 수
-select count(*) from WinningBid;
+select * from WinningBid where livebidid is not null; --54
+
+
+
+--총 낙찰 물품이랑 모든 경매 아이텐이랑 맞던지 해야됨
+select wb.id,lbc.id,lai.name, lai.starttime,lai.endtime from WinningBid wb
+inner join LiveBidCost lbc
+on wb.liveBidId = lbc.id
+inner join LiveAuctionItem lai
+on lbc.liveAuctionItemId = lai.id;
+
+
 
 -- 총수익률 (winningbod 데이터 추가되면 inner join 해야됨 right innre join 해야될듯..)
 SELECT 
@@ -592,7 +680,23 @@ left JOIN
     
     
     
-    
+
+
+
+
+
+
+
+
+--메인 페이지에 연결시키기
+SELECT *
+FROM (
+    SELECT *
+    FROM NormalAuctionItem
+    WHERE status = '종료'
+    ORDER BY endTime DESC
+)
+WHERE ROWNUM <= 5; 
     
     
     
