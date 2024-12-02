@@ -179,18 +179,18 @@ public class UserController {
             
             //관리자 문의
             //OneOnOne 데이터 가져오기
-            List<OneOnOne> oneOnOneList = oneOnOneRepository.findByUserEntityInfo(user);
-            
-            //각 OneOnOne에 대한 답변을 가져와서 설정
-            for (OneOnOne oneOnOne : oneOnOneList) {
-                OneOnOneAnswer answer = oneOnOneAnswerRepository.findByOneonone(oneOnOne);
-                if (answer != null) {
-                    oneOnOne.setOneOnOneAnswer(answer);
-                }
-            }
-            
-            model.addAttribute("oneOnOneList", oneOnOneList);
-            
+//            List<OneOnOne> oneOnOneList = oneOnOneRepository.findByUserEntityInfo(user);
+//            
+//            //각 OneOnOne에 대한 답변을 가져와서 설정
+//            for (OneOnOne oneOnOne : oneOnOneList) {
+//                OneOnOneAnswer answer = oneOnOneAnswerRepository.findByOneOnOneId(null);
+//                if (answer != null) {
+//                    oneOnOne.setOneOnOneAnswer(answer);
+//                }
+//            }
+//            
+//            model.addAttribute("oneOnOneList", oneOnOneList);
+//            
             //나의 활동 > 일반 경매와 실시간 경매 통합 처리
             List<CombinedAuctionDTO> normalAuctions = normalAuctionItemRepository.findByUserInfoId(user.getId())
                 .stream()

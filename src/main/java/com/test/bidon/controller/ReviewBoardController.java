@@ -11,20 +11,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.test.bidon.dto.ReviewBoardDetailDTO;
 import com.test.bidon.dto.ReviewBoardFormDTO;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.entity.ReviewPhoto;
 import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.service.FileService;
 import com.test.bidon.service.ReviewBoardService;
+import com.test.bidon.service.ReviewService;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Controller
+@RequiredArgsConstructor
 public class ReviewBoardController {
 
     @Autowired
@@ -177,4 +182,33 @@ public class ReviewBoardController {
 //    }
     
 
+    /**
+     * 블로그 상세 페이지
+     */
+
+    private final ReviewService reviewService;
+    @GetMapping("/blog-detail")
+    public String getBlogDetail(@RequestParam(name = "id") Integer id, Model model) {
+        ReviewBoard review = reviewBoardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid review ID: " + id));
+        
+
+        ReviewBoardDetailDTO reviewDetailDto = reviewService.getReviewDetail(id);
+        
+
+        // 조회수 증가
+        review.incrementViews();
+        reviewBoardRepository.save(review);
+
+        
+        model.addAttribute("review", review); // 상세 정보
+        model.addAttribute("hashTags", reviewDetailDto.getHashTags());
+
+        return "user/blog-detail"; // 상세 페이지 템플릿 경로
+    }
 }
+   
+    
+    
+
+

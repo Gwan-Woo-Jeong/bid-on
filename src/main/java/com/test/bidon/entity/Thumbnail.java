@@ -27,8 +27,8 @@ public class Thumbnail {
     @Column(name = "review_board_id", nullable = false) // ReviewBoard ID와 매핑
     private Integer reviewBoardId;
 
-    @Column(name = "file_path", nullable = false)
-    private String filePath;
+    @Column(name = "path", nullable = false)
+    private String thumbnailPath;
 
 	public void setFileName(String originalFilename) {
 
@@ -46,6 +46,13 @@ public class Thumbnail {
         this.reviewPhotoId = reviewPhotoId;
     }
 	
+	  public String getThumbnailPath() {
+	  return thumbnailPath;
+	}
 	
+	public void setThumbnailPath(String thumbnailPath) {
+	  this.thumbnailPath = thumbnailPath;
+	}
+    
 }
 
