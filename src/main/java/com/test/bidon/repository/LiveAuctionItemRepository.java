@@ -8,8 +8,8 @@ import com.test.bidon.entity.LiveAuctionItem;
 
 public interface LiveAuctionItemRepository extends JpaRepository<LiveAuctionItem, Long> {
 
-	List<LiveAuctionItem> findByUserInfoId(Long userId);	//-HM-
+	List<LiveAuctionItem> findByUserInfoId(Long userInfoId);	//-HM-
 
-	int countByUserInfoId(Long userId);	//-HM-
+	int countByUserInfoId(Long userInfoId);	//-HM-
 
 }
