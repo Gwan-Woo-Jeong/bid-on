@@ -676,7 +676,7 @@
           labels: ["1분기","2분기", "3분기", "4분기"],
           datasets: [{
               label: 'Last week',
-              data: [8, 5, 11, 39],
+              data: quarterlyNormalRevenue,
               backgroundColor: "#52CDFF",
               borderColor: [
                   '#52CDFF',
@@ -746,7 +746,7 @@
           labels: ["1분기","2분기", "3분기", "4분기"],
           datasets: [{
               label: 'Last week',
-              data: [18, 25, 20, 39],
+              data: quarterlyLiveRevenue,
               backgroundColor: "#1F3BB3",
               borderColor: [
                   '#1F3BB3',

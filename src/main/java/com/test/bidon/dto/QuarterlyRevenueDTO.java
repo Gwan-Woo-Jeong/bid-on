@@ -5,16 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyAveragetBidPriceDTO {
-	private String month;
-    private Double averagetPrice;
+@AllArgsConstructor
+public class QuarterlyRevenueDTO {
+	
+	private int quarter;
+	private double normalRevenue;
+	private double liveRevenue;
 
 }

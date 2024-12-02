@@ -9,16 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.test.bidon.dto.MonthlyAveragetBidPriceDTO;
-import com.test.bidon.dto.MonthlyAveragetStartPriceDTO;
+import com.test.bidon.dto.MonthlyAvgtStartBidPriceDTO;
 import com.test.bidon.dto.MonthlyItemCountDTO;
 import com.test.bidon.dto.MonthlyRevenueDTO;
 import com.test.bidon.dto.MonthlyUserCountDTO;
+import com.test.bidon.dto.QuarterlyRevenueDTO;
 import com.test.bidon.dto.SubCategoryCountDTO;
 import com.test.bidon.repository.CustomAdminDashboardRepository;
 import com.test.bidon.repository.CustomNormalAuctionItemRepository;
 import com.test.bidon.repository.LiveAuctionItemRepository;
-import com.test.bidon.repository.NormalAuctionItemRepository;
 import com.test.bidon.repository.UserRepository;
 
 @Controller
@@ -52,9 +51,6 @@ public class AdminDashboardController {
 			monthlyExistingUserCounts.set(monthIndex, dto.getCumulativeCount());
 		}
 
-//		System.out.println(monthlyUserCountList);
-//		System.out.println(monthlyNewUserCounts);
-//		System.out.println(monthlyExistingUserCounts);
 
 		// 경매 참여자 수
 		long bidEnterUserCount = customAdminDashboardRepository.getBidEnterUserCount();
@@ -112,35 +108,15 @@ public class AdminDashboardController {
 		}
 
 		// 경매 성과 분석---------------------------------------------------------
-		// 월별 평균 시작 가격
-		List<MonthlyAveragetStartPriceDTO> monthlyAverageStartPriceList = customAdminDashboardRepository
-				.findMonthlyAverageStartPriceList();
-		List<Double> monthlyAverageStartPrice = new ArrayList<>(Collections.nCopies(12, 0.0));
-
-		for (MonthlyAveragetStartPriceDTO dto : monthlyAverageStartPriceList) {
-			try {
-				int monthIndex = Integer.parseInt(dto.getMonth()) - 1;
-				if (monthIndex >= 0 && monthIndex < 12) {
-					monthlyAverageStartPrice.set(monthIndex, dto.getAveragetPrice());
-				}
-			} catch (NumberFormatException e) {
-				System.err.println("Invalid month value: " + dto.getMonth());
-			}
-		}
-
-		// 월별 평균 낙찰 가격
-		List<MonthlyAveragetBidPriceDTO> monthlyAverageBidPriceList = customAdminDashboardRepository
-				.findMonthlyAverageBidPriceList();
-		List<Double> monthlyAverageBidPrice = new ArrayList<>(Collections.nCopies(12, 0.0));
-
-		for (MonthlyAveragetBidPriceDTO dto : monthlyAverageBidPriceList) {
-			try {
-				int monthIndex = Integer.parseInt(dto.getMonth()) - 1;
-				if (monthIndex >= 0 && monthIndex < 12) {
-					monthlyAverageBidPrice.set(monthIndex, dto.getAveragetPrice());
-				}
-			} catch (NumberFormatException e) {
-				System.err.println("Invalid month value: " + dto.getMonth());
+		//월별 평균시작금액 + 평균낙찰금액
+	    List<MonthlyAvgtStartBidPriceDTO> monthlyAvgtStartBidPriceList = customAdminDashboardRepository.getMonthlyAvgtStartBidPriceList();
+	    List<Double> monthlyAverageStartPrice = new ArrayList<>(Collections.nCopies(12, 0.0));
+	    List<Double> monthlyAverageBidPrice = new ArrayList<>(Collections.nCopies(12, 0.0));
+	    for (MonthlyAvgtStartBidPriceDTO dto : monthlyAvgtStartBidPriceList) {
+			int monthIndex = Integer.parseInt(dto.getMonth()) - 1;
+			if (monthIndex >= 0 && monthIndex < 12) {
+				monthlyAverageStartPrice.set(monthIndex, dto.getAvgStartPrice());
+				monthlyAverageBidPrice.set(monthIndex, dto.getAvgBidPrice());
 			}
 		}
 
@@ -157,10 +133,23 @@ public class AdminDashboardController {
 		}
 
 
-		//분기별 일반 경매 수익률
+		// 분기별 일반, 실시간 경매 수익률
+		List<QuarterlyRevenueDTO> quarterlyRevenue = customAdminDashboardRepository.getQuarterlyRevenue();
 
-		//분기별 실시간 경매 수익률
+		// 분기별 데이터를 담을 리스트 초기화
+		List<Double> quarterlyNormalRevenue = new ArrayList<>(Collections.nCopies(4, 0.0));
+		List<Double> quarterlyLiveRevenue = new ArrayList<>(Collections.nCopies(4, 0.0));
 
+		// DTO에서 데이터 추출하여 리스트에 저장
+		for (QuarterlyRevenueDTO dto : quarterlyRevenue) {
+			int quarterIndex = dto.getQuarter() - 1;
+			if (quarterIndex >= 0 && quarterIndex < 4) {
+				quarterlyNormalRevenue.set(quarterIndex, dto.getNormalRevenue());
+				quarterlyLiveRevenue.set(quarterIndex, dto.getLiveRevenue());
+			}
+		}
+		
+		
 
 		// 총 회원 수
 		model.addAttribute("userCount", userCount);
@@ -206,8 +195,11 @@ public class AdminDashboardController {
 		model.addAttribute("categoryNames", categoryNames);
 		model.addAttribute("categoryCounts", categoryCounts);
 
+		//분기별 일반,실시간 수익
+		model.addAttribute("quarterlyNormalRevenue", quarterlyNormalRevenue);
+		model.addAttribute("quarterlyLiveRevenue", quarterlyLiveRevenue);
 
-
+        
 		return "admin/index";
 	}
 

@@ -121,7 +121,97 @@ LEFT JOIN
     BidPrices B ON M.MONTH = B.month
 ORDER BY 
     M.MONTH;
-
+-----------------------------------------------------------------------------
+WITH MONTHS AS (
+    SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'YEAR'), LEVEL-1), 'MM') AS MONTH
+    FROM DUAL
+    CONNECT BY LEVEL <= 12
+), AverageStartPrices AS (
+    SELECT 
+        TO_CHAR(startTime, 'MM') AS month,
+        AVG(startPrice) AS avg_start_price
+    FROM (
+        SELECT startTime, startPrice FROM LiveAuctionItem
+        UNION ALL
+        SELECT startTime, startPrice FROM NormalAuctionItem
+    )
+    GROUP BY TO_CHAR(startTime, 'MM')
+), BidPrices AS (
+    SELECT 
+        TO_CHAR(COALESCE(nbi.bidDate, lbc.bidTime), 'MM') AS month,
+        (COALESCE(AVG(nbi.bidprice), 0) + COALESCE(AVG(lbc.bidprice), 0)) * 0.1 AS avg_bid_price
+    FROM 
+        winningbid wb
+    FULL OUTER JOIN 
+        NormalBidInfo nbi ON wb.normalBidId = nbi.id
+    FULL OUTER JOIN 
+        LiveBidCost lbc ON wb.liveBidId = lbc.id
+    WHERE 
+        nbi.bidDate IS NOT NULL OR lbc.bidTime IS NOT NULL
+    GROUP BY 
+        TO_CHAR(COALESCE(nbi.bidDate, lbc.bidTime), 'MM')
+)
+SELECT 
+    M.MONTH,
+    COALESCE(A.avg_start_price, 0) AS avg_start_price,
+    COALESCE(B.avg_bid_price, 0) AS avg_bid_price
+FROM 
+    MONTHS M
+LEFT JOIN 
+    AverageStartPrices A ON M.MONTH = A.month
+LEFT JOIN 
+    BidPrices B ON M.MONTH = B.month
+ORDER BY 
+    M.MONTH;
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+--View 월별 평균시작금액 + 평균낙찰금액 monthly_avg_start_bid_price_view
+CREATE OR REPLACE VIEW monthly_avg_start_bid_price_view AS
+WITH MONTHS AS (
+    SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'YEAR'), LEVEL-1), 'MM') AS MONTH
+    FROM DUAL
+    CONNECT BY LEVEL <= 12
+), AverageStartPrices AS (
+    SELECT 
+        TO_CHAR(startTime, 'MM') AS month,
+        AVG(startPrice) AS avg_start_price
+    FROM (
+        SELECT startTime, startPrice FROM LiveAuctionItem
+        UNION ALL
+        SELECT startTime, startPrice FROM NormalAuctionItem
+    )
+    GROUP BY TO_CHAR(startTime, 'MM')
+), BidPrices AS (
+    SELECT 
+        TO_CHAR(COALESCE(nbi.bidDate, lbc.bidTime), 'MM') AS month,
+        (COALESCE(AVG(nbi.bidprice), 0) + COALESCE(AVG(lbc.bidprice), 0)) * 0.1 AS avg_bid_price
+    FROM 
+        winningbid wb
+    FULL OUTER JOIN 
+        NormalBidInfo nbi ON wb.normalBidId = nbi.id
+    FULL OUTER JOIN 
+        LiveBidCost lbc ON wb.liveBidId = lbc.id
+    WHERE 
+        nbi.bidDate IS NOT NULL OR lbc.bidTime IS NOT NULL
+    GROUP BY 
+        TO_CHAR(COALESCE(nbi.bidDate, lbc.bidTime), 'MM')
+)
+SELECT 
+    M.MONTH,
+    COALESCE(A.avg_start_price, 0) AS avg_start_price,
+    COALESCE(B.avg_bid_price, 0) AS avg_bid_price
+FROM 
+    MONTHS M
+LEFT JOIN 
+    AverageStartPrices A ON M.MONTH = A.month
+LEFT JOIN 
+    BidPrices B ON M.MONTH = B.month
+ORDER BY 
+    M.MONTH;
+    
+select * from monthly_avg_start_bid_price_view;
+-----------------------------------------------------------------------------
 --평균 낙찰 가격(총 낙찰 가격 / 낙찰된 경매 수)
 SELECT 
     (COALESCE(avg(nbi.bidprice), 0) + COALESCE(avg(lbc.bidprice), 0)) * 0.1 AS avg_bid_price
@@ -261,19 +351,19 @@ left JOIN
 
 --수익 분석---------------------------------------------------------
 --일반 경매 총 수익(월별)
-SELECT 
-    EXTRACT(MONTH FROM nbi.bidDate) AS month,
-    SUM(nbi.bidprice)*0.1 AS monthly_revenue
-FROM 
-    winningbid wb
-FULL OUTER JOIN 
-    NormalBidInfo nbi ON wb.normalBidId = nbi.id
-WHERE 
-    nbi.bidDate IS NOT NULL
-GROUP BY 
-    EXTRACT(MONTH FROM nbi.bidDate)
-ORDER BY 
-    month;
+--SELECT 
+--    EXTRACT(MONTH FROM nbi.bidDate) AS month,
+--    SUM(nbi.bidprice)*0.1 AS monthly_revenue
+--FROM 
+--    winningbid wb
+--FULL OUTER JOIN 
+--    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+--WHERE 
+--    nbi.bidDate IS NOT NULL
+--GROUP BY 
+--    EXTRACT(MONTH FROM nbi.bidDate)
+--ORDER BY 
+--    month;
 ------------------------------------------------
 --분기별 일반 경매 총 수익(월별)
 SELECT 
@@ -300,19 +390,19 @@ GROUP BY
 ORDER BY 
     quarter;
 --실시간 경매 총 수익(월별)
-SELECT 
-    EXTRACT(MONTH FROM lbc.bidTime) AS month,
-    SUM(lbc.bidprice)*0.1 AS monthly_revenue
-FROM 
-    winningbid wb
-FULL OUTER JOIN 
-    LiveBidCost lbc ON wb.liveBidId = lbc.id
-WHERE 
-    lbc.bidTime IS NOT NULL
-GROUP BY 
-    EXTRACT(MONTH FROM lbc.bidTime)
-ORDER BY 
-    month;
+--SELECT 
+--    EXTRACT(MONTH FROM lbc.bidTime) AS month,
+--    SUM(lbc.bidprice)*0.1 AS monthly_revenue
+--FROM 
+--    winningbid wb
+--FULL OUTER JOIN 
+--    LiveBidCost lbc ON wb.liveBidId = lbc.id
+--WHERE 
+--    lbc.bidTime IS NOT NULL
+--GROUP BY 
+--    EXTRACT(MONTH FROM lbc.bidTime)
+--ORDER BY 
+--    month;
     
 ------------------------------------------------
 --분기별 실시간 경매 총 수익(월별)
@@ -339,6 +429,86 @@ GROUP BY
     END
 ORDER BY 
     quarter;
+    
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+--view 분기별 일반, 실시간 경매 수익 quarterly_revenue_view 
+CREATE OR REPLACE VIEW quarterly_revenue_view AS
+SELECT 
+    COALESCE(n.quarter, l.quarter) AS Quarter,
+    COALESCE(n.quarterly_revenue, 0) AS NormalRevenue,
+    COALESCE(l.quarterly_revenue, 0) AS LiveRevenue
+FROM 
+    (SELECT 
+        CASE 
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 1 AND 3 THEN 1
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 4 AND 6 THEN 2
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 7 AND 9 THEN 3
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 10 AND 12 THEN 4
+        END AS quarter,
+        SUM(nbi.bidprice * 0.1) AS quarterly_revenue
+    FROM 
+        winningbid wb
+    FULL OUTER JOIN 
+        NormalBidInfo nbi ON wb.normalBidId = nbi.id
+    WHERE 
+        nbi.bidDate IS NOT NULL
+    GROUP BY 
+        CASE 
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 1 AND 3 THEN 1
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 4 AND 6 THEN 2
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 7 AND 9 THEN 3
+            WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 10 AND 12 THEN 4
+        END
+    ) n
+FULL OUTER JOIN 
+    (SELECT 
+        CASE 
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 1 AND 3 THEN 1
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 4 AND 6 THEN 2
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 7 AND 9 THEN 3
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 10 AND 12 THEN 4
+        END AS quarter,
+        SUM(lbc.bidprice * 0.1) AS quarterly_revenue
+    FROM 
+        winningbid wb
+    FULL OUTER JOIN 
+        LiveBidCost lbc ON wb.liveBidId = lbc.id
+    WHERE 
+        lbc.bidTime IS NOT NULL
+    GROUP BY 
+        CASE 
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 1 AND 3 THEN 1
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 4 AND 6 THEN 2
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 7 AND 9 THEN 3
+            WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 10 AND 12 THEN 4
+        END
+    ) l
+ON n.quarter = l.quarter
+ORDER BY 
+    Quarter;
+    
+    
+    
+SELECT * FROM quarterly_revenue_view;  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 ------------------------------------------------
 --월별 수익금액 + 누적 수익 금액
 WITH MONTHS AS (
@@ -413,3 +583,29 @@ left JOIN
     NormalBidInfo nbi ON wb.normalBidId = nbi.id
 left JOIN 
     LiveBidCost lbc ON wb.liveBidId = lbc.id; 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+select 
+    wb.id as 최종낙찰정보,
+    wb.userinfoid as 낙찰자번호,
+    lap.userinfoid as 실시간경매참여자번호
+from winningbid wb
+inner join livebidcost lbc
+on wb.liveBidId = lbc.id
+inner join liveauctionpart lap
+on lbc.liveAuctionPartId = lap.id
