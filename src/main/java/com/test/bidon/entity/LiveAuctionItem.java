@@ -5,14 +5,13 @@ import java.util.List;
 
 import com.test.bidon.dto.LiveAuctionItemDTO;
 
+import com.test.bidon.dto.UserInfoDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
@@ -79,6 +78,13 @@ public class LiveAuctionItem {
     private List<LiveAuctionItemImageList> imageLists;
 
     public LiveAuctionItemDTO toDTO() {
+        UserEntity userInfo = this.getUserInfo(); // userInfo 가져오기
+
+        UserInfoDTO userInfoDTO = null;
+        if (userInfo != null) {
+            userInfoDTO = userInfo.toDTO();
+        }
+
         return LiveAuctionItemDTO.builder()
                 .id(this.getId())
                 .name(this.getName())
@@ -87,7 +93,7 @@ public class LiveAuctionItem {
                 .startTime(this.getStartTime())
                 .endTime(this.getEndTime())
                 .createTime(this.getCreateTime())
-                .userInfo(this.getUserInfo().toDTO())
+                .userInfo(userInfoDTO)
                 .build();
     }
     
