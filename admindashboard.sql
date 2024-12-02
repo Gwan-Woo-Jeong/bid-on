@@ -14,14 +14,21 @@ select sum(bidprice) from LiveBidCost;
 select sum(bidprice) from NormalBidInfo;
 
 select * from MainCategory;
+select id,MaincategoryId,name from SubCategory;
 
 --메인 카테고리 count 세기
-select * from normalauctionitem;
+
 
 --서브 카테고리별 오름차순
 select sb.name, count(*) from SubCategory sb inner join NormalAuctionItem nai on sb.id = nai.categorySubId 
 group by sb.name, sb.id order by sb.id asc;
-
+SELECT * FROM (
+    SELECT sb.name, COUNT(*) AS item_count
+    FROM SubCategory sb
+    INNER JOIN NormalAuctionItem nai ON sb.id = nai.categorySubId
+    GROUP BY sb.name, sb.id
+    ORDER BY sb.id ASC
+) WHERE ROWNUM <= 4;
 
 
 --사용자 통계---------------------------------------------------------
@@ -267,6 +274,31 @@ GROUP BY
     EXTRACT(MONTH FROM nbi.bidDate)
 ORDER BY 
     month;
+------------------------------------------------
+--분기별 일반 경매 총 수익(월별)
+SELECT 
+    CASE 
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 1 AND 3 THEN 1
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 4 AND 6 THEN 2
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 7 AND 9 THEN 3
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 10 AND 12 THEN 4
+    END AS quarter,
+    SUM(nbi.bidprice * 0.1) AS quarterly_revenue
+FROM 
+    winningbid wb
+FULL OUTER JOIN 
+    NormalBidInfo nbi ON wb.normalBidId = nbi.id
+WHERE 
+    nbi.bidDate IS NOT NULL
+GROUP BY 
+    CASE 
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 1 AND 3 THEN 1
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 4 AND 6 THEN 2
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 7 AND 9 THEN 3
+        WHEN EXTRACT(MONTH FROM nbi.bidDate) BETWEEN 10 AND 12 THEN 4
+    END
+ORDER BY 
+    quarter;
 --실시간 경매 총 수익(월별)
 SELECT 
     EXTRACT(MONTH FROM lbc.bidTime) AS month,
@@ -281,8 +313,32 @@ GROUP BY
     EXTRACT(MONTH FROM lbc.bidTime)
 ORDER BY 
     month;
-
-
+    
+------------------------------------------------
+--분기별 실시간 경매 총 수익(월별)
+SELECT 
+    CASE 
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 1 AND 3 THEN 1
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 4 AND 6 THEN 2
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 7 AND 9 THEN 3
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 10 AND 12 THEN 4
+    END AS quarter,
+    SUM(lbc.bidprice * 0.1) AS quarterly_revenue
+FROM 
+    winningbid wb
+FULL OUTER JOIN 
+    LiveBidCost lbc ON wb.liveBidId = lbc.id
+WHERE 
+    lbc.bidTime IS NOT NULL
+GROUP BY 
+    CASE 
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 1 AND 3 THEN 1
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 4 AND 6 THEN 2
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 7 AND 9 THEN 3
+        WHEN EXTRACT(MONTH FROM lbc.bidTime) BETWEEN 10 AND 12 THEN 4
+    END
+ORDER BY 
+    quarter;
 ------------------------------------------------
 --월별 수익금액 + 누적 수익 금액
 WITH MONTHS AS (

@@ -593,7 +593,7 @@
       var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
       var doughnutPieData = {
         datasets: [{
-          data: [40, 20, 30, 10],
+          data: categoryCounts,
           backgroundColor: [
             "#1F3BB3",
             "#FDD0C7",
@@ -609,12 +609,7 @@
         }],
   
         // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-          '전자제품',
-          '스포츠',
-          '패션',
-          '기타',
-        ]
+        labels: categoryNames
       };
       var doughnutPieOptions = {
         cutoutPercentage: 50,

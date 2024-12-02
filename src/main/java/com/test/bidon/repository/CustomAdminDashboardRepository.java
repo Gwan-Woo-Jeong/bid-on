@@ -9,6 +9,7 @@ import static com.test.bidon.entity.QNormalAuctionItem.normalAuctionItem;
 import static com.test.bidon.entity.QNormalBidInfo.normalBidInfo;
 import static com.test.bidon.entity.QUserEntity.userEntity;
 import static com.test.bidon.entity.QWinningBid.winningBid;
+import static com.test.bidon.entity.QSubCategory.subCategory;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -31,6 +32,9 @@ import com.test.bidon.dto.MonthlyAveragetStartPriceDTO;
 import com.test.bidon.dto.MonthlyItemCountDTO;
 import com.test.bidon.dto.MonthlyRevenueDTO;
 import com.test.bidon.dto.MonthlyUserCountDTO;
+import com.test.bidon.dto.SubCategoryCountDTO;
+import com.test.bidon.entity.QNormalAuctionItem;
+import com.test.bidon.entity.QSubCategory;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -208,7 +212,7 @@ public class CustomAdminDashboardRepository {
         		+ "    SELECT TO_CHAR(startTime, 'MM') AS MONTH,\r\n"
         		+ "           COUNT(*) AS ONGOING_COUNT\r\n"
         		+ "    FROM (\r\n"
-        		+ "        SELECT startTime FROM NormalAuctionItem WHERE status = '진행중'\r\n"
+        		+ "        SELECT startTime FROM NormalAuctionItem WHERE status = '진행중' or status = '대기중'"
         		+ "        UNION ALL\r\n"
         		+ "        SELECT startTime FROM LiveAuctionItem WHERE startTime >= SYSDATE AND endTime IS NULL\r\n"
         		+ "    )\r\n"
@@ -224,7 +228,7 @@ public class CustomAdminDashboardRepository {
         		+ "    )\r\n"
         		+ "    GROUP BY TO_CHAR(startTime, 'MM')\r\n"
         		+ ") E ON M.MONTH = E.MONTH\r\n"
-        		+ "ORDER BY M.MONTH"; // 위의 SQL 쿼리 전체를 여기에 넣습니다.
+        		+ "ORDER BY M.MONTH";
         
         
         Query query = entityManager.createNativeQuery(nativeQuery);
@@ -387,6 +391,28 @@ public class CustomAdminDashboardRepository {
 	                .build())
 	            .collect(Collectors.toList());
 	    }
+	    
+	    //서브카테고리별 4개만 가져오기
+	    public List<SubCategoryCountDTO> findTop4SubCategories() {
+	        //QSubCategory subCategory = QSubCategory.subCategory;
+	        //QNormalAuctionItem normalAuctionItem = QNormalAuctionItem.normalAuctionItem;
+	        
+	        return jpaQueryFactory
+	            .select(Projections.constructor(SubCategoryCountDTO.class,
+	                subCategory.name,
+	                normalAuctionItem.count()))
+	            .from(subCategory)
+	            .innerJoin(normalAuctionItem)
+	            .on(subCategory.id.eq(normalAuctionItem.categorySubId))
+	            .groupBy(subCategory.name, subCategory.id)
+	            .orderBy(subCategory.id.asc())
+	            .limit(4)
+	            .fetch();
+	    }
+	    
+		//분기별 일반 경매 수익률 
+
+		//분기별 실시간 경매 수익률 
 }
 
 
