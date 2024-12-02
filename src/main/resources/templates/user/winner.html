@@ -31,6 +31,14 @@
 
 <th:block th:insert="~{user/inc/scripts.html :: scripts(jquery=true, custom=true)}"></th:block>
 
+<script th:inline="javascript">
+    const count = [[${winningBidCount}]];
+
+    if (!count) {
+        alert("해당 경매품에 대한 낙찰 정보가 없습니다.");
+        location.href = "/";
+    }
+</script>
 <script src="/js/winner.js"></script>
 </body>
 

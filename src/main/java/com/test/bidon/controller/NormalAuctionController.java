@@ -1,5 +1,8 @@
 package com.test.bidon.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -11,14 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.querydsl.core.Tuple;
 import com.test.bidon.dto.NormalAuctionItemWithImgDTO;
 import com.test.bidon.dto.NormalBidInfoDTO;
+import com.test.bidon.dto.NormalUserFindDTO;
 import com.test.bidon.repository.CustomNormalAuctionItemRepository;
 import com.test.bidon.repository.NormalAuctionItemDetailRepository;
-import com.test.bidon.repository.NormalAuctionItemWithImg;
+import com.test.bidon.repository.NormalFindUserRepository;
 
 import lombok.RequiredArgsConstructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,7 +27,8 @@ public class NormalAuctionController {
 
     private final CustomNormalAuctionItemRepository customNormalAuctionItemRepository;
     private final NormalAuctionItemDetailRepository normalAuctionItemDetailRepository;
-    private final NormalAuctionItemWithImg normalAuctionItemWithImg;
+    private final NormalAuctionItemDetailRepository normalAuctionItemWithImg;
+    private final NormalFindUserRepository normalFindUserRepository;
 
 
     // Oracle DB의 일반경매 물품 데이터를 가져와서 browse-bid 페이지에 출력하는 method
@@ -101,9 +103,14 @@ public class NormalAuctionController {
                 .filter(item -> item.getId().equals(id))
                 .flatMap(item -> item.getImagePath().stream())
                 .collect(Collectors.toList());
+        
+        List<NormalUserFindDTO> users = normalFindUserRepository.findUsersByAuctionItemId(id);
+        System.out.println("Users: " + users);  // 로그를 출력해봄
 
         model.addAttribute("bidinfo", bidinfo);
         model.addAttribute("itemImgs", filteredImages);	//이미지..
+        model.addAttribute("users", users);
+        
 
         return "user/bid-detail";
     }

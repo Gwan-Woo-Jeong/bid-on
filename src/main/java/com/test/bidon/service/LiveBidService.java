@@ -370,8 +370,8 @@ public class LiveBidService {
 
                     LiveBidRoomUser highestBidder = room.getHighestBidder();
                     sendEndAlert(highestBidder, roomId, room);
-                    sendBidEnd(highestBidder, roomId, room);
-                    saveWinningBid(room);
+                    WinningBid winningBid = saveWinningBid(room);
+                    sendBidEnd(winningBid, roomId, room);
                     updateItemEndTime(roomId);
                 }
 
@@ -412,11 +412,11 @@ public class LiveBidService {
         room.sendMessageAll(toTextMessage(outAlertMessage));
     }
 
-    private static void sendBidEnd(LiveBidRoomUser highestBidder, Long roomId, LiveBidRoom room) {
+    private static void sendBidEnd(WinningBid winningBid, Long roomId, LiveBidRoom room) {
         Message outBidEndMessage = Message.builder()
                 .roomId(roomId)
                 .type("BID-END")
-                .payload(highestBidder)
+                .payload(winningBid)
                 .createTime(LocalDateTime.now())
                 .build();
 
@@ -435,7 +435,7 @@ public class LiveBidService {
         liveAuctionItemRepository.save(item);
     }
 
-    private void saveWinningBid(LiveBidRoom room) {
+    private WinningBid saveWinningBid(LiveBidRoom room) {
         LiveBidCostDTO highestBidCost = room.getHighestBidCost();
 
         WinningBid winningBid = WinningBid.builder()
@@ -443,7 +443,7 @@ public class LiveBidService {
                 .liveBidId(highestBidCost.getId())
                 .build();
 
-        winningBidRepository.save(winningBid);
+        return winningBidRepository.save(winningBid);
     }
 
     private static void sendPartsMessage(Long roomId, LiveBidRoom room) {

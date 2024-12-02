@@ -21,8 +21,9 @@ public class NormalAuctionWishDTO {
     private long wishCount;  // wishCount 필드 추가
 
     // Projections.constructor()에 맞는 생성자 추가
-    public NormalAuctionWishDTO(String name, LocalDateTime startTime, long wishCount) {
-        this.name = name;
+    public NormalAuctionWishDTO(Long id, String name, LocalDateTime startTime, long wishCount) {
+        this.id = id;
+    	this.name = name;
         this.startTime = startTime;
         this.wishCount = wishCount;
     }
