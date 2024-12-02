@@ -1,18 +1,26 @@
 package com.test.bidon.repository;
 
 import com.querydsl.core.Tuple;
+
+import com.querydsl.core.types.Projections;
+
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.test.bidon.dto.NormalAuctionWishDTO;
 import com.test.bidon.entity.NormalAuctionItem;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.test.bidon.entity.QNormalAuctionItem.normalAuctionItem;
 import static com.test.bidon.entity.QNormalAuctionItemImage.normalAuctionItemImage;
 import static com.test.bidon.entity.QNormalAuctionItemImageList.normalAuctionItemImageList;
 import static com.test.bidon.entity.QNormalBidInfo.normalBidInfo;
+import static com.test.bidon.entity.QNormalAuctionWish.normalAuctionWish;
 
 //Query DSL용 Repository
 @Repository
@@ -82,7 +90,7 @@ public class CustomNormalAuctionItemRepository {
     public List<Tuple> DisplaySixItems() {
 
         return jpaQueryFactory
-                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path)
+                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path, normalAuctionItem.description)
                 .from(normalAuctionItemImageList)
                 .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
                 .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
@@ -124,6 +132,52 @@ public class CustomNormalAuctionItemRepository {
                 .fetch();
 
     }
+
+
+    
+
+    // 위시리스트 수 조회
+    public List<NormalAuctionWishDTO> getWishCountStats() {
+    	
+    	LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+    	
+        return jpaQueryFactory
+            .select(Projections.constructor(NormalAuctionWishDTO.class,
+                normalAuctionItem.name,            // 경매 물품 이름
+                normalAuctionItem.startTime,       // 경매 시작 시간
+                normalAuctionWish.id.count()       // 찜 수 (찜한 사용자 수)
+            ))
+            .from(normalAuctionItem)
+            .leftJoin(normalAuctionWish) 
+            .on(normalAuctionItem.id.eq(normalAuctionWish.normalAuctionItemId)) 
+            .groupBy(normalAuctionItem.name, normalAuctionItem.startTime) 
+            .where(normalAuctionItem.startTime.after(oneMonthAgo))
+            .having(normalAuctionWish.id.count().gt(0))  
+            .orderBy(normalAuctionWish.id.count().desc())  
+            .fetch();  // 결과 반환
+    }
+
+
+    public OrderSpecifier<?> itemFilter(String filterTrigger) {
+
+        // 필터가 적용되지 않으면
+        if (filterTrigger == null || filterTrigger.isEmpty()) {
+            return normalAuctionItem.id.asc();
+        }
+
+        switch (filterTrigger) {
+            case "priceAsc":
+                return normalAuctionItem.startPrice.asc();
+            case "priceDesc":
+                return normalAuctionItem.startPrice.desc();
+            default:
+                return normalAuctionItem.id.asc();
+
+        }
+
+    }
+
+    
 
 }
 

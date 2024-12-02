@@ -406,7 +406,7 @@
       var marketingOverviewData = {
           labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
           datasets: [{
-              label: '평균 낙찰 가격',
+              label: '평균 시작 가격',
               data: monthlyAverageBidPrice,
               backgroundColor: "#52CDFF",
               borderColor: [
@@ -416,7 +416,7 @@
               fill: true, // 3: no fill
               
           },{
-            label: '평균 시작 가격',
+            label: '평균 낙찰 가격',
             data: monthlyAverageStartPrice,
             backgroundColor: "#1F3BB3",
             borderColor: [
@@ -593,7 +593,7 @@
       var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
       var doughnutPieData = {
         datasets: [{
-          data: [40, 20, 30, 10],
+          data: categoryCounts,
           backgroundColor: [
             "#1F3BB3",
             "#FDD0C7",
@@ -609,12 +609,7 @@
         }],
   
         // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-          '전자제품',
-          '스포츠',
-          '패션',
-          '기타',
-        ]
+        labels: categoryNames
       };
       var doughnutPieOptions = {
         cutoutPercentage: 50,
@@ -681,7 +676,7 @@
           labels: ["1분기","2분기", "3분기", "4분기"],
           datasets: [{
               label: 'Last week',
-              data: [8, 5, 11, 39],
+              data: quarterlyNormalRevenue,
               backgroundColor: "#52CDFF",
               borderColor: [
                   '#52CDFF',
@@ -751,7 +746,7 @@
           labels: ["1분기","2분기", "3분기", "4분기"],
           datasets: [{
               label: 'Last week',
-              data: [18, 25, 20, 39],
+              data: quarterlyLiveRevenue,
               backgroundColor: "#1F3BB3",
               borderColor: [
                   '#1F3BB3',

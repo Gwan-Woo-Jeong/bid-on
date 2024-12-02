@@ -55,8 +55,10 @@ function connect(user) {
             setMinBidPrice(payload.highestBidPrice);
         } else if (type === "BID-TALK") {
             printChat(payload.name, payload.profile, text, payload.userId === this.userId ? "right" : "left", createTime, true);
+        } else if (type === "BID-END") {
+            handleBidEnd(payload);
         }
-    };
+    }
 
 
     window.onbeforeunload = function () {
@@ -88,10 +90,10 @@ function disconnect() {
     ws.close();
 }
 
-
 function clearUsers() {
     $('.chat-users').empty();
 }
+
 
 function printUsers(profileImgName, name, email, isHighestBidder) {
     const temp = `
@@ -195,6 +197,18 @@ function newlineToBreak(str) {
     return str.replace(/\n/g, '<br>');
 }
 
+function handleBidEnd(payload) {
+    if (payload.userId === this.userId) {
+        // TODO: 실시간 경매 결제 페이지 등록
+        if(!alert("축하합니다! 경매에서 승리하셨습니다.\n이제 결제 페이지로 이동하여 결제를 진행해주세요.")){
+            window.location.replace('/payment?itemId=' + itemId);
+        }
+    } else {
+        if (!alert("아쉽지만 경매품을 획득하지 못하였습니다... 다음 기회는 꼭 놓치지마세요!\n버튼을 눌러 경매를 종료합니다.")) {
+            window.location.replace('/live-auction/detail?itemId=' + itemId);
+        }
+    }
+}
 
 bidButton.click(e => {
     e.preventDefault();

@@ -2,6 +2,8 @@ package com.test.bidon.controller;
 
 import java.util.List;
 
+import com.querydsl.core.Tuple;
+import com.test.bidon.repository.CustomNormalAuctionItemRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class TestController {
 	
 	private final CustomLiveAuctionItemRepository liveAuctionItemRepository;
-	
+	private final CustomNormalAuctionItemRepository customNormalAuctionItemRepository;
 	
 
 	@GetMapping("/")
@@ -28,19 +30,19 @@ public class TestController {
 	public String index(Model model) {
 		
 		List<LiveAuctionItemListDTO> HomeLiveItemList = liveAuctionItemRepository.LiveAuctionList(0, 6, null, null, null);
-		
+		List<Tuple> HomeNormalItemList = customNormalAuctionItemRepository.DisplaySixItems();
+		List<Tuple> HomeNormalTimeAndPriceList = customNormalAuctionItemRepository.DisplaySixTimeAndPrice();
+
 		HomeLiveItemList.sort((a,b) -> b.getId().compareTo(a.getId()));
 		
 		List<LiveAuctionItemListDTO> limitedItems = HomeLiveItemList.stream().skip(2).limit(4).toList();
-		
-		
-		
+
 		LiveAuctionItemListDTO bigList = liveAuctionItemRepository.bigHomeLiveAuctionList();
-		
-		
-		
+
 		model.addAttribute("liveItemList", limitedItems);
 		model.addAttribute("big", bigList);
+		model.addAttribute("normalItemList", HomeNormalItemList);
+		model.addAttribute("normalTimeAndPriceList", HomeNormalTimeAndPriceList);
 		
 		return "user/home";
 	}

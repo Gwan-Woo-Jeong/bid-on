@@ -12,4 +12,8 @@ public interface NormalAuctionItemRepository extends JpaRepository<NormalAuction
 
 	int countByUserInfoId(Long userInfoId);	//- HM -
 
+
+	
+	
+
 }

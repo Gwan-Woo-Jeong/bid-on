@@ -137,51 +137,53 @@ public class BidOrderService {
         return allBids;
     }
 
- // 2. 사용자가 낙찰받은 경매 목록 조회
+    // 2. 사용자가 낙찰받은 경매 목록 조회
     public List<CombinedAuctionDTO> getWonAuctions(Long userId) {
         List<CombinedAuctionDTO> wonAuctions = new ArrayList<>();
         
         // 일반 경매 낙찰 목록
-        winningBidRepository.findByUserInfoIdAndNormalBidIdIsNotNull(userId)
-            .ifPresent(winningBid -> {
-                normalBidInfoRepository.findById(winningBid.getNormalBidId())
-                    .ifPresent(normalBid -> {
-                        NormalAuctionItem item = normalBid.getNormalAuctionItem();
+        List<WinningBid> normalWonBids = winningBidRepository.findAllByUserInfoIdAndNormalBidIdIsNotNull(userId);
+        for (WinningBid winningBid : normalWonBids) {
+            normalBidInfoRepository.findById(winningBid.getNormalBidId())
+                .ifPresent(normalBid -> {
+                    NormalAuctionItem item = normalBid.getNormalAuctionItem();
+                    if (item != null) {
                         wonAuctions.add(CombinedAuctionDTO.builder()
                             .auctionType("일반")
                             .id(item.getId())
                             .name(item.getName())
                             .finalPrice(normalBid.getBidPrice())
                             .soldDate(item.getEndTime())
-                            .sellerName(item.getUserInfo().getName())
+                            .sellerName(item.getUserInfo() != null ? item.getUserInfo().getName() : "-")
                             .status(getPaymentStatus(winningBid.getId()))
                             .build());
-                    });
-            });
+                    }
+                });
+        }
 
         // 실시간 경매 낙찰 목록
-        winningBidRepository.findByUserInfoIdAndLiveBidIdIsNotNull(userId)
-            .forEach(winningBid -> {
-                LiveBidCost latestBid = liveBidCostRepository
-                    .findTopByLiveAuctionItemIdOrderByBidTimeDesc(winningBid.getLiveBidId())
-                    .orElse(null);
-                
-                if (latestBid != null) {
-                    LiveAuctionItem item = latestBid.getLiveAuctionItem();
-                    wonAuctions.add(CombinedAuctionDTO.builder()
-                        .auctionType("실시간")
-                        .id(item.getId())
-                        .name(item.getName())
-                        .finalPrice(latestBid.getBidPrice())
-                        .soldDate(item.getEndTime())
-                        .sellerName(item.getUserInfo().getName())
-                        .status(getPaymentStatus(winningBid.getId()))
-                        .build());
-                }
-            });
+        List<WinningBid> liveWonBids = winningBidRepository.findAllByUserInfoIdAndLiveBidIdIsNotNull(userId);
+        for (WinningBid winningBid : liveWonBids) {
+            liveBidCostRepository.findById(winningBid.getLiveBidId())
+                .ifPresent(liveBidCost -> {
+                    LiveAuctionItem item = liveBidCost.getLiveAuctionItem();
+                    if (item != null) {
+                        wonAuctions.add(CombinedAuctionDTO.builder()
+                            .auctionType("실시간")
+                            .id(item.getId())
+                            .name(item.getName())
+                            .finalPrice(liveBidCost.getBidPrice())
+                            .soldDate(item.getEndTime())
+                            .sellerName(item.getUserInfo() != null ? item.getUserInfo().getName() : "-")
+                            .status(getPaymentStatus(winningBid.getId()))
+                            .build());
+                    }
+                });
+        }
 
         return wonAuctions;
     }
+
 
     // 결제 상태 조회 도우미 메서드
     private String getPaymentStatus(Long winningBidId) {
@@ -264,9 +266,16 @@ public class BidOrderService {
                 
                 UserEntity buyer = null;
                 if (sellStatus.equals("종료")) {
-                    buyer = winningBidRepository.findByNormalBidId(item.getId())
-                        .map(winningBid -> userRepository.findById(winningBid.getUserInfoId()).orElse(null))
-                        .orElse(null);
+                    // 수정된 구매자 조회 로직
+                    Optional<NormalBidInfo> lastBid = normalBidInfoRepository
+                        .findTopByAuctionItemIdOrderByBidDateDesc(item.getId());
+                    
+                    if (lastBid.isPresent()) {
+                        buyer = winningBidRepository.findByNormalBidId(lastBid.get().getId())
+                            .map(winningBid -> userRepository.findById(winningBid.getUserInfoId())
+                                .orElse(null))
+                            .orElse(null);
+                    }
                 }
 
                 allAuctions.add(CombinedAuctionDTO.builder()
@@ -296,9 +305,16 @@ public class BidOrderService {
                 
                 UserEntity buyer = null;
                 if (sellStatus.equals("종료")) {
-                    buyer = winningBidRepository.findByLiveBidId(item.getId())
-                        .map(winningBid -> userRepository.findById(winningBid.getUserInfoId()).orElse(null))
-                        .orElse(null);
+                    // 수정된 구매자 조회 로직
+                    Optional<LiveBidCost> lastBid = liveBidCostRepository
+                        .findTopByLiveAuctionItemIdOrderByBidTimeDesc(item.getId());
+                    
+                    if (lastBid.isPresent()) {
+                        buyer = winningBidRepository.findByLiveBidId(lastBid.get().getId())
+                            .map(winningBid -> userRepository.findById(winningBid.getUserInfoId())
+                                .orElse(null))
+                            .orElse(null);
+                    }
                 }
 
                 allAuctions.add(CombinedAuctionDTO.builder()
@@ -336,7 +352,7 @@ public class BidOrderService {
         return String.format("%d일 %02d:%02d:%02d", days, hours, minutes, seconds);
     }
     
- // 사용자의 경매 활동 수 조회 (입찰한 일반 경매 + 실시간 경매 수)
+    // 사용자의 경매 활동 수 조회 (입찰한 일반 경매 + 실시간 경매 수)
     public int countBiddingActivities(Long userId) {
         // 일반 경매 입찰 수
         int normalBidCount = normalBidInfoRepository.countByUserInfoId(userId);
