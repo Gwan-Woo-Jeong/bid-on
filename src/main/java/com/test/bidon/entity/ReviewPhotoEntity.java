@@ -31,6 +31,14 @@ public class ReviewPhotoEntity {
     @JoinColumn(name = "reviewBoardId", nullable = false)
     private ReviewBoard reviewBoard;
 
-    @Column(length = 300, nullable = false)
-    private String path;
+    @Column(name = "path" ,length = 300, nullable = false)
+    private String reviewPhotoPath;
+    
+	public String getReviewPhotoPath() {
+	  return reviewPhotoPath;
+	}
+	
+	public void setReviewPhotoPath(String reviewPhotoPath) {
+	  this.reviewPhotoPath = reviewPhotoPath;
+	}
 }

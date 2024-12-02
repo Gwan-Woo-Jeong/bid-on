@@ -16,14 +16,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.test.bidon.dto.ReviewBoardDetailDTO;
 import com.test.bidon.dto.ReviewBoardFormDTO;
 import com.test.bidon.entity.ReviewBoard;
 import com.test.bidon.entity.ReviewPhoto;
 import com.test.bidon.repository.ReviewBoardRepository;
 import com.test.bidon.service.FileService;
 import com.test.bidon.service.ReviewBoardService;
+import com.test.bidon.service.ReviewService;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Controller
+@RequiredArgsConstructor
 public class ReviewBoardController {
 
     @Autowired
@@ -158,5 +164,51 @@ public class ReviewBoardController {
     public void addReviewFromController() {
         reviewBoardService.addReview("Title", "Content", "email@example.com", "/path/to/thumbnail", "/path/to/photos");
     }
+    
+//    @DeleteMapping("/delete-review")
+//    public String deleteReview(@RequestParam("reviewBoardId") Integer reviewBoardId, Model model) {
+//    	
+//    	try {
+//    		reviewBoardService.deleteReview(reviewBoardId);
+//			
+//    		return "redirect:/blog";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("error", "게시글 삭제 중 오류 발생");
+//			return "user/blog";
+//		}
+//    	
+//    	
+//    }
+    
 
+    /**
+     * 블로그 상세 페이지
+     */
+
+    private final ReviewService reviewService;
+    @GetMapping("/blog-detail")
+    public String getBlogDetail(@RequestParam(name = "id") Integer id, Model model) {
+        ReviewBoard review = reviewBoardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid review ID: " + id));
+        
+
+        ReviewBoardDetailDTO reviewDetailDto = reviewService.getReviewDetail(id);
+        
+
+        // 조회수 증가
+        review.incrementViews();
+        reviewBoardRepository.save(review);
+
+        
+        model.addAttribute("review", review); // 상세 정보
+        model.addAttribute("hashTags", reviewDetailDto.getHashTags());
+
+        return "user/blog-detail"; // 상세 페이지 템플릿 경로
+    }
 }
+   
+    
+    
+
+

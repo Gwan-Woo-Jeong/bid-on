@@ -69,4 +69,17 @@ public class FileService {
     public String saveReviewFile(MultipartFile file) {
         return saveFile(file, "review");
     }
+    
+    public void deleteFile(String filePath) {
+    	if (filePath == null || filePath.isEmpty())
+    		return;
+    	
+    	
+    	try {
+			
+		} catch (Exception e) {
+			throw new RuntimeException("파일 삭제 중 오류 발생" + filePath, e);
+		}
+    }
+    
 }

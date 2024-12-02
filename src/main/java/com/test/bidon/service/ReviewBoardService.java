@@ -15,6 +15,10 @@ public class ReviewBoardService {
 
     @Autowired
     private ReviewBoardRepository reviewBoardRepository;
+    
+    @Autowired
+    private FileService fileService;
+    
 
     // ReviewBoardId로 ReviewBoard 데이터 가져오기
     public ReviewBoard getReviewBoardById(Integer reviewBoardId) {
@@ -43,6 +47,22 @@ public class ReviewBoardService {
             .setParameter(5, additionalPhotos) // 추가사진 경로 (쉼표 구분)
             .execute();
     }
-	
+//    public void deleteReview(Integer reviewBoardId) {
+//        ReviewBoard reviewBoard = reviewBoardRepository.findById(reviewBoardId)
+//                .orElseThrow(() -> new RuntimeException("삭제하려는 게시글을 찾을 수 없습니다."));
+//
+//        // 파일 삭제 처리 (썸네일 및 추가 사진)
+//        if (reviewBoard.getThumbnailPath() != null) {
+//            fileService.deleteFile(reviewBoard.getThumbnailPath());
+//        }
+//
+//        if (reviewBoard.getAdditionalPhotos() != null) {
+//            for (String photoPath : reviewBoard.getAdditionalPhotos().split(",")) {
+//                fileService.deleteFile(photoPath);
+//            }
+//        }
+//    
+//        reviewBoardRepository.delete(reviewBoard);
+//    }
 	
 }

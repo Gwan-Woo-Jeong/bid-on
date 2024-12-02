@@ -40,7 +40,13 @@ public class ReviewBoard {
 
     @OneToMany(mappedBy = "reviewBoardId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewPhoto> reviewPhotos;
-
+ 
+//    @Column(name = "path")
+//    private String thumbnailPath;
+//
+//    
+//    @Column(name = "path", insertable = false, updatable = false)
+//    private String additionalPhotos;
     
     @PrePersist
     public void prePersist() {
@@ -51,8 +57,30 @@ public class ReviewBoard {
 
     }
 
+	public void incrementViews() {
+		// TODO Auto-generated method stub
+		
+	}
+
     // 조회수 증가 메서드
-    public void incrementViews() {
-        this.views = (this.views == null ? 0 : this.views) + 1;
-    }
+//    public void incrementViews() {
+//        this.views = (this.views == null ? 0 : this.views) + 1;
+//    }
+//    
+//    public String getThumbnailPath() {
+//        return thumbnailPath;
+//    }
+//
+//    public void setThumbnailPath(String thumbnailPath) {
+//        this.thumbnailPath = thumbnailPath;
+//    }
+//
+//    // Getter and Setter for additionalPhotos
+//    public String getAdditionalPhotos() {
+//        return additionalPhotos;
+//    }
+//
+//    public void setAdditionalPhotos(String additionalPhotos) {
+//        this.additionalPhotos = additionalPhotos;
+//    }
 }
