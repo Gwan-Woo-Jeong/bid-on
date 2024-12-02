@@ -136,11 +136,13 @@ function printChat(name, profileImgName, text, side, time, isBid) {
 
 function printAlert(text) {
     const temp = `
-                <div class="answer center">
-                    <div class="avatar">
-                        <img src="/user/images/sample/auctioneer-bot.jpg" alt="User name">
+                <div class="alert">
+                    <div class="profile">
+                        <div class="bot-avatar">
+                            <img src="/user/images/sample/auctioneer-bot.jpg" alt="User name">
+                        </div>
+                        <div class="name">경매사 봇</div>
                     </div>
-                    <div class="name">경매사 봇</div>
                     <div class="text">${newlineToBreak(text)}</div>
                 </div>
                 `;
