@@ -1,5 +1,8 @@
 package com.test.bidon.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -16,9 +19,6 @@ import com.test.bidon.repository.NormalAuctionItemDetailRepository;
 import com.test.bidon.repository.NormalAuctionItemWithImg;
 
 import lombok.RequiredArgsConstructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @Controller
 @RequiredArgsConstructor
