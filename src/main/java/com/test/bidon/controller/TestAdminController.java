@@ -54,6 +54,7 @@ public class TestAdminController {
 	public String auctionPage(Model model) {
 		
 		LocalDateTime currentTime = LocalDateTime.now();
+		model.addAttribute("currentTime", currentTime);
 //		LocalDateTime startOfDay = currentTime.toLocalDate().atStartOfDay();
 //		LocalDateTime endOfDay = currentTime.toLocalDate().atTime(23, 59, 59);
 	    
