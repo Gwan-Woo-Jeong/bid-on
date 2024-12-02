@@ -7,9 +7,11 @@ import static com.test.bidon.entity.QLiveAuctionPart.liveAuctionPart;
 import static com.test.bidon.entity.QLiveBidCost.liveBidCost;
 import static com.test.bidon.entity.QNormalAuctionItem.normalAuctionItem;
 import static com.test.bidon.entity.QNormalBidInfo.normalBidInfo;
+import static com.test.bidon.entity.QSubCategory.subCategory;
 import static com.test.bidon.entity.QUserEntity.userEntity;
 import static com.test.bidon.entity.QWinningBid.winningBid;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,11 +28,12 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.test.bidon.dto.MonthlyAveragetBidPriceDTO;
-import com.test.bidon.dto.MonthlyAveragetStartPriceDTO;
+import com.test.bidon.dto.MonthlyAvgtStartBidPriceDTO;
 import com.test.bidon.dto.MonthlyItemCountDTO;
 import com.test.bidon.dto.MonthlyRevenueDTO;
 import com.test.bidon.dto.MonthlyUserCountDTO;
+import com.test.bidon.dto.QuarterlyRevenueDTO;
+import com.test.bidon.dto.SubCategoryCountDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -44,8 +47,6 @@ public class CustomAdminDashboardRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 	@PersistenceContext
 	private EntityManager entityManager;
-//	@Autowired
-//    private EntityManager em;
 	
 	// Date를 LocalDateTime으로 변환하는 메서드
     private LocalDateTime convertDateToLocalDateTime(Date date) {
@@ -108,8 +109,9 @@ public class CustomAdminDashboardRepository {
 	public long getOngoingNormalAuctionItemCount() {
 		return jpaQueryFactory
 				.selectFrom(normalAuctionItem)
-				.where(normalAuctionItem.status.eq("진행중"))
-				.fetchCount();
+				.where(normalAuctionItem.status.eq("진행중")
+	                    .or(normalAuctionItem.status.eq("대기중")))
+	            .fetchCount();
 	}
 
 	public long getOngoingLiveAuctionItemCount() {
@@ -208,7 +210,7 @@ public class CustomAdminDashboardRepository {
         		+ "    SELECT TO_CHAR(startTime, 'MM') AS MONTH,\r\n"
         		+ "           COUNT(*) AS ONGOING_COUNT\r\n"
         		+ "    FROM (\r\n"
-        		+ "        SELECT startTime FROM NormalAuctionItem WHERE status = '진행중'\r\n"
+        		+ "        SELECT startTime FROM NormalAuctionItem WHERE status = '진행중' or status = '대기중'"
         		+ "        UNION ALL\r\n"
         		+ "        SELECT startTime FROM LiveAuctionItem WHERE startTime >= SYSDATE AND endTime IS NULL\r\n"
         		+ "    )\r\n"
@@ -224,7 +226,7 @@ public class CustomAdminDashboardRepository {
         		+ "    )\r\n"
         		+ "    GROUP BY TO_CHAR(startTime, 'MM')\r\n"
         		+ ") E ON M.MONTH = E.MONTH\r\n"
-        		+ "ORDER BY M.MONTH"; // 위의 SQL 쿼리 전체를 여기에 넣습니다.
+        		+ "ORDER BY M.MONTH";
         
         
         Query query = entityManager.createNativeQuery(nativeQuery);
@@ -305,88 +307,62 @@ public class CustomAdminDashboardRepository {
 	            .collect(Collectors.toList());
 	    }
 	    
-	    public List<MonthlyAveragetStartPriceDTO> findMonthlyAverageStartPriceList() {
-	        String nativeQuery = """
-	            WITH MONTHS AS (
-	                SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'YEAR'), LEVEL-1), 'MM') AS MONTH
-	                FROM DUAL
-	                CONNECT BY LEVEL <= 12
-	            ), AverageStartPrices AS (
-	                SELECT 
-	                    TO_CHAR(startTime, 'MM') AS month,
-	                    AVG(startPrice) AS avg_price
-	                FROM (
-	                    SELECT startTime, startPrice FROM LiveAuctionItem
-	                    UNION ALL
-	                    SELECT startTime, startPrice FROM NormalAuctionItem
-	                )
-	                GROUP BY TO_CHAR(startTime, 'MM')
-	            )
-	            SELECT 
-	                M.MONTH,
-	                COALESCE(A.avg_price, 0) AS average_startprice
-	            FROM 
-	                MONTHS M
-	            LEFT JOIN 
-	                AverageStartPrices A ON M.MONTH = A.month
-	            ORDER BY 
-	                M.MONTH
-	        """;
-
-	        Query query = entityManager.createNativeQuery(nativeQuery);
+	    
+	    //서브카테고리별 4개만 가져오기
+	    public List<SubCategoryCountDTO> findTop4SubCategories() {
+	        //QSubCategory subCategory = QSubCategory.subCategory;
+	        //QNormalAuctionItem normalAuctionItem = QNormalAuctionItem.normalAuctionItem;
+	        
+	        return jpaQueryFactory
+	            .select(Projections.constructor(SubCategoryCountDTO.class,
+	                subCategory.name,
+	                normalAuctionItem.count()))
+	            .from(subCategory)
+	            .innerJoin(normalAuctionItem)
+	            .on(subCategory.id.eq(normalAuctionItem.categorySubId))
+	            .groupBy(subCategory.name, subCategory.id)
+	            .orderBy(subCategory.id.asc())
+	            .limit(4)
+	            .fetch();
+	    }
+	    
+	    //분기별 일반, 실시간 경매 수익금 View 불러오기
+	    public List<QuarterlyRevenueDTO> getQuarterlyRevenue() {
+	        // View를 조회하는 네이티브 쿼리 사용
+	        String sql = "SELECT * FROM quarterly_revenue_view ORDER BY Quarter";
+	        Query query = entityManager.createNativeQuery(sql);
+	        
 	        List<Object[]> results = query.getResultList();
-
+	        
 	        return results.stream()
-	            .map(result -> MonthlyAveragetStartPriceDTO.builder()
-	                .month((String) result[0])
-	                .averagetPrice(((Number) result[1]).doubleValue())
+	            .map(result -> QuarterlyRevenueDTO.builder()
+	                .quarter(((Number) result[0]).intValue())
+	                .normalRevenue(((Number) result[1]).doubleValue())
+	                .liveRevenue(((Number) result[2]).doubleValue())
 	                .build())
 	            .collect(Collectors.toList());
 	    }
 	    
-	    
-	    public List<MonthlyAveragetBidPriceDTO> findMonthlyAverageBidPriceList() {
-	        String nativeQuery = """
-	            WITH MONTHS AS (
-	                SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'YEAR'), LEVEL-1), 'MM') AS MONTH
-	                FROM DUAL
-	                CONNECT BY LEVEL <= 12
-	            ), BidPrices AS (
-	                SELECT 
-	                    TO_CHAR(COALESCE(nbi.bidDate, lbc.bidTime), 'MM') AS month,
-	                    (COALESCE(AVG(nbi.bidprice), 0) + COALESCE(AVG(lbc.bidprice), 0)) * 0.1 AS avg_bid_price
-	                FROM 
-	                    winningbid wb
-	                FULL OUTER JOIN 
-	                    NormalBidInfo nbi ON wb.normalBidId = nbi.id
-	                FULL OUTER JOIN 
-	                    LiveBidCost lbc ON wb.liveBidId = lbc.id
-	                WHERE 
-	                    nbi.bidDate IS NOT NULL OR lbc.bidTime IS NOT NULL
-	                GROUP BY 
-	                    TO_CHAR(COALESCE(nbi.bidDate, lbc.bidTime), 'MM')
-	            )
-	            SELECT 
-	                M.MONTH,
-	                COALESCE(B.avg_bid_price, 0) AS avg_bid_price
-	            FROM 
-	                MONTHS M
-	            LEFT JOIN 
-	                BidPrices B ON M.MONTH = B.month
-	            ORDER BY 
-	                M.MONTH
-	        """;
+	    // 월별 평균 시작 금액 + 평균 낙찰 금액
+	    public List<MonthlyAvgtStartBidPriceDTO> getMonthlyAvgtStartBidPriceList() {
+	        // View를 조회하는 네이티브 쿼리 사용
+	        String sql = "SELECT * FROM monthly_avg_start_bid_price_view ORDER BY month";
+	        Query query = entityManager.createNativeQuery(sql);
 
-	        Query query = entityManager.createNativeQuery(nativeQuery);
 	        List<Object[]> results = query.getResultList();
 
-	        return results.stream()
-	            .map(result -> MonthlyAveragetBidPriceDTO.builder()
-	                .month((String) result[0])
-	                .averagetPrice(((Number) result[1]).doubleValue())
-	                .build())
-	            .collect(Collectors.toList());
+	        return results.stream().map(result -> {
+	            MonthlyAvgtStartBidPriceDTO dto = new MonthlyAvgtStartBidPriceDTO();
+	            dto.setMonth((String) result[0]);
+	            
+	            // BigDecimal을 Double로 변환
+	            dto.setAvgStartPrice(((BigDecimal) result[1]).doubleValue());
+	            dto.setAvgBidPrice(((BigDecimal) result[2]).doubleValue());
+	            
+	            return dto;
+	        }).collect(Collectors.toList());
 	    }
+	    
 }
 
 

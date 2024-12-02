@@ -51,7 +51,7 @@ public class NormalAuctionController {
 
         // StringBuilder로 페이지 css를 만드는 코드
         for (int i = 1; i <= (int)Math.ceil(count/9.0); i++) {
-            sb.append(String.format("<li class=\"page-item\"><a class=\"page-link\" href=\"browse-bid?page=%d\">%d</a></li>", i, i));
+            sb.append(String.format("<li class=\"page-item\"><a class=\"page-link\" href=\"electro?page=%d\">%d</a></li>", i, i));
         }
 
         // "이런 물품은 어떠세요?" 용 randomIndex 를 만들어보자.

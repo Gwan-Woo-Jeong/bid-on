@@ -11,6 +11,6 @@ import com.test.bidon.entity.LiveBidCost;
 @Repository
 public interface LiveBidCostRepository extends JpaRepository<LiveBidCost, Long> {
     Optional<LiveBidCost> findTopByLiveAuctionItemIdOrderByBidTimeDesc(Long itemId);
-	List<LiveBidCost> findByLiveAuctionPartUserInfoId(Long userId);
-	int countByLiveAuctionPartUserInfoId(Long userId);
+	List<LiveBidCost> findByLiveAuctionPartUserInfoId(Long userInfoId);
+	int countByLiveAuctionPartUserInfoId(Long userInfoId);
 }

@@ -42,12 +42,11 @@
                             </div>
                             <div class="col-sm-6 col-xl-12">
                                 <div class="auction-wrapper p-3">
-                                    <form id="sortForm" th:action="@{/browse-bid.html}" method="GET">
-                                    <select id="sortOrder" name="sortOrder" class="form-control bg-transparent border-0" th:value="${sortOrder}">
-                                        <option value="default">등록 순</option>
-                                        <option value="endTimeAsc">종료 임박 경매 순</option>
-                                        <option value="priceAsc">낮은 경매가 순</option>
-                                        <option value="priceDesc">높은 경매가 순</option>
+                                    <form id="sorterForm" th:action="@{/browse-bid.html}" method="GET">
+                                    <select id="normalSorter" name="normalSorter" class="form-control bg-transparent border-0" onchange="document.getElementById('sorterForm').submit()">
+                                        <option value="default" th:selected="${sorting == 'default'}">등록 순</option>
+                                        <option value="priceAsc" th:selected="${sorting == 'priceAsc'}">낮은 경매가 순</option>
+                                        <option value="priceDesc" th:selected="${sorting == 'priceDesc'}">높은 경매가 순</option>
                                     </select>
                                     </form>
                                 </div>
@@ -56,13 +55,13 @@
                                 <div class="auction-wrapper">
                                     <h4 class="mb-2">이런 물품은 어떠세요?</h4>
                                     <div class="d-flex flex-column flex-lg-row flex-xl-column  gap-3" th:each="tuple, rand : ${itemList}">
-                                        <div class="product-card" th:if="${randomIndexes.contains(rand.index)}">
-                                            <img th:src="${tuple.get(2, String)}" alt="product-card-img" style="width: 50px; height: 50px;">
+                                        <a class="product-card" th:href="'http://localhost:8090/bid-detail/' + ${tuple.get(0, Integer)}" th:if="${randomIndexes.contains(rand.index)}">
+                                            <img th:src="${tuple.get(2, String)}" alt="product-card-img" style="width: 60px; height: 60px;">
                                             <div>
                                                 <h6 class="mb-1"></h6>
                                                 <p><span class="fw-bold" th:text="${tuple.get(1, String)}"></span></p>
                                             </div>
-                                        </div>
+                                        </a>
                                         <!--
                                         <div class="product-card">
                                             <img src="/user/images/sample/product-card-img-2.png" alt="product-card-img">
@@ -146,9 +145,9 @@
                                         </div>
                                     </div>
                                     <div class="card-content">
-                                        <a th:href=|bid-detail/${tupleLength.index}| class="card-title" th:text="${tuple.get(1, String)}">Item</a>
+                                        <a th:href="'http://localhost:8090/bid-detail/' + ${tuple.get(0, Integer)}" class="card-title" th:text="${tuple.get(1, String)}">Item</a>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <p class="p-0">현재 경매가 ￦ <span th:text="${itemStatusList[tupleLength.index].get(2, String)}"></span></p>
+                                            <p class="p-0">현재 경매가 <b>￦</b><span th:text="${itemStatusList[tupleLength.index].get(2, String)}"></span></p>
                                             <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
                                         </div>
                                     </div>

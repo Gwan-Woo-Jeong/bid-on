@@ -16,12 +16,12 @@ import com.test.bidon.service.ReviewPhotoService;
 @Controller
 public class ReviewPhotoController {
 
-    @Autowired
-    private ReviewPhotoService reviewPhotoService;
-
-    @Autowired
-    private ReviewBoardService reviewBoardService;
-
+//    @Autowired
+//    private ReviewPhotoService reviewPhotoService;
+//
+//    @Autowired
+//    private ReviewBoardService reviewBoardService;
+//
 //    @GetMapping("/blog-detail")
 //    public String showBlogDetailPage(
 //            @RequestParam("reviewBoardId") Integer reviewBoardId, Model model) {

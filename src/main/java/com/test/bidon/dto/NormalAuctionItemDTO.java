@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.test.bidon.entity.NormalAuctionItem;
 import lombok.*;
 
-import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -67,9 +67,11 @@ public class NormalAuctionItemDTO {
     }
     
     
-    public NormalAuctionItemDTO(String name, LocalDateTime startTime, String userProfile, String userName, String userEmail) {
-        this.name = name;
+    public NormalAuctionItemDTO(Long id, String name, LocalDateTime startTime, String userProfile, String userName, String userEmail, long wishCount) {
+        this.id = id;
+    	this.name = name;
         this.startTime = startTime;
+        this.wishCount = wishCount;
         this.userInfo = new UserInfoDTO(id, userProfile, userName, userEmail, userEmail, null, userEmail, userEmail, null, userEmail, startPrice, userEmail, null); 
     }
     

@@ -52,25 +52,30 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			          <thead>
 			            <tr>
 			              <th>물품</th>
-			              <th>경매 시간</th>
+			              <th>시작 시간</th>
 			              <th>시작가</th>
 			              <th></th>
 			            </tr>
 			          </thead>
-			          <tbody>
-			            <tr th:each="dto : ${normalList}">
-							<!--일반경매 주소 나오면 경로 수정하기-->
-			              <td><a th:href="@{/bid-detail/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td> 
-			              <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td> 
-			              <td th:text="${dto.startPrice}">시작가</td>
-						  <td>
-  							<span class="badge"
-  			              th:text="${dto.statusNormal}"
-  			              th:classappend="${dto.statusNormal == '경매대기' ? 'badge-warning' : (dto.statusNormal == '경매진행' ? 'badge-success' : 'badge-danger')}">
-  						   </span>
-  					      </td>
-			            </tr>
-			          </tbody>
+					  <tbody>
+					      <tr th:each="dto : ${normalList}">
+					          <!-- 경매 시작 전에는 링크 비활성화, 시작 후에는 활성화 -->
+					          <td>
+					              <a th:href="@{${dto.startTime} > ${currentTime} ? '#': '/bid-detail/' + ${dto.id}}"
+					                 th:text="${dto.name}"
+					                 th:classappend="${dto.startTime > currentTime ? 'disabled' : ''}">
+					              </a>
+					          </td>
+					          <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+					          <td th:text="${dto.startPrice}">시작가</td>
+					          <td>
+					              <span class="badge"
+					                    th:text="${dto.statusNormal}"
+					                    th:classappend="${dto.statusNormal == '경매대기' ? 'badge-warning' : (dto.statusNormal == '경매진행' ? 'badge-success' : 'badge-danger')}">
+					              </span>
+					          </td>
+					      </tr>
+					  </tbody>
 			        </table>
 			      </div>
 			    </div>
@@ -136,13 +141,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         <tr>
                           <th>물품</th>
                           <th>시작 시간</th>
-                          <th>경매가</th>
+                          <th>시작가</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr th:each="dto : ${liveList}">
-						<td><a th:href="@{'/live-auction/detail?itemId=' + ${dto.id}}" th:text="${dto.name}"></a></td>
+						  <td><a th:href="@{'/live-auction/detail?itemId=' + ${dto.id}}" th:text="${dto.name}"></a></td>
                           <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                           <td th:text="${dto.startPrice}"></td>
 						  <td>
@@ -232,7 +237,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 						<tr th:each="dto : ${todayNormalList}">
 						  <td th:text="${dto.userInfo.name}">판매자</td>
 						  <!--일반경매 주소 나오면 경로 수정하기-->
-						  <td><a th:href="@{/bid-detail/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td>
+						  <!--<td><a th:href="@{/bid-detail/{id}(id=${dto.id})}" th:text="${dto.name}"></a></td>-->
+						  <td>
+				              <a th:href="@{${dto.startTime} > ${currentTime} ? '#': '/bid-detail/' + ${dto.id}}"
+				                 th:text="${dto.name}"
+				                 th:classappend="${dto.startTime > currentTime ? 'disabled' : ''}">
+				              </a>
+				          </td>
 						  <td>일반 경매</td>
 						  <td th:text="${dto.startPrice}">경매 금액</td>
 						  <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}">경매 예정일</td>
@@ -255,7 +266,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                 <div class="card-body">
                   <h4 class="card-title">회원 관심 경매품</h4>
                   <p class="card-description">
-                   <code>.like</code>
+                   <code>.One month</code>
                   </p>
                   <div class="table-responsive pt-3">
                     <table class="table table-bordered">
@@ -275,11 +286,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:each=" dto, iterStat : ${wishList}" th:if="${iterStat.index < 50}">
+                        <tr th:each=" dto, iterStat : ${wishList}" th:if="${iterStat.index < 10}">
                           <td th:text="${iterStat.index + 1}"></td>
-                          <td th:text="${dto.name}"></td>
-                          <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                          <td>1</td<!-->
+						  <!--<td><a th:href="@{/bid-detail/{id}(id=${dto.id})}" th:text="${dto.name}"></a></td>-->
+						  <td>
+				              <a th:href="@{${dto.startTime} > ${currentTime} ? '#': '/bid-detail/' + ${dto.id}}"
+				                 th:text="${dto.name}"
+				                 th:classappend="${dto.startTime > currentTime ? 'disabled' : ''}">
+				              </a>
+				          </td>
+                          <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd')}"></td>
+                          <td th:text="${dto.wishCount}"></td>
                         </tr>
                       </tbody>
                     </table>

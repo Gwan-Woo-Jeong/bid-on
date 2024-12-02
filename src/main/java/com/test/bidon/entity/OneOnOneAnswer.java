@@ -23,20 +23,20 @@ import lombok.Setter;
 @Table(name = "OneOnOneAnswer")
 public class OneOnOneAnswer {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqoneononeanswer")
-	@SequenceGenerator(name = "seqoneononeanswer", sequenceName = "seqOneOnOneAnswer", allocationSize = 1)
-	private Long id;
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "OneOnOneId", nullable = false)
-	private OneOnOne oneonone;
-	
-	@Column(nullable = false)
-	private String answer;
-	
-	@CreationTimestamp
-	@Column(nullable = false)
-	private LocalDateTime regdate;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqOneOnOneAnswer")
+    @SequenceGenerator(name = "seqOneOnOneAnswer", sequenceName = "seqOneOnOneAnswer", allocationSize = 1)
+    private Integer id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ONEONONEID", referencedColumnName = "id", nullable = false) // 테이블 컬럼 이름과 매핑
+    private OneOnOne oneOnOne;
+
+    @Column(nullable = false)
+    private String answer;
+
+    @CreationTimestamp
+    @Column(nullable = false)
+    private LocalDateTime regdate;
 }
+
