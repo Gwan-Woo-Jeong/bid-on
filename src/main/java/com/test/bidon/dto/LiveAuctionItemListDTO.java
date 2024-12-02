@@ -1,5 +1,7 @@
 package com.test.bidon.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +13,7 @@ public class LiveAuctionItemListDTO {
 	private String name;
 	private String path;
 	private Integer startPrice;
+	private LocalDateTime startTime;
 	
 	
 	

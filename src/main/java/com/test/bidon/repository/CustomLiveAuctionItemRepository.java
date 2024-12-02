@@ -76,7 +76,8 @@ public class CustomLiveAuctionItemRepository {
 						liveAuctionItem.id,
 						liveAuctionItem.name,
 			            liveAuctionItemImage.path,
-			            liveAuctionItem.startPrice
+			            liveAuctionItem.startPrice,
+			            liveAuctionItem.startTime
 			        ))
 			        .from(liveAuctionItemImageList)
 			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
@@ -112,7 +113,8 @@ public class CustomLiveAuctionItemRepository {
 						liveAuctionItem.id,
 						liveAuctionItem.name,
 			            liveAuctionItemImage.path,
-			            liveAuctionItem.startPrice
+			            liveAuctionItem.startPrice,
+			            liveAuctionItem.startTime
 			        ))
 			        .from(liveAuctionItemImageList)
 			        .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
@@ -133,7 +135,8 @@ public class CustomLiveAuctionItemRepository {
                         liveAuctionItem.id,
                         liveAuctionItem.name,
                         liveAuctionItemImage.path,
-                        liveAuctionItem.startPrice
+                        liveAuctionItem.startPrice,
+                        liveAuctionItem.startTime
                 ))
                 .from(liveAuctionItemImageList)
                 .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)
@@ -155,7 +158,8 @@ public class CustomLiveAuctionItemRepository {
                         liveAuctionItem.id,
                         liveAuctionItem.name,
                         liveAuctionItemImage.path,
-                        liveAuctionItem.startPrice
+                        liveAuctionItem.startPrice,
+                        liveAuctionItem.startTime
                 ))
                 .from(liveAuctionItemImageList)
                 .join(liveAuctionItemImageList.liveAuctionItemImage, liveAuctionItemImage)

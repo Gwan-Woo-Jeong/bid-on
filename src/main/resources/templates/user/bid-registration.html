@@ -80,11 +80,11 @@
     color: #333;
 }
 
-#category{
+#category, #categoryDetail{
 	width: 400px;
 }
 
-#bidtype { width: 400px; }
+#auctionType { width: 400px; }
 
 #description{
 	width: 800px;
@@ -158,17 +158,17 @@
 
     <section class="register-auction outer-gap">
         <div class="container">
-            <form action="/auction/register" method="POST" enctype="multipart/form-data" class="form-wrapper">
+            <form action="/auction/auctionRegistration" method="POST" enctype="multipart/form-data" class="form-wrapper">
                 <!-- 상품 이름 -->
                 <div class="mb-3">
-                    <label for="productName" class="form-label">상품명</label>
-                    <input type="text" class="form-control" id="productName" name="productName" required>
+                    <label for="name" class="form-label">상품명</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
 
                 <!-- 경매 방식 선택 -->
                 <div class="mb-3">
-                    <label for="bidtype" class="form-label">경매 타입</label>
-                    <select class="form-select" id="bidtype" name="bidtype" required>
+                    <label for="auctionType" class="form-label">경매 타입</label>
+                    <select class="form-select" id="auctionType" name="auctionType" onchange="updateAuctionType()" required>
                         <option value="" disabled selected>경매 타입을 선택하세요</option>
                         <option value="normal">일반 경매</option>
                         <option value="live">실시간 경매</option>
@@ -176,9 +176,9 @@
                 </div>
 
                 <!-- 카테고리 선택 -->
-                <div class="mb-3">
+                <div class="mb-3" id="categoryContainer">
                     <label for="category" class="form-label">카테고리</label>
-                    <select class="form-select" id="category" name="category" required>
+                    <select class="form-select" id="category" name="category" onchange="updateAuctionType()">
                         <option value="" disabled selected>카테고리를 선택하세요</option>
                         <option value="electronics">전자제품</option>
                         <option value="sports">스포츠</option>
@@ -188,17 +188,47 @@
                         <option value="beauty">미용</option>
                     </select>
                 </div>
-
+                
+                <!-- 세부 카테고리 선택 -->
+                <div class="mb-3" id="categoryDetailContainer">
+                    <label for="categoryDetail" class="form-label">세부 카테고리</label>
+                    <select class="form-select" id="categoryDetail" name="categoryDetail" onchange="updateAuctionType()">
+                        <option value="" disabled selected>세부 카테고리를 선택하세요</option>
+                        <option value="laptop">노트북</option>
+                        <option value="monitor">모니터</option>
+                        <option value="printer">프린터</option>
+                        <option value="tv">TV</option>
+                        <option value="speaker">스피커</option>
+                        <option value="cellphone">핸드폰</option>
+                        <option value="headphones">헤드폰</option>
+                        <option value="gameConsole">게임기</option>
+                        <option value="actionCam">액션캠</option>
+                        <option value="smartwatch">스마트워치</option>
+                    </select>
+                </div>
+                
+                <!-- 시작 시간 -->
+                <div id="startTimeContainer">
+                	<label for="startTime" class="form-label">경매 시작시간</label>
+                	<input type="datetime-local" class="form-control" id="startTime" name="startTime" placeholder="경매 시작 시각" required>
+				</div>
+				
+				<!-- 끝나는 시간 (일반 경매만 해당) -->
+			    <div id="endTimeContainer" style="display: none;">
+			    	<label for="endTime" class="form-label" onchange="updateAuctionType()">경매 종료시간</label>
+			        <input type="datetime-local" class="form-control" id="endTime" name="endTime" placeholder="끝나는 시간" />
+			    </div>
+				
                 <!-- 시작 경매가 -->
                 <div>
-				    <label for="startingPrice" class="form-label">시작 경매가</label>
+				    <label for="startPrice" class="form-label">시작 경매가</label>
 				    <div style="display: flex; align-items: center;">
 				        <!-- 숫자 입력 필드 -->
 				        <input
 				            type="number"
 				            class="form-control"
-				            id="startingPrice"
-				            name="startingPrice"
+				            id="startPrice"
+				            name="startPrice"
 				            min="10000"
 				            step="10000"
 				            value="10000"
@@ -221,21 +251,31 @@
                     <label for="description" class="form-label">상품 설명</label>
                     <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
                 </div>
+                
+                <!-- 브랜드 -->
+                <div class="mb-3">
+                    <label for="brand" class="form-label">브랜드</label>
+                    <input type="text" class="form-control" id="brand" name="brand" required>
+                </div>
 
                <!-- 상품 이미지 업로드 -->
 				    <div class="mb-3">
-				        <label for="productImages">상품 이미지 추가:</label>
-				        <input type="file" id="productImages" name="productImages" accept="image/*" multiple onchange="addImages(event)">
+				        <label for="files">상품 이미지 추가:</label>
+				        <input type="file" id="files" name="files" accept="image/*" multiple onchange="addImages(event)">
 				    </div>
 				
 				    <!-- 미리보기 컨테이너 -->
 				    <div id="previewContainer" class="preview-container"></div>
 				
 				    <!-- 대표 사진 정보 -->
-				    <input type="hidden" id="mainImageInput" name="mainImage">
+				   
 				    <div>
 				        <p id="mainimg">선택된 대표 사진: <span id="selectedMainImage">없음</span></p>
 				    </div>
+				    
+				     <input type="hidden" id="mainImageInput" name="isMainImage">
+				
+					<input type="hidden" id="userInfoId" name="userInfoId" th:value="${#authentication?.principal?.attributes['id']}">
 				
 				    <!-- 제출 버튼 -->
 				    <div class="d-flex justify-content-end">
@@ -249,9 +289,14 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
-<script src="/user/js/register-auction.js"></script>
+<!-- <script src="/user/js/register-auction.js"></script> -->
+<script th:inline="javascript">
+	const myInfo = /*[[${#authentication.principal}]]*/ {};
+	console.log("myInfo:", myInfo); // 디버깅용
+</script>
 <script>
 
+console.log("myInfo: ", myInfo.id);
 
 
 		function formatNumber(number) {
@@ -260,7 +305,7 @@
     
      // 값을 업데이트하는 함수
     function updatePrice(amount) {
-        const input = document.getElementById("startingPrice");
+        const input = document.getElementById("startPrice");
         let currentValue = parseInt(input.value, 10) || 0;
 
         // 현재 값에 추가 금액을 더함
@@ -274,111 +319,226 @@
 
 
 		//업로드 된 기존 사진을 저장하는 배열
-	 let fileList = [];
+	 let fileMetaList = [];
 
     function addImages(event) {
-        const files = event.target.files;
+    const files = event.target.files;
+    const previewContainer = document.getElementById("previewContainer");
+    const selectedMainImage = document.getElementById("selectedMainImage");
+    const mainImageInput = document.getElementById("mainImageInput");
+
+    // 새로운 파일 추가
+    fileMetaList = [...fileMetaList, ...Array.from(files).map(file => ({
+        file: file,
+        isMainImage: 0 // 기본적으로 일반 이미지로 설정
+    }))];
+
+    // 미리보기 초기화
+    previewContainer.innerHTML = "";
+
+    fileMetaList.forEach((meta, index) => {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            // 미리보기 아이템 생성
+            const previewItem = createPreviewItem(meta, e.target.result);
+
+            // 첫 번째 이미지일 경우 기본 대표 이미지 설정
+            if (!fileMetaList.some(meta => meta.isMainImage === 1)) {
+                setAsMainImage(meta, previewItem);
+            }
+
+            // 미리보기를 컨테이너에 추가
+            previewContainer.appendChild(previewItem);
+        };
+
+        reader.readAsDataURL(meta.file);
+    });
+}
+
+// 미리보기 아이템 생성
+function createPreviewItem(meta, imageUrl) {
+    const previewItem = document.createElement("div");
+    previewItem.className = "preview-item";
+
+    // 이미지 요소
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.alt = meta.file.name;
+
+    // 대표 사진 라벨
+    const representativeLabel = document.createElement("div");
+    representativeLabel.className = "representative";
+    representativeLabel.textContent = "대표 사진";
+
+    // 삭제 버튼
+    const deleteBtn = createDeleteButton(meta, previewItem);
+
+    // 클릭 이벤트로 대표 사진 설정
+    previewItem.onclick = function () {
+        setAsMainImage(meta, previewItem);
+    };
+
+    // 아이템 구성
+    previewItem.appendChild(img);
+    previewItem.appendChild(representativeLabel);
+    previewItem.appendChild(deleteBtn);
+
+    return previewItem;
+}
+
+// 삭제 버튼 생성
+function createDeleteButton(meta, previewItem) {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "X";
+    deleteBtn.className = "delete-btn";
+
+    deleteBtn.onclick = function (e) {
+        e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 방지
+
+        // 파일 리스트에서 제거
+        fileMetaList = fileMetaList.filter(f => f.file !== meta.file);
+
+        // 미리보기에서 제거
         const previewContainer = document.getElementById("previewContainer");
-        const selectedMainImage = document.getElementById("selectedMainImage");
+        previewContainer.removeChild(previewItem);
+
+        // 삭제한 이미지가 대표 사진일 경우 초기화
         const mainImageInput = document.getElementById("mainImageInput");
+        const selectedMainImage = document.getElementById("selectedMainImage");
 
-	
-	console.log("addimages 실행");
-	console.log(files);
-	
-	
+        if (mainImageInput.value === meta.file.name) {
+            mainImageInput.value = "";
+            selectedMainImage.textContent = "없음";
 
+            // 남아 있는 이미지가 있으면 첫 번째 이미지를 대표 사진으로 설정
+            if (fileMetaList.length > 0) {
+                document.querySelector(".preview-item").click();
+            }
+        }
+    };
 
+    return deleteBtn;
+}
 
-		//새로운 파일을 기존 리스트에 추가
-        fileList = [...fileList, ...Array.from(files)];
+// 대표 사진 설정
+function setAsMainImage(meta, previewItem) {
 
+    // 모든 미리보기에서 active 제거
+    document.querySelectorAll(".preview-item").forEach(item => item.classList.remove("active"));
 
-		//기존 미리보기를 초기화 후 다시 렌더링
-        previewContainer.innerHTML = "";
-        fileList.forEach((file, index) => {
-            const reader = new FileReader();
+    // 선택된 아이템에 active 추가
+    previewItem.classList.add("active");
 
-            reader.onload = function (e) {
-            	
-            	//미리보기 아이템을 생성
-                const previewItem = document.createElement("div");
-                previewItem.className = "preview-item";
-				
-				//이미지 요소
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.alt = file.name;
-				
-				//대표 사진 라벨 붙여줌
-                const representativeLabel = document.createElement("div");
-                representativeLabel.className = "representative";
-                representativeLabel.textContent = "대표 사진";
-                
-                
-                // 삭제 버튼
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "X";
-            deleteBtn.className = "delete-btn";
-            deleteBtn.onclick = function (e) {
-                e.stopPropagation(); // 클릭 이벤트가 부모로 전파되지 않도록 방지
+    // 대표 사진 정보 업데이트
+    const selectedMainImage = document.getElementById("selectedMainImage");
+    const mainImageInput = document.getElementById("mainImageInput");
 
-                // 파일 리스트에서 제거
-                fileList = fileList.filter(f => f !== file);
+    selectedMainImage.textContent = meta.file.name;
+    mainImageInput.value = meta.file.name;
 
-                // 미리보기에서 제거
-                previewContainer.removeChild(previewItem);
+    // 대표 사진 정보를 fileMetaList에 업데이트
+    fileMetaList.forEach(file => file.isMainImage = 0);
+    meta.isMainImage = 1;
+    
+     document.getElementById("mainImageInput").value = meta.isMainImage ? 1 : 0;
+    console.log(`대표 이미지 설정됨: ${meta.file.name}, isMainImage: ${meta.isMainImage}`);
+}
 
-                // 삭제한 이미지가 대표 사진일 경우 초기화
-                if (mainImageInput.value === file.name) {
-                    mainImageInput.value = "";
-                    selectedMainImage.textContent = "없음";
+    
+   
+    
+    
+    
+    function submitForm() {
+    const formData = new FormData();
+    const auctionType = document.getElementById("auctionType").value;
 
-                    // 남아 있는 이미지가 있으면 첫 번째 이미지를 대표 사진으로 설정
-                    if (fileList.length > 0) {
-                        document.querySelector(".preview-item").click();
-                    }
-                }
-            };
-                
-				
-				// 클릭이벤트로 대표사진 설정
-                previewItem.onclick = function () {
-                
-                	//모든 미리보기에서 active 제거
-                    document.querySelectorAll(".preview-item").forEach(item => item.classList.remove("active"));
-                    
-                    //선택된 아이템에 active 추가
-                    previewItem.classList.add("active");
-                    
-                    //대표 사진 정보 업데이트
-                    selectedMainImage.textContent = file.name;
-                    
-                    
-                    mainImageInput.value = file.name; // 대표 사진 정보를 hidden input에 저장
-                };
-				
-				//미리보기 아이템 구성
-                previewItem.appendChild(img);
-                previewItem.appendChild(representativeLabel);
-                previewContainer.appendChild(previewItem);
-                previewItem.appendChild(deleteBtn);
-				
-				// 첫번째 이미지를 기본 대표 사진으로 설정
-                if (index === 0 && selectedMainImage.textContent === "없음") {
-                    previewItem.click();
-                }
-            };
+    formData.append("auctionType", auctionType);
+    formData.append("name", document.getElementById("name").value);
+    formData.append("description", document.getElementById("description").value);
+    formData.append("startPrice", document.getElementById("startPrice").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("categoryDetail", document.getElementById("categoryDetail").value);
+    formData.append("startTime", document.getElementById("startTime").value);
 
-            reader.readAsDataURL(file);
-        });
+    if (auctionType === "normal") {
+        const endTime = document.getElementById("endTime").value;
+        if (!endTime) {
+            alert("일반 경매 상품 등록 시 경매 종료 시간을 지정해야 합니다.");
+            return;
+        }
+        formData.append("endTime", endTime);
     }
+
+    // 대표 이미지가 설정되지 않은 경우 기본값 설정
+    if (!fileMetaList.some(meta => meta.isMainImage === 1)) {
+        fileMetaList[0].isMainImage = 1; // 첫 번째 이미지를 대표 이미지로 설정
+        console.log("기본 대표 이미지 설정됨:", fileMetaList[0]);
+    }
+
+    // 이미지 파일 및 대표 이미지 정보를 추가
+    fileMetaList.forEach((meta, index) => {
+    
+   const isMainImageValue = meta.isMainImage === 1 ? 1 : 0; // 숫자로 변환
+   console.log(`파일명: ${meta.file.name}, isMainImage: ${isMainImageValue}`);
+        formData.append("files", meta.file); // 파일 전송
+    	formData.append("isMainImage", meta.isMainImage ? 1 : 0); // 대표 이미지 여부 전송
+    console.log(`파일: ${meta.file.name}, 대표 이미지 여부: ${meta.isMainImage ? 1 : 0}`);
+	});
     
     
+    
+    
+    console.log("전송 데이터 확인:");
+    formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    });
+
+
+
+
+    fetch("/auctionRegistration", {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => {
+            if (response.ok) {
+                alert("경매 상품 등록에 성공했습니다.");
+                window.location.href = "/home";
+            } else {
+                alert("경매 상품 등록 중 오류가 발생했습니다.");
+            }
+        })
+        .catch((error) => console.error("에러발생:", error));
+}
+
+
+    //타입 변경에 따른 UI
+    function updateAuctionType() {
+    const auctionType = document.getElementById("auctionType").value;
+    const endTimeContainer = document.getElementById("endTimeContainer");
+    const categoryContainer = document.getElementById("categoryContainer");
+    const categoryDetailContainer = document.getElementById("categoryDetailContainer");
+
+    if (auctionType === "live") {
+        endTimeContainer.style.display = "none";
+        document.getElementById("endTime").value = ""; // 기존 값 초기화
+		categoryContainer.style.display = "none";
+		document.getElementById("category").value = "";
+		categoryDetailContainer.style.display = "none";	
+		document.getElementById("categoryDetail").value = "";
+        
+    } else if (auctionType === "normal") {
+        endTimeContainer.style.display = "block";
+		categoryContainer.style.display = "block";
+		categoryDetailContainer.style.display = "block";
+    }
+}
     
     
 
-    console.log(file.name);
+
     
     
 </script>

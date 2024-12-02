@@ -163,13 +163,13 @@
     <section class="outer-gap">
         <div class="container">
             <h2 class="section-title">실시간 경매</h2>
-            <div class="row gy-4">
+            <div class="row gy-4 swiper-wrapper">
                 <div class="col-lg-6">
                     <div class="auction-card">
                         <div class="card-image left-card-image">
                             <img th:src="${big.path}" class="h-100 w-100" alt="auction-card-img">
                             <div class="timer-wrapper">
-                                <div class="timer-inner">
+                                <div class="timer-inner" th:text="${big.startTime}">
                                 </div>
                             </div>
                         </div>
@@ -185,30 +185,15 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="auction-card-small">
-                        <div class="row gy-3">
+                        <div class="row gy-3 swiper-wrapper">
                             <div class="col-md-6" th:each="HomeLiveItem : ${liveItemList}">
                                 <div class="auction-card">
                                     <div class="card-image">
                                         <img th:src="${HomeLiveItem.path}" class="img-fluid"
                                              alt="auction-card-img">
                                         <div class="timer-wrapper">
-                                            <div class="timer-inner">
-                                                    <span class="days">
-                                                        <span class="">0</span>
-                                                        <span class="">D</span>
-                                                    </span>:
-                                                <span class="hours">
-                                                        <span class="">1</span>
-                                                        <span class="">H</span>
-                                                    </span>:
-                                                <span class="minutes">
-                                                        <span class="">60</span>
-                                                        <span class="">M</span>
-                                                    </span>:
-                                                <span class="seconds">
-                                                        <span class="">40</span>
-                                                        <span class="">S</span>
-                                                    </span>
+                                            <div class="timer-inner" th:text="${HomeLiveItem.startTime}">
+                                                    
                                             </div>
                                         </div>
                                     </div>
@@ -498,6 +483,41 @@
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
 <script src="/user/js/home.js"></script>
+
+<script>
+
+
+
+  // 타이머 초기화
+  document.querySelectorAll('.timer-inner').forEach((timer) => {
+    const startTime = new Date(timer.textContent); // 타임리프에서 전달된 시간
+
+    // 카운트다운 업데이트 함수
+    const updateCountdown = () => {
+      const now = new Date();
+      const diff = startTime - now;
+
+      if (diff <= 0) {
+        timer.textContent = "경매가 시작되었습니다!";
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timer.textContent = `${hours}시간 ${minutes}분 ${seconds}초 남음`;
+      }
+    };
+
+    // 초기 업데이트
+    updateCountdown();
+
+    // 1초마다 업데이트
+    setInterval(updateCountdown, 1000);
+  });
+
+
+
+</script>
 
 
 </body>

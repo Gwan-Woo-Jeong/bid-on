@@ -6,6 +6,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @Table(name = "LiveAuctionItemImageList")
 @Builder
@@ -24,7 +25,7 @@ public class LiveAuctionItemImageList {
     @Column(nullable = false, insertable = false, updatable = false)
     private Long liveAuctionItemId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "liveAuctionItemImageId")
     private LiveAuctionItemImage liveAuctionItemImage;
 

@@ -6,6 +6,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @Table(name = "LiveAuctionItemImage")
 @Builder

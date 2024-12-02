@@ -5,6 +5,11 @@
 
 <head>
     <th:block th:insert="~{user/inc/head.html :: head(title='Browse-Live-Bid')}"></th:block>	
+    
+    <style>
+    	
+    </style>
+    
 </head>
 
 <body>
@@ -84,14 +89,14 @@
                     </div>
                 </div>
                 <div class="col-xl-9">
-                    <div class="auction-card-small">
-                        <div class="row gy-4 justify-content-center">
-                            <div class="col-sm-6 col-lg-4" th:each="LiveItem : ${liveItemList}">
+                    <div class="auction-card-small swiper">
+                        <div class="row gy-4 justify-content-center swiper-wrapper">
+                            <div class="col-sm-6 col-lg-4 " th:each="LiveItem : ${liveItemList}">
                                 <div class="auction-card">
                                     <div class="card-image">
                                         <img th:src="${LiveItem.path}" alt="auction-card-img">
                                         <div class="timer-wrapper">
-                                            <div class="timer-inner"></div>
+                                            <div class="timer-inner" th:text="${LiveItem.startTime}"></div>
                                         </div>
                                     </div>
                                     <div class="card-content">
@@ -108,7 +113,7 @@
                             
                             
                             <div class="col-12">
-                                <nav aria-label="Page navigation">
+                                <nav aria-label="Page navigation"> 
                                     <ul class="pagination justify-content-center">
 										<!--이전-->
 										 <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'"></li>
@@ -253,7 +258,7 @@
 <script src="/user/js/browse-live-bid.js"></script>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('DOMContentLoaded', function () {
 	    const lower = document.getElementById('lower');
 	    const upper = document.getElementById('upper');
 	    const one = document.getElementById('one');
@@ -313,6 +318,56 @@
 	    console.log("Initialized Min Price:", lower.value);
 	    console.log("Initialized Max Price:", upper.value);
 	});
+	
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Swiper 초기화
+  var swiper = new Swiper('.swiper', {
+    spaceBetween: 32, // 슬라이드 간 간격
+
+    breakpoints: {
+        450: {
+            slidesPerView: 1,
+        }, 768: {
+            slidesPerView: 2,
+        }, 992: {
+            slidesPerView: 3,
+        }, 1400: {
+            slidesPerView: 4,
+        }
+    }
+  });
+
+  // 타이머 초기화
+  document.querySelectorAll('.timer-inner').forEach((timer) => {
+    const startTime = new Date(timer.textContent); // 타임리프에서 전달된 시간
+
+    // 카운트다운 업데이트 함수
+    const updateCountdown = () => {
+      const now = new Date();
+      const diff = startTime - now;
+
+      if (diff <= 0) {
+        timer.textContent = "경매가 시작되었습니다!";
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timer.textContent = `${hours}시간 ${minutes}분 ${seconds}초 남음`;
+      }
+    };
+
+    // 초기 업데이트
+    updateCountdown();
+
+    // 1초마다 업데이트
+    setInterval(updateCountdown, 1000);
+  });
+});
+
 	
 	
 	
