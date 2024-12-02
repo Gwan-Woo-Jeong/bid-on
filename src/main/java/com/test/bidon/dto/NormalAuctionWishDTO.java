@@ -1,13 +1,9 @@
 package com.test.bidon.dto;
 
-import com.test.bidon.entity.NormalAuctionWish;
+import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.test.bidon.entity.NormalAuctionWish;
+import lombok.*;
 
 @Getter
 @Setter
@@ -18,13 +14,18 @@ import lombok.ToString;
 public class NormalAuctionWishDTO {
 
     private Long id;
-
     private Long userInfoId; // userInfoId만 필요함
     private Long normalAuctionItemId; // normalAuctionItemId만 필요함
+    private String name;  // 경매 물품 이름
+    private LocalDateTime startTime;  // 경매 시작 시간
+    private long wishCount;  // wishCount 필드 추가
 
-    // 필요없으면 제거하거나, 엔티티 변환 시에만 사용
-    private UserInfoDTO userInfo;
-    private NormalAuctionItemDTO normalAuctionItem;
+    // Projections.constructor()에 맞는 생성자 추가
+    public NormalAuctionWishDTO(String name, LocalDateTime startTime, long wishCount) {
+        this.name = name;
+        this.startTime = startTime;
+        this.wishCount = wishCount;
+    }
 
     // DTO -> Entity 변환
     public NormalAuctionWish toEntity() {
@@ -34,6 +35,4 @@ public class NormalAuctionWishDTO {
                 .normalAuctionItemId(this.getNormalAuctionItemId())  // normalAuctionItemId 필드 사용
                 .build();
     }
-
-
 }

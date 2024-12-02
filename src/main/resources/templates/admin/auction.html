@@ -52,7 +52,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			          <thead>
 			            <tr>
 			              <th>물품</th>
-			              <th>경매 시간</th>
+			              <th>시작 시간</th>
 			              <th>시작가</th>
 			              <th></th>
 			            </tr>
@@ -136,7 +136,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         <tr>
                           <th>물품</th>
                           <th>시작 시간</th>
-                          <th>경매가</th>
+                          <th>시작가</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -255,7 +255,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                 <div class="card-body">
                   <h4 class="card-title">회원 관심 경매품</h4>
                   <p class="card-description">
-                   <code>.like</code>
+                   <code>.One month</code>
                   </p>
                   <div class="table-responsive pt-3">
                     <table class="table table-bordered">
@@ -275,11 +275,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:each=" dto, iterStat : ${wishList}" th:if="${iterStat.index < 50}">
+                        <tr th:each=" dto, iterStat : ${wishList}" th:if="${iterStat.index < 10}">
                           <td th:text="${iterStat.index + 1}"></td>
-                          <td th:text="${dto.name}"></td>
-                          <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                          <td>1</td<!-->
+                          <td><a th:href="@{/bid-detail/itemId={id}(id=${dto.id})}" th:text="${dto.name}"></a></td>
+                          <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd')}"></td>
+                          <td th:text="${dto.wishCount}"></td>
                         </tr>
                       </tbody>
                     </table>
