@@ -63,4 +63,3 @@ var swiper = new Swiper(".product-swiper", {
 	function formatCurrency(value) {
 	    return `￦${parseInt(value).toLocaleString('ko-KR')}`;
 	}
-

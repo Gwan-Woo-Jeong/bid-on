@@ -1,5 +1,6 @@
 package com.test.bidon.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 
 import com.querydsl.core.types.Projections;
@@ -48,7 +49,7 @@ public class CustomNormalAuctionItemRepository {
     public List<Tuple> joinTablesToDisplayBrowseBid(int offset, int limit) {
 
         return jpaQueryFactory
-                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path)
+                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path, normalAuctionItem.startPrice)
                 .from(normalAuctionItemImageList)
                 .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
                 .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
@@ -61,8 +62,27 @@ public class CustomNormalAuctionItemRepository {
                 .fetch();
     }
 
+    // 경매 시작가 범위 필터가 적용된 상태의 데이터 출력 method
+    public List<Tuple> joinTablesToDisplayBrowseBidRangedByStartPrice(int offset, int limit, int lower, int upper) {
+
+        return jpaQueryFactory
+                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path, normalAuctionItem.startPrice)
+                .from(normalAuctionItemImageList)
+                .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
+                .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
+                .where(normalAuctionItemImageList.isMainImage.eq(1L)
+                        .and(normalAuctionItem.status.eq("진행중"))
+                        .and(normalAuctionItem.startPrice.between(lower, upper))
+                )
+                .orderBy(normalAuctionItem.id.asc())
+                .offset(offset)
+                .limit(limit)
+                .fetch();
+    }
+
     // List<Tuple>의 Tuple 개수를 세는 method
     public long count(int offset, int limit) {
+
         return jpaQueryFactory
                 .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path)
                 .from(normalAuctionItemImageList)
@@ -70,6 +90,24 @@ public class CustomNormalAuctionItemRepository {
                 .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
                 .where(normalAuctionItemImageList.isMainImage.eq(1L)
                         .and(normalAuctionItem.status.eq("진행중"))
+                )
+                .orderBy(normalAuctionItem.id.asc())
+                .offset(offset)
+                .limit(limit)
+                .fetchCount();
+    }
+
+    // 경매 시작가 범위 필터가 적용된 상태의 데이터 출력 개수 카운트 method
+    public long countRangedByStartPrice(int offset, int limit, int lower, int upper) {
+
+        return jpaQueryFactory
+                .select(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItemImage.path)
+                .from(normalAuctionItemImageList)
+                .join(normalAuctionItemImageList.normalAuctionItem, normalAuctionItem)
+                .join(normalAuctionItemImageList.normalAuctionItemImage, normalAuctionItemImage)
+                .where(normalAuctionItemImageList.isMainImage.eq(1L)
+                        .and(normalAuctionItem.status.eq("진행중"))
+                        .and(normalAuctionItem.startPrice.between(lower, upper))
                 )
                 .orderBy(normalAuctionItem.id.asc())
                 .offset(offset)
@@ -87,11 +125,25 @@ public class CustomNormalAuctionItemRepository {
                     GROUP BY auc.id, auc.name, auc.endTime;
                     ...를 Query DSL 방식으로 refactoring 필요.
                 */
+
         return jpaQueryFactory
                 .select(normalAuctionItem.id, normalAuctionItem.endTime, normalBidInfo.bidPrice.max())
                 .from(normalBidInfo)
                 .join(normalBidInfo.normalAuctionItem, normalAuctionItem)
                 .where(normalAuctionItem.status.eq("진행중"))
+                .groupBy(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItem.endTime)
+                .orderBy(normalAuctionItem.id.asc())
+                .fetch();
+    }
+
+    public List<Tuple> getTimeAndPriceRangedByStartPrice(int lower, int upper) {
+
+        return jpaQueryFactory
+                .select(normalAuctionItem.id, normalAuctionItem.endTime, normalBidInfo.bidPrice.max())
+                .from(normalBidInfo)
+                .join(normalBidInfo.normalAuctionItem, normalAuctionItem)
+                .where(normalAuctionItem.status.eq("진행중")
+                        .and(normalAuctionItem.startPrice.between(lower, upper)))
                 .groupBy(normalAuctionItem.id, normalAuctionItem.name, normalAuctionItem.endTime)
                 .orderBy(normalAuctionItem.id.asc())
                 .fetch();
@@ -144,9 +196,6 @@ public class CustomNormalAuctionItemRepository {
 
     }
 
-
-    
-
     // 위시리스트 수 조회
     public List<NormalAuctionWishDTO> getWishCountStats() {
     	
@@ -189,16 +238,4 @@ public class CustomNormalAuctionItemRepository {
 
     }
 
-    
-
 }
-
-
-
-
-
-
-
-
-
-
