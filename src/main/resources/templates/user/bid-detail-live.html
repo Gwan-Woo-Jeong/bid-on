@@ -436,7 +436,7 @@
 <th:block th:insert="~{user/inc/scripts.html :: scripts(all=true)}"></th:block>
 
 <script th:inline="javascript">
-    const myInfo = [[${#authentication.principal}]]['userEntity'];
+    const myInfo = [[${#authentication.principal}]]['userEntity'] || [[${#authentication.principal}]]['attributes'] ;
 </script>
 <script src="/user/js/bid-detail-live.js"></script>
 
