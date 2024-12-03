@@ -109,7 +109,7 @@
                             <div class="col-sm-6 col-xl-12">
                                 <form method="get" action="electro">
                                 <div class="auction-wrapper">
-                                    <h4 class="mb-3">경매 시작가 필터</h4>
+                                    <h4 class="mb-3">경매가 필터</h4>
                                     <div class="filter-price">
                                         <div class="price-field">
                                             <input type="range" min="10000" max="2000000" value="10000" step="10000" id="lower" name="lower">
@@ -178,21 +178,21 @@
                                 </nav>
                             </div>
                             </th:block>
-                            <th:block    th:unless="${lower == null && upper == null}">
+                            <th:block th:if="${lower != null && upper != null}">
                                 <div class="col-sm-6 col-lg-4" th:each="tuple, tupleLength : ${itemListRanged}">
                                     <div class="auction-card">
                                         <div class="card-image">
                                             <img th:src="${tuple.get(2, String)}" alt="auction-card-img">
                                             <div class="timer-wrapper">
                                                 <div class="browseTime" style="text-align: center;">
-                                                    <span th:text="${#temporals.format(itemStatusList[tupleLength.index].get(1, T(java.time.LocalDateTime)), 'MM월 dd일 HH:mm:ss')}"></span> 종료
+                                                    <span th:text="${#temporals.format(itemStatusListRanged[tupleLength.index].get(1, T(java.time.LocalDateTime)), 'MM월 dd일 HH:mm:ss')}"></span> 종료
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-content">
                                             <a th:href="'http://localhost:8090/bid-detail/' + ${tuple.get(0, Integer)}" class="card-title" th:text="${tuple.get(1, String)}">Item</a>
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <p class="p-0">현재 경매가 <b>￦</b><span th:text="${itemStatusList[tupleLength.index].get(2, String)}"></span></p>
+                                                <p class="p-0">현재 경매가 <b>￦</b><span th:text="${itemStatusListRanged[tupleLength.index].get(2, String)}"></span></p>
                                                 <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
                                             </div>
                                         </div>
