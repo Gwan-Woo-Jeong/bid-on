@@ -27,7 +27,7 @@ public class LiveBidRoom {
     private Timer timer = new Timer();
     private Integer remainingSeconds;
     private Boolean isTimerRunning = false;
-    private static final int TOTAL_SECONDS = 5;
+    private static final int TOTAL_SECONDS = 60;
     private final Object lock = new Object();
 
 
