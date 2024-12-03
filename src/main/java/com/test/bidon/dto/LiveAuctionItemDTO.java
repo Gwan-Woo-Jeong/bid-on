@@ -44,11 +44,16 @@ public class LiveAuctionItemDTO {
     }
     
     
-    public LiveAuctionItemDTO(String name, LocalDateTime startTime, String userProfile, String userName, String userEmail) {
+    public LiveAuctionItemDTO(Long id, String name, LocalDateTime startTime, String userProfile, String userName, String userEmail, Integer startPrice) {
+        this.id = id;
         this.name = name;
         this.startTime = startTime;
-        this.userInfo = new UserInfoDTO(id, userProfile, userName, userEmail, userEmail, null, userEmail, userEmail, null, userEmail, startPrice, userEmail, null); 
+        this.startPrice = startPrice;
+        
+        // userInfo 초기화
+        this.userInfo = new UserInfoDTO(id, userProfile, userName, userEmail, userEmail, null, userEmail, userEmail, null, userEmail, startPrice, userEmail, null);
     }
+
 
 
 }

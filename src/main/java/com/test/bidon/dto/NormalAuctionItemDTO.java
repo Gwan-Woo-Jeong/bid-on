@@ -67,13 +67,17 @@ public class NormalAuctionItemDTO {
     }
     
     
-    public NormalAuctionItemDTO(Long id, String name, LocalDateTime startTime, String userProfile, String userName, String userEmail, long wishCount) {
+    public NormalAuctionItemDTO(Long id, String name, LocalDateTime startTime, String userProfile, String userName, String userEmail, Integer startPrice) {
         this.id = id;
-    	this.name = name;
+        this.name = name;
         this.startTime = startTime;
-        this.wishCount = wishCount;
-        this.userInfo = new UserInfoDTO(id, userProfile, userName, userEmail, userEmail, null, userEmail, userEmail, null, userEmail, startPrice, userEmail, null); 
+        this.startPrice = startPrice;
+        
+        // userInfo 초기화
+        this.userInfo = new UserInfoDTO(id, userProfile, userName, userEmail, userEmail, null, userEmail, userEmail, null, userEmail, startPrice, userEmail, null);
     }
+
+
     
     
 }

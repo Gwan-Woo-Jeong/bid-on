@@ -12,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
@@ -40,12 +42,13 @@ public class LiveAuctionItem {
     @SequenceGenerator(name = "liveAuctionItem_seq_generator", sequenceName = "seqLiveAuctionItem", allocationSize = 1)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     private Long userInfoId;
     
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "userInfoId")
     private UserEntity userInfo;
-
+    
     @Column(nullable = false)
     private String name;
 

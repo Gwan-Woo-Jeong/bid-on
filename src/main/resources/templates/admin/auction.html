@@ -235,7 +235,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                       </thead>
                       <tbody>
 						<tr th:each="dto : ${todayNormalList}">
-						  <td th:text="${dto.userInfo.name}">판매자</td>
+						  <td th:text="${dto.userInfo != null ? dto.userInfo.name : '알 수 없음'}"></td>
 						  <!--일반경매 주소 나오면 경로 수정하기-->
 						  <!--<td><a th:href="@{/bid-detail/{id}(id=${dto.id})}" th:text="${dto.name}"></a></td>-->
 						  <td>
@@ -249,7 +249,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 						  <td th:text="${#temporals.format(dto.startTime, 'yyyy-MM-dd HH:mm:ss')}">경매 예정일</td>
 						</tr>
 						<tr th:each="dto : ${todayLiveList}">
-						  <td th:text="${dto.userInfo.name}">판매자</td>
+						  <td th:text="${dto.userInfo != null ? dto.userInfo.name : '알 수 없음'}"></td>
 						  <td><a th:href="@{'/live-auction/detail?itemId=' + ${dto.id}}" th:text="${dto.name}"></a></td>
 						  <td>실시간 경매</td>
 						  <td th:text="${dto.startPrice}">경매 금액</td>

@@ -55,8 +55,6 @@ public class TestAdminController {
 		
 		LocalDateTime currentTime = LocalDateTime.now();
 		model.addAttribute("currentTime", currentTime);
-//		LocalDateTime startOfDay = currentTime.toLocalDate().atStartOfDay();
-//		LocalDateTime endOfDay = currentTime.toLocalDate().atTime(23, 59, 59);
 	    
 		
 	    List<NormalAuctionItem> normalList = normalAuctionItemRepository.findAll(Sort.by(Sort.Order.desc("startTime")));
@@ -93,8 +91,7 @@ public class TestAdminController {
         List<NormalAuctionItem> todayNormalList = todayAddItem.TodayAddNormalItem(normalList, currentTime);
         model.addAttribute("todayNormalList", todayNormalList);  // 오늘 등록된 normal 경매 아이템만 추가
 
-        
-        
+
         // 오늘 등록된 LiveAuctionItem만 필터링
         List<LiveAuctionItem> todayLiveList = todayAddItem.TodayAddLiveItems(liveList, currentTime);
         model.addAttribute("todayLiveList", todayLiveList); 
