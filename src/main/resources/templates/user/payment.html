@@ -131,7 +131,7 @@
                                     <img th:src="${item.itemMainImagePath}" alt="경매품 이미지" class="product-img">
                                 </div>
                                 <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">결제 금액</span>
-                                    <span class="fw-semibold">[[${item.bidPrice}]]원</span></h6>
+                                    <span class="fw-semibold">[[${@formatter.price(item.bidPrice)}]]원</span></h6>
                                 <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">배송요금</span>
                                     <span id="deliveryFee" class="fw-semibold"></span></h6>
                                 <h6 class="d-flex justify-content-between py-2"><span class="fw-normal">수수료</span>
@@ -155,7 +155,7 @@
 
 <th:block th:insert="~{user/inc/footer.html :: footer}"></th:block>
 <th:block
-        th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true)}"></th:block>
+        th:insert="~{user/inc/scripts.html :: scripts(jquery=true, bootstrap=true, custom=true, util=true)}"></th:block>
 
 <script th:inline="javascript">
     const checkoutData = JSON.parse(localStorage.getItem('checkoutData'));
@@ -188,9 +188,9 @@
     const totalPrice = item.bidPrice + deliveryMethod.price + serviceFee;
     const now = new Date().toISOString();
 
-    $('#deliveryFee').text(deliveryMethod.price + "원");
-    $('#serviceFee').text(serviceFee.toFixed(0) + "원");
-    $('#totalPrice').text(totalPrice.toFixed(0) + "원");
+    $('#deliveryFee').text(formatPrice(deliveryMethod.price) + "원");
+    $('#serviceFee').text(formatPrice(serviceFee.toFixed(0)) + "원");
+    $('#totalPrice').text(formatPrice(totalPrice.toFixed(0)) + "원");
 
     const orderInfo = {
         ...checkoutData,
