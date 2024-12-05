@@ -54,7 +54,7 @@
                                     <img th:src="${nList.get(2, String)}" alt="banner-bid">
                                     <div class="banner-card-disc">
                                         <a th:href="'bid-detail/' + ${nList.get(0, Integer)}" th:text="${nList.get(1, String)}"></a>
-                                        <p th:text="${normalTimeAndPriceList[nListSize.index].get(2, String)} + ' ￦'"></p>
+                                        <p th:text="${@formatter.priceWon(normalTimeAndPriceList[nListSize.index].get(2, String))}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                         <!-- </div> -->
                         <div class="card-content">
                             <h4 th:text="${big.name}"></h4>
-                            <p>시작 경매가: <span th:text="&#x20A9;+${big.startPrice}"></span></p>
+                            <p>시작 경매가: <span th:text="${@formatter.wonPrice(big.startPrice)}"></span></p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <a th:href="@{'/live-auction/detail?itemId=' + ${big.id}}" class="primary-btn">자세히</a>
                             </div>
@@ -201,7 +201,7 @@
                                     
                                     <div class="card-content">
                                         <h4 th:text="${HomeLiveItem.name}"></h4>
-                                        <p>시작 경매가:  <span th:text="&#x20A9;+${HomeLiveItem.startPrice}"></span></p>
+                                        <p>시작 경매가:  <span th:text="${@formatter.wonPrice(HomeLiveItem.startPrice)}"></span></p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <a th:href="@{'/live-auction/detail?itemId=' + ${HomeLiveItem.id}}"class="primary-btn">자세히</a>
                                         </div>
